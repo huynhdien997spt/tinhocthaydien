@@ -1,0 +1,10 @@
+/* Biến thiết kế. Theme theo cấp học: đổi body[data-level] -> đổi màu chủ đạo. */
+:root{
+  --primary:#0f766e; --primary-dark:#0b5a54; --secondary:#f5b73b; --background:#f3f8f7; --surface:#ffffff;
+  --text:#14304a; --muted:#566c7f; --success:#15803d; --warning:#b45309; --danger:#b91c1c;
+  --border:#d5e3e0; --border-radius:16px; --shadow:0 2px 10px rgba(20,48,74,.08);
+  --font:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif; --base-size:17px; --nav-bg:#14304a;
+}
+body[data-level="TIEUHOC"]{--primary:#d9480f;--primary-dark:#a53608;--secondary:#fcc419;--background:#fff8ec;--border-radius:22px;--base-size:19px}
+body[data-level="THCS"]{--primary:#0f766e;--primary-dark:#0b5a54}
+body[data-level="THPT"]{--primary:#3b5bdb;--primary-dark:#2b44a8;--secondary:#74c0fc;--background:#f2f4f9;--border-radius:10px;--nav-bg:#1b2437}

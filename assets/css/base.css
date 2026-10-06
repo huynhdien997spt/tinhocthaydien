@@ -1,0 +1,19 @@
+*{box-sizing:border-box}
+html{font-size:var(--base-size)}
+body{margin:0;font-family:var(--font);background:var(--background);color:var(--text);line-height:1.55;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+.page{width:100%;max-width:1080px;margin:0 auto;padding:28px 20px 48px;flex:1}
+.page.narrow{max-width:680px}
+h1{font-size:clamp(1.5rem,4vw,2.3rem);line-height:1.2;margin:.2em 0 .5em}
+h2{font-size:1.4rem;margin:1.4em 0 .6em}
+h3{font-size:1.1rem;margin:.2em 0}
+a{color:var(--primary-dark)}
+.muted{color:var(--muted)}
+:focus-visible{outline:3px solid var(--secondary);outline-offset:2px}
+.skip{position:absolute;left:-999px;background:#fff;padding:8px 12px;z-index:20}.skip:focus{left:8px;top:8px}
+.footer{text-align:center;padding:18px;color:var(--muted);font-size:.85rem}
+.footer a{color:var(--muted)}
+.nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:4px;padding:8px 16px;background:var(--nav-bg);overflow-x:auto}
+.nav .logo{color:var(--secondary);font-weight:800;margin-right:14px;white-space:nowrap}
+.nav a{color:#dbe7f0;text-decoration:none;padding:8px 14px;border-radius:10px;white-space:nowrap;font-weight:500;font-size:.95rem}
+.nav a:hover{background:rgba(255,255,255,.12)}
+.nav a[aria-current]{background:var(--secondary);color:#14304a;font-weight:700}

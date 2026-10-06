@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Công cụ migration V1 → V1.1</title>
+<link rel="stylesheet" href="../assets/css/variables.css"><link rel="stylesheet" href="../assets/css/base.css"><link rel="stylesheet" href="../assets/css/components.css">
+</head><body><main class="page narrow">
+<h1>Xuất học sinh sang sheet IMPORT</h1>
+<p class="muted">Đọc <code>data/students.js</code> (V1) và tạo bảng để dán vào sheet <strong>IMPORT</strong> của Google Sheet. Công cụ này không tạo hay hiển thị mật khẩu.</p>
+<p><button class="btn" id="go">Tạo bảng</button> <button class="btn ghost" id="copy">Sao chép</button></p>
+<textarea id="out" class="input" rows="14" readonly spellcheck="false"></textarea>
+<script src="../data/students.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="export-students.js"></script>
+</main></body></html>

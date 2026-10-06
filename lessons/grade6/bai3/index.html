@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 3. Thông tin trong máy tính</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/css/variables.css"><link rel="stylesheet" href="../../../assets/css/base.css"><link rel="stylesheet" href="../../../assets/css/components.css"><link rel="stylesheet" href="../../../assets/css/responsive.css">
+</head>
+<body data-lesson-id="G6-B3" data-level="THCS">
+<main class="page narrow">
+  <a class="back" href="../../../index.html#/dashboard">← Về không gian học tập</a>
+  <div class="card prose" id="lesson-root">
+    <h1 id="f-lesson"></h1>
+    <p id="no-session" hidden>Em chưa đăng nhập hoặc phiên học đã hết hạn. Hãy quay lại trang chủ để đăng nhập.</p>
+    <div id="lesson-body" hidden>
+      <p><strong id="f-fullName"></strong> · Lớp <span id="f-classId"></span> · <span id="sync-status" class="sync" role="status"></span></p>
+      <div class="bar" aria-hidden="true"><div class="bar-fill" id="bar-fill" style="width:0"></div></div>
+      <p>Tiến độ: <strong id="pct">0</strong>% · Thời gian học: <span id="active">0</span> giây</p>
+      <div id="activities"></div>
+      <section id="quiz" aria-labelledby="q-title"><h2 id="q-title">Câu hỏi (A2)</h2>
+        <p id="q-text">1 byte gồm bao nhiêu bit?</p>
+        <label><input type="radio" name="q1" value="4"> 4 bit</label>
+        <label><input type="radio" name="q1" value="8"> 8 bit</label>
+        <label><input type="radio" name="q1" value="16"> 16 bit</label>
+        <p><button class="btn small" id="q-send" type="button">Gửi câu trả lời</button> <span id="q-note" class="muted"></span></p>
+      </section>
+      <section id="exit" aria-labelledby="e-title"><h2 id="e-title">Exit Ticket</h2>
+        <label for="e-level">Em hiểu bài ở mức nào?</label>
+        <select id="e-level"><option value="clear">Hiểu rõ</option><option value="good">Khá hiểu</option><option value="unclear">Chưa rõ</option><option value="need_support">Cần hỗ trợ</option></select>
+        <label for="e-key">Điều em đã học được</label><textarea id="e-key" class="input" rows="2"></textarea>
+        <label for="e-conf">Điều em còn chưa rõ</label><textarea id="e-conf" class="input" rows="2"></textarea>
+        <label for="e-app">Em sẽ vận dụng vào đâu?</label><textarea id="e-app" class="input" rows="2"></textarea>
+        <label for="e-self">Tự đánh giá</label>
+        <select id="e-self"><option value="clear">Hiểu rõ</option><option value="good">Khá hiểu</option><option value="unclear">Chưa rõ</option><option value="need_support">Cần hỗ trợ</option></select>
+        <p><button class="btn small" id="e-send" type="button">Nộp Exit Ticket</button> <span id="e-note" class="muted"></span></p>
+      </section>
+      <p><button class="btn" id="finish" type="button">Hoàn thành bài</button> <span id="finish-note" class="muted"></span></p>
+    </div>
+  </div>
+</main>
+<script src="../../../data/lessons.js"></script>
+<script src="../../../assets/js/config.js"></script>
+<script src="../../../assets/js/storage.js"></script>
+<script src="../../../assets/js/session.js"></script>
+<script src="../../../assets/js/auth-api.js"></script>
+<script src="../../../assets/js/api-client.js"></script>
+<script src="../../../assets/js/sync-manager.js"></script>
+<script src="../../../assets/js/progress-service.js"></script>
+<script src="../../../assets/js/response-service.js"></script>
+<script src="../../../assets/js/learning-timer.js"></script>
+<script src="../../../assets/js/lesson-bridge.js"></script>
+<script src="../../../assets/js/lesson-demo.js"></script>
+</body>
+</html>

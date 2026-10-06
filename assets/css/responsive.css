@@ -1,0 +1,7 @@
+@media (max-width:640px){
+  .page{padding:20px 14px 40px}
+  .hero{padding:28px 20px}
+  .grid,.grid.names{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .grid.lessons{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
