@@ -5,7 +5,7 @@ const CONFIG = {
   teacherName: "Huỳnh Văn Diễn",
   schoolYear: "2026-2027",
   // Dán Google Apps Script Web App URL (đuôi /exec) tại đây. Bắt buộc để đăng nhập.
-  googleScriptUrl: "",
+  googleScriptUrl: "https://script.google.com/macros/s/AKfycbx9qGmv7_7UvtMWCijwvPUfdj0gGx4LVkf5PaGpi2g13g0EN6LpIsNfg1VhD7c92PCcIQ/exec",
   enableTeacherMode: true,
   enableSkills: false,
   enableProducts: false,
