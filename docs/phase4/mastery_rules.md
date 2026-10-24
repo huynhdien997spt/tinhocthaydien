@@ -1,8 +1,8 @@
 # QUY TẮC ĐÁNH GIÁ MỨC ĐỘ THÀNH THẠO (MASTERY RULES)
 ## MÔ HÌNH ĐÁNH GIÁ DỰA TRÊN MINH CHỨNG THEO YÊU CẦU CẦN ĐẠT
-### TÀI LIỆU THIẾT KẾ PHASE 4A (P4.2) — DESIGN ONLY / NO ENGINE CODE
+### TÀI LIỆU THIẾT KẾ PHASE 4A-R1 (P4.2 REVISION) — DESIGN ONLY / NO ENGINE CODE
 
-> **Mã tài liệu:** `DOC-P4-MASTERY-RULES-01`  
+> **Mã tài liệu:** `DOC-P4-MASTERY-RULES-01` (Bản sửa đổi R1)  
 > **Trạng thái:** `PROPOSAL_DESIGN` (Chỉ dùng cho đặc tả thiết kế, chưa triển khai mã nguồn Engine)  
 > **Áp dụng cho:** Bài học mẫu `G6-L03` (*Bài 3. Thông tin trong máy tính* — 2 tiết / 90 phút)  
 > **Căn cứ nguồn chuẩn:** [requirements-g6.json](file:///Users/huynhvandien/tinhocthaydien/data/requirements/requirements-g6.json), [G6-L03.golden.json](file:///Users/huynhvandien/tinhocthaydien/data/lessons/G6-L03.golden.json), [PHASE3_TRACEABILITY_REPORT.md](file:///Users/huynhvandien/tinhocthaydien/PHASE3_TRACEABILITY_REPORT.md).
@@ -123,9 +123,10 @@ graph TD
 ## 5. VÍ DỤ MINH CHỨNG CỤ THỂ CHO BÀI 3 (`G6-L03`)
 
 ### 5.1. YCCĐ `G6-A-07`: *Giải thích được có thể biểu diễn thông tin chỉ với hai kí hiệu 0 và 1.*
-- **Minh chứng yêu cầu:**
-  - Sản phẩm 1 (`G6-L03-PROD-01`): Lưới bit 4×4 tạo thành chữ T (1111 0100 0100 0100) + Câu giải thích số 0 đại diện cho ô trắng và số 1 đại diện cho ô được tô màu.
-  - Câu hỏi nhận thức: `G6-L03-Q001`, `G6-L03-Q002`, `G6-L03-Q004`.
+- **Minh chứng yêu cầu (Structured Evidence References):**
+  - Sản phẩm 1: `G6-L03-PROD-01` (Lưới bit 4×4 tạo thành chữ T: `1111 0100 0100 0100` + Câu giải thích số 0 đại diện cho ô trắng và số 1 đại diện cho ô được tô màu).
+  - Câu hỏi nhận thức: `G6-L03-Q001`, `G6-L03-Q002` (tại Hoạt động A01 và A02).
+  - Minh chứng củng cố: `G6-L03-Q004` (tại Hoạt động A04).
 - **Phân loại 4 mức:**
   - 🌱 **Chưa đủ minh chứng:** Chưa thao tác trên lưới bit, hoặc chuỗi bit không khớp hình vẽ và bỏ trống câu giải thích.
   - 🌿 **Đang hình thành:** Tạo được hình chữ T nhưng câu giải thích chỉ viết chung chung "đây là chữ T" mà không nêu được vai trò của 0 và 1; hoặc trả lời sai câu hỏi Q002 về nguyên lý biểu diễn.
@@ -135,9 +136,9 @@ graph TD
 ---
 
 ### 5.2. YCCĐ `G6-A-08`: *Biết được bit là đơn vị nhỏ nhất trong lưu trữ thông tin.*
-- **Minh chứng yêu cầu:**
-  - Câu hỏi nhận thức: `G6-L03-Q003`, `G6-L03-Q005`.
-  - Sự nhất quán trong giải thích Sản phẩm 1.
+- **Minh chứng yêu cầu (Structured Evidence References):**
+  - Câu hỏi nhận thức: `G6-L03-Q003` (tại Hoạt động A03), `G6-L03-Q005` (tại Hoạt động A04).
+  - Sự nhất quán trong câu giải thích Sản phẩm 1 (`G6-L03-PROD-01`).
 - **Phân loại 4 mức:**
   - 🌱 **Chưa đủ minh chứng:** Bỏ qua câu hỏi hoặc chọn nhầm Byte/MB là đơn vị nhỏ nhất.
   - 🌿 **Đang hình thành:** Nhận biết bit nhận giá trị 0 hoặc 1 nhưng còn lúng túng khi so sánh kích thước giữa bit và Byte (ví dụ nhầm 1 bit = 8 byte).
@@ -146,29 +147,32 @@ graph TD
 
 ---
 
-### 5.3. YCCĐ `G6-A-09`: *Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này.*
-> **Quy tắc bất biến:** Không được công nhận 🌳 chỉ vì học sinh nhớ vẹt tên các chữ viết tắt KB, MB, GB. Bắt buộc phải có minh chứng đầy đủ về cả 3 vế: **(1) Tên đơn vị**, **(2) Độ lớn xấp xỉ hệ thập phân**, và **(3) Quy đổi gần đúng**.
-- **Minh chứng yêu cầu:**
-  - Bảng quy đổi dung lượng (`G6-L03-WS-01`): Học sinh tự gõ số vào 3 ô: `1 KB ≈ 1000 byte`, `1 MB ≈ 1000 KB`, `1 GB ≈ 1000 MB`.
-  - Câu hỏi nhận thức & tính toán: `G6-L03-Q006`, `G6-L03-Q007`, `G6-L03-Q008`.
-  - Bước ước lượng dung lượng trong Sản phẩm 2 (`G6-L03-PROD-02`).
-- **Phân loại 4 mức:**
-  - 🌱 **Chưa đủ minh chứng:** Bảng quy đổi A05 chưa làm hoặc để trống các câu hỏi tính toán.
-  - 🌿 **Đang hình thành:** Kể được tên Byte, KB, MB, GB nhưng điền sai bảng quy đổi (ví dụ gõ 100 hoặc nhầm lẫn giữa KB và MB); hoặc chỉ nhớ số 1000 nhưng không biết áp dụng tính toán tổng dung lượng ở Q007.
-  - 🌳 **Đạt yêu cầu:** Điền đúng cả 3 ô quy đổi hệ thập phân (1000); tính toán đúng quy đổi 3 xấp văn bản thành xấp xỉ 3000 KB ở Q007; nhận biết đúng thứ tự sắp xếp độ lớn các đơn vị từ nhỏ đến lớn (Byte < KB < MB < GB).
-  - 🚀 **Vận dụng mở rộng:** Đạt mức 🌳 VÀ quy đổi thành thạo trong các bài toán thực tiễn phức hợp (ví dụ: tính toán xem một USB 16 GB có thể chứa xấp xỉ bao nhiêu bức ảnh 4 MB hoặc bao nhiêu video ngắn 500 MB).
+### 5.3. YCCĐ `G6-A-09`: Đối soát toàn diện 3 Chiều kích YCCĐ (Three-Dimension Verification)
+Nội dung văn bản chính thức CTGDPT 2018 của `G6-A-09` gồm ba vế bắt buộc:
+> *"Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB bằng xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte."*
+
+Hệ thống thiết kế bảng đối chiếu minh chứng cụ thể cho từng chiều kích:
+
+| Chiều kích YCCĐ (Dimension) | Nội dung cần đạt | Minh chứng đảm nhiệm trong Golden Lesson `G6-L03` | Tiêu chí đạt chuẩn |
+|---|---|---|---|
+| **1. `unit_names`** *(Tên đơn vị)* | Nêu được tên các đơn vị cơ bản: Byte, KB, MB, GB. | - `G6-L03-Q006` (Trắc nghiệm sắp xếp thứ tự độ lớn Byte < KB < MB < GB).<br/>- `G6-L03-WS-01` (Nhận diện nhãn các đơn vị trên bảng quy đổi).<br/>- `G6-L03-PROD-02` (Chọn đúng ký hiệu đơn vị MB, GB trong bài toán tư vấn). | Nhận biết chính xác tên gọi và ký hiệu viết tắt của 4 đơn vị cơ bản. |
+| **2. `decimal_approximation`** *(Độ lớn xấp xỉ hệ thập phân)* | Nêu được độ lớn xấp xỉ theo hệ thập phân (1 KB ≈ 1000 Byte, 1 MB ≈ 1000 KB, 1 GB ≈ 1000 MB). | - `G6-L03-WS-01` (Học sinh tự gõ số `1000` vào cả 3 ô `#ws-kb-byte`, `#ws-mb-kb`, `#ws-gb-mb`).<br/>- `G6-L03-Q006` (Khẳng định quan hệ gấp xấp xỉ 1000 lần giữa các đơn vị liền kề). | Nhập đúng giá trị xấp xỉ 1000 theo quy định CTGDPT 2018 (không bắt buộc 1024). |
+| **3. `approximate_conversion`** *(Quy đổi gần đúng)* | Quy đổi được một cách gần đúng giữa các đơn vị đo lường này. | - `G6-L03-WS-01` (Quy đổi hoàn chỉnh giữa các bậc dung lượng).<br/>- `G6-L03-Q007` (Tính toán quy đổi 3 xấp văn bản x 1000 KB = 3000 KB).<br/>- `G6-L03-PROD-02` (Ước lượng tổng nhu cầu ~6 GB = xấp xỉ 6000 MB để chọn thiết bị). | Vận dụng tính toán quy đổi gần đúng chính xác trong tình huống thực tế. |
+
+- **Quy tắc chặn:** **TUYỆT ĐỐI KHÔNG CẤP 🌳 ĐẠT YÊU CẦU** nếu thiếu minh chứng ở bất kỳ chiều kích nào trong 3 chiều kích trên.
+- **Trạng thái khoảng trống thiết kế:** `DESIGN_GAP: None` (Cả 3 chiều kích đều đã có minh chứng cụ thể, phân định rành mạch trong `G6-L03.golden.json`).
 
 ---
 
 ### 5.4. YCCĐ `G6-A-10`: *Nêu được sơ lược khả năng lưu trữ của các thiết bị nhớ thông dụng như đĩa cứng, USB, CD, thẻ nhớ,...*
-- **Minh chứng yêu cầu:**
-  - Sản phẩm 2 (`G6-L03-PROD-02`): Phiếu tư vấn lưu trữ gồm 4 trường (Nhu cầu, Dung lượng ước lượng ~6 GB, Thiết bị lựa chọn, Lí do lựa chọn logic).
-  - Khám phá thiết bị nhớ (`G6-L03-A07`): Hoàn thành thao tác xem dung lượng ổ đĩa qua chế độ `REAL_DEVICE` hoặc `SIMULATION` + câu hỏi `G6-L03-Q010`.
-  - Phiếu Exit Ticket (`G6-L03-A08`): Câu hỏi vận dụng thực tế phương án lưu 6 GB dữ liệu.
+- **Minh chứng yêu cầu (Structured Evidence References — Không dùng bare ActivityID):**
+  - Sản phẩm 2: `G6-L03-PROD-02` (Phiếu tư vấn lưu trữ gồm 4 trường: Nhu cầu, Dung lượng ước lượng ~6 GB, Thiết bị lựa chọn, Lí do lựa chọn logic tại Hoạt động A06).
+  - Khám phá thiết bị nhớ: `G6-L03-Q010` (tại Hoạt động `G6-L03-A07`, thực hiện sau khi xem dung lượng qua `REAL_DEVICE` hoặc `SIMULATION`).
+  - Phiếu Exit Ticket: Minh chứng tự phản ánh tại Hoạt động `G6-L03-A08` (`evidenceType: "exit_ticket_reflection"`, câu hỏi vận dụng thực tế phương án lưu 6 GB dữ liệu).
 - **Phân loại 4 mức:**
   - 🌱 **Chưa đủ minh chứng:** Chưa nộp Sản phẩm 2 hoặc chưa hoàn thành câu hỏi Q010.
   - 🌿 **Đang hình thành:** Kể được tên các thiết bị nhưng chọn phương án dung lượng không hợp lí (ví dụ: chọn CD 700 MB hoặc USB 4 GB để mang 6 GB dữ liệu); lý do lập luận sơ sài không căn cứ vào dung lượng.
-  - 🌳 **Đạt yêu cầu:** Hoàn thành Sản phẩm 2 chọn đúng thiết bị có dung lượng lớn hơn 6 GB (USB 16 GB, Thẻ nhớ 32 GB, Ổ cứng 500 GB) với lập luận logic (16 GB > 6 GB và nhỏ gọn dễ mang đến trường); thực hiện đúng thao tác đọc dung lượng ở A07; giáo viên thẩm định duyệt đạt Sản phẩm 2.
+  - 🌳 **Đạt yêu cầu:** Hoàn thành Sản phẩm 2 chọn đúng thiết bị có dung lượng lớn hơn 6 GB (USB 16 GB, Thẻ nhớ 32 GB, Ổ cứng 500 GB) với lập luận logic (16 GB > 6 GB và nhỏ gọn dễ mang đến trường); thực hiện đúng thao tác đọc dung lượng ở A07 (Q010); giáo viên thẩm định duyệt đạt Sản phẩm 2.
   - 🚀 **Vận dụng mở rộng:** Đạt mức 🌳 VÀ đưa ra giải pháp tư vấn đa chiều trong câu hỏi Exit Ticket: So sánh được ưu nhược điểm giữa các phương án (ví dụ: chọn USB 16 GB vì tính di động hàng ngày, nhưng đề xuất dùng thêm Ổ cứng ngoài để sao lưu dài hạn tại nhà).
 
 ---
@@ -177,16 +181,16 @@ graph TD
 
 Bảng quy chuẩn logic quyết định mức độ thành thạo cho 4 YCCĐ của Bài học mẫu `G6-L03`:
 
-| RequirementID | RequiredEvidence (Minh chứng bắt buộc) | SupportingEvidence (Minh chứng bổ trợ) | TeacherReviewRequired (Bắt buộc GV duyệt) | InsufficientRule (🌱 Chưa đủ minh chứng) | DevelopingRule (🌿 Đang hình thành) | MeetsRule (🌳 Đạt yêu cầu) | ExtensionRule (🚀 Vận dụng mở rộng) | ConflictRule (Quy tắc xử lý mâu thuẫn) |
+| RequirementID | RequiredEvidence (Cấu trúc minh chứng rõ ràng) | SupportingEvidence (Minh chứng bổ trợ) | TeacherReviewRequired (Bắt buộc GV duyệt) | InsufficientRule (🌱 Chưa đủ minh chứng) | DevelopingRule (🌿 Đang hình thành) | MeetsRule (🌳 Đạt yêu cầu) | ExtensionRule (🚀 Vận dụng mở rộng) | ConflictRule (Quy tắc xử lý mâu thuẫn) |
 |---|---|---|:---:|---|---|---|---|---|
-| **`G6-A-07`** *(Biểu diễn 0 và 1)* | `G6-L03-PROD-01`, `G6-L03-Q001`, `G6-L03-Q002` | `G6-L03-Q004`, Diagnostic Probe 6 | **CÓ** (Duyệt Sản phẩm 1) | Thiếu PROD-01 hoặc Q001/Q002 chưa làm. | Chuỗi bit đúng nhưng giải thích 0/1 chưa rõ, hoặc cần gợi ý Tier 2/3. | PROD-01 chuỗi bit chuẩn + câu giải thích đúng + Q001/Q002 đúng + GV duyệt đạt. | Đạt 🌳 + biểu diễn được ký tự mới hoặc giải thích mở rộng ảnh số. | Q001 đúng nhưng PROD-01 vẽ sai hoặc giải thích sai -> Giữ ở 🌿, gắn cờ `REVIEW_REQUIRED`. |
-| **`G6-A-08`** *(Bit là đơn vị nhỏ nhất)* | `G6-L03-Q003`, `G6-L03-Q005` | PROD-01 bit logic, Diagnostic Probe 6 | **KHÔNG** (Trắc nghiệm khách quan) | Thiếu cả Q003 và Q005. | Đúng 1 trong 2 câu nhưng còn phân vân, cần thử lại lần 2. | Đúng cả Q003 và Q005 khẳng định bit là đơn vị nhỏ nhất. | Đạt 🌳 + giải thích được mối liên hệ giữa bit và trạng thái vật lý thiết bị. | Q003 chọn bit nhưng Q005 lại chọn Byte -> Giữ ở 🌿. |
-| **`G6-A-09`** *(Tên, độ lớn xấp xỉ & quy đổi Byte/KB/MB/GB)* | `G6-L03-WS-01`, `G6-L03-Q006`, `G6-L03-Q007` | `G6-L03-Q008`, Diagnostic Probe 7 | **KHÔNG** (Tự động chấm theo bảng số) | Bảng WS-01 chưa điền hoặc sai cả 3 ô. | Thuộc tên đơn vị nhưng quy đổi sai bảng WS-01, hoặc tính toán Q007 sai. | WS-01 điền đúng 1000 cả 3 ô + Q006/Q007 đúng + nắm vững thứ tự độ lớn. | Đạt 🌳 + giải quyết bài toán quy đổi đa bước trong tình huống thực tế. | Thuộc vẹt thứ tự độ lớn ở Q006 nhưng tính toán quy đổi sai ở Q007 -> Giữ ở 🌿. |
-| **`G6-A-10`** *(Khả năng lưu trữ thiết bị nhớ)* | `G6-L03-PROD-02`, `G6-L03-A07` (Q010), `G6-L03-A08` (Exit Ticket) | `G6-L03-Q009`, Diagnostic Probe 8 | **CÓ** (Duyệt Sản phẩm 2) | Thiếu PROD-02 hoặc chưa nộp Exit Ticket. | Chọn thiết bị dung lượng nhỏ hơn nhu cầu (< 6 GB), hoặc lý do không logic. | PROD-02 chọn đúng thiết bị ≥ 6 GB kèm lý do logic + Q010 đúng + GV duyệt đạt. | Đạt 🌳 + so sánh toàn diện ưu nhược điểm các thiết bị trong Exit Ticket. | Q009 chọn đúng USB nhưng PROD-02 lại chọn CD 700 MB cho 6 GB -> Giữ ở 🌿. |
+| **`G6-A-07`** *(Biểu diễn 0 và 1)* | `evidenceId: G6-L03-PROD-01`<br/>`evidenceId: G6-L03-Q001`<br/>`evidenceId: G6-L03-Q002` | `G6-L03-Q004`, Diagnostic Probe 6 | **CÓ** (Duyệt Sản phẩm 1) | Thiếu PROD-01 hoặc Q001/Q002 chưa làm. | Chuỗi bit đúng nhưng giải thích 0/1 chưa rõ, hoặc cần gợi ý Tier 2/3. | PROD-01 chuỗi bit chuẩn + câu giải thích đúng + Q001/Q002 đúng + GV duyệt đạt. | Đạt 🌳 + biểu diễn được ký tự mới hoặc giải thích mở rộng ảnh số. | Q001 đúng nhưng PROD-01 vẽ sai hoặc giải thích sai -> Giữ ở 🌿, gắn cờ `REVIEW_REQUIRED`. |
+| **`G6-A-08`** *(Bit là đơn vị nhỏ nhất)* | `evidenceId: G6-L03-Q003`<br/>`evidenceId: G6-L03-Q005` | PROD-01 bit logic, Diagnostic Probe 6 | **KHÔNG** (Trắc nghiệm khách quan) | Thiếu cả Q003 và Q005. | Đúng 1 trong 2 câu nhưng còn phân vân, cần thử lại lần 2. | Đúng cả Q003 và Q005 khẳng định bit là đơn vị nhỏ nhất. | Đạt 🌳 + giải thích được mối liên hệ giữa bit và trạng thái vật lý thiết bị. | Q003 chọn bit nhưng Q005 lại chọn Byte -> Giữ ở 🌿. |
+| **`G6-A-09`** *(Tên, độ lớn xấp xỉ & quy đổi Byte/KB/MB/GB)* | `evidenceId: G6-L03-WS-01`<br/>`evidenceId: G6-L03-Q006`<br/>`evidenceId: G6-L03-Q007` | `G6-L03-Q008`, Diagnostic Probe 7 | **KHÔNG** (Tự động chấm theo bảng số) | Bảng WS-01 chưa điền hoặc sai cả 3 ô. | Thuộc tên đơn vị nhưng quy đổi sai bảng WS-01, hoặc tính toán Q007 sai. | WS-01 điền đúng 1000 cả 3 ô + Q006/Q007 đúng + thỏa mãn cả 3 dimensions. | Đạt 🌳 + giải quyết bài toán quy đổi đa bước trong tình huống thực tế. | Thuộc vẹt thứ tự độ lớn ở Q006 nhưng tính toán quy đổi sai ở Q007 -> Giữ ở 🌿. |
+| **`G6-A-10`** *(Khả năng lưu trữ thiết bị nhớ)* | `evidenceId: G6-L03-PROD-02`<br/>`evidenceId: G6-L03-Q010 (tại A07)`<br/>`activityId: G6-L03-A08 (Exit Ticket)` | `G6-L03-Q009`, Diagnostic Probe 8 | **CÓ** (Duyệt Sản phẩm 2) | Thiếu PROD-02 hoặc chưa nộp Exit Ticket. | Chọn thiết bị dung lượng nhỏ hơn nhu cầu (< 6 GB), hoặc lý do không logic. | PROD-02 chọn đúng thiết bị ≥ 6 GB kèm lý do logic + Q010 đúng + GV duyệt đạt. | Đạt 🌳 + so sánh toàn diện ưu nhược điểm các thiết bị trong Exit Ticket. | Q009 chọn đúng USB nhưng PROD-02 lại chọn CD 700 MB cho 6 GB -> Giữ ở 🌿. |
 
 ---
 
-## 7. BẢNG TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CHECKLIST P4.2)
+## 7. BẢNG TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CHECKLIST P4.2 REVISION)
 
 | Tiêu chí | Mô tả yêu cầu | Trạng thái đạt được |
 |---|---|---|
@@ -197,4 +201,5 @@ Bảng quy chuẩn logic quyết định mức độ thành thạo cho 4 YCCĐ c
 | **Xử lý minh chứng mâu thuẫn** | Có quy tắc `ConflictRule` ngăn chặn cấp 🌳 khi trắc nghiệm đúng nhưng thực hành/tự luận sai. | **ĐẠT (PASS)** |
 | **Đánh giá nhiều lần thử** | Ghi nhận số lần thử và nấc hỗ trợ đã dùng, không chỉ lấy điểm lần đầu hay điểm cao nhất duy nhất. | **ĐẠT (PASS)** |
 | **Mức 🚀 đòi hỏi Transfer Evidence** | Mức Vận dụng mở rộng bắt buộc phải có minh chứng chuyển giao thực tiễn, không cấp vì điểm cao hay làm nhanh. | **ĐẠT (PASS)** |
-| **Ví dụ chi tiết cho Bài 3** | Viết kịch bản minh chứng cụ thể cho cả 4 YCCĐ `G6-A-07` đến `G6-A-10` của `G6-L03`. | **ĐẠT (PASS)** |
+| **G6-A-10 Evidence Structured (Fix 5)** | Không dùng bare ActivityID (`G6-L03-A07`, `G6-L03-A08`) làm EvidenceID; dùng cấu trúc ngữ nghĩa rõ ràng. | **ĐẠT (PASS)** |
+| **G6-A-09 Đủ 3 Dimensions (Fix 6)** | Phân định rõ ràng: (1) `unit_names`, (2) `decimal_approximation`, (3) `approximate_conversion`. `DESIGN_GAP: None`. | **ĐẠT (PASS)** |

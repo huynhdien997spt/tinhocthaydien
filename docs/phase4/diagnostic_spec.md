@@ -1,8 +1,8 @@
 # ĐẶC TẢ CHẨN ĐOÁN HỌC TẬP (DIAGNOSTIC SPECIFICATION)
 ## "KHÁM PHÁ ĐIỂM XUẤT PHÁT" — G6-L03
-### TÀI LIỆU THIẾT KẾ PHASE 4A (P4.1) — DESIGN ONLY / NO ENGINE CODE
+### TÀI LIỆU THIẾT KẾ PHASE 4A-R1 (P4.1 REVISION) — DESIGN ONLY / NO ENGINE CODE
 
-> **Mã tài liệu:** `DOC-P4-DIAG-SPEC-01`  
+> **Mã tài liệu:** `DOC-P4-DIAG-SPEC-01` (Bản sửa đổi R1)  
 > **Trạng thái:** `PROPOSAL_DESIGN` (Chỉ dùng cho đặc tả thiết kế, chưa triển khai mã nguồn Engine)  
 > **Áp dụng cho:** Bài học mẫu `G6-L03` (*Bài 3. Thông tin trong máy tính* — 2 tiết / 90 phút)  
 > **Căn cứ nguồn chuẩn:** [requirements-g6.json](file:///Users/huynhvandien/tinhocthaydien/data/requirements/requirements-g6.json), [G6-L03.golden.json](file:///Users/huynhvandien/tinhocthaydien/data/lessons/G6-L03.golden.json), [PHASE3_TRACEABILITY_REPORT.md](file:///Users/huynhvandien/tinhocthaydien/PHASE3_TRACEABILITY_REPORT.md).
@@ -105,18 +105,19 @@ Dữ liệu tiền đề bắt buộc đọc nguyên văn từ [requirements-g6.
 
 ### 4.2. Nhóm B — Xử lí thông tin (Coverage: `G6-A-05`, `G6-A-06`)
 
-#### Probe 4 (`DIAG-PROBE-04`)
+#### Probe 4 (`DIAG-PROBE-04`) — Tình huống số hóa xử lí ảnh (Chuẩn hóa R1)
 - **Mã YCCĐ mục tiêu:** `G6-A-06` (*Các bước cơ bản trong xử lí thông tin*)
-- **Dạng thức:** Sắp xếp trình tự thao tác (Drag-and-drop / Number ordering).
-- **Ngữ cảnh thực tế:** *"Một bạn học sinh nghe tiếng trống trường điểm giờ vào lớp, bạn ghi nhớ thời gian, suy nghĩ cần về phòng học nào và nhanh chóng bước chân về lớp học đó."*
-- **Nhiệm vụ của học sinh:** Kéo thả 4 mảnh ghép vào đúng trình tự 4 bước:
-  1. **Thu nhận thông tin** *(tai nghe thấy tiếng trống)*
-  2. **Lưu trữ thông tin** *(bộ não ghi nhớ tín hiệu)*
-  3. **Xử lí thông tin** *(não suy nghĩ xác định phòng học)*
-  4. **Truyền thông tin** *(báo cho bạn cùng đi hoặc cơ thể hành động)*
+- **Dạng thức:** Ghép nối hoạt động số với 4 bước cơ bản (Digital Activity Matching).
+- **Ngữ cảnh thực tế:** *"Bạn Minh dùng máy tính để xử lí một bức ảnh chụp kỷ niệm chuyến dã ngoại cùng lớp."*
+- **Nhiệm vụ của học sinh:** Ghép đúng 4 hoạt động số của bạn Minh với 4 bước cơ bản trong xử lí thông tin:
+  1. Camera máy tính chụp và nhận hình ảnh → **Thu nhận thông tin**
+  2. Máy tính lưu tệp ảnh `kyniem.jpg` vào thư mục → **Lưu trữ thông tin**
+  3. Phần mềm điều chỉnh độ sáng và cắt cúp bức ảnh → **Xử lí thông tin**
+  4. Minh gửi bức ảnh hoàn thiện qua email cho các bạn → **Truyền thông tin**
 - **Tín hiệu đánh giá (Evidence Signal):**
-  - Sắp xếp chuẩn xác 100%: Nắm vững quy trình xử lí thông tin tự nhiên và trong hệ thống (`ready_evidence`).
-  - Nhầm lẫn giữa Xử lí và Lưu trữ: Cần củng cố trực quan ở khâu xử lí dữ liệu (`emerging_evidence`).
+  - Ghép chính xác 4/4 cặp: Nắm vững bản chất của 4 hoạt động xử lí thông tin trong ngữ cảnh số thực tế (`ready_evidence`).
+  - Nhầm lẫn giữa Chỉnh sửa ảnh (Xử lí) và Lưu file ảnh (Lưu trữ): Cần hỗ trợ phân biệt thao tác biến đổi dữ liệu với lưu trữ dữ liệu (`emerging_evidence`).
+- **Lưu ý sư phạm:** Tình huống nhằm đo lường khả năng nhận diện đúng bản chất 4 hoạt động cơ bản; không áp đặt rằng mọi quá trình xử lí thông tin trong đời sống luôn phải diễn ra theo một chuỗi cứng nhắc duy nhất nếu nguồn chuẩn không yêu cầu điều đó.
 
 #### Probe 5 (`DIAG-PROBE-05`)
 - **Mã YCCĐ mục tiêu:** `G6-A-05` (*Máy tính là công cụ hiệu quả trong xử lí thông tin*)
@@ -130,24 +131,24 @@ Dữ liệu tiền đề bắt buộc đọc nguyên văn từ [requirements-g6.
 ---
 
 ### 4.3. Nhóm C — Thăm dò vùng sẵn sàng (Target Readiness Preview: `G6-A-07` .. `G6-A-10`)
-> **Nguyên tắc vàng:** Nhóm C chỉ dùng để nhận biết học sinh thuộc trạng thái: *đã từng nghe/biết*, *biết một phần*, hay *hoàn toàn mới mẻ*. **TUYỆT ĐỐI KHÔNG** dùng kết quả nhóm này để đánh giá Mastery của Bài 3.
+> **Nguyên tắc vàng:** Nhóm C chỉ dùng để nhận biết học sinh thuộc trạng thái: *chưa quen* (`unfamiliar`), *biết một phần* (`partially_aware`), hay *đã nghe qua / nhận diện được* (`aware`). **TUYỆT ĐỐI KHÔNG** dùng kết quả nhóm này để đánh giá Mastery của Bài 3. Không được nhầm lẫn giữa "đã nghe qua" với "đã hiểu sâu sắc".
 
 #### Probe 6 (`DIAG-PROBE-06`)
 - **Mã YCCĐ thăm dò:** `G6-A-07`, `G6-A-08` (*Biểu diễn 0–1 và khái niệm bit*)
 - **Dạng thức:** Khảo sát nhận diện khái niệm mở (Gentle Awareness Probe).
 - **Câu hỏi:** *"Em có biết bên trong máy tính, mọi hình ảnh, con số và bài hát được lưu trữ dưới dạng những kí hiệu nào không?"*
-  - Tùy chọn 1: Em đã từng nghe máy tính dùng các dãy chỉ gồm hai số 0 và 1 (hoặc bit). *(Tín hiệu: Đã có khái niệm sơ khởi)*
-  - Tùy chọn 2: Em nghĩ máy tính lưu trực tiếp chữ viết và màu sắc giống hệt như mắt người nhìn thấy. *(Tín hiệu: Quan niệm trực quan tự nhiên)*
-  - Tùy chọn 3: Em chưa từng nghe về điều này và rất tò mò muốn khám phá. *(Tín hiệu: Khởi đầu mới)*
-- **Xử lý kết quả:** Không chấm đúng/sai tính điểm; dùng để thiết lập mức độ ngạc nhiên sư phạm (pedagogical hook) ở Hoạt động A01/A02.
+  - Tùy chọn 1: Em đã từng nghe máy tính dùng các dãy chỉ gồm hai số 0 và 1 (hoặc bit). *(Tín hiệu: `aware` — đã nhận diện qua)*
+  - Tùy chọn 2: Em nghĩ máy tính lưu trực tiếp chữ viết và màu sắc giống hệt như mắt người nhìn thấy. *(Tín hiệu: `unfamiliar` — quan niệm trực quan tự nhiên)*
+  - Tùy chọn 3: Em chưa từng nghe về điều này và rất tò mò muốn khám phá. *(Tín hiệu: `unfamiliar` — khởi đầu mới)*
+- **Xử lý kết quả:** Không chấm đúng/sai tính điểm; dùng để thiết lập mức độ ngạc nhiên sư phạm (pedagogical hook) ở Hoạt động A01/A02. Không coi câu trả lời "đã nghe qua" là minh chứng thành thạo G6-A-07 hay G6-A-08.
 
 #### Probe 7 (`DIAG-PROBE-07`)
 - **Mã YCCĐ thăm dò:** `G6-A-09` (*Đơn vị đo dung lượng KB, MB, GB*)
 - **Dạng thức:** Tình huống đời sống thường gặp (Everyday digital life).
 - **Câu hỏi:** *"Khi xem thông số một gói cước mạng Internet trên điện thoại ghi 'Dung lượng 4 GB/ngày', hoặc tải một bài hát ghi 'Kích thước 5 MB', em hiểu các chữ cái MB, GB biểu thị điều gì?"*
-  - Tùy chọn 1: Đó là các đơn vị đo dung lượng (độ lớn) của thông tin trong thiết bị số.
-  - Tùy chọn 2: Đó là đơn vị đo tốc độ chạy nhanh hay chậm của máy bay hoặc ô tô.
-  - Tùy chọn 3: Em thường thấy trên màn hình nhưng chưa rõ ý nghĩa cụ thể.
+  - Tùy chọn 1: Đó là các đơn vị đo dung lượng (độ lớn) của thông tin trong thiết bị số. *(Tín hiệu: `aware`)*
+  - Tùy chọn 2: Đó là đơn vị đo tốc độ chạy nhanh hay chậm của máy bay hoặc ô tô. *(Tín hiệu: `unfamiliar`)*
+  - Tùy chọn 3: Em thường thấy trên màn hình nhưng chưa rõ ý nghĩa cụ thể. *(Tín hiệu: `partially_aware`)*
 - **Xử lý kết quả:** Nhận biết học sinh đã quen thuộc với ký hiệu đơn vị hay cần giới thiệu thang đo trực quan từ đầu ở A05.
 
 #### Probe 8 (`DIAG-PROBE-08`)
@@ -158,25 +159,49 @@ Dữ liệu tiền đề bắt buộc đọc nguyên văn từ [requirements-g6.
 
 ---
 
-## 5. THIẾT KẾ 2 CÂU HỎI TỰ PHẢN ÁNH (REFLECTION PROMPTS)
+## 5. THIẾT KẾ 2 CÂU HỎI TỰ PHẢN ÁNH (REFLECTION PROMPTS) & QUY TẮC PHỤ TRỢ (AUXILIARY-ONLY RULE)
 
-### Prompt 1 (`DIAG-SELF-01`): Phong cách & Nhu cầu hỗ trợ
+### 5.1. Quy tắc bất biến: Tự phản ánh KHÔNG quyết định Profile học tập
+> **Nguyên tắc bắt buộc (Fix 1 & Fix 4):**  
+> `selfReportInfluence = "support_only"`  
+> Dữ liệu tự phản ánh của học sinh **TUYỆT ĐỐI KHÔNG ĐƯỢC PHÉP TỰ QUYẾT ĐỊNH LEARNING PROFILE**.  
+> Hệ thống tách biệt tuyệt đối 2 khái niệm:
+> - **`recommendedProfile`** = Quyết định dựa trên Minh chứng tiền đề (`prerequisite evidence`) + Logic quan niệm sai lầm/mâu thuẫn (`misconception / conflict logic`).
+> - **`supportConfiguration`** = Quyết định dựa trên `recommendedProfile` kết hợp với các tín hiệu tự phản ánh bổ trợ (`selfReport auxiliary signals`).
+
+Ví dụ: Nếu học sinh có toàn bộ minh chứng tiền đề vững vàng (6/6 ready), nhưng học sinh chọn mong muốn được hướng dẫn từng bước:
+- **`recommendedProfile`:** Vẫn là `standard_readiness` (hoặc `extension_readiness` nếu target readiness cao). **TUYỆT ĐỐI KHÔNG ĐẨY VÀO `foundation_consolidation`**.
+- **`supportConfiguration`:** Điều chỉnh linh hoạt:
+  ```json
+  {
+    "preference": "guided",
+    "initialSupportTier": 1,
+    "showVisualHintEarly": true,
+    "teacherNote": "Học sinh có nền tảng vững nhưng muốn được hướng dẫn an tâm từng bước."
+  }
+  ```
+
+### 5.2. Nội dung 2 câu hỏi phản ánh
+
+#### Prompt 1 (`DIAG-SELF-01`): Phong cách & Nhu cầu hỗ trợ
 - **Câu hỏi:** *"Khi làm một nhiệm vụ học tập mới mẻ hoặc gặp câu hỏi khó, em thích nhận được sự hỗ trợ theo cách nào nhất?"*
   - **Mức A (Độc lập):** *"Em muốn tự mình mày mò suy nghĩ trước, chỉ cần một gợi ý nhỏ (Hint) khi thật sự chưa tìm ra cách."*
   - **Mức B (Trực quan):** *"Em muốn nhìn thấy một hình ảnh minh họa hoặc ví dụ tương tự để tự làm theo."*
   - **Mức C (Đồng hành):** *"Em muốn được hướng dẫn từng bước nhỏ kèm bài mẫu chi tiết để chắc chắn mình làm đúng."*
-- **Ý nghĩa cấu hình:**
-  - Chọn A: Ưu tiên đường dẫn thử thách, Support Ladder ẩn ban đầu.
-  - Chọn B: Kích hoạt gợi ý Tier 1 trực quan ngay từ đầu.
-  - Chọn C: Đưa vào Profile A, tự động mở sẵn các nấc hỗ trợ từng bước.
+- **Phạm vi tác động của `DIAG-SELF-01`:**
+  - **CHỈ TÁC ĐỘNG LÊN `supportConfiguration`**:
+    * Chọn A: Đặt `initialSupportTier = 0` (Support Ladder ẩn ban đầu, chỉ hiện khi học sinh bấm cần hỗ trợ).
+    * Chọn B: Đặt `initialSupportTier = 1` (Bật sẵn gợi ý trực quan ở các hoạt động thực hành).
+    * Chọn C: Đặt `initialSupportTier = 1`, `preference = "guided"` (Hiện sẵn gợi ý ban đầu và thông điệp động viên).
+  - **TUYỆT ĐỐI KHÔNG DÙNG ĐỂ CHỌN PROFILE A, B, HAY C**.
 
-### Prompt 2 (`DIAG-SELF-02`): Mức độ tự tin ban đầu
+#### Prompt 2 (`DIAG-SELF-02`): Mức độ tự tin ban đầu
 - **Câu hỏi:** *"Bước vào bài học 'Thông tin trong máy tính' hôm nay, em cảm thấy thế nào?"*
   - Tùy chọn 1: Rất hào hứng và tự tin vì em yêu thích công nghệ.
   - Tùy chọn 2: Cảm thấy bình thường, sẵn sàng học cùng các bạn.
   - Tùy chọn 3: Hơi lo lắng một chút vì sợ máy tính phức tạp.
-- **Quy tắc bảo vệ dữ liệu:**
-  - Tín hiệu tự phản ánh chỉ được lưu trữ nội bộ để gợi ý tâm lý sư phạm.
+- **Phạm vi tác động của `DIAG-SELF-02`:**
+  - Tín hiệu tâm lý sư phạm bổ trợ; hiển thị ghi chú nhẹ nhàng trên màn hình học sinh và trên Teacher Dashboard.
   - **TUYỆT ĐỐI KHÔNG** dùng để xếp loại học lực hay thay thế kết quả làm bài của học sinh.
 
 ---
@@ -188,12 +213,7 @@ Hệ thống **TUYỆT ĐỐI NGHIÊM CẤM** việc cộng gộp kết quả ch
 - `"70%"`
 - `"Xếp loại: Khá / Trung bình / Yếu"`
 
-### Lý do sư phạm:
-1. Hai học sinh cùng đạt 5/8 câu đúng có thể có cấu trúc năng lực hoàn toàn khác nhau:
-   - Học sinh 1: Vững chắc về thông tin/dữ liệu (`G6-A-01`..`04`) nhưng chưa rõ về xử lí (`G6-A-05`..`06`).
-   - Học sinh 2: Nắm được quy trình xử lí nhưng lại nhầm lẫn khái niệm cơ bản giữa vật mang tin và thông tin.
-2. Việc quy về một con số trung bình làm lu mờ (masking) chính xác nhu cầu sư phạm cần hỗ trợ.
-3. Thay vào đó, kết quả chẩn đoán được xuất dưới dạng **Hồ sơ minh chứng đa chiều (Multi-dimensional Evidence Inventory)** theo từng `RequirementID`.
+Kết quả chẩn đoán được xuất dưới dạng **Hồ sơ minh chứng đa chiều (Multi-dimensional Evidence Inventory)** theo từng `RequirementID`.
 
 ---
 
@@ -206,63 +226,72 @@ Sau khi hoàn thành 8 probes, mỗi RequirementID được gán một trong 4 t
 | `no_evidence` | **Chưa có dữ liệu** | Học sinh chưa trả lời probe liên quan hoặc bỏ qua, hệ thống chưa đủ căn cứ để suy luận. |
 | `emerging_evidence` | **Minh chứng đang hình thành** | Học sinh trả lời đúng một phần, hoặc trả lời sai ở khía cạnh bản chất, hoặc bộc lộ quan niệm sai lệch (misconception) cần làm rõ. |
 | `ready_evidence` | **Minh chứng sẵn sàng** | Học sinh hoàn thành chính xác probe tiền đề với lập luận logic vững vàng; sẵn sàng tiếp thu bài học mới với scaffold tiêu chuẩn. |
-| `conflicting_evidence` | **Minh chứng mâu thuẫn** | Kết quả giữa các probe trong cùng một nhóm chủ đề đối nghịch nhau (ví dụ: giải thích đúng khái niệm nhưng khi vào tình huống thực tế lại chọn ngược lại). Cần bổ sung câu hỏi làm rõ. |
+| `conflicting_evidence` | **Minh chứng mâu thuẫn** | Kết quả giữa các probe trong cùng một nhóm chủ đề đối nghịch nhau. Cần bổ sung câu hỏi làm rõ. |
 
 > **Lưu ý đặc biệt:** 4 trạng thái trên **CHỈ LÀ TRẠNG THÁI KHỞI ĐIỂM (TENTATIVE STARTING STATUS)** của khâu chẩn đoán. Chúng hoàn toàn tách biệt với 4 mức độ **Mastery Model chính thức** (`insufficient_evidence`, `developing`, `meets_requirement`, `transfer_extension`) của Phase 4.2.
 
 ---
 
-## 8. BA HỒ SƠ LỘ TRÌNH HỌC TẬP (3 LEARNING PATH PROFILES)
+## 8. QUY TẮC XÁC ĐỊNH LỘ TRÌNH DETERMINISTIC VÀ KHÔNG CHỒNG LẤN (FIX 2)
 
-Dựa trên Hồ sơ minh chứng đa chiều, hệ thống đề xuất một trong 3 cấu hình lộ trình:
+Hệ thống xác định Lộ trình học tập (`recommendedProfile`) bằng thuật toán phân tầng 3 bước có thứ tự ưu tiên tuyệt đối (Strict Priority Hierarchy), đảm bảo **mọi học sinh luôn thuộc về duy nhất 1 Profile**, không thể xảy ra hiện tượng chồng lấn giữa Profile A và Profile B:
 
 ```mermaid
 flowchart TD
-    DiagStart(["Bắt đầu: Khám phá điểm xuất phát (15 phút)"]) --> EvalProbes["Đánh giá 8 Evidence Probes theo RequirementID"]
-    EvalProbes --> EvalSelf["Đọc tín hiệu tự phản ánh & nhu cầu hỗ trợ"]
+    Start(["Đánh giá Hồ sơ Minh chứng Tiền đề (G6-A-01..06)"]) --> Step1{"BƯỚC 1: Critical Support Check (Priority 1)<br/>- Có critical misconception?<br/>- Có conflicting_evidence quan trọng?<br/>- Số YCCĐ non-ready ≥ 2?"}
     
-    EvalSelf --> CheckCond{Phân tích ma trận minh chứng}
+    Step1 -- "ĐÚNG (Thỏa bất kỳ điều kiện nào)" --> ProfA["PROFILE A: foundation_consolidation<br/>('Mình cùng ôn nhanh vài ý nền trước nhé')"]
+    Step1 -- "SAI (Không thỏa điều kiện Bước 1)" --> Step2{"BƯỚC 2: Extension Readiness Check (Priority 2)<br/>- Đủ 6/6 prerequisite = ready_evidence?<br/>- KHÔNG có conflicting_evidence?<br/>- Target Readiness Preview = 'aware'/'partially_aware'?"}
     
-    CheckCond -- "≥ 2 tiền đề chưa vững / Misconception" --> ProfA["PROFILE A: Cần củng cố nền<br/>('Mình cùng ôn nhanh vài ý nền trước nhé')"]
-    CheckCond -- "Đa số tiền đề sẵn sàng (≥ 4/6)" --> ProfB["PROFILE B: Sẵn sàng học bài<br/>(Đường học chuẩn Golden Lesson)"]
-    CheckCond -- "Tiền đề xuất sắc (6/6) + Target readiness cao" --> ProfC["PROFILE C: Sẵn sàng mở rộng<br/>(Thử thách nâng cao, giảm hint)"]
+    Step2 -- "ĐÚNG" --> ProfC["PROFILE C: extension_readiness<br/>('Sẵn sàng mở rộng - Thử thách mới')"]
+    Step2 -- "SAI" --> Step3["BƯỚC 3: Default Standard Path (Priority 3)<br/>PROFILE B: standard_readiness<br/>('Sẵn sàng học bài - Đường học chuẩn')"]
     
-    ProfA --> CoreLesson["Học bài G6-L03 (Không bỏ YCCĐ nào)"]
-    ProfB --> CoreLesson
-    ProfC --> CoreLesson
+    ProfA --> ApplySelf["Áp dụng Self-Report (support_only) để tinh chỉnh supportConfiguration"]
+    ProfB --> ApplySelf
+    ProfC --> ApplySelf
 ```
 
-### 8.1. PROFILE A — "Cần củng cố nền" (`foundation_consolidation`)
-- **Điều kiện kích hoạt:**
-  - Có từ 2 YCCĐ tiền đề (`G6-A-01` .. `G6-A-06`) ở trạng thái `no_evidence` hoặc `emerging_evidence`.
-  - Hoặc bộc lộ quan niệm sai lầm cốt lõi ở Probe 1 / Probe 4.
-  - Hoặc học sinh chủ động chọn nhu cầu hỗ trợ từng bước (`DIAG-SELF-01 = C`).
-- **Cấu hình can thiệp sư phạm:**
-  - **Micro-review (Ôn tập tức thời):** Bổ sung 1 thẻ tóm tắt trực quan 2 phút trước khi vào bài: Sơ đồ phân biệt vật mang tin vs. thông tin và sơ đồ 4 bước xử lí thông tin.
-  - **Support Ladder sớm:** Tự động mở sẵn nấc hỗ trợ cấp 1 (Tier 1: Trợ giúp thị giác) ở Hoạt động A02 (Lưới bit) và A05 (Thang dung lượng).
-- **Thông điệp thân thiện với học sinh:**
-  > *"Thầy trò mình cùng ôn nhanh vài ý nền thú vị trước khi vào bài nhé! Em sẽ thấy mọi thứ rất quen thuộc và dễ hiểu."*
+### 8.1. BƯỚC 1 — Critical Support Check (Ưu tiên cao nhất - Priority 1)
+Nếu thỏa mãn **BẤT KỲ ĐIỀU KIỆN NÀO** sau đây:
+1. Phát hiện quan niệm sai lầm cốt lõi (`critical_misconception`) ở Probe 1 hoặc Probe 4; **HOẶC**
+2. Xuất hiện minh chứng mâu thuẫn quan trọng (`conflicting_evidence`); **HOẶC**
+3. Có **từ 2 YCCĐ tiền đề trở lên (≥ 2/6)** thuộc tập trạng thái chưa sẵn sàng (`nonReadyStatusCodes`: `no_evidence`, `emerging_evidence`, `conflicting_evidence`).
 
-### 8.2. PROFILE B — "Sẵn sàng học bài" (`standard_readiness`)
-- **Điều kiện kích hoạt:**
-  - Ít nhất 4 trên 6 YCCĐ tiền đề đạt trạng thái `ready_evidence`.
-  - Các probe thăm dò bài mới (Probe 6, 7, 8) ở mức bình thường (chưa quen hoặc biết sơ lược).
-- **Cấu hình can thiệp sư phạm:**
-  - **Đường học chuẩn (Standard Golden Lesson Path):** Học theo đúng tiến trình 8 hoạt động chuẩn của `G6-L03.golden.json`.
-  - **Support Ladder theo nhu cầu (On-demand):** Các nấc hỗ trợ Tier 1, Tier 2, Tier 3 chỉ mở khi học sinh làm sai lần đầu hoặc chủ động bấm nút "Em cần gợi ý".
-- **Thông điệp thân thiện với học sinh:**
-  > *"Em đã có hành trang rất tốt! Chúng mình cùng bắt đầu khám phá xem máy tính lưu trữ thông tin như thế nào nhé."*
+**KẾT LUẬN NGAY:**
+- **Profile:** **`PROFILE A` (`foundation_consolidation`)** — *Cần củng cố nền*.
+- **Can thiệp sư phạm:** Micro-review trực quan 2 phút trước bài học + mở sẵn Support Ladder Tier 1 ở Hoạt động A02 và A05.
+- **Thông điệp:** *"Thầy trò mình cùng ôn nhanh vài ý nền thú vị trước khi vào bài nhé! Em sẽ thấy mọi thứ rất quen thuộc và dễ hiểu."*
 
-### 8.3. PROFILE C — "Sẵn sàng mở rộng" (`extension_readiness`)
-- **Điều kiện kích hoạt:**
-  - Toàn bộ 6/6 YCCĐ tiền đề đạt trạng thái `ready_evidence`.
-  - Đồng thời các probe thăm dò đích (Probe 6, 7, 8) cho thấy học sinh đã có hiểu biết trước vững vàng về bit và dung lượng GB.
-- **Cấu hình can thiệp sư phạm:**
-  - **TUYỆT ĐỐI KHÔNG MIỄN HỌC BẤT KỲ YCCĐ NÀO:** Học sinh vẫn phải hoàn thành đầy đủ cả 4 YCCĐ (`G6-A-07`, `G6-A-08`, `G6-A-09`, `G6-A-10`).
-  - **Giảm gợi ý ban đầu:** Ẩn các gợi ý cơ bản để khuyến khích tư duy độc lập tối đa.
-  - **Mở rộng tình huống thử thách (Challenge Scenarios):** Tại Hoạt động A06 (WebQuest), ngoài tình huống bạn An mang 6 GB dữ liệu, học sinh được thử sức thêm tình huống mở: *Tư vấn sao lưu ảnh cho gia đình với dung lượng 500 GB và ngân sách tiết kiệm nhất*.
-- **Thông điệp thân thiện với học sinh:**
-  > *"Hành trang của em thật xuất sắc! Thầy có một vài thử thách mở rộng đặc biệt dành riêng cho em trong bài học hôm nay."*
+---
+
+### 8.2. BƯỚC 2 — Extension Readiness Check (Ưu tiên thứ hai - Priority 2)
+> **Chỉ được xét khi BƯỚC 1 = FALSE** (Tức là học sinh có tối đa 1 YCCĐ non-ready và không có misconception/mâu thuẫn nghiêm trọng).
+
+Nếu thỏa mãn **TOÀN BỘ ĐIỀU KIỆN** sau:
+1. **Đạt trọn vẹn 6/6 YCCĐ tiền đề** ở trạng thái `ready_evidence`; **VÀ**
+2. **Hoàn toàn không có** `conflicting_evidence`; **VÀ**
+3. **Target Readiness Preview** (Probes 6, 7, 8) cho thấy học sinh có sự nhận diện quen thuộc chính xác (`aware` hoặc `partially_aware`).
+
+**KẾT LUẬN:**
+- **Profile:** **`PROFILE C` (`extension_readiness`)** — *Sẵn sàng mở rộng*.
+- **Can thiệp sư phạm:** 
+  - **TUYỆT ĐỐI KHÔNG MIỄN HỌC YCCĐ:** Học sinh vẫn phải hoàn thành đầy đủ cả 4 YCCĐ (`G6-A-07` đến `G6-A-10`).
+  - Giảm bớt gợi ý ban đầu để rèn luyện tính tự lực.
+  - Bổ sung tình huống thử thách mở rộng tại A06 (WebQuest) và câu hỏi chuyển giao thực tiễn ở Exit Ticket.
+- **Thông điệp:** *"Hành trang của em thật xuất sắc! Thầy có một vài thử thách mở rộng đặc biệt dành riêng cho em trong bài học hôm nay."*
+
+---
+
+### 8.3. BƯỚC 3 — Default Standard Path (Mặc định - Priority 3)
+Tất cả các trường hợp còn lại không thuộc Bước 1 và Bước 2 (ví dụ: học sinh đạt 5 ready + 1 emerging, hoặc 6 ready nhưng các probe bài mới ở mức `unfamiliar`):
+
+**KẾT LUẬN:**
+- **Profile:** **`PROFILE B` (`standard_readiness`)** — *Sẵn sàng học bài*.
+- **Can thiệp sư phạm:** 
+  - Đi theo đường học chuẩn (Standard Golden Lesson G6-L03).
+  - Nếu học sinh có 1 YCCĐ emerging: Gợi ý thẻ tóm tắt targeted micro-review nhanh chỉ cho riêng YCCĐ còn thiếu đó, không đẩy học sinh vào Profile A.
+  - Support Ladder vận hành theo nhu cầu (on-demand: chỉ kích hoạt khi học sinh làm sai lần đầu hoặc bấm xin gợi ý).
+- **Thông điệp:** *"Em đã có hành trang rất tốt! Chúng mình cùng bắt đầu khám phá xem máy tính lưu trữ thông tin như thế nào nhé."*
 
 ---
 
@@ -281,8 +310,6 @@ flowchart TD
 
 ## 10. ĐẶC TẢ HỢP ĐỒNG DỮ LIỆU ĐẦU RA (OUTPUT DATA CONTRACT PROPOSAL)
 
-Khi module chẩn đoán hoàn tất, cấu trúc dữ liệu JSON được tạo ra như sau (Dùng làm cơ sở cho Phase 4.3):
-
 ```json
 {
   "diagnosticSession": {
@@ -296,8 +323,8 @@ Khi module chẩn đoán hoàn tất, cấu trúc dữ liệu JSON được tạ
       "G6-A-02": { "probeId": "DIAG-PROBE-02", "status": "ready_evidence", "misconceptions": [] },
       "G6-A-03": { "probeId": "DIAG-PROBE-02", "status": "ready_evidence", "misconceptions": [] },
       "G6-A-04": { "probeId": "DIAG-PROBE-03", "status": "ready_evidence", "misconceptions": [] },
-      "G6-A-05": { "probeId": "DIAG-PROBE-05", "status": "emerging_evidence", "misconceptions": ["MISCON_PROCESSING_CONFUSION"] },
-      "G6-A-06": { "probeId": "DIAG-PROBE-04", "status": "ready_evidence", "misconceptions": [] }
+      "G6-A-05": { "probeId": "DIAG-PROBE-05", "status": "ready_evidence", "misconceptions": [] },
+      "G6-A-06": { "probeId": "DIAG-PROBE-04", "status": "emerging_evidence", "misconceptions": [] }
     },
     "targetReadinessSignals": {
       "G6-A-07": "unfamiliar",
@@ -306,21 +333,21 @@ Khi module chẩn đoán hoàn tất, cấu trúc dữ liệu JSON được tạ
       "G6-A-10": "aware"
     },
     "selfReport": {
-      "supportPreference": "visual_hint",
+      "supportPreference": "guided",
       "confidenceLevel": "moderate"
     },
-    "learningPathDecision": {
-      "recommendedProfile": "foundation_consolidation",
-      "profileLabel": "Cần củng cố nền",
-      "actions": [
-        "inject_micro_review_card_processing",
-        "enable_tier1_support_ladder_a02"
-      ],
-      "prohibitedActions": [
-        "waive_activity",
-        "auto_complete",
-        "auto_mastery"
-      ]
+    "profileDecision": {
+      "recommendedProfile": "standard_readiness",
+      "decisionStepApplied": "step3_default",
+      "rationale": "5 ready, 1 emerging (G6-A-06), không có critical misconception -> Profile B"
+    },
+    "supportConfiguration": {
+      "selfReportInfluence": "support_only",
+      "preference": "guided",
+      "initialSupportTier": 1,
+      "targetedMicroReview": ["G6-A-06"],
+      "showVisualHintEarly": true,
+      "teacherNote": "Học sinh vững 5/6 tiền đề, cần củng cố nhẹ G6-A-06 và mong muốn hướng dẫn an tâm."
     }
   }
 }
@@ -328,7 +355,7 @@ Khi module chẩn đoán hoàn tất, cấu trúc dữ liệu JSON được tạ
 
 ---
 
-## 11. BẢNG TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CHECKLIST P4.1)
+## 11. BẢNG TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CHECKLIST P4.1 REVISION)
 
 | Tiêu chí | Mô tả yêu cầu | Trạng thái đạt được |
 |---|---|---|
@@ -336,6 +363,10 @@ Khi module chẩn đoán hoàn tất, cấu trúc dữ liệu JSON được tạ
 | **Không điểm số rút gọn** | Không dùng tổng điểm 7/10 hay xếp loại học lực; phân tích theo từng RequirementID. | **ĐẠT (PASS)** |
 | **Truy vết RequirementID** | Sử dụng chính xác 6 mã tiền đề `G6-A-01`..`06` và 4 mã đích `G6-A-07`..`10`. | **ĐẠT (PASS)** |
 | **Target không auto-mastery** | Thăm dò đích chỉ ghi nhận readiness signal, không cấp 🌳/🚀. | **ĐẠT (PASS)** |
-| **Đủ 3 Profiles** | Xác định rõ Profile A (Củng cố nền), B (Chuẩn), C (Mở rộng) với điều kiện kích hoạt minh bạch. | **ĐẠT (PASS)** |
+| **Self-report support-only (Fix 1)** | `selfReportInfluence = "support_only"`. Self-report không bao giờ tự đưa học sinh vào Profile A, B hay C. | **ĐẠT (PASS)** |
+| **Profile rules deterministic (Fix 2)** | Logic 3 bước phân tầng có priority tuyệt đối: Bước 1 (Critical support), Bước 2 (Extension), Bước 3 (Default). Không chồng lấn A/B. | **ĐẠT (PASS)** |
+| **Probe 4 chuẩn hóa số (Fix 3)** | Tình huống máy tính xử lí ảnh (Camera -> Thu nhận, Lưu file -> Lưu trữ, Chỉnh ảnh -> Xử lí, Gửi mail -> Truyền). | **ĐẠT (PASS)** |
+| **Tách Profile & Support (Fix 4)** | Tách biệt `profileDecision` và `supportConfiguration`. | **ĐẠT (PASS)** |
+| **Profile C không nhầm nhận biết (Fix 7)** | Thăm dò probe 6 chỉ ghi nhận awareness (`aware`), không coi là hiểu vững hay thành thạo YCCĐ. | **ĐẠT (PASS)** |
 | **Ngôn ngữ tôn trọng HS** | Tuyệt đối không dùng từ tiêu cực ("yếu", "kém", "mất gốc"). | **ĐẠT (PASS)** |
 | **Bảo lưu tính bắt buộc YCCĐ** | Profile C không được bỏ qua bất kỳ hoạt động cốt lõi nào của bài học. | **ĐẠT (PASS)** |

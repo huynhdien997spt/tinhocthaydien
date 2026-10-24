@@ -3,12 +3,12 @@
   "contractMetadata": {
     "title": "Phase 4A Design Contract Proposal — Diagnostic & Mastery Evidence Model",
     "contractId": "PHASE4-DESIGN-CONTRACT-PROPOSAL",
-    "version": "4.0.0-draft",
-    "phase": "Phase 4A",
+    "version": "4.0.0-draft-r1",
+    "phase": "Phase 4A-R1",
     "proposalOnly": true,
     "productionApproved": false,
     "description": "Proposal design contract defining machine-readable structures for P4.1 Diagnostic Engine and P4.2 Mastery Evaluation Engine. Does NOT modify production schemas or Data Contract.",
-    "createdAt": "2026-10-24T19:35:00.000Z"
+    "createdAt": "2026-10-24T19:48:00.000Z"
   },
   "diagnosticSpec": {
     "studentFacingTitle": "Khám phá điểm xuất phát",
@@ -24,11 +24,17 @@
     "maxDurationMinutes": 15,
     "probeCount": 8,
     "reflectionPromptCount": 2,
+    "selfReportInfluence": "support_only",
     "evidenceStatusLevels": [
       "no_evidence",
       "emerging_evidence",
       "ready_evidence",
       "conflicting_evidence"
+    ],
+    "targetReadinessSignalLevels": [
+      "unfamiliar",
+      "partially_aware",
+      "aware"
     ],
     "prerequisiteRequirementIds": [
       "G6-A-01",
@@ -44,6 +50,42 @@
       "G6-A-09",
       "G6-A-10"
     ],
+    "profileDecisionRules": {
+      "decisionPriority": [
+        "step1_critical_support",
+        "step2_extension_readiness",
+        "step3_default"
+      ],
+      "nonReadyStatusCodes": [
+        "no_evidence",
+        "emerging_evidence",
+        "conflicting_evidence"
+      ],
+      "step1CriticalSupport": {
+        "conditions": [
+          "has_critical_misconception",
+          "has_significant_conflicting_evidence",
+          "non_ready_prerequisite_count >= 2"
+        ],
+        "resolvedProfile": "foundation_consolidation"
+      },
+      "step2ExtensionReadiness": {
+        "conditions": [
+          "step1_is_false",
+          "ready_prerequisite_count == 6",
+          "has_conflicting_evidence == false",
+          "target_readiness_signal in ['partially_aware', 'aware']"
+        ],
+        "resolvedProfile": "extension_readiness"
+      },
+      "step3Default": {
+        "conditions": [
+          "all_other_cases"
+        ],
+        "resolvedProfile": "standard_readiness"
+      },
+      "defaultProfile": "standard_readiness"
+    },
     "profiles": [
       {
         "profileId": "foundation_consolidation",
@@ -70,7 +112,7 @@
       {
         "profileId": "extension_readiness",
         "labelVi": "Sẵn sàng mở rộng",
-        "studentFacingGreeting": "Hành trang của em thật xuất sắc! Thầy có một vài thử thách mở rộng đặc biệt dành riêng cho em.",
+        "studentFacingGreeting": "Hành trang của em thật xuất sắc! Thầy có một vài thử thách mở rộng đặc biệt dành riêng cho em trong bài học hôm nay.",
         "interventionStrategy": {
           "microReview": false,
           "initialSupportTier": 0,
@@ -83,7 +125,8 @@
       "waiveMandatoryRequirements": false,
       "autoCompleteLesson": false,
       "autoAwardMastery": false,
-      "allowSingleAggregateScore": false
+      "allowSingleAggregateScore": false,
+      "selfReportCanChooseProfile": false
     }
   },
   "masterySpec": {
@@ -135,21 +178,119 @@
     "lessonRules": {
       "G6-L03": {
         "G6-A-07": {
-          "requiredEvidence": ["G6-L03-PROD-01", "G6-L03-Q001", "G6-L03-Q002"],
+          "requiredEvidence": [
+            {
+              "evidenceId": "G6-L03-PROD-01",
+              "activityId": "G6-L03-A02",
+              "sourceType": "response",
+              "evidenceType": "pixel_grid_product"
+            },
+            {
+              "evidenceId": "G6-L03-Q001",
+              "activityId": "G6-L03-A01",
+              "sourceType": "quiz_response",
+              "evidenceType": "quiz_response"
+            },
+            {
+              "evidenceId": "G6-L03-Q002",
+              "activityId": "G6-L03-A02",
+              "sourceType": "quiz_response",
+              "evidenceType": "quiz_response"
+            }
+          ],
           "teacherReviewRequired": true
         },
         "G6-A-08": {
-          "requiredEvidence": ["G6-L03-Q003", "G6-L03-Q005"],
+          "requiredEvidence": [
+            {
+              "evidenceId": "G6-L03-Q003",
+              "activityId": "G6-L03-A03",
+              "sourceType": "quiz_response",
+              "evidenceType": "quiz_response"
+            },
+            {
+              "evidenceId": "G6-L03-Q005",
+              "activityId": "G6-L03-A04",
+              "sourceType": "quiz_response",
+              "evidenceType": "quiz_response"
+            }
+          ],
           "teacherReviewRequired": false
         },
         "G6-A-09": {
-          "requiredEvidence": ["G6-L03-WS-01", "G6-L03-Q006", "G6-L03-Q007"],
+          "dimensions": {
+            "unit_names": {
+              "description": "Nêu được tên các đơn vị đo dung lượng thông tin: Byte, KB, MB, GB",
+              "evidence": [
+                {
+                  "evidenceId": "G6-L03-Q006",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "quiz_response"
+                },
+                {
+                  "evidenceId": "G6-L03-WS-01",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "worksheet_table"
+                }
+              ]
+            },
+            "decimal_approximation": {
+              "description": "Nêu được độ lớn xấp xỉ theo hệ thập phân (1 KB ≈ 1000 byte, 1 MB ≈ 1000 KB, 1 GB ≈ 1000 MB)",
+              "evidence": [
+                {
+                  "evidenceId": "G6-L03-WS-01",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "worksheet_table",
+                  "approxValue": 1000
+                }
+              ]
+            },
+            "approximate_conversion": {
+              "description": "Quy đổi được một cách gần đúng giữa các đơn vị đo lường này",
+              "evidence": [
+                {
+                  "evidenceId": "G6-L03-WS-01",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "worksheet_table"
+                },
+                {
+                  "evidenceId": "G6-L03-Q007",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "quiz_response"
+                },
+                {
+                  "evidenceId": "G6-L03-PROD-02",
+                  "activityId": "G6-L03-A06",
+                  "sourceType": "response"
+                }
+              ]
+            }
+          },
+          "designGap": null,
           "decimalApproximationRequired": 1000,
           "mandatory1024": false,
           "teacherReviewRequired": false
         },
         "G6-A-10": {
-          "requiredEvidence": ["G6-L03-PROD-02", "G6-L03-A07", "G6-L03-A08"],
+          "requiredEvidence": [
+            {
+              "evidenceId": "G6-L03-PROD-02",
+              "activityId": "G6-L03-A06",
+              "sourceType": "response",
+              "evidenceType": "storage_advisory_product"
+            },
+            {
+              "evidenceId": "G6-L03-Q010",
+              "activityId": "G6-L03-A07",
+              "sourceType": "quiz_response",
+              "evidenceType": "quiz_response"
+            },
+            {
+              "activityId": "G6-L03-A08",
+              "evidenceType": "exit_ticket_reflection",
+              "sourceType": "exit_ticket"
+            }
+          ],
           "teacherReviewRequired": true
         }
       }
