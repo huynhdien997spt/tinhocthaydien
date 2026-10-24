@@ -79,6 +79,7 @@
       "enum": [
         "both_verified",
         "internal_source_verified",
+        "official_external_verified",
         "official_internet_verified",
         "pending_external_verification",
         "verified",
@@ -115,6 +116,7 @@
       "enum": [
         "verified",
         "pending",
+        "not_available",
         "not_applicable"
       ]
     },

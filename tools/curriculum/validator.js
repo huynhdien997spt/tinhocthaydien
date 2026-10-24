@@ -54,22 +54,25 @@ const REQUIRED_SOURCE_DRIVE_IDS = {
   'SRC-KHBD-TIN6-BAI3-VIETHOA': '1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp'
 };
 
-// Immutable semantic signatures for RequirementIDs (Section 4 & Section 9)
+const EXPECT_CORE_COMPETENCY_COUNT_G6 = 5;
+const ALLOWED_CORE_COMPETENCY_IDS = ['NLa', 'NLb', 'NLc', 'NLd', 'NLe'];
+
+// Immutable semantic signatures for RequirementIDs (Round 2 & Round 3)
 const IMMUTABLE_REQUIREMENT_SIGNATURES = {
   'G6-A-05': /máy tính là công cụ hiệu quả để thu thập,\s*lưu trữ,\s*xử lí và truyền thông tin/i,
   'G6-A-06': /các bước cơ bản trong xử lí thông tin/i,
   'G6-A-09': /1 KB xấp xỉ 1 ngàn byte,\s*1 MB xấp xỉ 1 triệu byte,\s*1 GB xấp xỉ 1 tỉ byte/i,
   'G6-B-02': /mạng không dây tiện dụng hơn mạng có dây/i,
-  'G6-B-03': /máy tính,\s*cáp nối,\s*Switch,\s*Access Point/i,
+  'G6-B-03': /^Nêu được các thành phần chủ yếu của một mạng máy tính \(máy tính và các thiết bị kết nối\) và tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,\.\.\.$/,
   'G6-C-01': /^Trình bày được sơ lược về các khái niệm WWW,\s*website,\s*địa chỉ của website,\s*trình duyệt\.$/,
-  'G6-C-07': /đăng nhập tài khoản email,\s*soạn và gửi email,\s*thoát ra/i,
+  'G6-C-07': /^Biết cách đăng kí tài khoản thư điện tử, thực hiện được một số thao tác cơ bản: đăng nhập tài khoản email, soạn và gửi email, thoát ra\.$/,
   'G6-D-01': /Giới thiệu được sơ lược một số tác hại và nguy cơ bị hại khi tham gia Internet/i,
   'G6-D-03': /Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn/i,
   'G6-D-05': /^Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu\.$/,
-  'G6-E-01': /tác dụng của một số công cụ căn lề,\s*định dạng,\s*tìm kiếm,\s*thay thế/i,
+  'G6-E-01': /^Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản\.$/,
   'G6-E-02': /Thực hiện được việc định dạng văn bản,\s*trình bày trang văn bản và in/i,
   'G6-E-03': /Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản/i,
-  'G6-E-04': /Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản/i,
+  'G6-E-04': /^Trình bày được thông tin ở dạng bảng\.$/,
   'G6-E-05': /Soạn thảo được văn bản phục vụ học tập và sinh hoạt hàng ngày/i,
   'G6-E-06': /Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản/i,
   'G6-E-07': /Sắp xếp được một cách lôgic và trình bày được dưới dạng sơ đồ tư duy/i,
@@ -374,19 +377,21 @@ class CurriculumValidator {
       return { valid: false, errors };
     }
     if (
-      !snapshot.sourceId ||
+      snapshot.sourceId !== 'SRC-GDPT-2018-TIN6' ||
       snapshot.sourceDocumentDriveId !== '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma' ||
       !snapshot.sourceOfficialUrl ||
       !snapshot.sourceOfficialUrl.includes('ItemID=146721') ||
-      !snapshot.sourceSection ||
-      !snapshot.verifiedAt
+      snapshot.sourceSection !== 'LỚP 6 – Chủ đề A–F' ||
+      !snapshot.verifiedAt ||
+      snapshot.transcriptionPolicy !==
+        'Only whitespace/line-break/OCR normalization. No semantic edits.'
     ) {
       errors.push({
         code: 'TRUSTED_SNAPSHOT_MISSING_PROVENANCE',
         entity: 'TrustedSnapshot',
         id: snapshot.snapshotId || 'SNAPSHOT',
         message:
-          'Trusted Snapshot is missing valid provenance (sourceId, sourceDocumentDriveId=13o_7GOH_en10qIrlgLTyqrIlJSgCZxma, sourceOfficialUrl with ItemID=146721, sourceSection, verifiedAt)'
+          'Trusted Snapshot is missing valid CTGDPT provenance (sourceId=SRC-GDPT-2018-TIN6, sourceDocumentDriveId=13o_7GOH_en10qIrlgLTyqrIlJSgCZxma, sourceOfficialUrl with ItemID=146721, sourceSection="LỚP 6 – Chủ đề A–F", verifiedAt, transcriptionPolicy)'
       });
     }
     return {
@@ -534,6 +539,7 @@ class CurriculumValidator {
       topic: new Set(),
       competency: new Set(),
       competencyCode: new Set(),
+      nlsCode: new Set(),
       requirement: new Set(),
       nlsMapping: new Set(),
       aiMapping: new Set(),
@@ -618,10 +624,38 @@ class CurriculumValidator {
         });
       }
 
+      // Section 6 & 8: SRC-TT02-2025-NLS must not use Phụ lục III Drive ID
+      if (s.sourceId === 'SRC-TT02-2025-NLS') {
+        if (s.driveId === '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC' || s.driveId !== null) {
+          errors.push({
+            code: 'TT02_SOURCE_INVALID_DRIVE_ID',
+            entity: 'Source',
+            id: s.sourceId,
+            field: 'driveId',
+            message: `Source 'SRC-TT02-2025-NLS' must have driveId=null (not Phụ lục III Drive ID '${s.driveId}')`
+          });
+        }
+        if (
+          s.internalVerificationStatus !== 'not_available' ||
+          s.externalVerificationStatus !== 'verified' ||
+          s.verificationStatus !== 'official_external_verified'
+        ) {
+          errors.push({
+            code: 'TT02_SOURCE_INVALID_VERIFICATION_STATUS',
+            entity: 'Source',
+            id: s.sourceId,
+            field: 'verificationStatus',
+            message: `Source 'SRC-TT02-2025-NLS' must have internalVerificationStatus='not_available', externalVerificationStatus='verified', verificationStatus='official_external_verified'`
+          });
+        }
+      }
+
       // Section 7: Prevent overclaiming external verification when externalVerificationStatus is pending
       if (
         s.externalVerificationStatus === 'pending' &&
-        (s.verificationStatus === 'both_verified' || s.verificationStatus === 'official_internet_verified')
+        (s.verificationStatus === 'both_verified' ||
+          s.verificationStatus === 'official_internet_verified' ||
+          s.verificationStatus === 'official_external_verified')
       ) {
         errors.push({
           code: 'SOURCE_OVERCLAIMED_VERIFICATION',
@@ -651,10 +685,35 @@ class CurriculumValidator {
       }
     }
 
-    // 3. Validate Competencies
+    // 3. Validate Core Competencies (Round 3 Section 4 & 5: ONLY NLa–NLe = 5 records)
+    const approvedContractSet = new Set(options.APPROVED_CONTRACT_CHANGE || []);
+    if (
+      options.skipCountChecks !== true &&
+      !approvedContractSet.has('competency.count') &&
+      competencies.length !== EXPECT_CORE_COMPETENCY_COUNT_G6
+    ) {
+      errors.push({
+        code: 'CORE_COMPETENCY_COUNT_MISMATCH',
+        entity: 'Competency',
+        id: 'G6-COMPETENCIES',
+        message: `Expected exactly ${EXPECT_CORE_COMPETENCY_COUNT_G6} Core Competencies (NLa–NLe), but got ${competencies.length}`
+      });
+    }
     for (const c of competencies) {
       registerId('Competency', c.competencyId, 'competency');
       if (c.code) idSets.competencyCode.add(c.code);
+      if (
+        !approvedContractSet.has('competency.allowNlsInCore') &&
+        (String(c.competencyId || '').startsWith('NLS-') ||
+          !ALLOWED_CORE_COMPETENCY_IDS.includes(c.competencyId))
+      ) {
+        errors.push({
+          code: 'UNAUTHORIZED_NLS_IN_CORE_COMPETENCY',
+          entity: 'Competency',
+          id: c.competencyId,
+          message: `Core Competency '${c.competencyId}' is not allowed in competencies-g6.json (only NLa–NLe allowed without APPROVED_CONTRACT_CHANGE)`
+        });
+      }
       if (this.schemas.competency) {
         errors.push(
           ...validateAgainstJsonSchema(c, this.schemas.competency, 'Competency', c.competencyId)
@@ -740,7 +799,7 @@ class CurriculumValidator {
         });
       }
 
-      // Section 4 & 9: Immutable RequirementID & exact wording checks
+      // Section 1, 4 & 8: Immutable RequirementID & exact verbatim CTGDPT wording checks
       const sigRegex = IMMUTABLE_REQUIREMENT_SIGNATURES[r.requirementId];
       if (sigRegex && !sigRegex.test(r.officialText || '')) {
         errors.push({
@@ -748,6 +807,20 @@ class CurriculumValidator {
           entity: 'Requirement',
           id: r.requirementId,
           message: `Requirement '${r.requirementId}' does not match its immutable CTGDPT 2018 semantic/wording signature`
+        });
+      }
+
+      if (
+        (r.requirementId === 'G6-B-03' && /kể được tên/i.test(r.officialText || '')) ||
+        (r.requirementId === 'G6-C-07' && /^Biết cách đăng kí tài khoản email/i.test(r.officialText || '')) ||
+        (r.requirementId === 'G6-E-01' && /một số công cụ/i.test(r.officialText || '')) ||
+        (r.requirementId === 'G6-E-04' && /bằng phần mềm soạn thảo văn bản/i.test(r.officialText || ''))
+      ) {
+        errors.push({
+          code: 'OFFICIAL_TEXT_PARAPHRASED_OR_MODIFIED',
+          entity: 'Requirement',
+          id: r.requirementId,
+          message: `Requirement '${r.requirementId}' officialText contains paraphrased/added wording prohibited by CTGDPT 2018 transcription policy`
         });
       }
 
@@ -817,6 +890,9 @@ class CurriculumValidator {
     }
 
     // 5. Register IDs for child entities first so cross-references from Lesson can be validated
+    for (const m of nlsMappings) {
+      if (m.nlsCode) idSets.nlsCode.add(m.nlsCode);
+    }
     for (const a of activities) registerId('Activity', a.activityId, 'activity');
     for (const q of questions) registerId('Question', q.questionId, 'question');
     for (const ev of evidences) registerId('Evidence', ev.evidenceId, 'evidence');
@@ -943,7 +1019,7 @@ class CurriculumValidator {
         }
       }
       for (const nls of l.nlsCodes || []) {
-        if (!idSets.competencyCode.has(nls)) {
+        if (!idSets.nlsCode.has(nls)) {
           errors.push({
             code: 'DANGLING_REFERENCE',
             entity: 'Lesson',
@@ -1062,14 +1138,16 @@ class CurriculumValidator {
           message: `NLSMapping '${m.mappingId}' references non-existent lessonId '${m.lessonId}'`
         });
       }
-      if (m.competencyId && !idSets.competency.has(m.competencyId)) {
+      if (
+        (m.nlsCode === '5.2.TC1a' || m.nlsCode === '1.3.TC1a' || m.nlsCode === '5.2.TC1b') &&
+        Array.isArray(m.requirementIds) &&
+        (m.requirementIds.includes('G6-A-07') || m.requirementIds.includes('G6-A-08'))
+      ) {
         errors.push({
-          code: 'DANGLING_REFERENCE',
+          code: 'INVALID_NLS_REQUIREMENT_MAPPING',
           entity: 'NLSMapping',
           id: m.mappingId,
-          field: 'competencyId',
-          targetId: m.competencyId,
-          message: `NLSMapping '${m.mappingId}' references non-existent competencyId '${m.competencyId}'`
+          message: `NLSMapping '${m.mappingId}' (${m.nlsCode}) must map to storage capacity/device requirements (G6-A-09, G6-A-10), not binary/bit representation (G6-A-07/G6-A-08)`
         });
       }
       if (m.frameworkSourceId && !idSets.source.has(m.frameworkSourceId)) {

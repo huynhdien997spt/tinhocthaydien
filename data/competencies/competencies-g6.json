@@ -53,38 +53,5 @@
     "officialDescription": "Giao tiếp và hợp tác trong môi trường số (NLe) theo Chương trình GDPT 2018 môn Tin học.",
     "officialSourceId": "SRC-GDPT-2018-TIN6",
     "status": "published"
-  },
-  {
-    "competencyId": "NLS-1.3.TC1a",
-    "code": "1.3.TC1a",
-    "framework": "NLS_2025",
-    "domain": "1. Khai thác dữ liệu và thông tin – 1.3. Quản lí dữ liệu, thông tin và nội dung số",
-    "name": "Quản lí, lưu trữ và ước lượng dung lượng dữ liệu số (Mức TC1 - Lớp 6, 7)",
-    "levelScope": "TC1 (Lớp 6–7)",
-    "officialDescription": "Nhận biết và sắp xếp được thông tin, dữ liệu số theo các đơn vị đo dung lượng lưu trữ cơ bản để lưu trữ và truy xuất trong môi trường số (Thông tư 02/2025/TT-BGDĐT).",
-    "officialSourceId": "SRC-TT02-2025-NLS",
-    "status": "published"
-  },
-  {
-    "competencyId": "NLS-5.2.TC1a",
-    "code": "5.2.TC1a",
-    "framework": "NLS_2025",
-    "domain": "5. Giải quyết vấn đề – 5.2. Xác định nhu cầu và giải pháp công nghệ",
-    "name": "Nhận biết nguyên lí công nghệ số biểu diễn dữ liệu (Mức TC1 - Lớp 6, 7)",
-    "levelScope": "TC1 (Lớp 6–7)",
-    "officialDescription": "Xác định và giải thích được cách công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (0 và 1) (Thông tư 02/2025/TT-BGDĐT).",
-    "officialSourceId": "SRC-TT02-2025-NLS",
-    "status": "published"
-  },
-  {
-    "competencyId": "NLS-5.2.TC1b",
-    "code": "5.2.TC1b",
-    "framework": "NLS_2025",
-    "domain": "5. Giải quyết vấn đề – 5.2. Xác định nhu cầu và giải pháp công nghệ",
-    "name": "Lựa chọn thiết bị lưu trữ số phù hợp với nhu cầu (Mức TC1 - Lớp 6, 7)",
-    "levelScope": "TC1 (Lớp 6–7)",
-    "officialDescription": "Đánh giá sơ lược khả năng lưu trữ và chọn được thiết bị nhớ thông dụng phù hợp với dung lượng dữ liệu thực tế (Thông tư 02/2025/TT-BGDĐT).",
-    "officialSourceId": "SRC-TT02-2025-NLS",
-    "status": "published"
   }
 ]

@@ -9,12 +9,12 @@
     "lessonId",
     "requirementIds",
     "nlsCode",
-    "competencyId",
+    "description",
+    "mappingRationale",
     "frameworkSourceId",
     "mappingSourceId",
     "mappingOriginType",
     "isOfficialGdpt2018Requirement",
-    "rationale",
     "status"
   ],
   "properties": {
@@ -27,6 +27,7 @@
     },
     "requirementIds": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "type": "string"
       }
@@ -34,13 +35,36 @@
     "nlsCode": {
       "type": "string"
     },
-    "competencyId": {
+    "domain": {
+      "type": "string"
+    },
+    "levelScope": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10
+    },
+    "mappingRationale": {
+      "type": "string",
+      "minLength": 10
+    },
+    "rationale": {
       "type": "string"
     },
     "frameworkSourceId": {
       "type": "string"
     },
     "mappingSourceId": {
+      "type": "string"
+    },
+    "mappingDriveId": {
+      "type": "string"
+    },
+    "supplementaryLessonPlanSourceId": {
+      "type": "string"
+    },
+    "supplementaryLessonPlanDriveId": {
       "type": "string"
     },
     "mappingOriginType": {
@@ -55,9 +79,6 @@
       "type": "boolean",
       "const": false
     },
-    "rationale": {
-      "type": "string"
-    },
     "status": {
       "type": "string",
       "enum": [
@@ -65,15 +86,6 @@
         "draft",
         "archived"
       ]
-    },
-    "supplementaryLessonPlanSourceId": {
-      "type": "string"
-    },
-    "mappingDriveId": {
-      "type": "string"
-    },
-    "supplementaryLessonPlanDriveId": {
-      "type": "string"
     }
   }
 }

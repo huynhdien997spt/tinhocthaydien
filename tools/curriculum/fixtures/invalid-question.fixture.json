@@ -77,21 +77,21 @@
       "grade": 6,
       "versionOrSchoolYear": "TT 02/2025/TT-BGDĐT (24/01/2025)",
       "url": "https://vbpl.vn/bogiaoducdaotao/Pages/vbpq-toanvan.aspx?ItemID=175173",
-      "driveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+      "driveId": null,
       "authority": "Bộ Giáo dục và Đào tạo",
       "priority": 4,
       "licenseNote": "Văn bản quy phạm pháp luật công khai trên CSDL Quốc gia về VBPL (ItemID=175173)",
       "verifiedAt": "2026-10-24T13:50:00+07:00",
       "accessedAt": "2026-10-24T13:50:00+07:00",
-      "internalVerificationStatus": "verified",
+      "internalVerificationStatus": "not_available",
       "externalVerificationStatus": "verified",
-      "verificationStatus": "both_verified",
-      "verificationNote": "Đã xác minh hồ sơ pháp quy Thông tư 02/2025/TT-BGDĐT (ban hành ngày 24/01/2025) trên CSDL VBPL (ItemID=175173) và Phụ lục III của trường.",
-      "scopeUsed": "Định nghĩa khung năng lực số chính thức và các miền năng lực mức TC1 (1.3.TC1a, 5.2.TC1a, 5.2.TC1b).",
+      "verificationStatus": "official_external_verified",
+      "verificationNote": "Đã xác minh văn bản pháp quy Thông tư 02/2025/TT-BGDĐT (ban hành ngày 24/01/2025) trên CSDL Quốc gia về VBPL (vbpl.vn, ItemID=175173). Chưa có bản PDF/DOC riêng của Thông tư 02 trong Google Drive của trường (driveId = null, internalVerificationStatus = not_available); không dùng Drive ID của Phụ lục III làm driveId của Thông tư 02.",
+      "scopeUsed": "Framework nguồn pháp quy cho Khung năng lực số (cung cấp mã khung 1.3.TC1a, 5.2.TC1a, 5.2.TC1b; phần diễn giải áp dụng cụ thể cho Bài 3 nằm ở Phụ lục III lớp 6 SRC-PHULUC3-TIN6-VIETHOA-2026).",
       "layer": "Layer_B_Official_Authoritative",
       "status": "active",
       "createdAt": "2026-10-24T12:00:00+07:00",
-      "updatedAt": "2026-10-24T13:50:00+07:00"
+      "updatedAt": "2026-10-24T14:25:00+07:00"
     },
     {
       "sourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
@@ -257,39 +257,6 @@
       "officialDescription": "Giao tiếp và hợp tác trong môi trường số (NLe) theo Chương trình GDPT 2018 môn Tin học.",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "status": "published"
-    },
-    {
-      "competencyId": "NLS-1.3.TC1a",
-      "code": "1.3.TC1a",
-      "framework": "NLS_2025",
-      "domain": "1. Khai thác dữ liệu và thông tin – 1.3. Quản lí dữ liệu, thông tin và nội dung số",
-      "name": "Quản lí, lưu trữ và ước lượng dung lượng dữ liệu số (Mức TC1 - Lớp 6, 7)",
-      "levelScope": "TC1 (Lớp 6–7)",
-      "officialDescription": "Nhận biết và sắp xếp được thông tin, dữ liệu số theo các đơn vị đo dung lượng lưu trữ cơ bản để lưu trữ và truy xuất trong môi trường số (Thông tư 02/2025/TT-BGDĐT).",
-      "officialSourceId": "SRC-TT02-2025-NLS",
-      "status": "published"
-    },
-    {
-      "competencyId": "NLS-5.2.TC1a",
-      "code": "5.2.TC1a",
-      "framework": "NLS_2025",
-      "domain": "5. Giải quyết vấn đề – 5.2. Xác định nhu cầu và giải pháp công nghệ",
-      "name": "Nhận biết nguyên lí công nghệ số biểu diễn dữ liệu (Mức TC1 - Lớp 6, 7)",
-      "levelScope": "TC1 (Lớp 6–7)",
-      "officialDescription": "Xác định và giải thích được cách công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (0 và 1) (Thông tư 02/2025/TT-BGDĐT).",
-      "officialSourceId": "SRC-TT02-2025-NLS",
-      "status": "published"
-    },
-    {
-      "competencyId": "NLS-5.2.TC1b",
-      "code": "5.2.TC1b",
-      "framework": "NLS_2025",
-      "domain": "5. Giải quyết vấn đề – 5.2. Xác định nhu cầu và giải pháp công nghệ",
-      "name": "Lựa chọn thiết bị lưu trữ số phù hợp với nhu cầu (Mức TC1 - Lớp 6, 7)",
-      "levelScope": "TC1 (Lớp 6–7)",
-      "officialDescription": "Đánh giá sơ lược khả năng lưu trữ và chọn được thiết bị nhớ thông dụng phù hợp với dung lượng dữ liệu thực tế (Thông tư 02/2025/TT-BGDĐT).",
-      "officialSourceId": "SRC-TT02-2025-NLS",
-      "status": "published"
     }
   ],
   "requirements": [
@@ -318,7 +285,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-02",
@@ -345,7 +312,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-03",
@@ -372,7 +339,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-04",
@@ -399,7 +366,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-05",
@@ -427,7 +394,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-06",
@@ -455,7 +422,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-07",
@@ -478,14 +445,12 @@
       "lessonIds": [
         "G6-L03"
       ],
-      "nlsMappings": [
-        "NLS-MAP-G6-L03-02"
-      ],
+      "nlsMappings": [],
       "aiCompetencyMappings": [],
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-08",
@@ -506,14 +471,12 @@
       "lessonIds": [
         "G6-L03"
       ],
-      "nlsMappings": [
-        "NLS-MAP-G6-L03-01"
-      ],
+      "nlsMappings": [],
       "aiCompetencyMappings": [],
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-09",
@@ -538,13 +501,14 @@
       ],
       "nlsMappings": [
         "NLS-MAP-G6-L03-01",
+        "NLS-MAP-G6-L03-02",
         "NLS-MAP-G6-L03-03"
       ],
       "aiCompetencyMappings": [],
       "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (1 TB xấp xỉ 1000 GB) khi tìm hiểu ổ cứng dung lượng lớn.",
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-A-10",
@@ -567,13 +531,15 @@
         "G6-L03"
       ],
       "nlsMappings": [
+        "NLS-MAP-G6-L03-01",
+        "NLS-MAP-G6-L03-02",
         "NLS-MAP-G6-L03-03"
       ],
       "aiCompetencyMappings": [],
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-B-01",
@@ -601,7 +567,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-B-02",
@@ -627,16 +593,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-B-03",
       "grade": 6,
       "topicId": "G6-B",
       "subTopic": "Các thành phần của mạng máy tính",
-      "officialText": "Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể được tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...",
+      "officialText": "Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...",
       "studentFriendlyText": "Em kể được các thành phần chính của mạng máy tính và nhận biết được máy tính, cáp nối, bộ chuyển mạch (Switch), bộ thu phát không dây (Access Point).",
-      "officialTextHash": "9b498ea357701a766f5af86768a8d47ceabc66a2689aa24f587cd81a0955dc05",
+      "officialTextHash": "86424bcb736e2ee257633a2016b5d393f07a33610199e5cecd79d8766cffb02f",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "nhan_biet",
       "competencyIds": [
@@ -654,7 +620,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-B-04",
@@ -683,7 +649,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-01",
@@ -711,7 +677,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-02",
@@ -738,7 +704,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-03",
@@ -765,7 +731,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-04",
@@ -792,7 +758,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-05",
@@ -819,7 +785,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-06",
@@ -846,16 +812,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-C-07",
       "grade": 6,
       "topicId": "G6-C",
       "subTopic": "Thư điện tử",
-      "officialText": "Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.",
+      "officialText": "Biết cách đăng kí tài khoản thư điện tử, thực hiện được một số thao tác cơ bản: đăng nhập tài khoản email, soạn và gửi email, thoát ra.",
       "studentFriendlyText": "Em biết cách đăng kí tài khoản email và thực hiện được các thao tác đăng nhập tài khoản email, soạn và gửi email, thoát ra.",
-      "officialTextHash": "44eed050023ebbd7d91e72e44baec2fee4025e35c7cb692e146a9d413d72fe13",
+      "officialTextHash": "4c7db9a508d699bdb46e7423790e40956645e4fa4bda04979d8523fd564683e5",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
       "competencyIds": [
@@ -874,7 +840,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-D-01",
@@ -901,7 +867,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-D-02",
@@ -928,7 +894,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-D-03",
@@ -955,7 +921,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-D-04",
@@ -983,7 +949,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-D-05",
@@ -1010,16 +976,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-01",
       "grade": 6,
       "topicId": "G6-E",
       "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Trình bày được tác dụng của một số công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.",
+      "officialText": "Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.",
       "studentFriendlyText": "Em trình bày được tác dụng của các công cụ căn lề, định dạng, tìm kiếm và thay thế trong phần mềm soạn thảo văn bản.",
-      "officialTextHash": "8ccbf4296f2b9f5f5d87653242a494866ad36c43e5e60950dec8526489ae8ae0",
+      "officialTextHash": "625252067b187e23f7c8d6f782fc68a6ba61a890f11c8d82d6336455ac27fa58",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
       "competencyIds": [
@@ -1039,7 +1005,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-02",
@@ -1067,7 +1033,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-03",
@@ -1095,16 +1061,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-04",
       "grade": 6,
       "topicId": "G6-E",
       "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
+      "officialText": "Trình bày được thông tin ở dạng bảng.",
       "studentFriendlyText": "Em tạo và trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
-      "officialTextHash": "be5de9f2a5c9f62f80cc08f8e8a386766466ef6777e35d51e857bf6d1da553db",
+      "officialTextHash": "de71e418c570f0853ece710cc915bbee7fa6bb3354756d1a2c5b50ad637fe4b5",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
       "competencyIds": [
@@ -1123,7 +1089,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-05",
@@ -1152,7 +1118,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-06",
@@ -1180,7 +1146,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-07",
@@ -1208,7 +1174,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-08",
@@ -1236,7 +1202,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-E-09",
@@ -1265,7 +1231,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-F-01",
@@ -1292,7 +1258,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-F-02",
@@ -1320,7 +1286,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     },
     {
       "requirementId": "G6-F-03",
@@ -1347,7 +1313,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.2"
+      "version": "2018.3"
     }
   ],
   "nlsMappings": [
@@ -1355,11 +1321,15 @@
       "mappingId": "NLS-MAP-G6-L03-01",
       "lessonId": "G6-L03",
       "requirementIds": [
-        "G6-A-08",
-        "G6-A-09"
+        "G6-A-09",
+        "G6-A-10"
       ],
       "nlsCode": "1.3.TC1a",
-      "competencyId": "NLS-1.3.TC1a",
+      "domain": "1. Khai thác dữ liệu và thông tin – 1.3. Quản lí dữ liệu, thông tin và nội dung số",
+      "levelScope": "TC1 (Lớp 6–7)",
+      "description": "HS biết được các đơn vị đo dung lượng lưu trữ (Byte, KB, MB, GB) và khả năng lưu trữ của các thiết bị nhớ thông dụng.",
+      "mappingRationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh nhận biết độ lớn xấp xỉ, quy đổi gần đúng giữa các đơn vị đo dung lượng lưu trữ (Byte, KB, MB, GB) và nêu được khả năng lưu trữ của các thiết bị nhớ thông dụng.",
+      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh nhận biết độ lớn xấp xỉ, quy đổi gần đúng giữa các đơn vị đo dung lượng lưu trữ (Byte, KB, MB, GB) và nêu được khả năng lưu trữ của các thiết bị nhớ thông dụng.",
       "frameworkSourceId": "SRC-TT02-2025-NLS",
       "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
       "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
@@ -1367,17 +1337,21 @@
       "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
       "mappingOriginType": "school_deployment_appendix_khbd",
       "isOfficialGdpt2018Requirement": false,
-      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB để quản lí, lưu trữ dữ liệu số.",
       "status": "published"
     },
     {
       "mappingId": "NLS-MAP-G6-L03-02",
       "lessonId": "G6-L03",
       "requirementIds": [
-        "G6-A-07"
+        "G6-A-09",
+        "G6-A-10"
       ],
       "nlsCode": "5.2.TC1a",
-      "competencyId": "NLS-5.2.TC1a",
+      "domain": "5. Giải quyết vấn đề – 5.2. Xác định nhu cầu và giải pháp công nghệ",
+      "levelScope": "TC1 (Lớp 6–7)",
+      "description": "HS biết được lượng dung lượng lưu trữ cần thiết cho các nhu cầu cá nhân.",
+      "mappingRationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh thực hành ước lượng nhu cầu dung lượng lưu trữ cần thiết cho các tệp dữ liệu cá nhân (văn bản, hình ảnh, âm thanh, video) dựa trên các đơn vị Byte, KB, MB, GB.",
+      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh thực hành ước lượng nhu cầu dung lượng lưu trữ cần thiết cho các tệp dữ liệu cá nhân (văn bản, hình ảnh, âm thanh, video) dựa trên các đơn vị Byte, KB, MB, GB.",
       "frameworkSourceId": "SRC-TT02-2025-NLS",
       "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
       "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
@@ -1385,7 +1359,6 @@
       "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
       "mappingOriginType": "school_deployment_appendix_khbd",
       "isOfficialGdpt2018Requirement": false,
-      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh hiểu giải pháp công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (0 và 1).",
       "status": "published"
     },
     {
@@ -1396,7 +1369,11 @@
         "G6-A-10"
       ],
       "nlsCode": "5.2.TC1b",
-      "competencyId": "NLS-5.2.TC1b",
+      "domain": "5. Giải quyết vấn đề – 5.2. Xác định nhu cầu và giải pháp công nghệ",
+      "levelScope": "TC1 (Lớp 6–7)",
+      "description": "HS biết chọn thiết bị lưu trữ phù hợp với nhu cầu sử dụng.",
+      "mappingRationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh so sánh dung lượng cần lưu trữ với khả năng lưu trữ của đĩa cứng, USB, CD, thẻ nhớ để chọn thiết bị lưu trữ phù hợp với nhu cầu sử dụng.",
+      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh so sánh dung lượng cần lưu trữ với khả năng lưu trữ của đĩa cứng, USB, CD, thẻ nhớ để chọn thiết bị lưu trữ phù hợp với nhu cầu sử dụng.",
       "frameworkSourceId": "SRC-TT02-2025-NLS",
       "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
       "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
@@ -1404,7 +1381,6 @@
       "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
       "mappingOriginType": "school_deployment_appendix_khbd",
       "isOfficialGdpt2018Requirement": false,
-      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh ước lượng và lựa chọn thiết bị nhớ thông dụng (đĩa cứng, USB, CD, thẻ nhớ) phù hợp với dung lượng dữ liệu.",
       "status": "published"
     }
   ],

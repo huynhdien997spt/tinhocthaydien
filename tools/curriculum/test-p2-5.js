@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * PHASE 2 / TASK P2.5 (FIX ROUND 2) — Automated Test Suite & Fixture Generator
+ * PHASE 2 / TASK P2.5 (FIX ROUND 3) — Automated Test Suite & Fixture Generator
  */
 
 const fs = require('fs');
@@ -192,7 +192,7 @@ function runSuite() {
   }
 
   console.log('================================================================');
-  console.log('PHASE 2 / TASK P2.5 (FIX ROUND 2) — CURRICULUM DATA FOUNDATION TEST SUITE');
+  console.log('PHASE 2 / TASK P2.5 (FIX ROUND 3) — CURRICULUM DATA FOUNDATION TEST SUITE');
   console.log('================================================================\n');
 
   const validator = new CurriculumValidator(path.join(REPO_ROOT, 'schemas'));
@@ -246,16 +246,23 @@ function runSuite() {
   });
 
   // ------------------------------------------------------------------------
-  // GROUP 2: CTGDPT 2018 REQUIREMENT BANK & VIET HOA PPCT ALIGNMENT
+  // GROUP 2: CTGDPT 2018 REQUIREMENT BANK, CORE COMPETENCIES & VIET HOA PPCT
   // ------------------------------------------------------------------------
-  test('P25-03', 'Topics A–F (G6-A .. G6-F) materialized with officialSourceId and order', () => {
+  test('P25-03', 'Topics A–F (G6-A .. G6-F) & Core Competencies ONLY NLa–NLe (exactly 5 records, no NLS-*)', () => {
     const expectedTopics = ['G6-A', 'G6-B', 'G6-C', 'G6-D', 'G6-E', 'G6-F'];
     const actualTopics = baseDataset.topics.map(t => t.topicId);
     assert(actualTopics.length === 6, `Expected 6 topics, got ${actualTopics.length}`);
     for (const id of expectedTopics) {
       assert(actualTopics.includes(id), `Missing topicId: ${id}`);
     }
-    return `Topics: ${actualTopics.join(', ')}`;
+    const expectedCompetencies = ['NLa', 'NLb', 'NLc', 'NLd', 'NLe'];
+    const actualCompetencies = baseDataset.competencies.map(c => c.competencyId);
+    assert(actualCompetencies.length === 5, `Expected 5 core competencies, got ${actualCompetencies.length}`);
+    assert(
+      JSON.stringify(actualCompetencies) === JSON.stringify(expectedCompetencies),
+      `Core competencies must be NLa..NLe, got ${actualCompetencies.join(', ')}`
+    );
+    return `Topics: ${actualTopics.join(', ')}; Core Competencies: ${actualCompetencies.join(', ')} (5 records)`;
   });
 
   test('P25-04', 'Requirement Bank has 38 requirements (A=10, B=4, C=7, D=5, E=9, F=3) with immutable IDs (A05/A06, B02/B03, E01..E09)', () => {
@@ -276,12 +283,12 @@ function runSuite() {
     assert(byId.get('G6-A-06').officialText.includes('các bước cơ bản trong xử lí thông tin'), 'G6-A-06 must be Các bước xử lí thông tin');
     assert(byId.get('G6-B-02').officialText.includes('mạng không dây tiện dụng hơn'), 'G6-B-02 must be Mạng không dây tiện dụng hơn');
     assert(byId.get('G6-B-03').officialText.includes('máy tính, cáp nối, Switch, Access Point'), 'G6-B-03 must be Thành phần mạng với cáp nối');
-    assert(byId.get('G6-E-01').officialText.includes('tác dụng của một số công cụ căn lề'), 'G6-E-01..06 must be Soạn thảo văn bản');
+    assert(byId.get('G6-E-01').officialText.includes('tác dụng của công cụ căn lề'), 'G6-E-01..06 must be Soạn thảo văn bản');
     assert(byId.get('G6-E-07').officialText.includes('sơ đồ tư duy'), 'G6-E-07..09 must be Sơ đồ tư duy');
     return `Total=38 (A=10, B=4, C=7, D=5, E=9, F=3) with immutable IDs verified`;
   });
 
-  test('P25-05', 'Exact CTGDPT 2018 officialText (G6-A-09 example sentence, G6-B-03 cáp nối, G6-C-01, G6-C-07, G6-D-01..05) & Trusted Snapshot Provenance', () => {
+  test('P25-05', 'Verbatim CTGDPT 2018 officialText (G6-B-03, G6-C-07, G6-E-01, G6-E-04, G6-A-09, G6-D-01..05), REQUIREMENT_TEXT_AUDIT.md & Trusted Snapshot Provenance', () => {
     const byId = new Map(baseDataset.requirements.map(r => [r.requirementId, r]));
     const g6a09 = byId.get('G6-A-09');
     assert(!/\bTB\b/.test(g6a09.officialText), 'G6-A-09 officialText must not contain TB');
@@ -290,28 +297,45 @@ function runSuite() {
       'G6-A-09 must include the CTGDPT example sentence'
     );
     assert(
-      byId.get('G6-C-01').officialText === 'Trình bày được sơ lược về các khái niệm WWW, website, địa chỉ của website, trình duyệt.',
+      byId.get('G6-B-03').officialText ===
+        'Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...',
+      'G6-B-03 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-C-01').officialText ===
+        'Trình bày được sơ lược về các khái niệm WWW, website, địa chỉ của website, trình duyệt.',
       'G6-C-01 exact text mismatch'
     );
     assert(
-      byId.get('G6-C-07').officialText === 'Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.',
+      byId.get('G6-C-07').officialText ===
+        'Biết cách đăng kí tài khoản thư điện tử, thực hiện được một số thao tác cơ bản: đăng nhập tài khoản email, soạn và gửi email, thoát ra.',
       'G6-C-07 exact text mismatch'
     );
     assert(
-      byId.get('G6-D-03').officialText === 'Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn.',
-      'G6-D-03 exact text mismatch'
+      byId.get('G6-E-01').officialText ===
+        'Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.',
+      'G6-E-01 exact text mismatch'
     );
     assert(
-      byId.get('G6-D-05').officialText === 'Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu.',
-      'G6-D-05 exact text mismatch'
+      byId.get('G6-E-04').officialText === 'Trình bày được thông tin ở dạng bảng.',
+      'G6-E-04 exact text mismatch'
     );
     const snap = validator.trustedSnapshot;
     assert(snap.sourceId === 'SRC-GDPT-2018-TIN6', 'Snapshot missing sourceId');
     assert(snap.sourceDocumentDriveId === '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma', 'Snapshot missing sourceDocumentDriveId');
     assert(snap.sourceOfficialUrl && snap.sourceOfficialUrl.includes('ItemID=146721'), 'Snapshot missing ItemID=146721');
     assert(snap.sourceSection === 'LỚP 6 – Chủ đề A–F', 'Snapshot missing sourceSection');
+    assert(
+      snap.transcriptionPolicy === 'Only whitespace/line-break/OCR normalization. No semantic edits.',
+      'Snapshot missing transcriptionPolicy'
+    );
     assert(snap.verifiedAt, 'Snapshot missing verifiedAt');
-    return 'All 38 requirements match exact CTGDPT 2018 wording and Trusted Snapshot provenance';
+    const auditMdPath = path.join(REPO_ROOT, 'REQUIREMENT_TEXT_AUDIT.md');
+    assert(fs.existsSync(auditMdPath), 'Missing REQUIREMENT_TEXT_AUDIT.md');
+    const auditContent = fs.readFileSync(auditMdPath, 'utf8');
+    const trueMatches = (auditContent.match(/\|\s*\*\*TRUE\*\*\s*\|/g) || []).length;
+    assert(trueMatches === 38, `Expected 38 TRUE matches in REQUIREMENT_TEXT_AUDIT.md, got ${trueMatches}`);
+    return '38/38 verbatim officialText verified in REQUIREMENT_TEXT_AUDIT.md and Trusted Snapshot V3';
   });
 
   test('P25-06', 'Viet Hoa 2026–2027 PPCT (1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM): G6-L05 = 2 tiết, 29 lesson + 2 review + 4 assessment = 35 tiết, exact 35-period schedule', () => {
@@ -348,7 +372,7 @@ function runSuite() {
     return '29 lesson + 2 review + 4 assessment = 35 periods/year; 35-period schedule verified';
   });
 
-  test('P25-07', 'Source Catalog uses 5 true teacher Google Drive IDs and VBPL ItemID=146721 & ItemID=175173 (no intermediate ChatGPT Doc IDs)', () => {
+  test('P25-07', 'Source Governance: 5 teacher Drive IDs, VBPL ItemID=146721 & 175173, and SRC-TT02-2025-NLS has driveId=null (not Phụ lục III)', () => {
     assert(baseDataset.sources.length === 6, `Expected 6 sources, got ${baseDataset.sources.length}`);
     const byId = new Map(baseDataset.sources.map(s => [s.sourceId, s]));
     assert(byId.get('SRC-GDPT-2018-TIN6').driveId === '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma', 'Wrong Drive ID for CTGDPT');
@@ -358,11 +382,17 @@ function runSuite() {
     assert(byId.get('SRC-SGK-KNTT-TIN6').externalVerificationStatus === 'pending', 'SGK externalVerificationStatus must be pending');
     assert(byId.get('SRC-PHULUC3-TIN6-VIETHOA-2026').driveId === '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC', 'Wrong Drive ID for Phu luc III');
     assert(byId.get('SRC-KHBD-TIN6-BAI3-VIETHOA').driveId === '1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp', 'Wrong Drive ID for KHBD Bai 3');
-    assert(byId.get('SRC-TT02-2025-NLS').url.includes('ItemID=175173'), 'Wrong VBPL ItemID for TT 02/2025');
-    return 'All 5 teacher Drive IDs and 2 VBPL ItemIDs (146721, 175173) verified';
+    const tt02 = byId.get('SRC-TT02-2025-NLS');
+    assert(tt02.url.includes('ItemID=175173'), 'Wrong VBPL ItemID for TT 02/2025');
+    assert(tt02.driveId === null, 'SRC-TT02-2025-NLS driveId must be null');
+    assert(tt02.internalVerificationStatus === 'not_available', 'TT02 internalVerificationStatus must be not_available');
+    assert(tt02.externalVerificationStatus === 'verified', 'TT02 externalVerificationStatus must be verified');
+    assert(tt02.verificationStatus === 'official_external_verified', 'TT02 verificationStatus must be official_external_verified');
+    return '4-layer source governance verified; SRC-TT02-2025-NLS has driveId=null & ItemID=175173';
   });
 
-  test('P25-08', 'NLS Mapping cites SRC-TT02-2025-NLS, SRC-PHULUC3-TIN6-VIETHOA-2026, and SRC-KHBD-TIN6-BAI3-VIETHOA; 0 AI in Requirement Bank', () => {
+  test('P25-08', 'NLS Mapping for Bài 3 (1.3.TC1a, 5.2.TC1a, 5.2.TC1b) maps to G6-A-09 & G6-A-10 (NOT G6-A-07) with exact Phụ lục III descriptions', () => {
+    assert(baseDataset.nlsMappings.length === 3, 'Expected 3 NLS mappings for Bài 3');
     for (const m of baseDataset.nlsMappings) {
       assert(m.frameworkSourceId === 'SRC-TT02-2025-NLS', 'NLS mapping must cite TT 02/2025 framework');
       assert(
@@ -374,13 +404,14 @@ function runSuite() {
         'NLS mapping must reference supplementary SRC-KHBD-TIN6-BAI3-VIETHOA'
       );
       assert(m.isOfficialGdpt2018Requirement === false, 'NLS mapping must not claim to be official GDPT 2018 YCCĐ');
+      assert(!m.requirementIds.includes('G6-A-07'), `${m.nlsCode} must not map to G6-A-07 (binary representation)`);
+      assert(
+        JSON.stringify(m.requirementIds) === JSON.stringify(['G6-A-09', 'G6-A-10']),
+        `${m.nlsCode} must map to G6-A-09 and G6-A-10`
+      );
+      assert(m.description && m.mappingRationale, `${m.nlsCode} missing description or mappingRationale`);
     }
-    for (const r of baseDataset.requirements) {
-      for (const cId of r.competencyIds) {
-        assert(!cId.startsWith('AI'), `Requirement ${r.requirementId} contains AI competency ${cId}`);
-      }
-    }
-    return 'NLS 3-source attribution verified; 0 AI competencies in Requirement Bank';
+    return '1.3.TC1a, 5.2.TC1a, 5.2.TC1b mapped to G6-A-09 & G6-A-10 with Phụ lục III descriptions';
   });
 
   test('P25-09', 'Golden Lesson G6-L03 fixture matches specification and is marked isFixtureOnly=true', () => {
@@ -404,13 +435,13 @@ function runSuite() {
   // ------------------------------------------------------------------------
   // GROUP 3: MANDATORY VALIDATOR FIXTURES & CONTENT QUALITY NEGATIVE TESTS
   // ------------------------------------------------------------------------
-  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 95 entities)', () => {
+  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 92 entities)', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'valid-grade6.fixture.json'), 'utf8')
     );
     const res = validator.validateDataset(fixture);
     assert(res.valid === true && res.errorCount === 0, `Expected PASS but got errors: ${JSON.stringify(res.errors)}`);
-    return `PASS with 0 errors across 95 entities`;
+    return `PASS with 0 errors across 92 entities`;
   });
 
   test('P25-11', 'Fixture 2: Duplicate ID -> FAIL with code DUPLICATE_ID', () => {
@@ -485,28 +516,51 @@ function runSuite() {
     return 'FAIL as expected (Trusted Snapshot caught recomputed hash tampering)';
   });
 
-  test('P25-17', 'Round 1 & Round 2 Content Quality Negative Tests (Phantom Lesson 14, Phantom Ôn tập giữa HKI, Forbidden Drive ID, Swapped Requirement IDs, Missing Snapshot Provenance, Contract Drift) -> FAIL', () => {
+  test('P25-17', 'Round 1, Round 2 & Round 3 Negative Tests (Paraphrased B03/C07/E01/E04, 5.2.TC1a->G6-A-07, Core Competency != 5 / NLS-*, TT02 driveId=PhuLucIII, Phantom L14 / Ôn tập giữa HKI, Missing Provenance) -> FAIL', () => {
     const bad = clone(baseDataset);
-    // 1. Remove a requirement -> triggers REQUIREMENT_COUNT_MISMATCH & TOPIC_REQUIREMENT_COUNT_MISMATCH
+
+    // 1. Paraphrased officialText on G6-B-03 ("kể được tên"), G6-C-07 ("Biết cách đăng kí tài khoản email"), G6-E-01 ("một số công cụ"), G6-E-04 ("bằng phần mềm soạn thảo văn bản")
+    const rB03 = bad.requirements.find(r => r.requirementId === 'G6-B-03');
+    rB03.officialText = 'Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể được tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...';
+    const rC07 = bad.requirements.find(r => r.requirementId === 'G6-C-07');
+    rC07.officialText = 'Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.';
+    const rE01 = bad.requirements.find(r => r.requirementId === 'G6-E-01');
+    rE01.officialText = 'Trình bày được tác dụng của một số công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.';
+    const rE04 = bad.requirements.find(r => r.requirementId === 'G6-E-04');
+    rE04.officialText = 'Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.';
+
+    // 2. Map 5.2.TC1a to G6-A-07 -> triggers INVALID_NLS_REQUIREMENT_MAPPING
+    const m52a = bad.nlsMappings.find(m => m.nlsCode === '5.2.TC1a');
+    m52a.requirementIds = ['G6-A-07'];
+
+    // 3. Inject NLS-1.3.TC1a into Core Competencies -> triggers CORE_COMPETENCY_COUNT_MISMATCH & UNAUTHORIZED_NLS_IN_CORE_COMPETENCY
+    bad.competencies.push({
+      competencyId: 'NLS-1.3.TC1a',
+      code: '1.3.TC1a',
+      name: 'Năng lực số trái phép trong Core Competency',
+      levelScope: 'TC1',
+      officialDescription: 'Mô tả tự suy diễn',
+      officialSourceId: 'SRC-TT02-2025-NLS',
+      status: 'published'
+    });
+
+    // 4. Set SRC-TT02-2025-NLS.driveId = '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC' -> triggers TT02_SOURCE_INVALID_DRIVE_ID
+    const tt02 = bad.sources.find(s => s.sourceId === 'SRC-TT02-2025-NLS');
+    tt02.driveId = '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC';
+
+    // 5. Remove a requirement -> triggers REQUIREMENT_COUNT_MISMATCH & TOPIC_REQUIREMENT_COUNT_MISMATCH
     bad.requirements.pop();
-    // 2. Swap G6-A-05 and G6-A-06 officialText -> triggers REQUIREMENT_STABLE_ID_DRIFT
-    const rA05 = bad.requirements.find(r => r.requirementId === 'G6-A-05');
-    const rA06 = bad.requirements.find(r => r.requirementId === 'G6-A-06');
-    const tmpText = rA05.officialText;
-    rA05.officialText = rA06.officialText;
-    rA06.officialText = tmpText;
-    // 3. Add Phantom Lesson 14 -> triggers PHANTOM_LESSON_DETECTED
+
+    // 6. Add Phantom Lesson 14 & Phantom "Ôn tập giữa học kì I" & Corrupt Lesson 5 periods
     bad.lessons.push({
       ...clone(bad.lessons[0]),
       lessonId: 'G6-L14',
       lessonNumber: 14,
       title: 'Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm'
     });
-    // 4. Corrupt Lesson 5 period to 1 (45m) -> triggers PPCT_PERIOD_MISMATCH
     const l05 = bad.lessons.find(l => l.lessonId === 'G6-L05');
     l05.periods = 1;
     l05.durationMinutes = 45;
-    // 5. Add Phantom "Ôn tập giữa học kì I" -> triggers PHANTOM_REVIEW_SESSION_DETECTED
     bad.ppctDistribution.nonLessonSessions.push({
       sessionId: 'G6-HK1-MID-REVIEW',
       semester: 1,
@@ -514,13 +568,16 @@ function runSuite() {
       title: 'Ôn tập giữa học kì I',
       periods: 1
     });
-    // 6. Generic homepage URL + Forbidden Intermediate Drive ID -> triggers SOURCE_URL_TOO_GENERIC & FORBIDDEN_INTERMEDIATE_DRIVE_ID
+
+    // 7. Generic URL & Forbidden Intermediate Drive ID
     bad.sources[0].url = 'https://moet.gov.vn/';
     bad.sources[1].driveId = '1dadBFWiCuJHhVV2ult6wkfhDONwKuPMEgR8PVFed47U';
-    // 7. Strip provenance from Trusted Snapshot -> triggers TRUSTED_SNAPSHOT_MISSING_PROVENANCE
+
+    // 8. Strip transcriptionPolicy from Trusted Snapshot -> triggers TRUSTED_SNAPSHOT_MISSING_PROVENANCE
     const badSnapshot = clone(validator.trustedSnapshot);
-    delete badSnapshot.sourceDocumentDriveId;
-    // 8. Drift Question schema by dropping requirementId without APPROVED_CONTRACT_CHANGE
+    delete badSnapshot.transcriptionPolicy;
+
+    // 9. Drift Question schema
     const driftedSchemas = clone(validator.schemas);
     driftedSchemas.question.required = driftedSchemas.question.required.filter(
       f => f !== 'requirementId'
@@ -532,9 +589,19 @@ function runSuite() {
     });
     assert(res.valid === false, 'Expected negative content quality dataset to FAIL');
     const codes = res.errors.map(e => e.code);
+    const paraphrasedIds = res.errors
+      .filter(e => e.code === 'OFFICIAL_TEXT_PARAPHRASED_OR_MODIFIED')
+      .map(e => e.id);
+    assert(paraphrasedIds.includes('G6-B-03'), 'Did not catch G6-B-03 "kể được tên"');
+    assert(paraphrasedIds.includes('G6-C-07'), 'Did not catch G6-C-07 "Biết cách đăng kí tài khoản email"');
+    assert(paraphrasedIds.includes('G6-E-01'), 'Did not catch G6-E-01 "một số công cụ"');
+    assert(paraphrasedIds.includes('G6-E-04'), 'Did not catch G6-E-04 "bằng phần mềm soạn thảo văn bản"');
+    assert(codes.includes('INVALID_NLS_REQUIREMENT_MAPPING'), 'Missing INVALID_NLS_REQUIREMENT_MAPPING (5.2.TC1a -> G6-A-07)');
+    assert(codes.includes('CORE_COMPETENCY_COUNT_MISMATCH'), 'Missing CORE_COMPETENCY_COUNT_MISMATCH');
+    assert(codes.includes('UNAUTHORIZED_NLS_IN_CORE_COMPETENCY'), 'Missing UNAUTHORIZED_NLS_IN_CORE_COMPETENCY');
+    assert(codes.includes('TT02_SOURCE_INVALID_DRIVE_ID'), 'Missing TT02_SOURCE_INVALID_DRIVE_ID');
     assert(codes.includes('REQUIREMENT_COUNT_MISMATCH'), 'Missing REQUIREMENT_COUNT_MISMATCH');
     assert(codes.includes('TOPIC_REQUIREMENT_COUNT_MISMATCH'), 'Missing TOPIC_REQUIREMENT_COUNT_MISMATCH');
-    assert(codes.includes('REQUIREMENT_STABLE_ID_DRIFT'), 'Missing REQUIREMENT_STABLE_ID_DRIFT');
     assert(codes.includes('PHANTOM_LESSON_DETECTED'), 'Missing PHANTOM_LESSON_DETECTED');
     assert(codes.includes('PPCT_PERIOD_MISMATCH'), 'Missing PPCT_PERIOD_MISMATCH');
     assert(codes.includes('PHANTOM_REVIEW_SESSION_DETECTED'), 'Missing PHANTOM_REVIEW_SESSION_DETECTED');
@@ -542,19 +609,19 @@ function runSuite() {
     assert(codes.includes('FORBIDDEN_INTERMEDIATE_DRIVE_ID'), 'Missing FORBIDDEN_INTERMEDIATE_DRIVE_ID');
     assert(codes.includes('TRUSTED_SNAPSHOT_MISSING_PROVENANCE'), 'Missing TRUSTED_SNAPSHOT_MISSING_PROVENANCE');
     assert(codes.includes('CONTRACT_DRIFT_DETECTED'), 'Missing CONTRACT_DRIFT_DETECTED');
-    return 'Caught all 10 Round 1 + Round 2 domain/contract/source/schedule violations';
+    return 'Caught all 17 Round 1 + Round 2 + Round 3 content/governance violations';
   });
 
   // ------------------------------------------------------------------------
   // GROUP 4: IDEMPOTENT IMPORTER & INTERMEDIATE ADAPTER
   // ------------------------------------------------------------------------
-  test('P25-18', 'Importer loads valid Grade 6 dataset (95 entities) into intermediate adapter and writes staging snapshot', () => {
+  test('P25-18', 'Importer loads valid Grade 6 dataset (92 entities) into intermediate adapter and writes staging snapshot', () => {
     const adapter = new IntermediateCurriculumAdapter({ snapshotPath: STAGING_SNAPSHOT_PATH });
     const importer = new CurriculumImporter({ validator, adapter });
 
     const run1 = importer.importDataset(baseDataset, { traceId: 'TRACE-P25-RUN-1' });
     assert(run1.imported === true, `Expected import success, got: ${run1.error}`);
-    assert(run1.stats.totalInserted === 95, `Expected 95 inserted records, got ${run1.stats.totalInserted}`);
+    assert(run1.stats.totalInserted === 92, `Expected 92 inserted records, got ${run1.stats.totalInserted}`);
     assert(run1.stats.totalUpdated === 0, 'Expected 0 updated on first run');
     assert(run1.stats.totalUnchanged === 0, 'Expected 0 unchanged on first run');
     assert(run1.stats.duplicatesCreated === 0, 'Expected 0 duplicatesCreated');
@@ -575,10 +642,10 @@ function runSuite() {
     assert(run2.imported === true && run3.imported === true, 'Retry runs failed');
     assert(run2.stats.totalInserted === 0, `Run 2 inserted ${run2.stats.totalInserted} (expected 0)`);
     assert(run2.stats.totalUpdated === 0, `Run 2 updated ${run2.stats.totalUpdated} (expected 0)`);
-    assert(run2.stats.totalUnchanged === 95, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 95)`);
-    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 95, 'Run 3 not idempotent');
-    assert(adapter.getTotalCount() === 95, `Expected total count to stay 95, got ${adapter.getTotalCount()}`);
-    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=95, duplicatesCreated=0';
+    assert(run2.stats.totalUnchanged === 92, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 92)`);
+    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 92, 'Run 3 not idempotent');
+    assert(adapter.getTotalCount() === 92, `Expected total count to stay 92, got ${adapter.getTotalCount()}`);
+    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=92, duplicatesCreated=0';
   });
 
   test('P25-20', 'Importer atomic rejection & Production isolation check', () => {
