@@ -1,0 +1,86 @@
+{
+  "schoolName": "Trường TH, THCS và THPT Việt Hoa",
+  "schoolYear": "2026-2027",
+  "grade": 6,
+  "minutesPerPeriod": 45,
+  "totalPeriodsPerYear": 35,
+  "summary": {
+    "contentLessonsCount": 16,
+    "excludedTextbookLessons": [
+      {
+        "lessonNumber": 14,
+        "title": "Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm",
+        "reason": "Không nằm trong PPCT thực tế năm học 2026–2027 của Trường TH, THCS và THPT Việt Hoa"
+      }
+    ],
+    "lessonPeriodsTotal": 28,
+    "reviewPeriodsTotal": 3,
+    "assessmentPeriodsTotal": 4,
+    "grandTotalPeriods": 35
+  },
+  "nonLessonSessions": [
+    {
+      "sessionId": "G6-REV-GK1",
+      "sessionType": "review",
+      "semester": 1,
+      "title": "Ôn tập giữa học kì I",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    },
+    {
+      "sessionId": "G6-ASM-GK1",
+      "sessionType": "assessment",
+      "semester": 1,
+      "title": "Kiểm tra đánh giá giữa học kì I",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    },
+    {
+      "sessionId": "G6-REV-CK1",
+      "sessionType": "review",
+      "semester": 1,
+      "title": "Ôn tập cuối học kì I",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    },
+    {
+      "sessionId": "G6-ASM-CK1",
+      "sessionType": "assessment",
+      "semester": 1,
+      "title": "Kiểm tra đánh giá cuối học kì I",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    },
+    {
+      "sessionId": "G6-ASM-GK2",
+      "sessionType": "assessment",
+      "semester": 2,
+      "title": "Kiểm tra đánh giá giữa học kì II",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    },
+    {
+      "sessionId": "G6-REV-CK2",
+      "sessionType": "review",
+      "semester": 2,
+      "title": "Ôn tập cuối học kì II",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    },
+    {
+      "sessionId": "G6-ASM-CK2",
+      "sessionType": "assessment",
+      "semester": 2,
+      "title": "Kiểm tra đánh giá cuối học kì II",
+      "periods": 1,
+      "durationMinutes": 45,
+      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    }
+  ]
+}

@@ -8,8 +8,11 @@
     ],
     "nlsCode": "1.3.TC1a",
     "competencyId": "NLS-1.3.TC1a",
-    "rationale": "Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB, TB để quản lí, tổ chức lưu trữ dữ liệu số.",
-    "sourceId": "SRC-NLS-BGD-2025",
+    "frameworkSourceId": "SRC-TT02-2025-NLS",
+    "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+    "mappingOriginType": "school_deployment_appendix_khbd",
+    "isOfficialGdpt2018Requirement": false,
+    "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB để quản lí, tổ chức lưu trữ dữ liệu số.",
     "status": "published"
   },
   {
@@ -20,8 +23,11 @@
     ],
     "nlsCode": "5.2.TC1a",
     "competencyId": "NLS-5.2.TC1a",
-    "rationale": "Học sinh hiểu giải pháp công nghệ biểu diễn mọi loại thông tin trong máy tính bằng dãy bit (hai kí hiệu 0 và 1).",
-    "sourceId": "SRC-NLS-BGD-2025",
+    "frameworkSourceId": "SRC-TT02-2025-NLS",
+    "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+    "mappingOriginType": "school_deployment_appendix_khbd",
+    "isOfficialGdpt2018Requirement": false,
+    "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh hiểu giải pháp công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (hai kí hiệu 0 và 1).",
     "status": "published"
   },
   {
@@ -33,8 +39,11 @@
     ],
     "nlsCode": "5.2.TC1b",
     "competencyId": "NLS-5.2.TC1b",
-    "rationale": "Học sinh lựa chọn và ước lượng được khả năng lưu trữ của các thiết bị nhớ thông dụng (đĩa cứng, USB, thẻ nhớ, CD) phù hợp với dung lượng dữ liệu thực tế.",
-    "sourceId": "SRC-NLS-BGD-2025",
+    "frameworkSourceId": "SRC-TT02-2025-NLS",
+    "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+    "mappingOriginType": "school_deployment_appendix_khbd",
+    "isOfficialGdpt2018Requirement": false,
+    "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh ước lượng và lựa chọn thiết bị nhớ thông dụng (đĩa cứng, USB, CD, thẻ nhớ) phù hợp với dung lượng dữ liệu.",
     "status": "published"
   }
 ]

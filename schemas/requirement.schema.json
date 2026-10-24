@@ -1,41 +1,49 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "requirement.schema.json",
+  "$id": "https://tinhocthaydien.edu.vn/schemas/requirement.schema.json",
   "title": "Requirement",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "requirementId",
-    "topicId",
     "grade",
+    "topicId",
     "officialText",
-    "officialTextHash",
-    "cognitiveLevel",
+    "studentFriendlyText",
+    "officialSourceId",
     "competencyIds",
-    "sourceId",
-    "version",
-    "reviewStatus",
-    "status"
+    "evidenceTypes",
+    "status",
+    "version"
   ],
   "properties": {
     "requirementId": {
       "type": "string",
       "pattern": "^G6-[A-F]-[0-9]{2}$"
     },
-    "topicId": {
-      "type": "string",
-      "pattern": "^G6-[A-F]$"
-    },
     "grade": {
       "type": "integer",
       "const": 6
     },
-    "officialText": {
+    "topicId": {
       "type": "string",
-      "minLength": 10
+      "pattern": "^G6-[A-F]$"
+    },
+    "subTopic": {
+      "type": "string"
+    },
+    "officialText": {
+      "type": "string"
+    },
+    "studentFriendlyText": {
+      "type": "string"
     },
     "officialTextHash": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
+    },
+    "officialSourceId": {
+      "type": "string"
     },
     "cognitiveLevel": {
       "type": "string",
@@ -48,41 +56,58 @@
     },
     "competencyIds": {
       "type": "array",
-      "minItems": 1,
       "items": {
-        "type": "string",
-        "pattern": "^NL[a-e]$"
+        "type": "string"
+      }
+    },
+    "evidenceTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
       }
     },
     "lessonIds": {
       "type": "array",
       "items": {
-        "type": "string",
-        "pattern": "^G6-L[0-9]{2}$"
+        "type": "string"
       }
     },
-    "sourceId": {
-      "type": "string",
-      "minLength": 3
+    "nlsMappings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
-    "version": {
-      "type": "string",
-      "minLength": 1
+    "aiCompetencyMappings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supplementaryKnowledge": {
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "reviewStatus": {
       "type": "string",
       "enum": [
         "approved_official",
-        "under_review"
+        "pending_review",
+        "rejected"
       ]
     },
     "status": {
       "type": "string",
       "enum": [
+        "published",
         "draft",
-        "published"
+        "archived"
       ]
+    },
+    "version": {
+      "type": "string"
     }
-  },
-  "additionalProperties": false
+  }
 }

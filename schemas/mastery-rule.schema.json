@@ -1,53 +1,74 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "mastery-rule.schema.json",
+  "$id": "https://tinhocthaydien.edu.vn/schemas/mastery-rule.schema.json",
   "title": "MasteryRule",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "masteryRuleId",
-    "lessonId",
-    "requiredActivityIds",
-    "requireExitTicket",
-    "minMasteryScorePercent",
-    "requirementThresholdCount",
-    "status"
+    "requirementId",
+    "minimumEvidenceCount",
+    "requiredEvidenceTypes",
+    "thresholds",
+    "recencyRule",
+    "teacherOverrideAllowed"
   ],
   "properties": {
     "masteryRuleId": {
+      "type": "string"
+    },
+    "requirementId": {
       "type": "string",
-      "pattern": "^MR-G6-L[0-9]{2}$"
+      "pattern": "^G6-[A-F]-[0-9]{2}$"
     },
     "lessonId": {
-      "type": "string",
-      "pattern": "^G6-L[0-9]{2}$"
+      "type": "string"
     },
-    "requiredActivityIds": {
+    "minimumEvidenceCount": {
+      "type": "integer"
+    },
+    "requiredEvidenceTypes": {
       "type": "array",
-      "minItems": 1,
       "items": {
-        "type": "string",
-        "pattern": "^G6-L[0-9]{2}-A[0-9]+$"
+        "type": "string"
       }
     },
-    "requireExitTicket": {
+    "thresholds": {
+      "type": "object",
+      "required": [
+        "insufficient_evidence",
+        "developing",
+        "achieved",
+        "extended"
+      ],
+      "properties": {
+        "insufficient_evidence": {
+          "type": "object"
+        },
+        "developing": {
+          "type": "object"
+        },
+        "achieved": {
+          "type": "object"
+        },
+        "extended": {
+          "type": "object"
+        }
+      }
+    },
+    "recencyRule": {
+      "type": "string"
+    },
+    "teacherOverrideAllowed": {
       "type": "boolean"
-    },
-    "minMasteryScorePercent": {
-      "type": "number",
-      "minimum": 50,
-      "maximum": 100
-    },
-    "requirementThresholdCount": {
-      "type": "integer",
-      "minimum": 1
     },
     "status": {
       "type": "string",
       "enum": [
+        "published",
         "draft",
-        "published"
+        "archived"
       ]
     }
-  },
-  "additionalProperties": false
+  }
 }

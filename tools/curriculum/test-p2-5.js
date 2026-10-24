@@ -1,36 +1,18 @@
 #!/usr/bin/env node
 /**
- * PHASE 2 / TASK P2.5 — Automated Test Suite & Fixture Generator
- *
- * Verifies:
- *   1. JSON Schemas (all 12 schemas present and valid JSON Schema Draft 2020-12)
- *   2. Materialized Grade 6 Pilot Dataset completeness:
- *      - Topics A..F (G6-A..G6-F)
- *      - All RequirementIDs G6-A-01 ... G6-F-03 (32 requirements)
- *      - Competencies NLa..NLe + NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b
- *      - PPCT Lessons 1..17 (G6-L01..G6-L17)
- *      - Golden Lesson G6-L03 (Thông tin trong máy tính, G6-A, 90 min,
- *        requirements G6-A-07..G6-A-10, NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b)
- *      - Zero AI competencies auto-injected into Requirement Bank
- *   3. Mandatory Fixtures & Validator Rules:
- *      - Valid Grade 6 dataset -> PASS
- *      - Duplicate ID -> FAIL (DUPLICATE_ID)
- *      - Missing RequirementID (Published Lesson & Question) -> FAIL (PUBLISHED_LESSON_MISSING_REQUIREMENT, QUESTION_MISSING_REQUIREMENT)
- *      - Dangling reference -> FAIL (DANGLING_REFERENCE)
- *      - Unapproved AI mapping -> FAIL (UNAPPROVED_AI_MAPPING & UNAUTHORIZED_AI_IN_REQUIREMENT_BANK)
- *      - Invalid question (missing RequirementID / correctAnswer / explanation) -> FAIL
- *      - Unapproved Activity without requirements -> FAIL (ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS)
- *      - Resource requiring URL with empty URL -> FAIL (RESOURCE_MISSING_URL)
- *      - Requirement officialText tampered against version/review hash -> FAIL (OFFICIAL_REQUIREMENT_TEXT_TAMPERED)
- *   4. Idempotent Importer & Intermediate Adapter:
- *      - First import inserts all 81 normalized entities into staging adapter
- *      - Second/third retry imports with identical data produce 0 duplicates, 0 inserts, 81 unchanged
- *      - Invalid fixture import is rejected atomically without polluting adapter
+ * PHASE 2 / TASK P2.5 (FIX) — Automated Test Suite & Fixture Generator
  */
 
 const fs = require('fs');
 const path = require('path');
-const { CurriculumValidator, computeOfficialTextHash } = require('./validator');
+const {
+  EXPECT_REQUIREMENT_COUNT_G6,
+  EXPECT_TOPIC_COUNTS_G6,
+  EXPECT_PPCT_LESSON_COUNT_G6,
+  EXPECT_PPCT_PERIODS_G6,
+  CurriculumValidator,
+  computeOfficialTextHash
+} = require('./validator');
 const { CurriculumImporter, IntermediateCurriculumAdapter } = require('./importer');
 
 const REPO_ROOT = path.resolve(__dirname, '../..');
@@ -103,35 +85,39 @@ function ensureFixturesOnDisk(baseDataset) {
     'utf8'
   );
 
-  // 6. Invalid question fixture (missing requirementIds, correctAnswer, explanation)
+  // 6. Invalid question fixture (missing requirementId, correctAnswer, explanation)
   const invalidQuestionFixture = clone(baseDataset);
   invalidQuestionFixture.questions.push(
     {
       questionId: 'G6-L03-Q-BAD-1',
+      grade: 6,
+      topicId: 'G6-A',
       lessonId: 'G6-L03',
       activityId: 'G6-L03-A4',
-      requirementIds: [],
+      requirementId: '',
       questionType: 'multiple_choice',
-      prompt: 'Câu hỏi thiếu RequirementID?',
+      cognitiveLevel: 'nhan_biet',
+      questionText: 'Câu hỏi thiếu RequirementID?',
       options: ['A', 'B'],
       correctAnswer: 'A',
       explanation: 'Giải thích hợp lệ.',
-      cognitiveLevel: 'nhan_biet',
-      points: 1,
+      maxScore: 1,
       status: 'published'
     },
     {
       questionId: 'G6-L03-Q-BAD-2',
+      grade: 6,
+      topicId: 'G6-A',
       lessonId: 'G6-L03',
       activityId: 'G6-L03-A4',
-      requirementIds: ['G6-A-08'],
+      requirementId: 'G6-A-08',
       questionType: 'multiple_choice',
-      prompt: 'Câu hỏi thiếu correctAnswer và explanation?',
+      cognitiveLevel: 'thong_hieu',
+      questionText: 'Câu hỏi thiếu correctAnswer và explanation?',
       options: ['A', 'B'],
       correctAnswer: '',
       explanation: '   ',
-      cognitiveLevel: 'thong_hieu',
-      points: 1,
+      maxScore: 1,
       status: 'published'
     }
   );
@@ -141,38 +127,42 @@ function ensureFixturesOnDisk(baseDataset) {
     'utf8'
   );
 
-  // 7. Additional negative fixtures for Activity, Resource, and Tampered Requirement
-  const activityResourceTamperFixture = clone(baseDataset);
-  activityResourceTamperFixture.activities.push({
+  // 7. Policy violations fixture (Activity, Resource, and Tampered Requirement with recomputed self-hash)
+  const policyViolationsFixture = clone(baseDataset);
+  policyViolationsFixture.activities.push({
     activityId: 'G6-L03-A-BAD',
     lessonId: 'G6-L03',
-    orderIndex: 5,
+    order: 5,
     activityType: 'warm_up',
     title: 'Hoạt động không gắn YCCĐ và chưa được duyệt mục đích sư phạm',
-    durationMinutes: 5,
+    objective: 'Khởi động tự do',
+    instruction: 'Thảo luận tự do',
     requirementIds: [],
+    expectedEvidenceTypes: ['quiz_response'],
+    required: false,
+    supportPolicyId: 'SP-G6-DEFAULT-HINT',
     educationalPurposeApproved: false,
-    description: 'Hoạt động lỗi.',
     status: 'published'
   });
-  activityResourceTamperFixture.resources.push({
+  policyViolationsFixture.resources.push({
     resourceId: 'RES-G6-BAD-URL',
+    lessonId: 'G6-L03',
+    topicId: 'G6-A',
+    requirementIds: ['G6-A-07'],
     title: 'Học liệu trực tuyến thiếu URL',
     resourceType: 'video',
     requiresUrl: true,
     url: '',
-    lessonId: 'G6-L03',
-    topicId: 'G6-A',
-    requirementIds: ['G6-A-07'],
-    sourceId: 'SRC-SGK-KNTT-G6',
+    sourceId: 'SRC-SGK-KNTT-TIN6',
     status: 'published'
   });
-  // Tamper officialText without updating officialTextHash / review
-  activityResourceTamperFixture.requirements[0].officialText =
-    'Nội dung YCCĐ đã bị chỉnh sửa trái phép không qua review.';
+  // Even if attacker recomputes officialTextHash on tampered text, Trusted Snapshot comparison catches it!
+  const tamperedText = 'Nội dung YCCĐ đã bị chỉnh sửa trái phép và tự tính lại hash.';
+  policyViolationsFixture.requirements[0].officialText = tamperedText;
+  policyViolationsFixture.requirements[0].officialTextHash = computeOfficialTextHash(tamperedText);
   fs.writeFileSync(
     path.join(FIXTURES_DIR, 'policy-violations.fixture.json'),
-    JSON.stringify(activityResourceTamperFixture, null, 2) + '\n',
+    JSON.stringify(policyViolationsFixture, null, 2) + '\n',
     'utf8'
   );
 }
@@ -202,7 +192,7 @@ function runSuite() {
   }
 
   console.log('================================================================');
-  console.log('PHASE 2 / TASK P2.5 — CURRICULUM DATA FOUNDATION TEST SUITE');
+  console.log('PHASE 2 / TASK P2.5 (FIX) — CURRICULUM DATA FOUNDATION TEST SUITE');
   console.log('================================================================\n');
 
   const validator = new CurriculumValidator(path.join(REPO_ROOT, 'schemas'));
@@ -210,7 +200,7 @@ function runSuite() {
   ensureFixturesOnDisk(baseDataset);
 
   // ------------------------------------------------------------------------
-  // GROUP 1: DIRECTORY STRUCTURE & 12 JSON SCHEMAS
+  // GROUP 1: DIRECTORY STRUCTURE & LOCKED DATA CONTRACT SCHEMAS
   // ------------------------------------------------------------------------
   test('P25-01', 'Mandatory directories exist (data/*, schemas/, tools/curriculum/)', () => {
     const requiredDirs = [
@@ -229,7 +219,7 @@ function runSuite() {
     return `Verified ${requiredDirs.length} directories`;
   });
 
-  test('P25-02', 'All 12 mandatory JSON Schemas exist and are valid JSON Schema Draft 2020-12', () => {
+  test('P25-02', 'All 12 JSON Schemas exist and pass Locked Data Contract Drift Verification (Blocker 3 & 7.7)', () => {
     const expectedSchemas = [
       'source.schema.json',
       'topic.schema.json',
@@ -249,15 +239,16 @@ function runSuite() {
       assert(fs.existsSync(full), `Missing schema file: schemas/${file}`);
       const parsed = JSON.parse(fs.readFileSync(full, 'utf8'));
       assert(parsed.$schema && parsed.$schema.includes('2020-12'), `${file} missing Draft 2020-12 $schema`);
-      assert(parsed.type === 'object' && Array.isArray(parsed.required), `${file} missing object structure`);
     }
-    return `Verified ${expectedSchemas.length} JSON Schemas`;
+    const lockRes = validator.validateDataContractLock();
+    assert(lockRes.valid === true, `Data Contract Drift detected: ${JSON.stringify(lockRes.errors)}`);
+    return '12 schemas verified with 0 Data Contract drift';
   });
 
   // ------------------------------------------------------------------------
-  // GROUP 2: MATERIALIZED GRADE 6 PILOT DATASET COMPLETENESS
+  // GROUP 2: CTGDPT 2018 REQUIREMENT BANK & VIET HOA PPCT ALIGNMENT
   // ------------------------------------------------------------------------
-  test('P25-03', 'Topics A–F (G6-A .. G6-F) materialized completely', () => {
+  test('P25-03', 'Topics A–F (G6-A .. G6-F) materialized with officialSourceId and order', () => {
     const expectedTopics = ['G6-A', 'G6-B', 'G6-C', 'G6-D', 'G6-E', 'G6-F'];
     const actualTopics = baseDataset.topics.map(t => t.topicId);
     assert(actualTopics.length === 6, `Expected 6 topics, got ${actualTopics.length}`);
@@ -267,50 +258,100 @@ function runSuite() {
     return `Topics: ${actualTopics.join(', ')}`;
   });
 
-  test('P25-04', 'All RequirementIDs G6-A-01 ... G6-F-03 materialized with officialTextHash', () => {
-    const reqIds = baseDataset.requirements.map(r => r.requirementId);
-    assert(reqIds.includes('G6-A-01'), 'Missing G6-A-01');
-    assert(reqIds.includes('G6-A-10'), 'Missing G6-A-10');
-    assert(reqIds.includes('G6-B-04'), 'Missing G6-B-04');
-    assert(reqIds.includes('G6-C-05'), 'Missing G6-C-05');
-    assert(reqIds.includes('G6-D-04'), 'Missing G6-D-04');
-    assert(reqIds.includes('G6-E-06'), 'Missing G6-E-06');
-    assert(reqIds.includes('G6-F-01'), 'Missing G6-F-01');
-    assert(reqIds.includes('G6-F-03'), 'Missing G6-F-03');
-    assert(reqIds.length === 32, `Expected 32 Grade 6 requirements, got ${reqIds.length}`);
+  test('P25-04', 'Requirement Bank has exactly 38 requirements (A=10, B=4, C=7, D=5, E=9, F=3) (Blocker 1.1, 7.1, 7.2)', () => {
+    assert(
+      baseDataset.requirements.length === EXPECT_REQUIREMENT_COUNT_G6,
+      `Expected ${EXPECT_REQUIREMENT_COUNT_G6} requirements, got ${baseDataset.requirements.length}`
+    );
+    const counts = { 'G6-A': 0, 'G6-B': 0, 'G6-C': 0, 'G6-D': 0, 'G6-E': 0, 'G6-F': 0 };
     for (const r of baseDataset.requirements) {
+      counts[r.topicId] = (counts[r.topicId] || 0) + 1;
+    }
+    for (const [topicId, exp] of Object.entries(EXPECT_TOPIC_COUNTS_G6)) {
+      assert(counts[topicId] === exp, `Topic ${topicId}: expected ${exp}, got ${counts[topicId]}`);
+    }
+    return `Total=38 (A=10, B=4, C=7, D=5, E=9, F=3)`;
+  });
+
+  test('P25-05', 'Trusted Official Text Snapshot, studentFriendlyText, and no TB in G6-A-09 officialText (Blocker 1.3–1.5, 7.3)', () => {
+    const g6a09 = baseDataset.requirements.find(r => r.requirementId === 'G6-A-09');
+    assert(g6a09, 'Missing G6-A-09');
+    assert(!/\bTB\b/.test(g6a09.officialText), 'G6-A-09 officialText must not contain TB');
+    assert(
+      g6a09.officialText.includes('Byte, KB, MB, GB'),
+      'G6-A-09 officialText must contain Byte, KB, MB, GB'
+    );
+    for (const r of baseDataset.requirements) {
+      assert(r.studentFriendlyText && r.studentFriendlyText.length > 10, `Missing studentFriendlyText on ${r.requirementId}`);
+      assert(r.reviewStatus === 'approved_official', `Invalid reviewStatus on ${r.requirementId}`);
+      const trusted = validator.trustedSnapshot.requirements[r.requirementId];
+      assert(trusted, `Requirement ${r.requirementId} missing from trusted snapshot`);
       assert(
-        r.officialTextHash === computeOfficialTextHash(r.officialText),
-        `officialTextHash mismatch on ${r.requirementId}`
+        r.officialText === trusted.officialText && r.officialTextHash === trusted.officialTextHash,
+        `Requirement ${r.requirementId} does not match trusted snapshot`
       );
     }
-    return `32 requirements (G6-A-01..G6-F-03) verified with SHA-256 hashes`;
+    return 'All 38 requirements match Trusted Official Snapshot with studentFriendlyText';
   });
 
-  test('P25-05', 'Competencies NLa–NLe and Pilot NLS (1.3.TC1a, 5.2.TC1a, 5.2.TC1b) materialized', () => {
-    const compIds = baseDataset.competencies.map(c => c.competencyId);
-    for (const core of ['NLa', 'NLb', 'NLc', 'NLd', 'NLe']) {
-      assert(compIds.includes(core), `Missing core competency ${core}`);
-    }
-    for (const nls of ['NLS-1.3.TC1a', 'NLS-5.2.TC1a', 'NLS-5.2.TC1b']) {
-      assert(compIds.includes(nls), `Missing digital competency ${nls}`);
-    }
-    return `Verified NLa–NLe + 3 pilot NLS competencies`;
+  test('P25-06', 'Viet Hoa 2026–2027 PPCT: 16 content lessons (1–13, 15–17), NO Lesson 14, exact periods & 35-period year plan (Blocker 2, 7.4–7.6)', () => {
+    assert(
+      baseDataset.lessons.length === EXPECT_PPCT_LESSON_COUNT_G6,
+      `Expected ${EXPECT_PPCT_LESSON_COUNT_G6} lessons, got ${baseDataset.lessons.length}`
+    );
+    assert(
+      !baseDataset.lessons.some(l => l.lessonId === 'G6-L14' || l.lessonNumber === 14),
+      'Phantom Lesson 14 must not exist in PPCT'
+    );
+    const l03 = baseDataset.lessons.find(l => l.lessonId === 'G6-L03');
+    const l08 = baseDataset.lessons.find(l => l.lessonId === 'G6-L08');
+    const l13 = baseDataset.lessons.find(l => l.lessonId === 'G6-L13');
+    const l17 = baseDataset.lessons.find(l => l.lessonId === 'G6-L17');
+    assert(l03.periods === 2 && l03.durationMinutes === 90, 'G6-L03 must be 2 periods / 90m');
+    assert(l08.periods === 1 && l08.durationMinutes === 45, 'G6-L08 must be 1 period / 45m');
+    assert(l13.periods === 1 && l13.durationMinutes === 45, 'G6-L13 must be 1 period / 45m');
+    assert(l17.periods === 1 && l17.durationMinutes === 45, 'G6-L17 must be 1 period / 45m');
+
+    const dist = JSON.parse(
+      fs.readFileSync(path.join(REPO_ROOT, 'data/curriculum/ppct-distribution-g6.json'), 'utf8')
+    );
+    const lessonPeriodsSum = baseDataset.lessons.reduce((s, l) => s + l.periods, 0);
+    const nonLessonPeriodsSum = dist.nonLessonSessions.reduce((s, x) => s + x.periods, 0);
+    assert(
+      lessonPeriodsSum + nonLessonPeriodsSum === 35,
+      `Expected 35 total periods (${lessonPeriodsSum} lesson + ${nonLessonPeriodsSum} review/assessment)`
+    );
+    return `16 content lessons (${lessonPeriodsSum} periods) + ${nonLessonPeriodsSum} review/assessment periods = 35 periods/year`;
   });
 
-  test('P25-06', 'PPCT Lessons 1–17 (G6-L01 .. G6-L17) materialized and mapped', () => {
-    assert(baseDataset.lessons.length === 17, `Expected 17 lessons, got ${baseDataset.lessons.length}`);
-    for (let i = 1; i <= 17; i++) {
-      const id = `G6-L${String(i).padStart(2, '0')}`;
-      const lesson = baseDataset.lessons.find(l => l.lessonId === id);
-      assert(lesson, `Missing lesson ${id}`);
-      assert(lesson.ppctNumber === i, `Lesson ${id} has wrong ppctNumber ${lesson.ppctNumber}`);
-      assert(lesson.requirementIds.length > 0, `Lesson ${id} has empty requirementIds`);
+  test('P25-07', 'Source Catalog specificity & two-layer verification (Blocker 4 & 5)', () => {
+    assert(baseDataset.sources.length >= 5, 'Expected >= 5 verified sources');
+    for (const s of baseDataset.sources) {
+      assert(!/^https?:\/\/[^/]+\/?$/i.test(s.url), `Source ${s.sourceId} uses generic root URL ${s.url}`);
+      assert(s.verificationStatus === 'verified', `Source ${s.sourceId} not verified`);
+      assert(s.verifiedAt && s.accessedAt && s.scopeUsed, `Source ${s.sourceId} missing verification metadata`);
     }
-    return `Verified G6-L01..G6-L17 (35 periods total)`;
+    return `Verified ${baseDataset.sources.length} sources with exact document URLs/Drive IDs`;
   });
 
-  test('P25-07', 'Golden Lesson G6-L03 matches exact specification (fixture only, no UI changes)', () => {
+  test('P25-08', 'NLS Framework vs School Mapping separation & AI prohibition in Requirement Bank (Blocker 6)', () => {
+    for (const m of baseDataset.nlsMappings) {
+      assert(m.frameworkSourceId === 'SRC-TT02-2025-NLS', 'NLS mapping must cite TT 02/2025 framework');
+      assert(
+        m.mappingSourceId === 'SRC-PHULUC3-KHBD-VIETHOA-2026',
+        'NLS mapping must cite Viet Hoa Appendix III / KHBD'
+      );
+      assert(m.isOfficialGdpt2018Requirement === false, 'NLS mapping must not claim to be official GDPT 2018 YCCĐ');
+    }
+    for (const r of baseDataset.requirements) {
+      for (const cId of r.competencyIds) {
+        assert(!cId.startsWith('AI'), `Requirement ${r.requirementId} contains AI competency ${cId}`);
+      }
+    }
+    return 'NLS 2-layer separation verified; 0 AI competencies in Requirement Bank';
+  });
+
+  test('P25-09', 'Golden Lesson G6-L03 fixture matches specification and is marked isFixtureOnly=true (Blocker 7.8 & 8)', () => {
     const goldenFile = JSON.parse(
       fs.readFileSync(path.join(REPO_ROOT, 'data/lessons/G6-L03.golden.json'), 'utf8')
     );
@@ -318,42 +359,29 @@ function runSuite() {
     assert(l03.lessonId === 'G6-L03', `Expected lessonId=G6-L03, got ${l03.lessonId}`);
     assert(l03.title === 'Thông tin trong máy tính', `Unexpected title: ${l03.title}`);
     assert(l03.topicId === 'G6-A', `Expected topicId=G6-A, got ${l03.topicId}`);
-    assert(l03.durationMinutes === 90, `Expected durationMinutes=90, got ${l03.durationMinutes}`);
+    assert(l03.periods === 2 && l03.durationMinutes === 90, 'Expected 2 periods / 90 minutes');
+    assert(l03.isFixtureOnly === true && goldenFile.fixtureMetadata.isFixtureOnly === true, 'Must be marked isFixtureOnly=true');
     const expectedReqs = ['G6-A-07', 'G6-A-08', 'G6-A-09', 'G6-A-10'];
     assert(
       JSON.stringify(l03.requirementIds) === JSON.stringify(expectedReqs),
-      `Expected requirements ${expectedReqs.join(',')}, got ${l03.requirementIds.join(',')}`
+      `Expected requirements ${expectedReqs.join(',')}`
     );
-    const expectedNls = ['1.3.TC1a', '5.2.TC1a', '5.2.TC1b'];
-    assert(
-      JSON.stringify(l03.nlsCodes) === JSON.stringify(expectedNls),
-      `Expected NLS ${expectedNls.join(',')}, got ${(l03.nlsCodes || []).join(',')}`
-    );
-    return `G6-L03 verified (90m, G6-A-07..10, NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b)`;
-  });
-
-  test('P25-08', 'AI Rule: No AI competency auto-injected into Requirement Bank', () => {
-    for (const r of baseDataset.requirements) {
-      for (const cId of r.competencyIds) {
-        assert(!cId.startsWith('AI'), `Requirement ${r.requirementId} contains AI competency ${cId}`);
-      }
-    }
-    return '0 AI competencies in Requirement Bank';
+    return 'G6-L03 fixture verified (2 periods, 90m, G6-A-07..10, isFixtureOnly=true)';
   });
 
   // ------------------------------------------------------------------------
-  // GROUP 3: MANDATORY VALIDATOR FIXTURES (PASS & FAIL CASES)
+  // GROUP 3: MANDATORY VALIDATOR FIXTURES & CONTENT QUALITY NEGATIVE TESTS
   // ------------------------------------------------------------------------
-  test('P25-09', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors)', () => {
+  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 94 entities)', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'valid-grade6.fixture.json'), 'utf8')
     );
     const res = validator.validateDataset(fixture);
     assert(res.valid === true && res.errorCount === 0, `Expected PASS but got errors: ${JSON.stringify(res.errors)}`);
-    return `PASS with ${res.errorCount} errors across 85 entities`;
+    return `PASS with 0 errors across 94 entities`;
   });
 
-  test('P25-10', 'Fixture 2: Duplicate ID -> FAIL with code DUPLICATE_ID', () => {
+  test('P25-11', 'Fixture 2: Duplicate ID -> FAIL with code DUPLICATE_ID', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'duplicate-id.fixture.json'), 'utf8')
     );
@@ -364,18 +392,18 @@ function runSuite() {
     return `FAIL as expected (${dupErrors.map(e => e.id).join(', ')})`;
   });
 
-  test('P25-11', 'Fixture 3: Missing RequirementID on published Lesson -> FAIL with PUBLISHED_LESSON_MISSING_REQUIREMENT', () => {
+  test('P25-12', 'Fixture 3: Missing RequirementID on published Lesson -> FAIL with PUBLISHED_LESSON_MISSING_REQUIREMENT', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'missing-requirement-id.fixture.json'), 'utf8')
     );
     const res = validator.validateDataset(fixture);
     assert(res.valid === false, 'Expected Missing RequirementID fixture to FAIL');
     const hasLessonErr = res.errors.some(e => e.code === 'PUBLISHED_LESSON_MISSING_REQUIREMENT');
-    assert(hasLessonErr, `Expected PUBLISHED_LESSON_MISSING_REQUIREMENT, got ${JSON.stringify(res.errors)}`);
+    assert(hasLessonErr, `Expected PUBLISHED_LESSON_MISSING_REQUIREMENT`);
     return 'FAIL as expected (PUBLISHED_LESSON_MISSING_REQUIREMENT)';
   });
 
-  test('P25-12', 'Fixture 4: Dangling reference -> FAIL with DANGLING_REFERENCE', () => {
+  test('P25-13', 'Fixture 4: Dangling reference -> FAIL with DANGLING_REFERENCE', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'dangling-reference.fixture.json'), 'utf8')
     );
@@ -386,39 +414,20 @@ function runSuite() {
     return `FAIL as expected (${danglingErrors.length} dangling references caught)`;
   });
 
-  test('P25-13', 'Fixture 5: Unapproved AI mapping -> FAIL with UNAPPROVED_AI_MAPPING', () => {
+  test('P25-14', 'Fixture 5: Unapproved AI mapping & Unauthorized AI in Requirement Bank -> FAIL', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'unapproved-ai-mapping.fixture.json'), 'utf8')
     );
-    const res = validator.validateDataset(fixture);
-    assert(res.valid === false, 'Expected Unapproved AI mapping fixture to FAIL');
-    const aiErr = res.errors.find(e => e.code === 'UNAPPROVED_AI_MAPPING');
-    assert(aiErr, `Expected UNAPPROVED_AI_MAPPING error, got ${JSON.stringify(res.errors)}`);
-    return `FAIL as expected (${aiErr.code} on ${aiErr.id})`;
-  });
-
-  test('P25-14', 'Fixture 5b: Unauthorized AI injected into Requirement Bank -> FAIL with UNAUTHORIZED_AI_IN_REQUIREMENT_BANK', () => {
-    const fixture = clone(baseDataset);
-    fixture.competencies.push({
-      competencyId: 'AI-COMP-01',
-      code: 'AI.1',
-      framework: 'AI_PILOT',
-      domain: 'Trí tuệ nhân tạo',
-      name: 'Năng lực AI thử nghiệm',
-      description: 'Mô tả năng lực AI thử nghiệm cho lớp 6.',
-      gradeBand: 'Lớp 6',
-      sourceId: 'SRC-NLS-BGD-2025',
-      status: 'draft'
-    });
     fixture.requirements[0].competencyIds.push('AI-COMP-01');
     const res = validator.validateDataset(fixture);
-    assert(res.valid === false, 'Expected AI in Requirement Bank to FAIL');
-    const err = res.errors.find(e => e.code === 'UNAUTHORIZED_AI_IN_REQUIREMENT_BANK');
-    assert(err, `Expected UNAUTHORIZED_AI_IN_REQUIREMENT_BANK, got ${JSON.stringify(res.errors)}`);
-    return `FAIL as expected (${err.code})`;
+    assert(res.valid === false, 'Expected Unapproved AI fixture to FAIL');
+    const codes = res.errors.map(e => e.code);
+    assert(codes.includes('UNAPPROVED_AI_MAPPING'), 'Missing UNAPPROVED_AI_MAPPING');
+    assert(codes.includes('UNAUTHORIZED_AI_IN_REQUIREMENT_BANK'), 'Missing UNAUTHORIZED_AI_IN_REQUIREMENT_BANK');
+    return 'FAIL as expected (UNAPPROVED_AI_MAPPING & UNAUTHORIZED_AI_IN_REQUIREMENT_BANK)';
   });
 
-  test('P25-15', 'Fixture 6: Invalid question (missing RequirementID, correctAnswer, explanation) -> FAIL', () => {
+  test('P25-15', 'Fixture 6: Invalid question (missing requirementId, correctAnswer, explanation) -> FAIL', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'invalid-question.fixture.json'), 'utf8')
     );
@@ -431,43 +440,72 @@ function runSuite() {
     return 'FAIL as expected (QUESTION_MISSING_REQUIREMENT, QUESTION_MISSING_CORRECT_ANSWER, QUESTION_MISSING_EXPLANATION)';
   });
 
-  test('P25-16', 'Fixture 7: Unapproved Activity without requirements, Resource missing URL, and tampered Requirement officialText -> FAIL', () => {
+  test('P25-16', 'Fixture 7: Unapproved Activity, Resource missing URL, and tampered officialText (even with recomputed self-hash) -> FAIL', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'policy-violations.fixture.json'), 'utf8')
     );
     const res = validator.validateDataset(fixture);
     assert(res.valid === false, 'Expected policy-violations fixture to FAIL');
     const codes = res.errors.map(e => e.code);
-    assert(
-      codes.includes('ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS'),
-      'Missing ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS'
-    );
+    assert(codes.includes('ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS'), 'Missing ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS');
     assert(codes.includes('RESOURCE_MISSING_URL'), 'Missing RESOURCE_MISSING_URL');
-    assert(
-      codes.includes('OFFICIAL_REQUIREMENT_TEXT_TAMPERED'),
-      'Missing OFFICIAL_REQUIREMENT_TEXT_TAMPERED'
+    assert(codes.includes('OFFICIAL_REQUIREMENT_TEXT_TAMPERED'), 'Missing OFFICIAL_REQUIREMENT_TEXT_TAMPERED');
+    return 'FAIL as expected (Trusted Snapshot caught recomputed hash tampering)';
+  });
+
+  test('P25-17', 'Blocker 7 Content Quality Negative Tests (32 reqs, Phantom Lesson 14, Wrong PPCT periods, Generic Source URL, Contract Drift) -> FAIL', () => {
+    const bad = clone(baseDataset);
+    // 1. Remove a requirement -> triggers REQUIREMENT_COUNT_MISMATCH & TOPIC_REQUIREMENT_COUNT_MISMATCH
+    bad.requirements.pop();
+    // 2. Add Phantom Lesson 14 -> triggers PHANTOM_LESSON_DETECTED
+    bad.lessons.push({
+      ...clone(bad.lessons[0]),
+      lessonId: 'G6-L14',
+      lessonNumber: 14,
+      title: 'Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm'
+    });
+    // 3. Corrupt Lesson 8 period to 2 (90m) -> triggers PPCT_PERIOD_MISMATCH
+    const l08 = bad.lessons.find(l => l.lessonId === 'G6-L08');
+    l08.periods = 2;
+    l08.durationMinutes = 90;
+    // 4. Generic homepage URL on Source -> triggers SOURCE_URL_TOO_GENERIC
+    bad.sources[0].url = 'https://moet.gov.vn/';
+    // 5. Drift Question schema by dropping requirementId without APPROVED_CONTRACT_CHANGE
+    const driftedSchemas = clone(validator.schemas);
+    driftedSchemas.question.required = driftedSchemas.question.required.filter(
+      f => f !== 'requirementId'
     );
-    return 'FAIL as expected (ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS, RESOURCE_MISSING_URL, OFFICIAL_REQUIREMENT_TEXT_TAMPERED)';
+
+    const res = validator.validateDataset(bad, { schemasOverride: driftedSchemas });
+    assert(res.valid === false, 'Expected negative content quality dataset to FAIL');
+    const codes = res.errors.map(e => e.code);
+    assert(codes.includes('REQUIREMENT_COUNT_MISMATCH'), 'Missing REQUIREMENT_COUNT_MISMATCH');
+    assert(codes.includes('TOPIC_REQUIREMENT_COUNT_MISMATCH'), 'Missing TOPIC_REQUIREMENT_COUNT_MISMATCH');
+    assert(codes.includes('PHANTOM_LESSON_DETECTED'), 'Missing PHANTOM_LESSON_DETECTED');
+    assert(codes.includes('PPCT_PERIOD_MISMATCH'), 'Missing PPCT_PERIOD_MISMATCH');
+    assert(codes.includes('SOURCE_URL_TOO_GENERIC'), 'Missing SOURCE_URL_TOO_GENERIC');
+    assert(codes.includes('CONTRACT_DRIFT_DETECTED'), 'Missing CONTRACT_DRIFT_DETECTED');
+    return 'Caught all 6 domain/contract violations (REQUIREMENT_COUNT_MISMATCH, TOPIC_REQUIREMENT_COUNT_MISMATCH, PHANTOM_LESSON_DETECTED, PPCT_PERIOD_MISMATCH, SOURCE_URL_TOO_GENERIC, CONTRACT_DRIFT_DETECTED)';
   });
 
   // ------------------------------------------------------------------------
   // GROUP 4: IDEMPOTENT IMPORTER & INTERMEDIATE ADAPTER
   // ------------------------------------------------------------------------
-  test('P25-17', 'Importer loads valid Grade 6 dataset into intermediate adapter and writes staging snapshot', () => {
+  test('P25-18', 'Importer loads valid Grade 6 dataset (94 entities) into intermediate adapter and writes staging snapshot', () => {
     const adapter = new IntermediateCurriculumAdapter({ snapshotPath: STAGING_SNAPSHOT_PATH });
     const importer = new CurriculumImporter({ validator, adapter });
 
     const run1 = importer.importDataset(baseDataset, { traceId: 'TRACE-P25-RUN-1' });
     assert(run1.imported === true, `Expected import success, got: ${run1.error}`);
-    assert(run1.stats.totalInserted === 85, `Expected 85 inserted records, got ${run1.stats.totalInserted}`);
-    assert(run1.stats.totalUpdated === 0, `Expected 0 updated on first run`);
-    assert(run1.stats.totalUnchanged === 0, `Expected 0 unchanged on first run`);
+    assert(run1.stats.totalInserted === 94, `Expected 94 inserted records, got ${run1.stats.totalInserted}`);
+    assert(run1.stats.totalUpdated === 0, 'Expected 0 updated on first run');
+    assert(run1.stats.totalUnchanged === 0, 'Expected 0 unchanged on first run');
     assert(run1.stats.duplicatesCreated === 0, 'Expected 0 duplicatesCreated');
     assert(fs.existsSync(STAGING_SNAPSHOT_PATH), 'Staging snapshot file was not created');
     return `Run 1: inserted=${run1.stats.totalInserted}, totalInAdapter=${run1.stats.totalInAdapter}`;
   });
 
-  test('P25-18', 'Importer idempotency: retrying identical dataset N times creates 0 duplicates and 0 new writes', () => {
+  test('P25-19', 'Importer idempotency: retrying identical dataset N times creates 0 duplicates and 0 new writes', () => {
     const adapter = new IntermediateCurriculumAdapter({
       snapshotPath: STAGING_SNAPSHOT_PATH,
       autoload: true
@@ -480,13 +518,13 @@ function runSuite() {
     assert(run2.imported === true && run3.imported === true, 'Retry runs failed');
     assert(run2.stats.totalInserted === 0, `Run 2 inserted ${run2.stats.totalInserted} (expected 0)`);
     assert(run2.stats.totalUpdated === 0, `Run 2 updated ${run2.stats.totalUpdated} (expected 0)`);
-    assert(run2.stats.totalUnchanged === 85, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 85)`);
-    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 85, 'Run 3 not idempotent');
-    assert(adapter.getTotalCount() === 85, `Expected total count to stay 85, got ${adapter.getTotalCount()}`);
-    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=85, duplicatesCreated=0';
+    assert(run2.stats.totalUnchanged === 94, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 94)`);
+    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 94, 'Run 3 not idempotent');
+    assert(adapter.getTotalCount() === 94, `Expected total count to stay 94, got ${adapter.getTotalCount()}`);
+    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=94, duplicatesCreated=0';
   });
 
-  test('P25-19', 'Importer atomic rejection: invalid dataset is blocked before writing to adapter', () => {
+  test('P25-20', 'Importer atomic rejection & Production isolation check', () => {
     const adapter = new IntermediateCurriculumAdapter();
     const importer = new CurriculumImporter({ validator, adapter });
     const badDataset = JSON.parse(
@@ -496,10 +534,7 @@ function runSuite() {
     const res = importer.importDataset(badDataset, { traceId: 'TRACE-P25-REJECT' });
     assert(res.imported === false, 'Expected invalid dataset import to be rejected');
     assert(adapter.getTotalCount() === 0, `Adapter should have 0 records, got ${adapter.getTotalCount()}`);
-    return 'Rejected invalid dataset with 0 partial writes';
-  });
 
-  test('P25-20', 'Production isolation: StudentUID, Auth, Session, Progress, Responses, ExitTicket, Teacher APIs untouched', () => {
     const protectedFiles = [
       'index.html',
       'teacher/index.html',
@@ -525,7 +560,7 @@ function runSuite() {
       const full = path.join(REPO_ROOT, rel);
       assert(fs.existsSync(full), `Protected file missing: ${rel}`);
     }
-    return `All ${protectedFiles.length} production frontend/backend files verified intact`;
+    return `Rejected invalid dataset with 0 partial writes; ${protectedFiles.length} production files intact`;
   });
 
   console.log('\n================================================================');

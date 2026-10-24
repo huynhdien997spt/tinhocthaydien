@@ -1,73 +1,68 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "activity.schema.json",
+  "$id": "https://tinhocthaydien.edu.vn/schemas/activity.schema.json",
   "title": "Activity",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "activityId",
     "lessonId",
-    "code",
-    "type",
-    "title",
-    "durationMinutes",
+    "order",
+    "activityType",
+    "objective",
+    "instruction",
     "requirementIds",
-    "educationalPurposeApproved",
-    "status"
+    "expectedEvidenceTypes",
+    "required",
+    "supportPolicyId"
   ],
   "properties": {
     "activityId": {
-      "type": "string",
-      "pattern": "^G6-L[0-9]{2}-A[0-9]+$"
+      "type": "string"
     },
     "lessonId": {
-      "type": "string",
-      "pattern": "^G6-L[0-9]{2}$"
+      "type": "string"
     },
-    "code": {
-      "type": "string",
-      "pattern": "^A[0-9]+$"
+    "order": {
+      "type": "integer"
     },
-    "type": {
+    "activityType": {
       "type": "string",
       "enum": [
         "opening",
         "knowledge",
         "practice",
         "application",
-        "reflection",
-        "exit-ticket"
+        "warm_up",
+        "reflection"
       ]
     },
     "title": {
-      "type": "string",
-      "minLength": 2
+      "type": "string"
     },
     "objective": {
       "type": "string"
     },
-    "durationMinutes": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 90
+    "instruction": {
+      "type": "string"
     },
     "requirementIds": {
       "type": "array",
       "items": {
-        "type": "string",
-        "pattern": "^G6-[A-F]-[0-9]{2}$"
+        "type": "string"
       }
     },
-    "educationalPurposeApproved": {
-      "type": "boolean"
-    },
-    "educationalPurposeNote": {
-      "type": "string"
-    },
-    "evidenceIds": {
+    "expectedEvidenceTypes": {
       "type": "array",
       "items": {
         "type": "string"
       }
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "supportPolicyId": {
+      "type": "string"
     },
     "resourceIds": {
       "type": "array",
@@ -75,13 +70,37 @@
         "type": "string"
       }
     },
+    "toolIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "estimatedMinutes": {
+      "type": "integer"
+    },
+    "allowExternalNavigation": {
+      "type": "boolean"
+    },
+    "scoringMethod": {
+      "type": "string"
+    },
+    "educationalPurposeApproved": {
+      "type": "boolean"
+    },
+    "educationalPurposeNote": {
+      "type": "string"
+    },
+    "isFixtureOnly": {
+      "type": "boolean"
+    },
     "status": {
       "type": "string",
       "enum": [
+        "published",
         "draft",
-        "published"
+        "archived"
       ]
     }
-  },
-  "additionalProperties": false
+  }
 }

@@ -1,9 +1,8 @@
 # PHASE 2 / TASK P2.5 — CURRICULUM DATA FOUNDATION SCHEMA SPECIFICATION (`PHASE2_SCHEMA.md`)
 
-- **Phase / Task:** `PHASE 2 / TASK P2.5 ONLY`
+- **Phase / Task:** `PHASE 2 / P2.5 FIX ONLY`
 - **Chuẩn JSON Schema:** Draft 2020-12 (`https://json-schema.org/draft/2020-12/schema`)
-- **Phạm vi:** Data Foundation cho Chương trình Tin học Lớp 6 (GDPT 2018 – Thông tư 32/2018/TT-BGDĐT, SGK Kết nối tri thức với cuộc sống, Khung Năng lực số Thông tư 02/2025/TT-BGDĐT).
-- **Trạng thái Production:** Không can thiệp UI, Learning Engine, Assessment Engine hay Google Sheets production.
+- **Trạng thái Data Contract:** Tuân thủ nghiêm ngặt **Phase 2 – Data Contract Curriculum Engine** (được khóa tự động qua `validateDataContractLock()` trong [tools/curriculum/validator.js](file:///Users/huynhvandien/tinhocthaydien/tools/curriculum/validator.js)). Mọi thay đổi trường bắt buộc nếu không có `APPROVED_CONTRACT_CHANGE` sẽ bị chặn với lỗi `CONTRACT_DRIFT_DETECTED`.
 
 ---
 
@@ -12,17 +11,18 @@
 ```text
 data/
   curriculum/
-    sources-g6.json              # Danh mục nguồn chính thức (4 sources)
-    topics-g6.json               # Chủ đề A–F lớp 6 (6 topics)
+    sources-g6.json              # 5 nguồn tài liệu chính thức đã kiểm chứng 2 lớp (Lớp A & Lớp B)
+    topics-g6.json               # 6 chủ đề A–F lớp 6
+    ppct-distribution-g6.json    # Phân bổ 35 tiết/năm (28 tiết bài học + 3 tiết ôn tập + 4 tiết kiểm tra)
   requirements/
-    requirements-g6.json         # Toàn bộ 32 YCCĐ G6-A-01 ... G6-F-03 kèm SHA-256 officialTextHash
+    requirements-g6.json         # 38 YCCĐ riêng biệt (A=10, B=4, C=7, D=5, E=9, F=3) có officialText & studentFriendlyText
   competencies/
     competencies-g6.json         # NLa–NLe + NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b
-    nls-mappings-g6.json         # Mapping NLS pilot cho Bài 3 (G6-L03)
-    ai-mappings-g6.json          # Mapping NL AI tách biệt (mặc định [] – không tự chèn vào Requirement Bank)
+    nls-mappings-g6.json         # Mapping NLS Bài 3 tách biệt rõ khung TT 02/2025 và Phụ lục III / KHBD trường
+    ai-mappings-g6.json          # Mapping NL AI tách biệt (mặc định [])
   lessons/
-    lessons-g6-ppct.json         # Phân phối chương trình 17 bài học lớp 6 (G6-L01 ... G6-L17)
-    G6-L03.golden.json           # Golden Lesson fixture cho Bài 3 (Thông tin trong máy tính)
+    lessons-g6-ppct.json         # 16 bài học nội dung thực tế (Bài 1–13, 15–17; không có Bài 14)
+    G6-L03.golden.json           # Golden Lesson fixture cho Bài 3 (isFixtureOnly = true)
   resources/
     resources-g6.json            # Danh mục học liệu chuẩn hóa lớp 6
 
@@ -42,62 +42,72 @@ schemas/
 
 tools/
   curriculum/
-    validator.js                 # Bộ kiểm tra Schema + 10 quy tắc toàn vẹn dữ liệu & nghiệp vụ
-    importer.js                  # Bộ nạp Idempotent + IntermediateCurriculumAdapter
-    test-p2-5.js                 # Bộ kiểm thử tự động 20 kịch bản Phase 2 / P2.5
-    staging-store.json           # Snapshot lưu trữ trung gian (không chạm production)
-    fixtures/                    # 7 bộ test fixtures bắt buộc (valid & invalid)
+    trusted-official-requirements-g6.json  # Trusted Official Snapshot 38 YCCĐ CTGDPT 2018
+    validator.js                           # Bộ kiểm tra Schema + Data Contract Lock + 16 quy tắc chuyên môn & toàn vẹn
+    importer.js                            # Bộ nạp Idempotent + IntermediateCurriculumAdapter
+    test-p2-5.js                           # Bộ kiểm thử tự động 20 kịch bản Phase 2 / P2.5
+    staging-store.json                     # Snapshot lưu trữ trung gian (94 thực thể, không chạm production)
+    fixtures/                              # Các bộ test fixtures bắt buộc (valid & invalid)
 ```
 
 ---
 
-## 2. Sơ đồ quan hệ thực thể (Entity-Relationship Overview)
+## 2. Đặc tả chi tiết 12 JSON Schemas theo đúng Data Contract (Blocker 3)
 
-```mermaid
-erDiagram
-    Source ||--o{ Topic : "sourceId"
-    Source ||--o{ Requirement : "sourceId"
-    Source ||--o{ Competency : "sourceId"
-    Source ||--o{ Lesson : "sourceId"
-    Source ||--o{ Resource : "sourceId"
-    Topic ||--|{ Requirement : "topicId"
-    Topic ||--|{ Lesson : "topicId"
-    Lesson }|--|{ Requirement : "requirementIds"
-    Lesson }|--|{ Competency : "competencyIds"
-    Lesson ||--o{ Activity : "lessonId"
-    Lesson ||--o{ Question : "lessonId"
-    Lesson ||--o{ Evidence : "lessonId"
-    Lesson ||--o{ Resource : "lessonId"
-    Lesson ||--o| MasteryRule : "masteryRuleId"
-    Lesson ||--o{ NLSMapping : "lessonId"
-    Lesson ||--o{ AICompetencyMapping : "lessonId"
-    Activity ||--o{ Question : "activityId"
-    Activity ||--o{ Evidence : "activityId"
-```
+### 2.1. `Source` ([schemas/source.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/source.schema.json))
+- **Trường bắt buộc theo Data Contract & Source Verification:**
+  `sourceId`, `title`, `sourceType`, `grade`, `versionOrSchoolYear`, `url`, `authority`, `priority`, `licenseNote`, `status`, `createdAt`, `updatedAt`, `verifiedAt`, `accessedAt`, `verificationStatus`, `scopeUsed`.
+- **Quy tắc Validator:** Chặn URL dạng trang chủ chung (`SOURCE_URL_TOO_GENERIC`) và yêu cầu `verificationStatus === "verified"` (`SOURCE_NOT_VERIFIED`).
+
+### 2.2. `Topic` ([schemas/topic.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/topic.schema.json))
+- **Trường bắt buộc theo Data Contract:**
+  `topicId`, `grade`, `code`, `title`, `order`, `officialSourceId`, `status`.
+
+### 2.3. `Lesson` ([schemas/lesson.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/lesson.schema.json))
+- **Trường bắt buộc theo Data Contract:**
+  `lessonId`, `grade`, `topicId`, `title`, `order`, `durationMinutes`, `requirementIds[]`, `competencyIds[]`, `activityIds[]`, `assessmentPlan`, `resourceIds[]`, `status`, `version`, `sourceRefs[]`.
+- **Quy tắc PPCT:** Chỉ chứa đúng 16 bài nội dung (`G6-L01..G6-L13`, `G6-L15..G6-L17`), nghiêm cấm `G6-L14` (`PHANTOM_LESSON_DETECTED`), và kiểm tra `durationMinutes === periods * 45` (`PPCT_PERIOD_MISMATCH`).
+
+### 2.4. `Requirement` ([schemas/requirement.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/requirement.schema.json))
+- **Trường bắt buộc theo Data Contract:**
+  `requirementId`, `grade`, `topicId`, `officialText`, `studentFriendlyText`, `officialSourceId`, `competencyIds[]`, `evidenceTypes[]`, `status`, `version`.
+- **Trường mở rộng hợp lệ:** `lessonIds[]`, `nlsMappings[]`, `aiCompetencyMappings[]`, `officialTextHash`, `reviewStatus`, `supplementaryKnowledge`.
+
+### 2.5. `Competency` ([schemas/competency.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/competency.schema.json))
+- **Trường bắt buộc theo Data Contract:**
+  `competencyId`, `name`, `levelScope`, `officialDescription`, `officialSourceId`.
+
+### 2.6. `Activity` ([schemas/activity.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/activity.schema.json))
+- **Trường bắt buộc theo Data Contract:**
+  `activityId`, `lessonId`, `order`, `activityType`, `objective`, `instruction`, `requirementIds[]`, `expectedEvidenceTypes[]`, `required`, `supportPolicyId`.
+- **Trường mở rộng hợp lệ:** `resourceIds[]`, `toolIds[]`, `estimatedMinutes`, `allowExternalNavigation`, `scoringMethod`, `educationalPurposeApproved`.
+
+### 2.7. `Question` ([schemas/question.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/question.schema.json))
+- **Trường bắt buộc theo Data Contract:**
+  `questionId`, `grade`, `topicId`, `lessonId`, `requirementId`, `questionType`, `cognitiveLevel`, `questionText`, `correctAnswer`, `explanation`, `maxScore`, `status`.
+- **Ghi chú `PROPOSED_CHANGE` (Chờ duyệt cho các Phase sau, chưa áp dụng trong P2.5):**
+  > Trong P2.5, schema `Question` giữ nguyên trường đơn `requirementId` (string) theo đúng Data Contract đã chốt. Nếu ở Phase 3/4 xuất hiện câu hỏi vận dụng tổng hợp cần đo đồng thời nhiều YCCĐ, đề xuất (`PROPOSED_CHANGE`) bổ sung trường tùy chọn `secondaryRequirementIds?: string[]` trong khi vẫn giữ nguyên `requirementId` làm YCCĐ chính.
+
+### 2.8. `Evidence` ([schemas/evidence.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/evidence.schema.json))
+- **Bản chất:** Minh chứng học tập thật của học sinh (không phải template mô tả hoạt động).
+- **Trường bắt buộc theo Data Contract:**
+  `evidenceId`, `studentUid`, `schoolYear`, `lessonId`, `requirementId`, `evidenceType`, `sourceActivityId`, `submittedAt`, `evaluationStatus`.
+- **Trường mở rộng hợp lệ:** `questionId`, `productId`, `score`, `maxScore`, `isCorrect`, `rubricResult`, `teacherFeedback`, `aiFeedback`.
+
+### 2.9. `MasteryRule` ([schemas/mastery-rule.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/mastery-rule.schema.json))
+- **Bản chất:** Đánh giá mức đạt theo từng `Requirement` (`requirementId`), với 4 trạng thái chuẩn: `insufficient_evidence`, `developing`, `achieved`, `extended`.
+- **Trường bắt buộc theo Data Contract:**
+  `masteryRuleId`, `requirementId`, `minimumEvidenceCount`, `requiredEvidenceTypes[]`, `thresholds`, `recencyRule`, `teacherOverrideAllowed`.
+
+### 2.10. `NLSMapping`, `AICompetencyMapping`, `Resource`
+- [schemas/nls-mapping.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/nls-mapping.schema.json): Bắt buộc tách biệt `frameworkSourceId` (`SRC-TT02-2025-NLS`) và `mappingSourceId` (`SRC-PHULUC3-KHBD-VIETHOA-2026`), đồng thời khóa `isOfficialGdpt2018Requirement: false`.
+- [schemas/ai-competency-mapping.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/ai-competency-mapping.schema.json): Bắt buộc `teacherApproved = true` trước khi `status = "published"`.
+- [schemas/resource.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/resource.schema.json): Bắt buộc `url` không rỗng khi `requiresUrl = true`.
 
 ---
 
-## 3. Đặc tả chi tiết 12 JSON Schemas
-
-| STT | Thực thể | File Schema | Primary Key | Foreign Keys / References | Ràng buộc cốt lõi |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | `Source` | [schemas/source.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/source.schema.json) | `sourceId` | — | `sourceType` thuộc `curriculum_regulation`, `textbook`, `teacher_guide`, `workbook`, `digital_competency_framework`, `school_ppct`; `authorityLevel = mandatory \| official_reference \| school_approved`. |
-| 2 | `Topic` | [schemas/topic.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/topic.schema.json) | `topicId` (`^G6-[A-F]$`) | `sourceId` | Khối lớp `grade = 6`, mã chủ đề `code` thuộc `A`..`F`. |
-| 3 | `Lesson` | [schemas/lesson.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/lesson.schema.json) | `lessonId` (`^G6-L(0[1-9]\|1[0-7])$`) | `topicId`, `requirementIds[]`, `competencyIds[]`, `nlsCodes[]`, `activityIds[]`, `questionIds[]`, `evidenceIds[]`, `resourceIds[]`, `masteryRuleId`, `sourceId` | Nếu `status = "published"` bắt buộc `requirementIds` có ít nhất 1 phần tử (`PUBLISHED_LESSON_MISSING_REQUIREMENT`). |
-| 4 | `Requirement` | [schemas/requirement.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/requirement.schema.json) | `requirementId` (`^G6-[A-F]-[0-9]{2}$`) | `topicId`, `competencyIds[]`, `lessonIds[]`, `sourceId` | `officialText` được bảo vệ bằng `officialTextHash` (SHA-256, 64 kí tự hex), `version`, và `reviewStatus = "approved_official"`. Nghiêm cấm gắn mã NL AI vào `competencyIds`. |
-| 5 | `Competency` | [schemas/competency.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/competency.schema.json) | `competencyId` | `sourceId` | Hỗ trợ khung `GDPT2018_TINHOC` (`NLa`–`NLe`) và `NLS_2025` (`NLS-1.3.TC1a`, `NLS-5.2.TC1a`, `NLS-5.2.TC1b`). |
-| 6 | `NLSMapping` | [schemas/nls-mapping.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/nls-mapping.schema.json) | `mappingId` | `lessonId`, `requirementIds[]`, `competencyId`, `sourceId` | Liên kết tường minh giữa bài học, YCCĐ và chỉ báo Năng lực số (`1.3.TC1a`, `5.2.TC1a`, `5.2.TC1b`). |
-| 7 | `AICompetencyMapping` | [schemas/ai-competency-mapping.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/ai-competency-mapping.schema.json) | `aiMappingId` | `lessonId`, `requirementIds[]` | Tách biệt hoàn toàn khỏi Requirement Bank. Chỉ hợp lệ để publish khi `teacherApproved === true` (`UNAPPROVED_AI_MAPPING`). |
-| 8 | `Activity` | [schemas/activity.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/activity.schema.json) | `activityId` | `lessonId`, `requirementIds[]`, `evidenceIds[]`, `resourceIds[]` | FAIL nếu `requirementIds` rỗng VÀ `educationalPurposeApproved !== true` (`ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS`). |
-| 9 | `Question` | [schemas/question.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/question.schema.json) | `questionId` | `lessonId`, `activityId`, `requirementIds[]` | Bắt buộc có `requirementIds` không rỗng, `correctAnswer` không rỗng, và `explanation` không rỗng. |
-| 10 | `Evidence` | [schemas/evidence.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/evidence.schema.json) | `evidenceId` | `lessonId`, `activityId`, `requirementIds[]` | Xác định minh chứng đánh giá kết quả học tập theo YCCĐ và NLS. |
-| 11 | `Resource` | [schemas/resource.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/resource.schema.json) | `resourceId` | `lessonId`, `sourceId` | Nếu `requiresUrl = true` hoặc thuộc loại học liệu trực tuyến (`interactive_lesson`, `simulation`, `video`, `reference_doc`), trường `url` bắt buộc khác rỗng (`RESOURCE_MISSING_URL`). |
-| 12 | `MasteryRule` | [schemas/mastery-rule.schema.json](file:///Users/huynhvandien/tinhocthaydien/schemas/mastery-rule.schema.json) | `masteryRuleId` | `lessonId`, `requiredActivityIds[]` | Quy định ngưỡng hoàn thành bài học (`minMasteryScorePercent`, `requireExitTicket`, `requirementThresholdCount`). |
-
----
-
-## 4. Kết luận
+## 3. Kết luận
 
 ```text
-PHASE 2 / P2.5: PASS
+PHASE 2 / P2.5 FIX: READY_FOR_REVIEW
 ```

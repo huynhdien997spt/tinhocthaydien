@@ -2,7 +2,14 @@
   {
     "resourceId": "RES-G6-L03-01",
     "lessonId": "G6-L03",
-    "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính",
+    "topicId": "G6-A",
+    "requirementIds": [
+      "G6-A-07",
+      "G6-A-08",
+      "G6-A-09",
+      "G6-A-10"
+    ],
+    "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính (Fixture)",
     "resourceType": "interactive_lesson",
     "requiresUrl": true,
     "url": "lessons/grade6/bai3/index.html",
@@ -12,7 +19,13 @@
   {
     "resourceId": "RES-G6-L03-02",
     "lessonId": "G6-L03",
-    "title": "Bảng tra cứu đơn vị đo dung lượng và thiết bị lưu trữ thông dụng",
+    "topicId": "G6-A",
+    "requirementIds": [
+      "G6-A-08",
+      "G6-A-09",
+      "G6-A-10"
+    ],
+    "title": "SGK Tin học 6 Kết nối tri thức – Bài 3: Thông tin trong máy tính",
     "resourceType": "reference_doc",
     "requiresUrl": true,
     "url": "https://hanhtrangso.nxbgd.vn/sach-dien-tu/tin-hoc-6-10762",

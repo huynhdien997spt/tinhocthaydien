@@ -1,15 +1,18 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "question.schema.json",
+  "$id": "https://tinhocthaydien.edu.vn/schemas/question.schema.json",
   "title": "Question",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "questionId",
+    "grade",
+    "topicId",
     "lessonId",
-    "activityId",
-    "requirementIds",
+    "requirementId",
     "questionType",
-    "prompt",
+    "cognitiveLevel",
+    "questionText",
     "correctAnswer",
     "explanation",
     "maxScore",
@@ -17,23 +20,34 @@
   ],
   "properties": {
     "questionId": {
+      "type": "string"
+    },
+    "grade": {
+      "type": "integer",
+      "const": 6
+    },
+    "topicId": {
       "type": "string",
-      "pattern": "^G6-L[0-9]{2}-Q[0-9]{2}$"
+      "pattern": "^G6-[A-F]$"
     },
     "lessonId": {
-      "type": "string",
-      "pattern": "^G6-L[0-9]{2}$"
+      "type": "string"
     },
     "activityId": {
-      "type": "string",
-      "pattern": "^G6-L[0-9]{2}-A[0-9]+$"
+      "type": "string"
     },
-    "requirementIds": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^G6-[A-F]-[0-9]{2}$"
-      }
+    "requirementId": {
+      "type": "string"
+    },
+    "questionType": {
+      "type": "string",
+      "enum": [
+        "single_choice",
+        "multiple_choice",
+        "short_answer",
+        "true_false",
+        "matching"
+      ]
     },
     "cognitiveLevel": {
       "type": "string",
@@ -44,37 +58,11 @@
         "van_dung_cao"
       ]
     },
-    "questionType": {
-      "type": "string",
-      "enum": [
-        "single_choice",
-        "multiple_choice",
-        "short_answer",
-        "matching",
-        "true_false"
-      ]
-    },
-    "prompt": {
-      "type": "string",
-      "minLength": 5
+    "questionText": {
+      "type": "string"
     },
     "options": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "id",
-          "text"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "text": {
-            "type": "string"
-          }
-        }
-      }
+      "type": "array"
     },
     "correctAnswer": {
       "type": [
@@ -86,20 +74,18 @@
       "type": "string"
     },
     "maxScore": {
-      "type": "number",
-      "minimum": 0.5,
-      "maximum": 10
+      "type": "number"
     },
-    "required": {
+    "isFixtureOnly": {
       "type": "boolean"
     },
     "status": {
       "type": "string",
       "enum": [
+        "published",
         "draft",
-        "published"
+        "archived"
       ]
     }
-  },
-  "additionalProperties": false
+  }
 }

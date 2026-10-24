@@ -1,21 +1,26 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "topic.schema.json",
+  "$id": "https://tinhocthaydien.edu.vn/schemas/topic.schema.json",
   "title": "Topic",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "topicId",
-    "code",
     "grade",
+    "code",
     "title",
-    "sourceId",
     "order",
+    "officialSourceId",
     "status"
   ],
   "properties": {
     "topicId": {
       "type": "string",
       "pattern": "^G6-[A-F]$"
+    },
+    "grade": {
+      "type": "integer",
+      "const": 6
     },
     "code": {
       "type": "string",
@@ -28,33 +33,25 @@
         "F"
       ]
     },
-    "grade": {
-      "type": "integer",
-      "const": 6
-    },
     "title": {
-      "type": "string",
-      "minLength": 3
-    },
-    "subtopicTitle": {
       "type": "string"
     },
-    "sourceId": {
-      "type": "string",
-      "minLength": 3
-    },
     "order": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 6
+      "type": "integer"
+    },
+    "officialSourceId": {
+      "type": "string"
+    },
+    "expectedRequirementCount": {
+      "type": "integer"
     },
     "status": {
       "type": "string",
       "enum": [
+        "published",
         "draft",
-        "published"
+        "archived"
       ]
     }
-  },
-  "additionalProperties": false
+  }
 }

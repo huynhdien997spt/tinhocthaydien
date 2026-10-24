@@ -1,62 +1,62 @@
 [
   {
     "topicId": "G6-A",
-    "code": "A",
     "grade": 6,
+    "code": "A",
     "title": "Chủ đề A. Máy tính và cộng đồng",
-    "subtopicTitle": "Thông tin và dữ liệu; Biểu diễn thông tin và lưu trữ dữ liệu trong máy tính",
-    "sourceId": "SRC-GDPT-2018-TIN6",
     "order": 1,
+    "officialSourceId": "SRC-GDPT-2018-TIN6",
+    "expectedRequirementCount": 10,
     "status": "published"
   },
   {
     "topicId": "G6-B",
-    "code": "B",
     "grade": 6,
+    "code": "B",
     "title": "Chủ đề B. Mạng máy tính và Internet",
-    "subtopicTitle": "Giới thiệu về mạng máy tính và Internet",
-    "sourceId": "SRC-GDPT-2018-TIN6",
     "order": 2,
+    "officialSourceId": "SRC-GDPT-2018-TIN6",
+    "expectedRequirementCount": 4,
     "status": "published"
   },
   {
     "topicId": "G6-C",
-    "code": "C",
     "grade": 6,
+    "code": "C",
     "title": "Chủ đề C. Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin",
-    "subtopicTitle": "World Wide Web, công cụ tìm kiếm và thư điện tử",
-    "sourceId": "SRC-GDPT-2018-TIN6",
     "order": 3,
+    "officialSourceId": "SRC-GDPT-2018-TIN6",
+    "expectedRequirementCount": 7,
     "status": "published"
   },
   {
     "topicId": "G6-D",
-    "code": "D",
     "grade": 6,
-    "title": "Chủ đề D. Đạo đức, pháp luật và văn hóa trong môi trường số",
-    "subtopicTitle": "Đề phòng một số tác hại khi tham gia Internet và bảo vệ thông tin cá nhân",
-    "sourceId": "SRC-GDPT-2018-TIN6",
+    "code": "D",
+    "title": "Chủ đề D. Đạo đức, pháp luật và văn hoá trong môi trường số",
     "order": 4,
+    "officialSourceId": "SRC-GDPT-2018-TIN6",
+    "expectedRequirementCount": 5,
     "status": "published"
   },
   {
     "topicId": "G6-E",
-    "code": "E",
     "grade": 6,
+    "code": "E",
     "title": "Chủ đề E. Ứng dụng tin học",
-    "subtopicTitle": "Sơ đồ tư duy và soạn thảo văn bản cơ bản",
-    "sourceId": "SRC-GDPT-2018-TIN6",
     "order": 5,
+    "officialSourceId": "SRC-GDPT-2018-TIN6",
+    "expectedRequirementCount": 9,
     "status": "published"
   },
   {
     "topicId": "G6-F",
-    "code": "F",
     "grade": 6,
+    "code": "F",
     "title": "Chủ đề F. Giải quyết vấn đề với sự trợ giúp của máy tính",
-    "subtopicTitle": "Khái niệm thuật toán, các cấu trúc điều khiển và chương trình máy tính",
-    "sourceId": "SRC-GDPT-2018-TIN6",
     "order": 6,
+    "officialSourceId": "SRC-GDPT-2018-TIN6",
+    "expectedRequirementCount": 3,
     "status": "published"
   }
 ]

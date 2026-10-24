@@ -1,12 +1,15 @@
 [
   {
     "lessonId": "G6-L01",
-    "ppctNumber": 1,
+    "legacyLessonId": null,
+    "lessonNumber": 1,
     "grade": 6,
     "topicId": "G6-A",
     "title": "Bài 1. Thông tin và dữ liệu",
+    "order": 1,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-A-01",
@@ -18,17 +21,40 @@
       "NLa"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L02",
-    "ppctNumber": 2,
+    "legacyLessonId": null,
+    "lessonNumber": 2,
     "grade": 6,
     "topicId": "G6-A",
     "title": "Bài 2. Xử lí thông tin",
+    "order": 2,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-A-05",
@@ -39,18 +65,40 @@
       "NLc"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L03",
     "legacyLessonId": "G6-B3",
-    "ppctNumber": 3,
+    "lessonNumber": 3,
     "grade": 6,
     "topicId": "G6-A",
     "title": "Thông tin trong máy tính",
+    "order": 3,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "WebQuest",
     "requirementIds": [
       "G6-A-07",
@@ -85,22 +133,46 @@
       "EVD-G6-L03-03",
       "EVD-G6-L03-04"
     ],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": true,
+      "masteryEvaluationMode": "by_requirement"
+    },
     "resourceIds": [
       "RES-G6-L03-01",
       "RES-G6-L03-02"
     ],
-    "masteryRuleId": "MR-G6-L03",
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "masteryRuleIds": [
+      "MR-G6-A-07",
+      "MR-G6-A-08",
+      "MR-G6-A-09",
+      "MR-G6-A-10"
+    ],
+    "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (TB) khi tìm hiểu dung lượng ổ cứng.",
+    "isFixtureOnly": true,
+    "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L04",
-    "ppctNumber": 4,
+    "legacyLessonId": null,
+    "lessonNumber": 4,
     "grade": 6,
     "topicId": "G6-B",
     "title": "Bài 4. Mạng máy tính",
+    "order": 4,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-B-01",
@@ -112,17 +184,40 @@
       "NLe"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L05",
-    "ppctNumber": 5,
+    "legacyLessonId": null,
+    "lessonNumber": 5,
     "grade": 6,
     "topicId": "G6-B",
     "title": "Bài 5. Internet",
-    "periods": 2,
-    "durationMinutes": 90,
+    "order": 5,
+    "periods": 1,
+    "durationMinutes": 45,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-B-04"
@@ -133,105 +228,224 @@
       "NLe"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L06",
-    "ppctNumber": 6,
+    "legacyLessonId": null,
+    "lessonNumber": 6,
     "grade": 6,
     "topicId": "G6-C",
     "title": "Bài 6. Mạng thông tin toàn cầu",
+    "order": 6,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-C-01",
-      "G6-C-02"
+      "G6-C-02",
+      "G6-C-03"
     ],
     "competencyIds": [
       "NLa",
       "NLd"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L07",
-    "ppctNumber": 7,
+    "legacyLessonId": null,
+    "lessonNumber": 7,
     "grade": 6,
     "topicId": "G6-C",
     "title": "Bài 7. Tìm kiếm thông tin trên Internet",
+    "order": 7,
     "periods": 2,
     "durationMinutes": 90,
-    "learningModel": "WebQuest",
-    "requirementIds": [
-      "G6-C-03"
-    ],
-    "competencyIds": [
-      "NLd"
-    ],
-    "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
-  },
-  {
-    "lessonId": "G6-L08",
-    "ppctNumber": 8,
-    "grade": 6,
-    "topicId": "G6-C",
-    "title": "Bài 8. Thư điện tử",
-    "periods": 2,
-    "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-C-04",
       "G6-C-05"
     ],
     "competencyIds": [
+      "NLd"
+    ],
+    "nlsCodes": [],
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
+  },
+  {
+    "lessonId": "G6-L08",
+    "legacyLessonId": null,
+    "lessonNumber": 8,
+    "grade": 6,
+    "topicId": "G6-C",
+    "title": "Bài 8. Thư điện tử",
+    "order": 8,
+    "periods": 1,
+    "durationMinutes": 45,
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
+    "requirementIds": [
+      "G6-C-06",
+      "G6-C-07"
+    ],
+    "competencyIds": [
       "NLa",
       "NLe"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L09",
-    "ppctNumber": 9,
+    "legacyLessonId": null,
+    "lessonNumber": 9,
     "grade": 6,
     "topicId": "G6-D",
     "title": "Bài 9. An toàn thông tin trên Internet",
+    "order": 9,
     "periods": 2,
     "durationMinutes": 90,
-    "learningModel": "PRIDAM",
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-D-01",
       "G6-D-02",
       "G6-D-03",
-      "G6-D-04"
+      "G6-D-04",
+      "G6-D-05"
     ],
     "competencyIds": [
       "NLb",
       "NLe"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L10",
-    "ppctNumber": 10,
+    "legacyLessonId": null,
+    "lessonNumber": 10,
     "grade": 6,
     "topicId": "G6-E",
     "title": "Bài 10. Sơ đồ tư duy",
+    "order": 10,
     "periods": 2,
     "durationMinutes": 90,
-    "learningModel": "PRIDAM",
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-E-01",
-      "G6-E-02"
+      "G6-E-02",
+      "G6-E-03"
     ],
     "competencyIds": [
       "NLa",
@@ -240,117 +454,222 @@
       "NLe"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L11",
-    "ppctNumber": 11,
+    "legacyLessonId": null,
+    "lessonNumber": 11,
     "grade": 6,
     "topicId": "G6-E",
     "title": "Bài 11. Định dạng văn bản",
+    "order": 11,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
-      "G6-E-03"
+      "G6-E-04",
+      "G6-E-05",
+      "G6-E-06",
+      "G6-E-09"
     ],
     "competencyIds": [
       "NLa",
-      "NLd"
-    ],
-    "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
-  },
-  {
-    "lessonId": "G6-L12",
-    "ppctNumber": 12,
-    "grade": 6,
-    "topicId": "G6-E",
-    "title": "Bài 12. Trình bày thông tin ở dạng bảng",
-    "periods": 2,
-    "durationMinutes": 90,
-    "learningModel": "ActivityBased",
-    "requirementIds": [
-      "G6-E-04"
-    ],
-    "competencyIds": [
-      "NLa",
-      "NLd"
-    ],
-    "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
-  },
-  {
-    "lessonId": "G6-L13",
-    "ppctNumber": 13,
-    "grade": 6,
-    "topicId": "G6-E",
-    "title": "Bài 13. Thực hành: Tìm kiếm và thay thế",
-    "periods": 2,
-    "durationMinutes": 90,
-    "learningModel": "ActivityBased",
-    "requirementIds": [
-      "G6-E-05"
-    ],
-    "competencyIds": [
-      "NLa",
-      "NLd"
-    ],
-    "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
-  },
-  {
-    "lessonId": "G6-L14",
-    "ppctNumber": 14,
-    "grade": 6,
-    "topicId": "G6-E",
-    "title": "Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm",
-    "periods": 2,
-    "durationMinutes": 90,
-    "learningModel": "PRIDAM",
-    "requirementIds": [
-      "G6-E-06"
-    ],
-    "competencyIds": [
       "NLd",
       "NLe"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
+  },
+  {
+    "lessonId": "G6-L12",
+    "legacyLessonId": null,
+    "lessonNumber": 12,
+    "grade": 6,
+    "topicId": "G6-E",
+    "title": "Bài 12. Trình bày thông tin ở dạng bảng",
+    "order": 12,
+    "periods": 2,
+    "durationMinutes": 90,
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
+    "requirementIds": [
+      "G6-E-07",
+      "G6-E-09"
+    ],
+    "competencyIds": [
+      "NLa",
+      "NLd",
+      "NLe"
+    ],
+    "nlsCodes": [],
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
+  },
+  {
+    "lessonId": "G6-L13",
+    "legacyLessonId": null,
+    "lessonNumber": 13,
+    "grade": 6,
+    "topicId": "G6-E",
+    "title": "Bài 13. Thực hành: Tìm kiếm và thay thế",
+    "order": 13,
+    "periods": 1,
+    "durationMinutes": 45,
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
+    "requirementIds": [
+      "G6-E-05",
+      "G6-E-08",
+      "G6-E-09"
+    ],
+    "competencyIds": [
+      "NLa",
+      "NLd",
+      "NLe"
+    ],
+    "nlsCodes": [],
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L15",
-    "ppctNumber": 15,
+    "legacyLessonId": null,
+    "lessonNumber": 15,
     "grade": 6,
     "topicId": "G6-F",
     "title": "Bài 15. Thuật toán",
+    "order": 14,
     "periods": 2,
     "durationMinutes": 90,
-    "learningModel": "PRIMM",
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
     "requirementIds": [
-      "G6-F-01"
+      "G6-F-01",
+      "G6-F-02"
     ],
     "competencyIds": [
       "NLc"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L16",
-    "ppctNumber": 16,
+    "legacyLessonId": null,
+    "lessonNumber": 16,
     "grade": 6,
     "topicId": "G6-F",
     "title": "Bài 16. Các cấu trúc điều khiển",
+    "order": 15,
     "periods": 2,
     "durationMinutes": 90,
-    "learningModel": "PRIMM",
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-F-02"
     ],
@@ -358,18 +677,41 @@
       "NLc"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   {
     "lessonId": "G6-L17",
-    "ppctNumber": 17,
+    "legacyLessonId": null,
+    "lessonNumber": 17,
     "grade": 6,
     "topicId": "G6-F",
     "title": "Bài 17. Chương trình máy tính",
-    "periods": 2,
-    "durationMinutes": 90,
-    "learningModel": "PRIMM",
+    "order": 16,
+    "periods": 1,
+    "durationMinutes": 45,
+    "sessionType": "lesson",
+    "learningModel": "ActivityBased",
     "requirementIds": [
       "G6-F-03"
     ],
@@ -377,7 +719,27 @@
       "NLc"
     ],
     "nlsCodes": [],
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "activityIds": [],
+    "questionIds": [],
+    "evidenceIds": [],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": false,
+      "masteryEvaluationMode": "by_requirement"
+    },
+    "resourceIds": [],
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": null,
+    "isFixtureOnly": false,
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   }
 ]

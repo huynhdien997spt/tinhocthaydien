@@ -1,13 +1,20 @@
 {
+  "fixtureMetadata": {
+    "isFixtureOnly": true,
+    "purpose": "Chỉ dùng làm fixture kiểm thử kỹ thuật cho Phase 2 / Task P2.5. Không phải thiết kế bài học hoàn chỉnh của Phase 3.",
+    "approvedForProductionUI": false
+  },
   "lesson": {
     "lessonId": "G6-L03",
     "legacyLessonId": "G6-B3",
-    "ppctNumber": 3,
+    "lessonNumber": 3,
     "grade": 6,
     "topicId": "G6-A",
     "title": "Thông tin trong máy tính",
+    "order": 3,
     "periods": 2,
     "durationMinutes": 90,
+    "sessionType": "lesson",
     "learningModel": "WebQuest",
     "requirementIds": [
       "G6-A-07",
@@ -42,115 +49,162 @@
       "EVD-G6-L03-03",
       "EVD-G6-L03-04"
     ],
+    "assessmentPlan": {
+      "formativeEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
+      ],
+      "requireExitTicket": true,
+      "masteryEvaluationMode": "by_requirement"
+    },
     "resourceIds": [
       "RES-G6-L03-01",
       "RES-G6-L03-02"
     ],
-    "masteryRuleId": "MR-G6-L03",
-    "sourceId": "SRC-PPCT-TIN6-2026",
-    "status": "published"
+    "masteryRuleIds": [
+      "MR-G6-A-07",
+      "MR-G6-A-08",
+      "MR-G6-A-09",
+      "MR-G6-A-10"
+    ],
+    "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (TB) khi tìm hiểu dung lượng ổ cứng.",
+    "isFixtureOnly": true,
+    "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
+    "status": "published",
+    "version": "2026.1",
+    "sourceRefs": [
+      "SRC-PPCT-VIETHOA-TIN6-2026",
+      "SRC-SGK-KNTT-TIN6",
+      "SRC-GDPT-2018-TIN6"
+    ]
   },
   "activities": [
     {
       "activityId": "G6-L03-A1",
       "lessonId": "G6-L03",
-      "code": "A1",
-      "type": "opening",
-      "title": "Khởi động: Mật mã nhị phân 0 và 1",
-      "objective": "Khơi gợi tò mò về cách máy tính biểu diễn chữ cái và hình ảnh bằng hai kí hiệu 0 và 1.",
-      "durationMinutes": 10,
+      "order": 1,
+      "activityType": "opening",
+      "title": "Khởi động: Biểu diễn thông tin bằng hai kí hiệu 0 và 1 (Fixture)",
+      "objective": "Nhận biết máy tính có thể biểu diễn thông tin chỉ với hai kí hiệu 0 và 1.",
+      "instruction": "Quan sát ví dụ mã nhị phân và trả lời câu hỏi khởi động G6-L03-Q01.",
       "requirementIds": [
         "G6-A-07"
       ],
-      "educationalPurposeApproved": true,
-      "educationalPurposeNote": "Hoạt động mở đầu dẫn nhập vào khái niệm biểu diễn thông tin bằng dãy bit.",
-      "evidenceIds": [
-        "EVD-G6-L03-01"
+      "expectedEvidenceTypes": [
+        "quiz_response"
       ],
+      "required": true,
+      "supportPolicyId": "SP-G6-DEFAULT-HINT",
       "resourceIds": [
         "RES-G6-L03-01"
       ],
+      "toolIds": [],
+      "estimatedMinutes": 15,
+      "allowExternalNavigation": false,
+      "scoringMethod": "auto_binary",
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-07.",
+      "isFixtureOnly": true,
       "status": "published"
     },
     {
       "activityId": "G6-L03-A2",
       "lessonId": "G6-L03",
-      "code": "A2",
-      "type": "knowledge",
-      "title": "Khám phá: Dãy bit và các đơn vị đo dung lượng thông tin",
-      "objective": "Nhận biết bit là đơn vị nhỏ nhất và nắm được bảng đơn vị Byte, KB, MB, GB, TB.",
-      "durationMinutes": 25,
+      "order": 2,
+      "activityType": "knowledge",
+      "title": "Khám phá: Đơn vị bit và các đơn vị đo dung lượng (Fixture)",
+      "objective": "Biết được bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
+      "instruction": "Đọc bảng đơn vị đo dung lượng và hoàn thành câu hỏi G6-L03-Q02.",
       "requirementIds": [
-        "G6-A-07",
-        "G6-A-08",
-        "G6-A-09"
+        "G6-A-08"
       ],
-      "educationalPurposeApproved": true,
-      "educationalPurposeNote": "Hình thành kiến thức cốt lõi về bit và đơn vị đo dung lượng.",
-      "evidenceIds": [
-        "EVD-G6-L03-02"
+      "expectedEvidenceTypes": [
+        "quiz_response"
       ],
+      "required": true,
+      "supportPolicyId": "SP-G6-DEFAULT-HINT",
       "resourceIds": [
         "RES-G6-L03-01"
       ],
+      "toolIds": [],
+      "estimatedMinutes": 25,
+      "allowExternalNavigation": false,
+      "scoringMethod": "auto_binary",
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-08.",
+      "isFixtureOnly": true,
       "status": "published"
     },
     {
       "activityId": "G6-L03-A3",
       "lessonId": "G6-L03",
-      "code": "A3",
-      "type": "practice",
-      "title": "Luyện tập: Quy đổi dung lượng dữ liệu",
-      "objective": "Thực hành quy đổi xấp xỉ giữa các đơn vị Byte, KB, MB, GB, TB.",
-      "durationMinutes": 25,
+      "order": 3,
+      "activityType": "practice",
+      "title": "Luyện tập: Quy đổi gần đúng giữa Byte, KB, MB, GB (Fixture)",
+      "objective": "Nêu được tên, độ lớn xấp xỉ và quy đổi gần đúng giữa Byte, KB, MB, GB.",
+      "instruction": "Thực hiện quy đổi xấp xỉ giữa các đơn vị cơ bản trong câu hỏi G6-L03-Q03.",
       "requirementIds": [
-        "G6-A-08",
         "G6-A-09"
       ],
-      "educationalPurposeApproved": true,
-      "educationalPurposeNote": "Rèn kĩ năng quy đổi đơn vị đo dung lượng thông tin.",
-      "evidenceIds": [
-        "EVD-G6-L03-03"
+      "expectedEvidenceTypes": [
+        "quiz_response",
+        "worksheet_table"
       ],
+      "required": true,
+      "supportPolicyId": "SP-G6-DEFAULT-HINT",
       "resourceIds": [
         "RES-G6-L03-02"
       ],
+      "toolIds": [],
+      "estimatedMinutes": 25,
+      "allowExternalNavigation": false,
+      "scoringMethod": "auto_binary",
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-09.",
+      "isFixtureOnly": true,
       "status": "published"
     },
     {
       "activityId": "G6-L03-A4",
       "lessonId": "G6-L03",
-      "code": "A4",
-      "type": "application",
-      "title": "Vận dụng: Lựa chọn thiết bị nhớ phù hợp",
-      "objective": "So sánh khả năng lưu trữ của đĩa cứng, USB, thẻ nhớ, CD và chọn thiết bị phù hợp với nhu cầu lưu trữ.",
-      "durationMinutes": 30,
+      "order": 4,
+      "activityType": "application",
+      "title": "Vận dụng: Khả năng lưu trữ của các thiết bị nhớ thông dụng (Fixture)",
+      "objective": "Nêu được sơ lược khả năng lưu trữ của đĩa cứng, USB, CD, thẻ nhớ.",
+      "instruction": "So sánh dung lượng thiết bị nhớ và trả lời câu hỏi G6-L03-Q04.",
       "requirementIds": [
-        "G6-A-09",
         "G6-A-10"
       ],
-      "educationalPurposeApproved": true,
-      "educationalPurposeNote": "Vận dụng kiến thức dung lượng để chọn thiết bị lưu trữ thực tế.",
-      "evidenceIds": [
-        "EVD-G6-L03-04"
+      "expectedEvidenceTypes": [
+        "quiz_response",
+        "exit_ticket_reflection"
       ],
+      "required": true,
+      "supportPolicyId": "SP-G6-DEFAULT-HINT",
       "resourceIds": [
         "RES-G6-L03-02"
       ],
+      "toolIds": [],
+      "estimatedMinutes": 25,
+      "allowExternalNavigation": false,
+      "scoringMethod": "auto_binary",
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-10.",
+      "isFixtureOnly": true,
       "status": "published"
     }
   ],
   "questions": [
     {
       "questionId": "G6-L03-Q01",
+      "grade": 6,
+      "topicId": "G6-A",
       "lessonId": "G6-L03",
       "activityId": "G6-L03-A1",
-      "requirementIds": [
-        "G6-A-07"
-      ],
-      "cognitiveLevel": "thong_hieu",
+      "requirementId": "G6-A-07",
       "questionType": "single_choice",
-      "prompt": "Trong máy tính, thông tin (văn bản, hình ảnh, âm thanh) được biểu diễn bằng hai kí hiệu nào?",
+      "cognitiveLevel": "thong_hieu",
+      "questionText": "[Fixture] Trong máy tính, thông tin được biểu diễn chỉ với hai kí hiệu nào?",
       "options": [
         {
           "id": "A",
@@ -170,185 +224,208 @@
         }
       ],
       "correctAnswer": "B",
-      "explanation": "Mọi dữ liệu trong máy tính đều được chuyển thành các dãy bit chỉ gồm hai kí hiệu 0 và 1.",
+      "explanation": "Máy tính biểu diễn và xử lí thông tin bằng các dãy bit chỉ gồm hai kí hiệu 0 và 1.",
       "maxScore": 1,
-      "required": true,
+      "isFixtureOnly": true,
       "status": "published"
     },
     {
       "questionId": "G6-L03-Q02",
+      "grade": 6,
+      "topicId": "G6-A",
       "lessonId": "G6-L03",
       "activityId": "G6-L03-A2",
-      "requirementIds": [
-        "G6-A-08"
-      ],
-      "cognitiveLevel": "nhan_biet",
+      "requirementId": "G6-A-08",
       "questionType": "single_choice",
-      "prompt": "Đơn vị nhỏ nhất dùng để đo dung lượng lưu trữ thông tin trong máy tính là gì và 1 Byte bằng bao nhiêu bit?",
+      "cognitiveLevel": "nhan_biet",
+      "questionText": "[Fixture] Đơn vị nhỏ nhất trong lưu trữ thông tin là gì?",
       "options": [
         {
           "id": "A",
-          "text": "Bit là đơn vị nhỏ nhất; 1 Byte = 8 bit"
+          "text": "bit"
         },
         {
           "id": "B",
-          "text": "Byte là đơn vị nhỏ nhất; 1 Byte = 10 bit"
+          "text": "Byte"
         },
         {
           "id": "C",
-          "text": "KB là đơn vị nhỏ nhất; 1 KB = 8 bit"
+          "text": "KB"
         },
         {
           "id": "D",
-          "text": "Bit là đơn vị nhỏ nhất; 1 Byte = 1000 bit"
+          "text": "MB"
         }
       ],
       "correctAnswer": "A",
-      "explanation": "Bit là đơn vị nhỏ nhất trong lưu trữ thông tin (nhận giá trị 0 hoặc 1), và 1 Byte gồm 8 bit.",
+      "explanation": "Theo CTGDPT 2018 (G6-A-08), bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
       "maxScore": 1,
-      "required": true,
+      "isFixtureOnly": true,
       "status": "published"
     },
     {
       "questionId": "G6-L03-Q03",
+      "grade": 6,
+      "topicId": "G6-A",
       "lessonId": "G6-L03",
       "activityId": "G6-L03-A3",
-      "requirementIds": [
-        "G6-A-09"
-      ],
-      "cognitiveLevel": "van_dung",
+      "requirementId": "G6-A-09",
       "questionType": "single_choice",
-      "prompt": "Theo quy đổi xấp xỉ hệ thập phân, 1 GB xấp xỉ bằng bao nhiêu MB và một tệp video 2 GB tương đương khoảng bao nhiêu MB?",
+      "cognitiveLevel": "van_dung",
+      "questionText": "[Fixture] Theo quy đổi gần đúng hệ thập phân giữa các đơn vị cơ bản Byte, KB, MB, GB thì 1 GB xấp xỉ bằng bao nhiêu MB?",
       "options": [
         {
           "id": "A",
-          "text": "1 GB ≈ 100 MB; 2 GB ≈ 200 MB"
+          "text": "Khoảng 100 MB"
         },
         {
           "id": "B",
-          "text": "1 GB ≈ 1000 MB; 2 GB ≈ 2000 MB"
+          "text": "Khoảng 1000 MB"
         },
         {
           "id": "C",
-          "text": "1 GB ≈ 1000 KB; 2 GB ≈ 2000 KB"
+          "text": "Khoảng 10 MB"
         },
         {
           "id": "D",
-          "text": "1 GB ≈ 10 MB; 2 GB ≈ 20 MB"
+          "text": "Khoảng 8 MB"
         }
       ],
       "correctAnswer": "B",
-      "explanation": "Theo hệ thập phân, các đơn vị KB, MB, GB, TB hơn kém nhau xấp xỉ 1000 lần nên 1 GB ≈ 1000 MB và 2 GB ≈ 2000 MB.",
+      "explanation": "Theo hệ thập phân, các đơn vị cơ bản Byte, KB, MB, GB hơn kém nhau xấp xỉ 1000 lần nên 1 GB ≈ 1000 MB.",
       "maxScore": 1,
-      "required": true,
+      "isFixtureOnly": true,
       "status": "published"
     },
     {
       "questionId": "G6-L03-Q04",
+      "grade": 6,
+      "topicId": "G6-A",
       "lessonId": "G6-L03",
       "activityId": "G6-L03-A4",
-      "requirementIds": [
-        "G6-A-09",
-        "G6-A-10"
-      ],
-      "cognitiveLevel": "van_dung",
+      "requirementId": "G6-A-10",
       "questionType": "single_choice",
-      "prompt": "Em cần sao lưu khoảng 500 bức ảnh kỷ niệm của lớp (mỗi bức ảnh khoảng 4 MB, tổng cộng khoảng 2 GB). Thiết bị nhớ nào sau đây phù hợp và tiện mang theo nhất?",
+      "cognitiveLevel": "thong_hieu",
+      "questionText": "[Fixture] Trong các thiết bị nhớ thông dụng sau (đĩa cứng, USB, CD, thẻ nhớ), thiết bị nào thường có dung lượng lưu trữ lớn nhất trong máy tính cá nhân?",
       "options": [
         {
           "id": "A",
-          "text": "Đĩa CD (dung lượng khoảng 700 MB)"
+          "text": "Đĩa CD (khoảng 700 MB)"
         },
         {
           "id": "B",
-          "text": "USB hoặc thẻ nhớ dung lượng từ 8 GB đến 32 GB"
+          "text": "Đĩa cứng (hàng trăm GB trở lên)"
         },
         {
           "id": "C",
-          "text": "Một đĩa mềm 1.44 MB"
+          "text": "Đĩa mềm (1.44 MB)"
         },
         {
           "id": "D",
-          "text": "Không có thiết bị nào chứa được 2 GB"
+          "text": "Thẻ nhớ 2 GB"
         }
       ],
       "correctAnswer": "B",
-      "explanation": "Tổng dung lượng 500 bức ảnh là 500 × 4 MB = 2000 MB ≈ 2 GB, vượt quá dung lượng đĩa CD (700 MB) nhưng hoàn toàn vừa vặn trên USB hoặc thẻ nhớ 8 GB – 32 GB.",
+      "explanation": "Đĩa cứng là thiết bị nhớ thông dụng có khả năng lưu trữ lớn (hàng trăm GB trở lên), lớn hơn nhiều so với đĩa CD (~700 MB).",
       "maxScore": 1,
-      "required": true,
+      "isFixtureOnly": true,
       "status": "published"
     }
   ],
   "evidences": [
     {
       "evidenceId": "EVD-G6-L03-01",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
       "lessonId": "G6-L03",
-      "activityId": "G6-L03-A1",
-      "requirementIds": [
-        "G6-A-07"
-      ],
-      "nlsCodes": [
-        "5.2.TC1a"
-      ],
+      "requirementId": "G6-A-07",
       "evidenceType": "quiz_response",
-      "title": "Minh chứng nhận biết biểu diễn nhị phân (0 và 1)",
-      "description": "Câu trả lời của học sinh tại hoạt động A1 giải thích việc biểu diễn thông tin bằng hai kí hiệu 0 và 1.",
-      "status": "published"
+      "sourceActivityId": "G6-L03-A1",
+      "submittedAt": "2026-10-24T08:15:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q01",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
     },
     {
       "evidenceId": "EVD-G6-L03-02",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
       "lessonId": "G6-L03",
-      "activityId": "G6-L03-A2",
-      "requirementIds": [
-        "G6-A-08",
-        "G6-A-09"
-      ],
-      "nlsCodes": [
-        "1.3.TC1a"
-      ],
+      "requirementId": "G6-A-08",
       "evidenceType": "quiz_response",
-      "title": "Minh chứng nhận biết đơn vị bit và bảng đơn vị dung lượng",
-      "description": "Kết quả trả lời câu hỏi về bit, Byte, KB, MB, GB, TB tại hoạt động A2.",
-      "status": "published"
+      "sourceActivityId": "G6-L03-A2",
+      "submittedAt": "2026-10-24T08:30:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q02",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
     },
     {
       "evidenceId": "EVD-G6-L03-03",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
       "lessonId": "G6-L03",
-      "activityId": "G6-L03-A3",
-      "requirementIds": [
-        "G6-A-09"
-      ],
-      "nlsCodes": [
-        "1.3.TC1a"
-      ],
-      "evidenceType": "worksheet_table",
-      "title": "Minh chứng bài tập quy đổi xấp xỉ đơn vị dung lượng",
-      "description": "Kết quả quy đổi giữa Byte, KB, MB, GB, TB tại hoạt động luyện tập A3.",
-      "status": "published"
+      "requirementId": "G6-A-09",
+      "evidenceType": "quiz_response",
+      "sourceActivityId": "G6-L03-A3",
+      "submittedAt": "2026-10-24T08:50:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q03",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
     },
     {
       "evidenceId": "EVD-G6-L03-04",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
       "lessonId": "G6-L03",
-      "activityId": "G6-L03-A4",
-      "requirementIds": [
-        "G6-A-09",
-        "G6-A-10"
-      ],
-      "nlsCodes": [
-        "1.3.TC1a",
-        "5.2.TC1b"
-      ],
-      "evidenceType": "exit_ticket_reflection",
-      "title": "Minh chứng lựa chọn thiết bị nhớ & phản hồi Exit Ticket",
-      "description": "Câu trả lời tình huống chọn thiết bị nhớ (USB/thẻ nhớ/ổ cứng/CD) và phiếu Exit Ticket cuối bài.",
-      "status": "published"
+      "requirementId": "G6-A-10",
+      "evidenceType": "quiz_response",
+      "sourceActivityId": "G6-L03-A4",
+      "submittedAt": "2026-10-24T09:10:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q04",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
     }
   ],
   "resources": [
     {
       "resourceId": "RES-G6-L03-01",
       "lessonId": "G6-L03",
-      "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính",
+      "topicId": "G6-A",
+      "requirementIds": [
+        "G6-A-07",
+        "G6-A-08",
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính (Fixture)",
       "resourceType": "interactive_lesson",
       "requiresUrl": true,
       "url": "lessons/grade6/bai3/index.html",
@@ -358,7 +435,13 @@
     {
       "resourceId": "RES-G6-L03-02",
       "lessonId": "G6-L03",
-      "title": "Bảng tra cứu đơn vị đo dung lượng và thiết bị lưu trữ thông dụng",
+      "topicId": "G6-A",
+      "requirementIds": [
+        "G6-A-08",
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "title": "SGK Tin học 6 Kết nối tri thức – Bài 3: Thông tin trong máy tính",
       "resourceType": "reference_doc",
       "requiresUrl": true,
       "url": "https://hanhtrangso.nxbgd.vn/sach-dien-tu/tin-hoc-6-10762",
@@ -366,18 +449,138 @@
       "status": "published"
     }
   ],
-  "masteryRule": {
-    "masteryRuleId": "MR-G6-L03",
-    "lessonId": "G6-L03",
-    "requiredActivityIds": [
-      "G6-L03-A1",
-      "G6-L03-A2",
-      "G6-L03-A3",
-      "G6-L03-A4"
-    ],
-    "requireExitTicket": true,
-    "minMasteryScorePercent": 75,
-    "requirementThresholdCount": 4,
-    "status": "published"
-  }
+  "masteryRules": [
+    {
+      "masteryRuleId": "MR-G6-A-07",
+      "requirementId": "G6-A-07",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    },
+    {
+      "masteryRuleId": "MR-G6-A-08",
+      "requirementId": "G6-A-08",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    },
+    {
+      "masteryRuleId": "MR-G6-A-09",
+      "requirementId": "G6-A-09",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    },
+    {
+      "masteryRuleId": "MR-G6-A-10",
+      "requirementId": "G6-A-10",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    }
+  ]
 }
