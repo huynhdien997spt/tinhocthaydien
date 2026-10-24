@@ -248,7 +248,8 @@
       ],
       "expectedEvidenceTypes": [
         "worksheet_table",
-        "quiz_response"
+        "quiz_response",
+        "short_answer"
       ],
       "required": true,
       "supportPolicyId": "SP-G6-L03-A05-3TIER",

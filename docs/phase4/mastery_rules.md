@@ -231,5 +231,5 @@ Bảng quy chuẩn logic quyết định mức độ thành thạo cho 4 YCCĐ c
 | **Đánh giá nhiều lần thử** | Ghi nhận số lần thử và nấc hỗ trợ đã dùng, không chỉ lấy điểm lần đầu hay điểm cao nhất duy nhất. | **ĐẠT (PASS)** |
 | **Mức 🚀 đòi hỏi Transfer Evidence** | Mức Vận dụng mở rộng bắt buộc phải có minh chứng chuyển giao thực tiễn, không cấp vì điểm cao hay làm nhanh. | **ĐẠT (PASS)** |
 | **G6-A-10 Evidence Structured (Fix 5)** | Không dùng bare ActivityID (`G6-L03-A07`, `G6-L03-A08`) làm EvidenceID; dùng cấu trúc ngữ nghĩa rõ ràng. | **ĐẠT (PASS)** |
-| **G6-A-09 Unit Names Evidence Gap (R2)** | Khai báo tường minh `G6_A09_UNIT_NAMES_EVIDENCE_GAP`. Chặn không cho cấp 🌳/🚀 khi thiếu minh chứng độc lập `unit_names`. Mức trần tạm dừng an toàn ở 🌿 `developing`. | **ĐẠT (PASS)** |
-| **Đề xuất minh chứng tương lai (R2)** | Có bản thiết kế đề xuất câu hỏi điền khuyết 4 ô độc lập `PROVISIONAL-G6-L03-E-NAMES` không in sẵn đáp án. Không sửa đổi mã nguồn bài học. | **ĐẠT (PASS)** |
+| **G6-A-09 Unit Names Evidence Gap (P4.2-E1)** | Khoảng trống `G6_A09_UNIT_NAMES_EVIDENCE_GAP` đã được giải quyết bằng câu hỏi canonical `G6-L03-Q011`. Không còn chặn cấp 🌳/🚀 khi Q011 đạt chuẩn. | **ĐẠT (PASS)** |
+| **Minh chứng độc lập unit_names (P4.2-E1)** | Đã triển khai câu hỏi canonical `G6-L03-Q011` (thay thế đề xuất tạm thời `PROVISIONAL-G6-L03-E-NAMES`), yêu cầu học sinh tự viết Byte, KB, MB, GB (từ chối "B"), không in sẵn đáp án. | **ĐẠT (PASS)** |

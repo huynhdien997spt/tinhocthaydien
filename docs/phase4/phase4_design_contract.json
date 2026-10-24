@@ -448,20 +448,28 @@
             "blocksTransferExtension": false,
             "maximumAutomatedMastery": "transfer_extension"
           },
-          "proposedFutureEvidence": {
-            "provisionalId": "PROVISIONAL-G6-L03-E-NAMES",
-            "targetRequirementId": "G6-A-09",
-            "targetDimension": "unit_names",
-            "evidenceType": "short_answer_multi_field",
-            "promptIntent": "Hãy viết tên hoặc kí hiệu của bốn đơn vị cơ bản đo dung lượng thông tin từ nhỏ đến lớn.",
-            "prefilledUnitNames": false,
-            "fields": [
-              { "fieldId": "unit1", "label": "Đơn vị 1 (nhỏ nhất)", "expectedAnswers": ["Byte", "B"] },
-              { "fieldId": "unit2", "label": "Đơn vị 2", "expectedAnswers": ["Kilobyte", "KB"] },
-              { "fieldId": "unit3", "label": "Đơn vị 3", "expectedAnswers": ["Megabyte", "MB"] },
-              { "fieldId": "unit4", "label": "Đơn vị 4", "expectedAnswers": ["Gigabyte", "GB"] }
-            ],
-            "autoGradeFeasible": true
+          "evidenceGapResolution": {
+            "previousGapCode": "G6_A09_UNIT_NAMES_EVIDENCE_GAP",
+            "status": "resolved",
+            "resolvedByEvidenceId": "G6-L03-Q011",
+            "implemented": true,
+            "historicalProvisionalId": "PROVISIONAL-G6-L03-E-NAMES",
+            "activeProposal": false,
+            "supersededBy": "G6-L03-Q011",
+            "acceptedAnswerPolicy": {
+              "canonical": "Byte, KB, MB, GB",
+              "acceptedEquivalents": [
+                "Byte, KB, MB, GB",
+                "Byte, Kilobyte, Megabyte, Gigabyte"
+              ],
+              "rejectedAnswers": [
+                "B, KB, MB, GB",
+                "wrong order",
+                "missing unit",
+                "extra unit"
+              ],
+              "acceptBForByte": false
+            }
           },
           "decimalApproximationRequired": 1000,
           "mandatory1024": false,

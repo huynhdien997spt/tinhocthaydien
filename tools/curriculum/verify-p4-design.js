@@ -212,6 +212,16 @@ check('V4A-R2-03', 'phase4_design_contract.json is valid JSON with executable te
   assert(g6a09.designGap.blocksMeetsRequirement === false, 'designGap must no longer block meets_requirement');
   assert(g6a09.designGap.blocksTransferExtension === false, 'designGap must no longer block transfer_extension');
 
+  // Hardened check: No active proposedFutureEvidence remains for already implemented gap
+  assert(!g6a09.proposedFutureEvidence || g6a09.proposedFutureEvidence.activeProposal === false, 'G6-A-09 must not contain an active proposedFutureEvidence');
+  assert(g6a09.evidenceGapResolution && g6a09.evidenceGapResolution.status === 'resolved', 'G6-A-09 missing resolved evidenceGapResolution');
+  assert.strictEqual(g6a09.evidenceGapResolution.resolvedByEvidenceId, 'G6-L03-Q011', 'evidenceGapResolution resolvedByEvidenceId mismatch');
+
+  // Hardened check: No stale rule accepts "B" as equivalent to Byte
+  const rawContract = JSON.stringify(g6a09);
+  assert(!rawContract.includes('"expectedAnswers":["Byte","B"]') && !rawContract.includes('"expectedAnswers": ["Byte", "B"]'), 'Stale rule accepting "B" for Byte found in contract');
+  assert(g6a09.evidenceGapResolution.acceptedAnswerPolicy && g6a09.evidenceGapResolution.acceptedAnswerPolicy.acceptBForByte === false, 'acceptBForByte must be false');
+
   // G6-A-07, G6-A-08, G6-A-10 must have designGap === null
   assert(contract.masterySpec.lessonRules['G6-L03']['G6-A-07'].designGap === null, 'G6-A-07 designGap must be null');
   assert(contract.masterySpec.lessonRules['G6-L03']['G6-A-08'].designGap === null, 'G6-A-08 designGap must be null');
@@ -311,6 +321,16 @@ check('V4A-R2-06', 'Dynamic Evidence Reference Integrity derived from G6-L03.gol
   assert(validProducts.has('G6-L03-PROD-02'), 'PROD-02 missing in blueprint derivation');
   assert(validWorksheets.has('G6-L03-WS-01'), 'WS-01 missing in blueprint derivation');
 
+  // Hardened check: G6-L03-Q011 exists, is short_answer, and A05 expectedEvidenceTypes includes short_answer
+  const q011 = questionMap.get('G6-L03-Q011');
+  assert(q011, 'G6-L03-Q011 must exist in G6-L03.golden.json');
+  assert.strictEqual(q011.questionType, 'short_answer', 'G6-L03-Q011 must have questionType short_answer');
+  assert.strictEqual(q011.activityId, 'G6-L03-A05', 'G6-L03-Q011 must belong to G6-L03-A05');
+
+  const actA05 = (goldenData.activities || []).find(a => a.activityId === 'G6-L03-A05');
+  assert(actA05, 'G6-L03-A05 missing in goldenData.activities');
+  assert(Array.isArray(actA05.expectedEvidenceTypes) && actA05.expectedEvidenceTypes.includes('short_answer'), 'A05 expectedEvidenceTypes must include short_answer');
+
   const contractPath = path.join(REPO_ROOT, 'docs/phase4/phase4_design_contract.json');
   const contract = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
   const lessonRules = contract.masterySpec.lessonRules['G6-L03'];
@@ -385,6 +405,12 @@ check('V4A-R2-07', 'Mandatory Requirement Dimension Gap Assertion (Asserts unit_
   assert.strictEqual(g6a09.designGap.resolvedByEvidenceId, 'G6-L03-Q011');
   assert.strictEqual(g6a09.designGap.blocksMeetsRequirement, false);
   assert.strictEqual(g6a09.designGap.blocksTransferExtension, false);
+
+  // Verify evidenceGapResolution status and no active proposal
+  assert(!g6a09.proposedFutureEvidence || g6a09.proposedFutureEvidence.activeProposal === false, 'Must not contain active proposedFutureEvidence');
+  assert(g6a09.evidenceGapResolution && g6a09.evidenceGapResolution.status === 'resolved', 'Must contain resolved evidenceGapResolution');
+  assert.strictEqual(g6a09.evidenceGapResolution.resolvedByEvidenceId, 'G6-L03-Q011', 'resolvedByEvidenceId mismatch in evidenceGapResolution');
+  assert.strictEqual(g6a09.evidenceGapResolution.acceptedAnswerPolicy.acceptBForByte, false, 'acceptBForByte must be false');
 
   // Verify that decimal_approximation and approximate_conversion are covered
   assert.strictEqual(dims.decimal_approximation.status, 'covered', 'decimal_approximation must be covered');
