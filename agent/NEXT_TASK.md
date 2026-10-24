@@ -12,19 +12,19 @@ trước khi thực hiện.
 # Phase
 
 ```text
-Phase 3
+Phase 4A
 ```
 
 # Task ID
 
 ```text
-P3.4-C
+P4.1 + P4.2
 ```
 
 # Task Name
 
 ```text
-Final Human UAT & Phase 3 Closeout
+Diagnostic Spec & Mastery Rules Design
 ```
 
 # Repository
@@ -33,16 +33,16 @@ Final Human UAT & Phase 3 Closeout
 huynhdien997spt/tinhocthaydien
 ```
 
-# Branch
+# Branch bắt buộc
 
 ```text
-phase3-golden-lesson-review
+phase4-diagnostic-design-review
 ```
 
-# Current Branch Head
+# Base Commit (Phase 3 Closeout)
 
 ```text
-4961364760224dd9e010b3e5aa6bb439f6203b97
+0067f83080f9b6894f1ea7032a93d0f75f9a83c7
 ```
 
 # Application Baseline
@@ -64,11 +64,10 @@ Thời lượng: 90 phút / 2 tiết
 
 # Objective
 
-Chuẩn bị và hỗ trợ HUMAN UAT cuối cùng trên browser thật:
-1. Student login thật hoạt động.
-2. Resume thật hoạt động sau logout/login (50% -> A05).
-3. Hoàn thành Tiết 2 thật đạt 100% (A05–A08 + Exit Ticket).
-4. Teacher Mode thật nhìn thấy evidence của học sinh (progress, Product 1 & 2 open review, responses, Exit Ticket).
-5. Không có lỗi trải nghiệm nghiêm trọng.
-6. Xác nhận Phase 3 Acceptance & Closeout.
-7. Không sang Phase 4, không merge main, không deploy.
+Tạo tài liệu thiết kế đặc tả cho Phase 4A (DESIGN / DOCUMENTATION ONLY):
+1. `P4.1`: Đặc tả chẩn đoán học tập "Khám phá điểm xuất phát" (≤15 phút, 8 probes, 2 self-report, 3 profiles, không dùng tổng điểm duy nhất, không auto-mastery).
+2. `P4.2`: Quy tắc đánh giá thành thạo Mastery Model (4 mức 🌱, 🌿, 🌳, 🚀, tính theo RequirementID, evidence hierarchy, open response policy, multiple attempts, conflicting evidence, ví dụ G6-A-07..10).
+3. `phase4_design_contract.json`: Hợp đồng thiết kế đề xuất (proposal only).
+4. KHÔNG implement Diagnostic Engine hay Learning Path Engine.
+5. KHÔNG sửa backend, frontend, Data Contract, Requirement Bank, officialText.
+6. KHÔNG merge main, deploy, start P4.3.

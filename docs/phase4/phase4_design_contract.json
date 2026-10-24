@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contractMetadata": {
+    "title": "Phase 4A Design Contract Proposal — Diagnostic & Mastery Evidence Model",
+    "contractId": "PHASE4-DESIGN-CONTRACT-PROPOSAL",
+    "version": "4.0.0-draft",
+    "phase": "Phase 4A",
+    "proposalOnly": true,
+    "productionApproved": false,
+    "description": "Proposal design contract defining machine-readable structures for P4.1 Diagnostic Engine and P4.2 Mastery Evaluation Engine. Does NOT modify production schemas or Data Contract.",
+    "createdAt": "2026-10-24T19:35:00.000Z"
+  },
+  "diagnosticSpec": {
+    "studentFacingTitle": "Khám phá điểm xuất phát",
+    "prohibitedTerms": [
+      "Thi đầu vào",
+      "Kiểm tra đầu vào",
+      "Xếp loại học sinh",
+      "Bài test phân loại",
+      "yếu",
+      "kém",
+      "mất gốc"
+    ],
+    "maxDurationMinutes": 15,
+    "probeCount": 8,
+    "reflectionPromptCount": 2,
+    "evidenceStatusLevels": [
+      "no_evidence",
+      "emerging_evidence",
+      "ready_evidence",
+      "conflicting_evidence"
+    ],
+    "prerequisiteRequirementIds": [
+      "G6-A-01",
+      "G6-A-02",
+      "G6-A-03",
+      "G6-A-04",
+      "G6-A-05",
+      "G6-A-06"
+    ],
+    "targetReadinessRequirementIds": [
+      "G6-A-07",
+      "G6-A-08",
+      "G6-A-09",
+      "G6-A-10"
+    ],
+    "profiles": [
+      {
+        "profileId": "foundation_consolidation",
+        "labelVi": "Cần củng cố nền",
+        "studentFacingGreeting": "Mình cùng ôn nhanh vài ý nền trước nhé, sẽ rất thú vị đấy!",
+        "interventionStrategy": {
+          "microReview": true,
+          "initialSupportTier": 1,
+          "reduceHints": false,
+          "challengeScenario": false
+        }
+      },
+      {
+        "profileId": "standard_readiness",
+        "labelVi": "Sẵn sàng học bài",
+        "studentFacingGreeting": "Em đã sẵn sàng! Chúng ta cùng bắt đầu khám phá cách máy tính lưu trữ thông tin nhé.",
+        "interventionStrategy": {
+          "microReview": false,
+          "initialSupportTier": 0,
+          "reduceHints": false,
+          "challengeScenario": false
+        }
+      },
+      {
+        "profileId": "extension_readiness",
+        "labelVi": "Sẵn sàng mở rộng",
+        "studentFacingGreeting": "Hành trang của em thật xuất sắc! Thầy có một vài thử thách mở rộng đặc biệt dành riêng cho em.",
+        "interventionStrategy": {
+          "microReview": false,
+          "initialSupportTier": 0,
+          "reduceHints": true,
+          "challengeScenario": true
+        }
+      }
+    ],
+    "governanceRules": {
+      "waiveMandatoryRequirements": false,
+      "autoCompleteLesson": false,
+      "autoAwardMastery": false,
+      "allowSingleAggregateScore": false
+    }
+  },
+  "masterySpec": {
+    "evaluationBasis": "per_requirement_id",
+    "prohibitedMetrics": [
+      "lesson_percent_complete",
+      "quiz_total_score",
+      "activity_count"
+    ],
+    "levels": [
+      {
+        "levelCode": "insufficient_evidence",
+        "symbol": "🌱",
+        "labelVi": "Chưa đủ minh chứng",
+        "studentFacingMessage": "Mình cần thêm một vài minh chứng để biết em đã hiểu phần này đến đâu."
+      },
+      {
+        "levelCode": "developing",
+        "symbol": "🌿",
+        "labelVi": "Đang hình thành",
+        "studentFacingMessage": "Em đang tiến bộ rất tốt! Hãy luyện tập thêm một chút để nắm thật vững nhé."
+      },
+      {
+        "levelCode": "meets_requirement",
+        "symbol": "🌳",
+        "labelVi": "Đạt yêu cầu",
+        "studentFacingMessage": "Chúc mừng em đã làm chủ trọn vẹn mục tiêu học tập này!"
+      },
+      {
+        "levelCode": "transfer_extension",
+        "symbol": "🚀",
+        "labelVi": "Vận dụng mở rộng",
+        "studentFacingMessage": "Xuất sắc! Em đã biết vận dụng kiến thức linh hoạt vào các tình huống thực tế mới."
+      }
+    ],
+    "evidenceTypes": [
+      { "group": "knowledge", "types": ["quiz_response", "short_answer"] },
+      { "group": "performance", "types": ["worksheet_table", "simulation", "device_inspection"] },
+      { "group": "product", "types": ["pixel_grid_product", "storage_advisory_product"] },
+      { "group": "reflection", "types": ["exit_ticket_reflection", "self_explanation"] }
+    ],
+    "policyRules": {
+      "diagnosticAutoMastery": false,
+      "openResponseTeacherReviewRequired": true,
+      "conflictingEvidenceResolvesTo": "developing",
+      "conflictingEvidenceFlag": "REVIEW_REQUIRED",
+      "extensionRequiresTransferEvidence": true
+    },
+    "lessonRules": {
+      "G6-L03": {
+        "G6-A-07": {
+          "requiredEvidence": ["G6-L03-PROD-01", "G6-L03-Q001", "G6-L03-Q002"],
+          "teacherReviewRequired": true
+        },
+        "G6-A-08": {
+          "requiredEvidence": ["G6-L03-Q003", "G6-L03-Q005"],
+          "teacherReviewRequired": false
+        },
+        "G6-A-09": {
+          "requiredEvidence": ["G6-L03-WS-01", "G6-L03-Q006", "G6-L03-Q007"],
+          "decimalApproximationRequired": 1000,
+          "mandatory1024": false,
+          "teacherReviewRequired": false
+        },
+        "G6-A-10": {
+          "requiredEvidence": ["G6-L03-PROD-02", "G6-L03-A07", "G6-L03-A08"],
+          "teacherReviewRequired": true
+        }
+      }
+    }
+  }
+}

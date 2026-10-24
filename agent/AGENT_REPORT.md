@@ -5,124 +5,101 @@
 # Task
 
 ```text
-Task ID: P3.4-C
-Phase: Phase 3
-Task Name: Final Human UAT & Phase 3 Closeout
+Task ID: P4.1 + P4.2
+Phase: Phase 4A
+Task Name: Diagnostic Spec & Mastery Rules Design
 ```
 
 # Git
 
 ```text
 Repository: huynhdien997spt/tinhocthaydien
-Branch: phase3-golden-lesson-review
+Branch: phase4-diagnostic-design-review
+Base Commit: 0067f83080f9b6894f1ea7032a93d0f75f9a83c7
 Application Baseline: ecc56e274739078b431cf8fe294040a9cb6bacf5
-Technical Verification Commit: 4961364760224dd9e010b3e5aa6bb439f6203b97
-Final Commit: 4961364760224dd9e010b3e5aa6bb439f6203b97
+Final Commit: a4ae391219b6eb82372fbf00e57201c8014e7a83
+Commit Message: docs(p4): define diagnostic and mastery evidence model
 ```
 
-# Environment
+# Work Completed Summary
 
 ```text
-Local server URL: http://localhost:8000/
-Login page URL: http://localhost:8000/index.html#/login
-Golden Lesson URL: http://localhost:8000/lessons/grade6/bai3/index.html
-Teacher Mode URL: http://localhost:8000/teacher/index.html
-Apps Script endpoint: https://script.google.com/macros/s/AKfycbx9qGmv7_7UvtMWCijwvPUfdj0gGx4LVkf5PaGpi2g13g0EN6LpIsNfg1VhD7c92PCcIQ/exec
+1. P4.1 Diagnostic Specification (docs/phase4/diagnostic_spec.md):
+   - Student-facing title: "Khám phá điểm xuất phát" (tuyệt đối không dùng "Thi đầu vào", "Kiểm tra đầu vào", "Xếp loại", "yếu", "kém", "mất gốc").
+   - Thời lượng tối đa: ≤ 15 phút (10–12 phút probes, 2–3 phút self-report).
+   - Phân bố probes:
+     * Nhóm A (Thông tin và dữ liệu): 3 probes bao phủ G6-A-01, G6-A-02, G6-A-03, G6-A-04.
+     * Nhóm B (Xử lí thông tin): 2 probes bao phủ G6-A-05, G6-A-06.
+     * Nhóm C (Target Readiness Preview): 3 probes thăm dò mức độ sẵn sàng cho G6-A-07, G6-A-08, G6-A-09, G6-A-10.
+     * Self-report: 2 câu hỏi về phong cách hỗ trợ và mức độ tự tin (chỉ là tín hiệu phụ, không thay thế minh chứng).
+   - Anti-reductionism: Tuyệt đối không quy về 1 tổng điểm số học (7/10, 70%, Khá/Yếu).
+   - Diagnostic Evidence Status: 4 mức khởi điểm (no_evidence, emerging_evidence, ready_evidence, conflicting_evidence).
+   - 3 Profiles lộ trình học tập:
+     * Profile A ("Cần củng cố nền"): Micro-review trực quan + mở sẵn Support Ladder Tier 1 ("Mình cùng ôn nhanh vài ý nền trước nhé").
+     * Profile B ("Sẵn sàng học bài"): Đường học chuẩn Golden Lesson G6-L03.
+     * Profile C ("Sẵn sàng mở rộng"): Tăng tình huống thử thách chuyển giao, giảm gợi ý ban đầu; TUYỆT ĐỐI KHÔNG miễn học YCCĐ bắt buộc.
+   - Learning Path Governance: Diagnostic chỉ cấu hình nấc hỗ trợ và thứ tự gợi ý; không được miễn trừ YCCĐ, không bỏ qua sản phẩm bắt buộc, không auto-complete, không auto-mastery.
+
+2. P4.2 Mastery Rules (docs/phase4/mastery_rules.md):
+   - Đánh giá năng lực theo từng RequirementID độc lập; không tính theo lesson percent hay quiz total score.
+   - 4 mức thành thạo chuẩn & mã máy:
+     * 🌱 Chưa đủ minh chứng (insufficient_evidence)
+     * 🌿 Đang hình thành (developing)
+     * 🌳 Đạt yêu cầu (meets_requirement)
+     * 🚀 Vận dụng mở rộng (transfer_extension)
+   - Phân tầng minh chứng (Evidence Hierarchy): Knowledge, Performance, Product, Reflection.
+   - Giới hạn của Diagnostic: Không bao giờ cấp trực tiếp 🌳 hay 🚀.
+   - Xử lý câu trả lời mở: Giữ nguyên evaluationStatus="needs_teacher_review", isCorrect=null, score=null; không auto-grant full score; YCCĐ đòi hỏi sản phẩm mở (G6-A-07, G6-A-10) bắt buộc phải qua giáo viên phê duyệt mới được cấp 🌳/🚀.
+   - Xử lý nhiều lần thử: Lưu trữ lịch sử lần thử và nấc hỗ trợ sử dụng; tiến bộ sau hỗ trợ là căn cứ tích cực, nhưng mức thành thạo phản ánh độ ổn định hiện tại.
+   - Xử lý minh chứng mâu thuẫn (Conflicting Evidence): Trắc nghiệm đúng nhưng giải thích/sản phẩm sai -> giữ ở 🌿 và gắn cờ REVIEW_REQUIRED, không cấp 🌳.
+   - Mức 🚀 đòi hỏi Transfer Evidence: Minh chứng chuyển giao thực tế trong bối cảnh mới.
+   - Kịch bản minh chứng cụ thể cho Bài 3 (G6-A-07, G6-A-08, G6-A-09, G6-A-10); G6-A-09 bắt buộc có cả tên, độ lớn xấp xỉ hệ thập phân (1000) và quy đổi gần đúng.
+   - Master Rule Table: Ma trận quy tắc hoàn chỉnh cho 4 YCCĐ.
+
+3. Proposal Design Contract (docs/phase4/phase4_design_contract.json):
+   - Hợp đồng thiết kế đề xuất ở định dạng JSON Draft 2020-12, proposalOnly=true, productionApproved=false.
+
+4. Validation (tools/curriculum/verify-p4-design.js):
+   - 5/5 kiểm tra đạt PASS 100%:
+     * JSON Schema & parse valid.
+     * Toàn bộ 10 RequirementIDs (G6-A-01..10) khớp chính xác trong data/requirements/requirements-g6.json.
+     * officialText của 38 YCCĐ được bảo lưu nguyên vẹn 100%.
+     * 0 file mã nguồn ứng dụng (assets/, backend/, schemas/) bị thay đổi.
 ```
 
-# Final Human UAT & Verification Results
+# Files Created
 
 ```text
-1. Student Login: PASS
-   - Đăng nhập bằng tài khoản học sinh khối 6 test hoạt động ổn định trên UI browser thật.
-   - SessionToken lưu an toàn, StudentUID được xác thực qua backend.
-
-2. Resume 50% → A05: PASS
-   - Học sinh hoàn thành A01–A04 đạt checkpoint 50%, Tiết 1 hiện thông báo kết thúc, Tiết 2 được mở khóa.
-   - Khi đăng xuất và đăng nhập lại: hệ thống khôi phục chính xác 50% từ cloud, không bị reset về 0%, banner hướng dẫn tiếp tục hiển thị rõ: "Tiếp tục Tiết 2 · Tiến độ: 50% · Bắt đầu từ A05", toàn bộ dữ liệu A01–A04 được bảo lưu.
-
-3. Period 2 UX: PASS
-   - Tiết 2 chỉ mở khi đã đạt Checkpoint 50%.
-   - Chuyển tiếp giữa các hoạt động A05–A08 mượt mà, phân cấp thời lượng rõ ràng (45 phút cho 4 hoạt động).
-
-4. A05 (Thang dung lượng): PASS
-   - Học sinh nhập số trực tiếp vào 3 ô (#ws-kb-byte, #ws-mb-kb, #ws-gb-mb).
-   - Không có giá trị điền sẵn hoặc hardcoded trong handler.
-   - Kiểm tra gần đúng hệ thập phân (1000). Nhập sai/để trống được phản hồi hướng dẫn thử lại. Hoàn thành hoạt động yêu cầu đủ bảng quy đổi + Q006 + Q007.
-
-5. A06 (WebQuest "Cứu bộ nhớ" - Sản phẩm 2): PASS
-   - Học sinh tự nhập 4 trường: nhu cầu, dung lượng ước lượng, thiết bị chọn, lý do.
-   - Không prefill đáp án đúng.
-   - Trạng thái chấm mở được bảo toàn: evaluationStatus = "needs_teacher_review", isCorrect = null, score = null (không tự chấm full điểm).
-
-6. A07: PASS
-   - Hoạt động khám phá thiết bị nhớ hỗ trợ cả 2 chế độ REAL_DEVICE và SIMULATION.
-   - Minh chứng câu hỏi Q010 bắt buộc cho YCCĐ G6-A-10.
-
-7. A08 + Exit Ticket: PASS
-   - Phiếu Exit Ticket (mức hiểu, điều đã học, điều chưa rõ, tình huống vận dụng 6 GB, tự đánh giá) là điều kiện tiên quyết để hoàn thành bài.
-   - Bị chặn hoàn thành nếu chưa nộp Exit Ticket.
-
-8. Completion 100%: PASS
-   - Sau khi A01–A08 và Exit Ticket đầy đủ, bài học đạt 100%, status = "completed".
-   - Khớp đồng bộ tuyệt đối giữa frontend và backend LESSON_RULES.
-   - Không tự ý quyết định mastery trong Phase 3.
-
-9. Re-login After Completion: PASS
-   - Đăng xuất sau khi hoàn thành và đăng nhập lại: G6-L03 duy trì trạng thái 100% completed, không mất Product 1, Product 2 hay Exit Ticket.
-
-10. Teacher Mode: PASS
-   - Giáo viên chọn Lớp 6A1 và Bài G6-L03 xem được đầy đủ danh sách học sinh test.
-   - StudentUID định danh chuẩn xác.
-   - Minh chứng quan sát được: tiến độ 100%, câu trả lời Q001–Q010, Sản phẩm 1, Sản phẩm 2 (hiển thị dữ liệu học sinh nhập, không gắn nhãn tự chấm full điểm), Exit Ticket, và thời gian học tích lũy.
-   - Ghi nhận UI_GAP: Giá trị evaluationStatus nằm trong chuỗi JSON ResponseValue được hiển thị trong bảng câu trả lời; tính năng chấm điểm tương tác riêng cho giáo viên sẽ thuộc Phase tương lai (không redesign trong Phase 3).
-
-11. Shared-Device Isolation: PASS
-   - Đăng xuất Student A xóa sạch cache cá nhân (thtd.auth, thtd.profile, thtd.lp.*).
-   - Student B đăng nhập trên cùng trình duyệt: bắt đầu ở 0%, A01, Tiết 2 bị khóa, không thấy dữ liệu của Student A. Hàng đợi offline độc lập hoàn toàn.
-
-12. UX Observations:
-   - Giao diện bài học rõ ràng, cấu trúc thẻ 2 tiết (45 phút + 45 phút) phù hợp thực tế tiết học THCS.
-   - Phản hồi khi làm sai có tính sư phạm (support ladder 3 tầng, hướng dẫn thử lại thay vì báo lỗi cứng nhắc).
-   - Nút nộp bài và các ô nhập liệu hoạt động tốt trên cả desktop và màn hình tablet/laptop phòng máy.
+docs/phase4/diagnostic_spec.md (Đặc tả P4.1 "Khám phá điểm xuất phát")
+docs/phase4/mastery_rules.md (Đặc tả P4.2 Mastery Model & Master Rule Table)
+docs/phase4/phase4_design_contract.json (Bản thiết kế hợp đồng dữ liệu Phase 4A)
+tools/curriculum/verify-p4-design.js (Harness kiểm tra tính toàn vẹn tài liệu và mã YCCĐ)
+agent/NEXT_TASK.md (Cập nhật task Phase 4A)
+agent/AGENT_REPORT.md (Báo cáo thực hiện Phase 4A)
 ```
 
-# Automated Regression Baseline
+# Application Files Changed
 
 ```text
-P3.4-B UAT Test Suite: 10/10 PASS (tools/golden-lesson/test-p3-4b.js)
-P3.3 Test Suite:       30/30 PASS (tools/golden-lesson/test-p3-3.js)
-P2.5 Test Suite:       20/20 PASS (tools/curriculum/test-p2-5.js)
-Phase 1.5 Infra:       27/27 PASS (tools/agent-infra/demo-phase1-5.js)
-Phase 1 Audit:         79/79 PASS (scratch/audit-test.js)
+None (0 files modified in assets/, backend/, data/, schemas/)
 ```
 
-# Production Changes
+# Production Safety Checks
 
 ```text
 Merge: NO
 Push main: NO
-GitHub Pages deploy: NO
-Apps Script deploy: NO
-Production architecture change: NO
-Phase 4 start: NO
-```
-
-# Files Changed
-
-```text
-agent/NEXT_TASK.md (Updated: P3.4-C task specification)
-agent/AGENT_REPORT.md (Updated: P3.4-C final execution report)
-```
-
-# Phase 3 Acceptance
-
-```text
-PASS
+Deploy GitHub Pages: NO
+Deploy Apps Script: NO
+Data Contract modified: NO
+Production schemas modified: NO
+officialText modified: NO
+Start P4.3 / Engine implementation: NO
 ```
 
 # Final Status
 
 ```text
-READY_FOR_REVIEW
+P4.1 STATUS: READY_FOR_REVIEW
+P4.2 STATUS: READY_FOR_REVIEW
 ```
