@@ -1,7 +1,7 @@
 {
   "adapterType": "IntermediateCurriculumAdapter",
   "productionWrite": false,
-  "exportedAt": "2026-10-24T07:27:48.430Z",
+  "exportedAt": "2026-10-24T07:42:57.853Z",
   "counts": {
     "sources": 6,
     "topics": 6,
@@ -45,8 +45,8 @@
         },
         "contentHash": "f8acc4ffa6c270dcea01cdb60f773ff62ce6ada1109d78f449fa1dbcfca973d5",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.422Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.422Z",
+        "firstImportedAt": "2026-10-24T07:42:57.843Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.843Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -76,8 +76,8 @@
         },
         "contentHash": "402389cad40d21dcef0b9199783759a301db6910d8605d9249a172c85dd85ff2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -108,8 +108,8 @@
         },
         "contentHash": "a23caae612490b16ebb4a50b1e890a999d9f259d1d106edc570d71d9c42990e8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -139,8 +139,8 @@
         },
         "contentHash": "f77a4d67b8642849b3694b5f8c710ffea15938f31438a2976d8d9cbfc4d3decc",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -170,8 +170,8 @@
         },
         "contentHash": "b9dc185fd6163bdf3619406ce9c80e121205d29ff6b4a2ca32952e696b9d0e87",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -201,8 +201,8 @@
         },
         "contentHash": "a74af65d0a774cd51c3744057400c5178ca9f95dbb47dbb8a9e680bb3bc2f3e2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -221,8 +221,8 @@
         },
         "contentHash": "40f42ed9e198ea4a4f83f076de2e9853b97fafc8a20aef2251a56560511e3172",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -239,8 +239,8 @@
         },
         "contentHash": "a82251220f608fa227199603b9bd496537aac8146f3f9fa410d6cb6be68685fe",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -257,8 +257,8 @@
         },
         "contentHash": "fff5e269b6bc1e11262b66727a3de52907247f8cf621611865380b818db58a3b",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -275,8 +275,8 @@
         },
         "contentHash": "1bad785e3138eb7afcea60b28eecdad4748189efbb0e3289567a0dbee1e45af3",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -293,8 +293,8 @@
         },
         "contentHash": "767c7e4656472f8cbaa3cd7b0528d0da5d420ed87f43c74837b8ce21c652efcf",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -311,8 +311,8 @@
         },
         "contentHash": "65ca09fcfd41b046f30a80ce4493425747e332c5391824f68c532698a1bba85d",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -332,8 +332,8 @@
         },
         "contentHash": "7e9dc1625479b2cb50e59984f9e8ea5a6898b8915bff17e59cc68e453f5deb60",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -351,8 +351,8 @@
         },
         "contentHash": "2f914b43399bd8d915df8640a0e895d1ce085da9081dcd52bc39d9b7d9145f32",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -370,8 +370,8 @@
         },
         "contentHash": "48f561b9452178ceafd7738c5504d0f9ede69faad7d5fb5d0b53b18b0a3851f2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -389,8 +389,8 @@
         },
         "contentHash": "0b8508e45f179949a9f46c576583c6e9e3bd360de3c1570a921ab5efd6bd4f15",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -408,8 +408,8 @@
         },
         "contentHash": "211e70626bba6632f9ffcc9b24eecbec877a0dd46ac43461aa50f2399af5a68e",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -441,12 +441,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "e1f331a87ac3d3f67994380d416b15b816d6f4db8c54e192b7570461b33a8e3e",
+        "contentHash": "945ce05c3d05d67176cde3349943eaec91df86a5ff8525c9b00ace1811719c18",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.846Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.846Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -476,12 +476,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "b3c847f5352b9a23def15d45483263f4715d2dd2d271584be4f84a68bdc6ee8d",
+        "contentHash": "3de287ae0b076d941dce9d2e192fdf4c211ae763d594fbb33a96b33773696195",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -511,12 +511,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "d3cdffd11a2acb179bf5fdb853111cb68c9c0d887a7755b4caeef3b1b54304d3",
+        "contentHash": "692fd71a54a5b50956614b502080606597dbbb27032ca367f049cf0cdff91c37",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -546,12 +546,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "3ce9d92e3532aaaa79fdb7bb9724184ccc6a66dbc3403cd1db158ad589b39d9d",
+        "contentHash": "6d972a3536f4e90a37d3a6d35e1d59ee3c793c591f6fd1d6c248d7643335d623",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -582,12 +582,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "6e05a97d681793acbbf05040a7de641f4a289572fb4f3be247fba859064d0204",
+        "contentHash": "06641eaf741576874350120e3eab74670c64e08631424d50d23fcf47adf4c2bb",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.425Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.425Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -618,12 +618,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "b6a27f90641df9d07990d0f03132fea9248f4fdd619fe07686ac569e8915bda4",
+        "contentHash": "5866cd30c0b62386eab648cd1edaa3a30fd061c9f4272ca3e6b74a928b9c1171",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -654,12 +654,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "bb714424902a0fde4523ef42149bcee70eab7fac93bc0fdee70d75724b8038e3",
+        "contentHash": "600fceb3fc3ab9bbcec8b53d7d3e82a116b9c7fceee65b6a8a8b608b30d337b5",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -688,12 +688,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "7a810b6a6d4c34d363bc48b0d3d4d57ea8e9d67a934b349661e141ef34c088ae",
+        "contentHash": "9fb799774c6944924c74b751d99961bd311f9f2d49e2536e0fcba9425b1b1853",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -703,9 +703,9 @@
           "grade": 6,
           "topicId": "G6-A",
           "subTopic": "Biểu diễn thông tin và lưu trữ dữ liệu trong máy tính",
-          "officialText": "Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.",
+          "officialText": "Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB bằng xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.",
           "studentFriendlyText": "Em nêu được tên, độ lớn xấp xỉ của các đơn vị cơ bản Byte, KB, MB, GB và quy đổi gần đúng giữa chúng (1 KB ≈ 1 ngàn byte, 1 MB ≈ 1 triệu byte, 1 GB ≈ 1 tỉ byte).",
-          "officialTextHash": "7123d67eeaabe0493fcbb1492a5fb08bd13f10343fa94118f7fb9566d861bcab",
+          "officialTextHash": "c84e26781190342c0f5dc39a25ec2518866b9e2e059104e9e9ba12d58fd15971",
           "officialSourceId": "SRC-GDPT-2018-TIN6",
           "cognitiveLevel": "van_dung",
           "competencyIds": [
@@ -728,12 +728,12 @@
           "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (1 TB xấp xỉ 1000 GB) khi tìm hiểu ổ cứng dung lượng lớn.",
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "8994f99578aa073bee635478ecd2ba237c94594412d9acb87e0202fbc410c3a9",
+        "contentHash": "b254f7b789e963c060185b2d8aebf9f5ad05c8f2e0792f563e901b38aa36b5c8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -767,12 +767,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "391e4c8e53bea9f33ebe0fcc2edc96ff006d151adfeb82ccce64517370930d2f",
+        "contentHash": "29b9fb2562a71b0b85602b56c5fee595af1c7f4556ee826725f88e31214cd3cc",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -803,12 +803,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "6b38125a9f5269d9287b0304aae357f61df8cc8233355a96bed85df9d3de7c61",
+        "contentHash": "d0e84ec6ef3ae4a7601317fd673ccc26cc8d9920fad02795934a30ac53c581e4",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -837,12 +837,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "caec53ade1574742a3fa25bf3989c4b1d83c7fea742fed85c59ce8bab9e0ed73",
+        "contentHash": "125b84b35f52b620c4bacc1f052e56224c01c91c82453d450fe9fd54b18980ae",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -872,12 +872,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "7a2ed3c7471f243ff9079be7bcebd6c156cd9b93e8d3a334720957b020bae5dd",
+        "contentHash": "8b8f953b71c4a45a98c233de8c088deac0f457cfe7067436a7f4c8ba2c07af08",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -909,12 +909,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "48152546b5b097c3b2312cd79743c450a6dcf4e3a80399e1031bb5119d120bbc",
+        "contentHash": "e4c283457e375f4a5f3e20fa9f800b6ad84f5c738c5a2afb7e5fbc687933fee5",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -945,12 +945,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "09f72910ffcce61edbfbbdf36567b1c3bd7f4f4639854f05075825787bdbb2c6",
+        "contentHash": "31fba696c0eaa2d5f6cd854e7eb7b9d80cc73f637b4712d0564f34201fc3b09c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -980,12 +980,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "338191615af50a279390df9ce7b9e5d4b1a024d96e8503d4ff8f32d0b48d6ecb",
+        "contentHash": "b4715a3c545836294dee4de0a8b205f5c9298df5f125ecaf728849e1626e9827",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1015,12 +1015,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "e378e70885489c8b701688007ed0bca29e5091130528fb4e698389856fa0539b",
+        "contentHash": "96a96db796f30e06ffd013f6801f76f551c31d661fa46e747a172a0c2ff70541",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1050,12 +1050,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "a31de5564c964c3960b80397138feab94f3c48696d0ce4becf8131ec7ae8a8e9",
+        "contentHash": "c864097dd1b41318979404f3ace55029f45b16e45d91917c3840d530d18759c0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1085,12 +1085,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "36dac48176c5f55718b7b4d7133359f3ed97a49440cec42a8a3be9253be3b791",
+        "contentHash": "f61f05a97e4bf5efb5d6046e2af7eca213fdd83bd093a6d791d744c15df006b5",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1120,12 +1120,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "44835a5b558a7c42a2ff03ddcd5f54e08fe0622e28865ad69794afab9d6b394c",
+        "contentHash": "9e2fcb01dcafc98022828361222aa4ecf326b7d6d4b29c500ceb4878f87e1c30",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1156,12 +1156,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "40e3173c8a9885dd4127167b2e779f5bcfd3183a2ea1e98c09c9f3b3bbd447a7",
+        "contentHash": "c86423f9d94fe707bc255d68c1a90a40d753bb2021fe92f7bc27849ec64e147c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1171,9 +1171,9 @@
           "grade": 6,
           "topicId": "G6-D",
           "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
-          "officialText": "Giới thiệu được sơ lược một số tác hại và nguy cơ bị hại khi tham gia Internet; nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên.",
+          "officialText": "Giới thiệu được sơ lược về một số tác hại và nguy cơ bị hại khi tham gia Internet. Nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên.",
           "studentFriendlyText": "Em nhận biết được một số tác hại, nguy cơ khi tham gia Internet và thực hiện được các biện pháp phòng ngừa cơ bản theo hướng dẫn của giáo viên.",
-          "officialTextHash": "3c88e118c692fdfaa4f5e018b2bdec093e43526fe28fb2307ca2cf52bc6a70b6",
+          "officialTextHash": "89a90281845e0ff9e2516958d967fcf36fa3ebc6703647729413e0bc78999b49",
           "officialSourceId": "SRC-GDPT-2018-TIN6",
           "cognitiveLevel": "van_dung",
           "competencyIds": [
@@ -1191,12 +1191,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "6bf157b87019ba2f725f0a616065ddf2356ce1c8153ccba323ebcbceae7ada59",
+        "contentHash": "1840acc4d52e7b6a6efe0bc6a48eac6ae43bb07725311f00bb797a61be29105e",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1226,12 +1226,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "1f615e6c683b35f5fbac5ae774177a2b31618ab66ebff2912664074b8fa351c4",
+        "contentHash": "5bcac1d47aac69a32f17dd51e6664a99ea4bcaa1933b114a3b2823279ff1e6ab",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1261,12 +1261,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "bf4d5b0c4b84a9ab11b4ee54e859e3176a38dcaa089faa2840e80fb1e2bae8f2",
+        "contentHash": "db1091af6efc34eb85bf840e36c5cb796f9b81f1f52aacd0500793d819a91a96",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1297,12 +1297,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "09cc985afbc38a3c01307ce47ecfb5da191e81bfe3c788850480827d2868a2b3",
+        "contentHash": "8bb05984c982a9847473cee39d8bf1aab2e7902a1db40cfbbc5f5b3bc1b1d82d",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1312,9 +1312,9 @@
           "grade": 6,
           "topicId": "G6-D",
           "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
-          "officialText": "Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu.",
+          "officialText": "Nhận diện được một số thông điệp (chẳng hạn email, yêu cầu kết bạn, lời mời tham gia câu lạc bộ,...) lừa đảo hoặc mang nội dung xấu.",
           "studentFriendlyText": "Em nhận diện được một số tin nhắn, thông điệp lừa đảo hoặc mang nội dung xấu trên Internet để phòng tránh.",
-          "officialTextHash": "8d95b9a2c9809aef6a90406ec80c62a6907e8bcda753250e55004459bcba653d",
+          "officialTextHash": "a168b343a63ccfcd8bf249aca2aa4c7c394488f7e3a2e9442a2d86fa00fc774e",
           "officialSourceId": "SRC-GDPT-2018-TIN6",
           "cognitiveLevel": "thong_hieu",
           "competencyIds": [
@@ -1332,12 +1332,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "9aa2dafe544be7a0dc6a82e41a6b01a999f382d03513e11ff934f3b3d447a49b",
+        "contentHash": "c5331c2109bab4cdc6cdea4eb5d42bb4d38d70d81162d5adaf30720cb4a4f424",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1369,12 +1369,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "a411835b45cd8d8ed952aa4f1792ab9f04f162eddc890d0e06cc9e22c6711589",
+        "contentHash": "2366bbc91212c0ff2515975694eff5d8a12a057925e8c75b51a8c0b6cc508b79",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1405,12 +1405,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "d5cabb7505c18ebb7bc8f939e97ae3badb0bbac80ed8622025c1150b73ccac2c",
+        "contentHash": "ef88eb35b1e4a8398bc06b297760f96ba517b76cf868a57ebe183275c7c0b546",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1441,12 +1441,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "1a8381894b252ddbe55c3d856c5aeef60f43e9baa553c08bdfb18f3090114cce",
+        "contentHash": "a3e405a1c70e5dc5ac90aa38b488aa5d5c979715543aef1f07b652b275648f4c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1477,12 +1477,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "a0927f31d1ca7aaf941c180c84ba2fc92981e10edeac44da1b7e4687e79dabce",
+        "contentHash": "cf32aa572283dd70a935f3b3d58c43bc9d114779a0d55efab8fdbaae6c10f238",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1514,12 +1514,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "44256054d07117637514bd9688a231b06dcdc4e26c9f2ff42f960fada8db2203",
+        "contentHash": "ff322bc7647b436f104e3bf7e82cd07b879814ad1dee6722b15d1d1ceddf94c7",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1550,12 +1550,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "598a8c42cebf620c87c01c9b0fdf1502a4e9065f0c8dc3f0b497e5c0bce91f84",
+        "contentHash": "092e1117ebdea5a4211fc7392e44dca6fcc85cec9baf8d9df56540f9c752974c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1565,9 +1565,9 @@
           "grade": 6,
           "topicId": "G6-E",
           "subTopic": "Sơ đồ tư duy và phần mềm sơ đồ tư duy",
-          "officialText": "Sắp xếp được một cách lôgic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.",
+          "officialText": "Sắp xếp được một cách logic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.",
           "studentFriendlyText": "Em sắp xếp được một cách lôgic các ý tưởng, khái niệm và trình bày dưới dạng sơ đồ tư duy.",
-          "officialTextHash": "5b5b299e2c3f2df76a2e965ce4c9e8be55f6f0fb2a6c17cf5e0e0502bc3ac607",
+          "officialTextHash": "3259006777472a8fa805b72083d0a79ea67371bad99d4c41d8e60cdeac233513",
           "officialSourceId": "SRC-GDPT-2018-TIN6",
           "cognitiveLevel": "van_dung",
           "competencyIds": [
@@ -1586,12 +1586,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "e98c2ce0cb3c04d76c52d0706d5c931ef8f14de266dda462d6d6765c876d91cc",
+        "contentHash": "b957468205e65c4444c75e5f720f8cf0de1611847ef715238a90ac49daa38eff",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1622,12 +1622,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "42eef20c18ab31ce383d34fd35f923f4d16c0c60d0f62aa51d6f5d24b44f62db",
+        "contentHash": "47bc298122a697300701145e986000e29882eaa20d1be36ad933bda08176d13a",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1659,12 +1659,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "592a00c87de34e31eb867d9892031b6b1ff75cb23aa7deac62e3cf8f77b73970",
+        "contentHash": "0341165422e13c023bb6de09e1f01405b7b042ee81d29f9ab5ca3b6d4e9ae0b7",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1694,12 +1694,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "d04ff76d013535fa3a3a1ffe9437ac8c382ef01c6423b5604489eea0bc8fdd3e",
+        "contentHash": "b4589b476d666198e96eb23ea617592898fa4e998f01719beceabfb5e7ebbd91",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1730,12 +1730,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "b16b7bbe52b8b6c5809b7f77a0b8f4cc8f1296bf596f20ecddbbf998f6c4d116",
+        "contentHash": "e299968fd44d4246697646fac4bd62d813e56cc2d4918deac96e672b24a24473",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1745,9 +1745,9 @@
           "grade": 6,
           "topicId": "G6-F",
           "subTopic": "Chương trình máy tính",
-          "officialText": "Biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.",
+          "officialText": "Biết được chương trình là mô tả một thuật toán để máy tính “hiểu” và thực hiện được.",
           "studentFriendlyText": "Em biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.",
-          "officialTextHash": "17806bb93a6bf5a8be4fe8feed39a05735e47eb0a81b4a4143754adbbdec908d",
+          "officialTextHash": "cbb3a00eecc058795f399f69d4b3b1a2e3c177c09ef275166b67b6100bb02dfb",
           "officialSourceId": "SRC-GDPT-2018-TIN6",
           "cognitiveLevel": "nhan_biet",
           "competencyIds": [
@@ -1765,12 +1765,12 @@
           "supplementaryKnowledge": null,
           "reviewStatus": "approved_official",
           "status": "published",
-          "version": "2018.3"
+          "version": "2018.4"
         },
-        "contentHash": "0731d944637bdd9a2aeb96b0030c749545ef60c74a0a670f68023a3dc7b516e4",
+        "contentHash": "1c24619b2b440128f3ab569a1d8cdac08f6095b25cc0d503ea42c2f906e8e0d0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -1801,8 +1801,8 @@
         },
         "contentHash": "182bd8e18f6d3d9f2402266d4a49a3995f3ec11df408da359dbf6933d3c65dd1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1831,8 +1831,8 @@
         },
         "contentHash": "bf659ebd9bff470a4e5234ebe320d5fc6cf780bb296221b513d63e4f06ee0c4a",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1861,8 +1861,8 @@
         },
         "contentHash": "04ab27a751740dbb2ccd320beb927407594d98016b407674dfd1c5fb804244e7",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -1921,8 +1921,8 @@
         },
         "contentHash": "dc6eb3062d465f6a99b0ab007b5cbfe5339a5407b4b6b3a425d23195598650af",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1977,8 +1977,8 @@
         },
         "contentHash": "bcc603b904c243193e13c1d11fd24e33b4a57d2e1404e9b51deba76d9a5c54ab",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2065,8 +2065,8 @@
         },
         "contentHash": "07348a2b133f56ac3d11ea44d21f5271085f57edce8026e72a43b3a3a6d2858a",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2122,8 +2122,8 @@
         },
         "contentHash": "662f19d2e452ae941a518a5af85ee2fe7104b19ea45bb27821acc3c3a24f6001",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2178,8 +2178,8 @@
         },
         "contentHash": "4e537dac30f8f5ede21164911beb75ac0859b62fff55f9bc59b389d288459be0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2235,8 +2235,8 @@
         },
         "contentHash": "356ee78243fe774281027aaddcdb8434a12c5964274f824218cbc6d34937c6a8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2290,8 +2290,8 @@
         },
         "contentHash": "e9fec90f9dbd52351682a952178c05461261a51ffebccbc8bd494565805a6c65",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2345,8 +2345,8 @@
         },
         "contentHash": "8afacef65e2c0599401f8e564518fda0bd0120b0c8f4110723882ff2c48c9f15",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2404,8 +2404,8 @@
         },
         "contentHash": "63a2a80e73e7fdb1c1d34cc357eb6570cb98458ccf766bb1fce945c950ad6b87",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2463,8 +2463,8 @@
         },
         "contentHash": "4cd5c4fd74aafd7b7b7c0634a87bc88056d42df043a487af083b0d0a1c1770e3",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2522,8 +2522,8 @@
         },
         "contentHash": "316e3305ebebec4b4ee6da3919fd665f0f74c4a1fc90fc99194cc365fc7a8483",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2579,8 +2579,8 @@
         },
         "contentHash": "3fd37b8c4021795a8a8dfb32d7071bc32b4e0f5741bbb217f23120b909923bcb",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2636,8 +2636,8 @@
         },
         "contentHash": "f3981ef9e4a6a1837b76ed7d02861dffe4bd514d49d1b35762bdda80326eb34c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2691,8 +2691,8 @@
         },
         "contentHash": "29df1029824dcb4c8a5a965211202af5f4ef7d906f780433a8993ede13ce1e64",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2745,8 +2745,8 @@
         },
         "contentHash": "f30a257577e5564647c6d0060b7b07f2ea3e509b20901c10604adb13328002c0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2798,8 +2798,8 @@
         },
         "contentHash": "6b1c3f12b28935a78b69f0b06bde63ad9ca68c7ee3d54bbe4521a4f0b4d01595",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -2836,8 +2836,8 @@
         },
         "contentHash": "bdce89e637716a206ba19c85b957b5d70e40205d9446a1c881aa253187101f12",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2872,8 +2872,8 @@
         },
         "contentHash": "0090835df0694e8410bb0aa3286c741a5e943ae16688614a2155cd6b58b7cb61",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2909,8 +2909,8 @@
         },
         "contentHash": "97686c200528f66bc3ea4984c1d0b6857653ff2e9e4845d90f1b10b38c627d59",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2946,8 +2946,8 @@
         },
         "contentHash": "dc3e75107908b8005203e0654ea0ff569e71894f7c56aedc198e868e90d09db6",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -2990,8 +2990,8 @@
         },
         "contentHash": "93448a8d2dda37d7868f37b286e369b5c02407ff57d64a16fc79ec6c54537dbe",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3032,8 +3032,8 @@
         },
         "contentHash": "e0547e0660a381b3a5dd6fc24855c95bbde590cfc90e2396fdf835bf7074e505",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3074,8 +3074,8 @@
         },
         "contentHash": "1f8e0f9b612fa8c2c65beefbf04fc6f601a86177a58f5211998f049ca200b7a8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3116,8 +3116,8 @@
         },
         "contentHash": "4bf7d1145f9227ea0fd0826e8be950888660af97f76ed6a50aa688b5e2bd7384",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -3146,8 +3146,8 @@
         },
         "contentHash": "8692d3be469cbe29dd766e836047a45c08d7848ed25494cf919903c426084fab",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3174,8 +3174,8 @@
         },
         "contentHash": "506060889bc99073de7b0ed17170ef214acdf90ed73102dfa9997e41b7259607",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3202,8 +3202,8 @@
         },
         "contentHash": "7103a08b8ed7cfe3c20b256b08d1bd6b880296b2519bd692cd018eb2817e2eb1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.847Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.847Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3230,8 +3230,8 @@
         },
         "contentHash": "ac9be674a1e23215b3fe8d099f54599b34fac570f452094205a1a6c32d67c48b",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -3257,8 +3257,8 @@
         },
         "contentHash": "c094f1d1ac9ddac977a04b0d8d7ed980225e7faa3e981e73e519938045d923c9",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3281,8 +3281,8 @@
         },
         "contentHash": "49e1e9413daa1e673d3cde029e87589b3ef94c226f9bc96774e22a98033c4aff",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -3324,8 +3324,8 @@
         },
         "contentHash": "22d5809f4f7697e9e94b9ccdfd492d4d6870f0e0235c619b915cb558cb710b66",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3365,8 +3365,8 @@
         },
         "contentHash": "9531f1a938d8c21e74144f1e79695dda8a764e60f254cf11eac92e3578840c8b",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3406,8 +3406,8 @@
         },
         "contentHash": "7bbd4b84a3c86805fda7021777b594cba1502b245f35653950c5adb489731ce3",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3447,8 +3447,8 @@
         },
         "contentHash": "e6a76b587738ff8e61c9640632b4b1198a4b7c302372618e992750a422a76562",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T07:27:48.426Z",
-        "lastUpdatedAt": "2026-10-24T07:27:48.426Z",
+        "firstImportedAt": "2026-10-24T07:42:57.848Z",
+        "lastUpdatedAt": "2026-10-24T07:42:57.848Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ]
@@ -3456,7 +3456,7 @@
   "importHistory": [
     {
       "traceId": "TRACE-P25-RUN-1",
-      "timestamp": "2026-10-24T07:27:48.426Z",
+      "timestamp": "2026-10-24T07:42:57.848Z",
       "totalProcessed": 92,
       "totalInserted": 92,
       "totalUpdated": 0,
@@ -3552,7 +3552,7 @@
     },
     {
       "traceId": "TRACE-P25-RUN-2",
-      "timestamp": "2026-10-24T07:27:48.428Z",
+      "timestamp": "2026-10-24T07:42:57.851Z",
       "totalProcessed": 92,
       "totalInserted": 0,
       "totalUpdated": 0,
@@ -3648,7 +3648,7 @@
     },
     {
       "traceId": "TRACE-P25-RUN-3",
-      "timestamp": "2026-10-24T07:27:48.430Z",
+      "timestamp": "2026-10-24T07:42:57.853Z",
       "totalProcessed": 92,
       "totalInserted": 0,
       "totalUpdated": 0,

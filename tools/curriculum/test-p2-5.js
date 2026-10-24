@@ -288,13 +288,14 @@ function runSuite() {
     return `Total=38 (A=10, B=4, C=7, D=5, E=9, F=3) with immutable IDs verified`;
   });
 
-  test('P25-05', 'Verbatim CTGDPT 2018 officialText (G6-B-03, G6-C-07, G6-E-01, G6-E-04, G6-A-09, G6-D-01..05), REQUIREMENT_TEXT_AUDIT.md & Trusted Snapshot Provenance', () => {
+  test('P25-05', 'Verbatim CTGDPT 2018 officialText (38/38 incl. A09, B03, C07, D01, D05, E01, E04, E07, F03), Source Transcript & REQUIREMENT_TEXT_AUDIT.md', () => {
     const byId = new Map(baseDataset.requirements.map(r => [r.requirementId, r]));
     const g6a09 = byId.get('G6-A-09');
     assert(!/\bTB\b/.test(g6a09.officialText), 'G6-A-09 officialText must not contain TB');
     assert(
-      g6a09.officialText.includes('Ví dụ: 1 KB xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.'),
-      'G6-A-09 must include the CTGDPT example sentence'
+      g6a09.officialText ===
+        'Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB bằng xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.',
+      'G6-A-09 exact text mismatch (must include "1 KB bằng xấp xỉ 1 ngàn byte")'
     );
     assert(
       byId.get('G6-B-03').officialText ===
@@ -312,6 +313,16 @@ function runSuite() {
       'G6-C-07 exact text mismatch'
     );
     assert(
+      byId.get('G6-D-01').officialText ===
+        'Giới thiệu được sơ lược về một số tác hại và nguy cơ bị hại khi tham gia Internet. Nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên.',
+      'G6-D-01 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-D-05').officialText ===
+        'Nhận diện được một số thông điệp (chẳng hạn email, yêu cầu kết bạn, lời mời tham gia câu lạc bộ,...) lừa đảo hoặc mang nội dung xấu.',
+      'G6-D-05 exact text mismatch'
+    );
+    assert(
       byId.get('G6-E-01').officialText ===
         'Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.',
       'G6-E-01 exact text mismatch'
@@ -320,13 +331,35 @@ function runSuite() {
       byId.get('G6-E-04').officialText === 'Trình bày được thông tin ở dạng bảng.',
       'G6-E-04 exact text mismatch'
     );
+    assert(
+      byId.get('G6-E-07').officialText ===
+        'Sắp xếp được một cách logic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.',
+      'G6-E-07 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-F-03').officialText ===
+        'Biết được chương trình là mô tả một thuật toán để máy tính “hiểu” và thực hiện được.',
+      'G6-F-03 exact text mismatch'
+    );
+
+    const transcriptPath = path.join(
+      REPO_ROOT,
+      'tools/curriculum/source-transcripts/ctgdpt2018-tin6-yccd.source.json'
+    );
+    assert(fs.existsSync(transcriptPath), 'Missing ctgdpt2018-tin6-yccd.source.json');
+    const transcript = JSON.parse(fs.readFileSync(transcriptPath, 'utf8'));
+    assert(transcript.sourceDocumentDriveId === '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma', 'Transcript missing Drive ID');
+    assert(transcript.reviewStatus === 'reviewed_source_transcript', 'Transcript missing reviewStatus');
+    assert(transcript.items.length === 38, 'Transcript must have 38 items');
+
     const snap = validator.trustedSnapshot;
     assert(snap.sourceId === 'SRC-GDPT-2018-TIN6', 'Snapshot missing sourceId');
     assert(snap.sourceDocumentDriveId === '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma', 'Snapshot missing sourceDocumentDriveId');
     assert(snap.sourceOfficialUrl && snap.sourceOfficialUrl.includes('ItemID=146721'), 'Snapshot missing ItemID=146721');
     assert(snap.sourceSection === 'LỚP 6 – Chủ đề A–F', 'Snapshot missing sourceSection');
     assert(
-      snap.transcriptionPolicy === 'Only whitespace/line-break/OCR normalization. No semantic edits.',
+      snap.transcriptionPolicy ===
+        'Whitespace/line-break/obvious OCR-spacing normalization only. No semantic rewriting.',
       'Snapshot missing transcriptionPolicy'
     );
     assert(snap.verifiedAt, 'Snapshot missing verifiedAt');
@@ -335,7 +368,7 @@ function runSuite() {
     const auditContent = fs.readFileSync(auditMdPath, 'utf8');
     const trueMatches = (auditContent.match(/\|\s*\*\*TRUE\*\*\s*\|/g) || []).length;
     assert(trueMatches === 38, `Expected 38 TRUE matches in REQUIREMENT_TEXT_AUDIT.md, got ${trueMatches}`);
-    return '38/38 verbatim officialText verified in REQUIREMENT_TEXT_AUDIT.md and Trusted Snapshot V3';
+    return '38/38 ExactAfterAllowedNormalization = TRUE verified via independent source transcript';
   });
 
   test('P25-06', 'Viet Hoa 2026–2027 PPCT (1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM): G6-L05 = 2 tiết, 29 lesson + 2 review + 4 assessment = 35 tiết, exact 35-period schedule', () => {
@@ -516,18 +549,35 @@ function runSuite() {
     return 'FAIL as expected (Trusted Snapshot caught recomputed hash tampering)';
   });
 
-  test('P25-17', 'Round 1, Round 2 & Round 3 Negative Tests (Paraphrased B03/C07/E01/E04, 5.2.TC1a->G6-A-07, Core Competency != 5 / NLS-*, TT02 driveId=PhuLucIII, Phantom L14 / Ôn tập giữa HKI, Missing Provenance) -> FAIL', () => {
+  test('P25-17', 'Round 1–4 Negative Tests (A09 missing "bằng", D01 missing "về" / "; nêu", D05 missing parenthetical, E07 "lôgic", F03 missing “hiểu”, B03/C07/E01/E04 paraphrased, 5.2.TC1a->G6-A-07, Core Competency != 5, TT02 driveId=PhuLucIII) -> FAIL', () => {
     const bad = clone(baseDataset);
 
-    // 1. Paraphrased officialText on G6-B-03 ("kể được tên"), G6-C-07 ("Biết cách đăng kí tài khoản email"), G6-E-01 ("một số công cụ"), G6-E-04 ("bằng phần mềm soạn thảo văn bản")
+    // 1. Round 3 & Round 4 paraphrased / modified officialText negative checks:
+    const rA09 = bad.requirements.find(r => r.requirementId === 'G6-A-09');
+    rA09.officialText =
+      'Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.';
     const rB03 = bad.requirements.find(r => r.requirementId === 'G6-B-03');
-    rB03.officialText = 'Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể được tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...';
+    rB03.officialText =
+      'Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể được tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...';
     const rC07 = bad.requirements.find(r => r.requirementId === 'G6-C-07');
-    rC07.officialText = 'Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.';
+    rC07.officialText =
+      'Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.';
+    const rD01 = bad.requirements.find(r => r.requirementId === 'G6-D-01');
+    rD01.officialText =
+      'Giới thiệu được sơ lược một số tác hại và nguy cơ bị hại khi tham gia Internet; nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên.';
+    const rD05 = bad.requirements.find(r => r.requirementId === 'G6-D-05');
+    rD05.officialText = 'Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu.';
     const rE01 = bad.requirements.find(r => r.requirementId === 'G6-E-01');
-    rE01.officialText = 'Trình bày được tác dụng của một số công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.';
+    rE01.officialText =
+      'Trình bày được tác dụng của một số công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.';
     const rE04 = bad.requirements.find(r => r.requirementId === 'G6-E-04');
     rE04.officialText = 'Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.';
+    const rE07 = bad.requirements.find(r => r.requirementId === 'G6-E-07');
+    rE07.officialText =
+      'Sắp xếp được một cách lôgic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.';
+    const rF03 = bad.requirements.find(r => r.requirementId === 'G6-F-03');
+    rF03.officialText =
+      'Biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.';
 
     // 2. Map 5.2.TC1a to G6-A-07 -> triggers INVALID_NLS_REQUIREMENT_MAPPING
     const m52a = bad.nlsMappings.find(m => m.nlsCode === '5.2.TC1a');
@@ -548,8 +598,8 @@ function runSuite() {
     const tt02 = bad.sources.find(s => s.sourceId === 'SRC-TT02-2025-NLS');
     tt02.driveId = '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC';
 
-    // 5. Remove a requirement -> triggers REQUIREMENT_COUNT_MISMATCH & TOPIC_REQUIREMENT_COUNT_MISMATCH
-    bad.requirements.pop();
+    // 5. Remove G6-F-02 -> triggers REQUIREMENT_COUNT_MISMATCH & TOPIC_REQUIREMENT_COUNT_MISMATCH (while keeping G6-F-03 to test F03 quote check)
+    bad.requirements = bad.requirements.filter(r => r.requirementId !== 'G6-F-02');
 
     // 6. Add Phantom Lesson 14 & Phantom "Ôn tập giữa học kì I" & Corrupt Lesson 5 periods
     bad.lessons.push({
@@ -592,10 +642,15 @@ function runSuite() {
     const paraphrasedIds = res.errors
       .filter(e => e.code === 'OFFICIAL_TEXT_PARAPHRASED_OR_MODIFIED')
       .map(e => e.id);
+    assert(paraphrasedIds.includes('G6-A-09'), 'Did not catch G6-A-09 missing "1 KB bằng xấp xỉ"');
     assert(paraphrasedIds.includes('G6-B-03'), 'Did not catch G6-B-03 "kể được tên"');
     assert(paraphrasedIds.includes('G6-C-07'), 'Did not catch G6-C-07 "Biết cách đăng kí tài khoản email"');
+    assert(paraphrasedIds.includes('G6-D-01'), 'Did not catch G6-D-01 missing "về" / "; nêu"');
+    assert(paraphrasedIds.includes('G6-D-05'), 'Did not catch G6-D-05 missing parenthetical example');
     assert(paraphrasedIds.includes('G6-E-01'), 'Did not catch G6-E-01 "một số công cụ"');
     assert(paraphrasedIds.includes('G6-E-04'), 'Did not catch G6-E-04 "bằng phần mềm soạn thảo văn bản"');
+    assert(paraphrasedIds.includes('G6-E-07'), 'Did not catch G6-E-07 "lôgic"');
+    assert(paraphrasedIds.includes('G6-F-03'), 'Did not catch G6-F-03 missing “hiểu”');
     assert(codes.includes('INVALID_NLS_REQUIREMENT_MAPPING'), 'Missing INVALID_NLS_REQUIREMENT_MAPPING (5.2.TC1a -> G6-A-07)');
     assert(codes.includes('CORE_COMPETENCY_COUNT_MISMATCH'), 'Missing CORE_COMPETENCY_COUNT_MISMATCH');
     assert(codes.includes('UNAUTHORIZED_NLS_IN_CORE_COMPETENCY'), 'Missing UNAUTHORIZED_NLS_IN_CORE_COMPETENCY');
@@ -609,7 +664,7 @@ function runSuite() {
     assert(codes.includes('FORBIDDEN_INTERMEDIATE_DRIVE_ID'), 'Missing FORBIDDEN_INTERMEDIATE_DRIVE_ID');
     assert(codes.includes('TRUSTED_SNAPSHOT_MISSING_PROVENANCE'), 'Missing TRUSTED_SNAPSHOT_MISSING_PROVENANCE');
     assert(codes.includes('CONTRACT_DRIFT_DETECTED'), 'Missing CONTRACT_DRIFT_DETECTED');
-    return 'Caught all 17 Round 1 + Round 2 + Round 3 content/governance violations';
+    return 'Caught all 22 Round 1–4 content, transcription, and governance violations';
   });
 
   // ------------------------------------------------------------------------

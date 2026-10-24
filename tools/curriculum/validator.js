@@ -57,27 +57,28 @@ const REQUIRED_SOURCE_DRIVE_IDS = {
 const EXPECT_CORE_COMPETENCY_COUNT_G6 = 5;
 const ALLOWED_CORE_COMPETENCY_IDS = ['NLa', 'NLb', 'NLc', 'NLd', 'NLe'];
 
-// Immutable semantic signatures for RequirementIDs (Round 2 & Round 3)
+// Immutable semantic signatures for RequirementIDs (Round 2, Round 3 & Round 4)
 const IMMUTABLE_REQUIREMENT_SIGNATURES = {
   'G6-A-05': /máy tính là công cụ hiệu quả để thu thập,\s*lưu trữ,\s*xử lí và truyền thông tin/i,
   'G6-A-06': /các bước cơ bản trong xử lí thông tin/i,
-  'G6-A-09': /1 KB xấp xỉ 1 ngàn byte,\s*1 MB xấp xỉ 1 triệu byte,\s*1 GB xấp xỉ 1 tỉ byte/i,
+  'G6-A-09': /^Nêu được tên và độ lớn \(xấp xỉ theo hệ thập phân\) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này\. Ví dụ: 1 KB bằng xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte\.$/,
   'G6-B-02': /mạng không dây tiện dụng hơn mạng có dây/i,
   'G6-B-03': /^Nêu được các thành phần chủ yếu của một mạng máy tính \(máy tính và các thiết bị kết nối\) và tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,\.\.\.$/,
   'G6-C-01': /^Trình bày được sơ lược về các khái niệm WWW,\s*website,\s*địa chỉ của website,\s*trình duyệt\.$/,
   'G6-C-07': /^Biết cách đăng kí tài khoản thư điện tử, thực hiện được một số thao tác cơ bản: đăng nhập tài khoản email, soạn và gửi email, thoát ra\.$/,
-  'G6-D-01': /Giới thiệu được sơ lược một số tác hại và nguy cơ bị hại khi tham gia Internet/i,
-  'G6-D-03': /Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn/i,
-  'G6-D-05': /^Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu\.$/,
+  'G6-D-01': /^Giới thiệu được sơ lược về một số tác hại và nguy cơ bị hại khi tham gia Internet\. Nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên\.$/,
+  'G6-D-03': /^Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn\.$/,
+  'G6-D-05': /^Nhận diện được một số thông điệp \(chẳng hạn email, yêu cầu kết bạn, lời mời tham gia câu lạc bộ,\.\.\.\) lừa đảo hoặc mang nội dung xấu\.$/,
   'G6-E-01': /^Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản\.$/,
   'G6-E-02': /Thực hiện được việc định dạng văn bản,\s*trình bày trang văn bản và in/i,
   'G6-E-03': /Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản/i,
   'G6-E-04': /^Trình bày được thông tin ở dạng bảng\.$/,
   'G6-E-05': /Soạn thảo được văn bản phục vụ học tập và sinh hoạt hàng ngày/i,
   'G6-E-06': /Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản/i,
-  'G6-E-07': /Sắp xếp được một cách lôgic và trình bày được dưới dạng sơ đồ tư duy/i,
+  'G6-E-07': /^Sắp xếp được một cách logic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm\.$/,
   'G6-E-08': /Giải thích được lợi ích của sơ đồ tư duy,\s*nêu được nhu cầu sử dụng phần mềm sơ đồ tư duy/i,
-  'G6-E-09': /Sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản/i
+  'G6-E-09': /Sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản/i,
+  'G6-F-03': /^Biết được chương trình là mô tả một thuật toán để máy tính “hiểu” và thực hiện được\.$/
 };
 
 const LOCKED_DATA_CONTRACT_REQUIRED_FIELDS = {
@@ -281,14 +282,22 @@ class CurriculumValidator {
         __dirname,
         'trusted-official-requirements-g6.json'
       );
+      this.sourceTranscriptPath = path.resolve(
+        __dirname,
+        'source-transcripts/ctgdpt2018-tin6-yccd.source.json'
+      );
     } else {
       this.schemasDir = opts.schemasDir || path.resolve(__dirname, '../../schemas');
       this.trustedSnapshotPath =
         opts.trustedSnapshotPath ||
         path.resolve(__dirname, 'trusted-official-requirements-g6.json');
+      this.sourceTranscriptPath =
+        opts.sourceTranscriptPath ||
+        path.resolve(__dirname, 'source-transcripts/ctgdpt2018-tin6-yccd.source.json');
     }
     this.schemas = this._loadSchemas();
     this.trustedSnapshot = this._loadTrustedSnapshot();
+    this.sourceTranscript = this._loadSourceTranscript();
   }
 
   _loadSchemas() {
@@ -319,6 +328,13 @@ class CurriculumValidator {
   _loadTrustedSnapshot() {
     if (this.trustedSnapshotPath && fs.existsSync(this.trustedSnapshotPath)) {
       return JSON.parse(fs.readFileSync(this.trustedSnapshotPath, 'utf8'));
+    }
+    return null;
+  }
+
+  _loadSourceTranscript() {
+    if (this.sourceTranscriptPath && fs.existsSync(this.sourceTranscriptPath)) {
+      return JSON.parse(fs.readFileSync(this.sourceTranscriptPath, 'utf8'));
     }
     return null;
   }
@@ -363,9 +379,12 @@ class CurriculumValidator {
   }
 
   /**
-   * Section 6: Verify Trusted Snapshot has full provenance pointing to true CTGDPT source.
+   * Section 3 & 6: Verify Reviewed Source Transcript & Trusted Snapshot provenance chain.
    */
-  validateTrustedSnapshotProvenance(snapshot = this.trustedSnapshot) {
+  validateTrustedSnapshotProvenance(
+    snapshot = this.trustedSnapshot,
+    sourceTranscript = this.sourceTranscript
+  ) {
     const errors = [];
     if (!snapshot) {
       errors.push({
@@ -384,7 +403,7 @@ class CurriculumValidator {
       snapshot.sourceSection !== 'LỚP 6 – Chủ đề A–F' ||
       !snapshot.verifiedAt ||
       snapshot.transcriptionPolicy !==
-        'Only whitespace/line-break/OCR normalization. No semantic edits.'
+        'Whitespace/line-break/obvious OCR-spacing normalization only. No semantic rewriting.'
     ) {
       errors.push({
         code: 'TRUSTED_SNAPSHOT_MISSING_PROVENANCE',
@@ -392,6 +411,24 @@ class CurriculumValidator {
         id: snapshot.snapshotId || 'SNAPSHOT',
         message:
           'Trusted Snapshot is missing valid CTGDPT provenance (sourceId=SRC-GDPT-2018-TIN6, sourceDocumentDriveId=13o_7GOH_en10qIrlgLTyqrIlJSgCZxma, sourceOfficialUrl with ItemID=146721, sourceSection="LỚP 6 – Chủ đề A–F", verifiedAt, transcriptionPolicy)'
+      });
+    }
+    if (
+      !sourceTranscript ||
+      sourceTranscript.sourceDocumentDriveId !== '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma' ||
+      sourceTranscript.sourceSection !== 'LỚP 6 – Chủ đề A–F' ||
+      sourceTranscript.transcriptionPolicy !==
+        'Whitespace/line-break/obvious OCR-spacing normalization only. No semantic rewriting.' ||
+      sourceTranscript.reviewStatus !== 'reviewed_source_transcript' ||
+      !Array.isArray(sourceTranscript.items) ||
+      sourceTranscript.items.length !== 38
+    ) {
+      errors.push({
+        code: 'SOURCE_TRANSCRIPT_INVALID_OR_MISSING',
+        entity: 'SourceTranscript',
+        id: (sourceTranscript && sourceTranscript.transcriptId) || 'TRANSCRIPT',
+        message:
+          'Reviewed Source Transcript (ctgdpt2018-tin6-yccd.source.json) is missing or invalid'
       });
     }
     return {
@@ -811,16 +848,29 @@ class CurriculumValidator {
       }
 
       if (
+        (r.requirementId === 'G6-A-09' && !/1 KB bằng xấp xỉ/.test(r.officialText || '')) ||
         (r.requirementId === 'G6-B-03' && /kể được tên/i.test(r.officialText || '')) ||
         (r.requirementId === 'G6-C-07' && /^Biết cách đăng kí tài khoản email/i.test(r.officialText || '')) ||
+        (r.requirementId === 'G6-D-01' &&
+          (/Giới thiệu được sơ lược một số/i.test(r.officialText || '') ||
+            /Internet;\s*nêu/i.test(r.officialText || '') ||
+            !/Giới thiệu được sơ lược về một số/.test(r.officialText || '') ||
+            !/Internet\.\s*Nêu/.test(r.officialText || ''))) ||
+        (r.requirementId === 'G6-D-05' &&
+          !/\(chẳng hạn email,\s*yêu cầu kết bạn,\s*lời mời tham gia câu lạc bộ,\.\.\.\)/.test(
+            r.officialText || ''
+          )) ||
         (r.requirementId === 'G6-E-01' && /một số công cụ/i.test(r.officialText || '')) ||
-        (r.requirementId === 'G6-E-04' && /bằng phần mềm soạn thảo văn bản/i.test(r.officialText || ''))
+        (r.requirementId === 'G6-E-04' && /bằng phần mềm soạn thảo văn bản/i.test(r.officialText || '')) ||
+        (r.requirementId === 'G6-E-07' &&
+          (/lôgic/i.test(r.officialText || '') || !/\blogic\b/.test(r.officialText || ''))) ||
+        (r.requirementId === 'G6-F-03' && !/“hiểu”/.test(r.officialText || ''))
       ) {
         errors.push({
           code: 'OFFICIAL_TEXT_PARAPHRASED_OR_MODIFIED',
           entity: 'Requirement',
           id: r.requirementId,
-          message: `Requirement '${r.requirementId}' officialText contains paraphrased/added wording prohibited by CTGDPT 2018 transcription policy`
+          message: `Requirement '${r.requirementId}' officialText contains paraphrased/modified wording or missing parenthetical/punctuation prohibited by CTGDPT 2018 transcription policy`
         });
       }
 
