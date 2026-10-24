@@ -18,13 +18,13 @@ Phase 3
 # Task ID
 
 ```text
-P3.4
+P3.4-B
 ```
 
 # Task Name
 
 ```text
-Golden Lesson Local UAT Preview
+Golden Lesson UAT – Isolation, Resume, Completion & Teacher Evidence
 ```
 
 # Repository
@@ -33,452 +33,311 @@ Golden Lesson Local UAT Preview
 huynhdien997spt/tinhocthaydien
 ```
 
-# Branch bắt buộc
+# Branch
 
 ```text
 phase3-golden-lesson-review
 ```
 
-# Base Commit đã PASS P3.3
+# Current Branch Head Before This Task
 
 ```text
-ecc56e274739078b431cf8fe294040a9cb6bacf5
+37bae401d7dae611bd06e8a803c9ac62da2ab63f
 ```
 
-# Golden Lesson
+# Human UAT Round 1
 
-```text
-LessonID: G6-L03
-LegacyLessonID: G6-B3
-Bài 3. Thông tin trong máy tính
-Khối 6
-Thời lượng: 90 phút / 2 tiết
-```
+Project Controller records teacher confirmation that Round 1 was completed:
+- login succeeded;
+- G6-L03 opened;
+- Period 1 A01–A04 completed;
+- checkpoint reached 50%;
+- no blocking issue reported.
+
+Treat this as HUMAN_UAT_ROUND1_PASS.
+
+Do not alter production.
 
 ---
 
 # Objective
 
-Tạo môi trường **local preview** để giáo viên UAT Golden Lesson `G6-L03`.
+Verify the remaining P3.4 contract:
 
-Không thay đổi production.
-
-Không merge vào `main`.
-
-Không deploy GitHub Pages.
-
-Không deploy Apps Script.
+1. student isolation on shared device;
+2. resume after logout/login;
+3. Period 2 unlock only after 50% checkpoint;
+4. completion requires A05–A08 + Exit Ticket;
+5. teacher-facing evidence is recoverable;
+6. offline/idempotency behavior remains valid;
+7. no regression.
 
 ---
 
-# 1. Git Pre-check
+# A. Pre-check
 
-Chạy:
+Run:
 
 ```bash
+git fetch origin
 git status
 git branch --show-current
 git rev-parse HEAD
 ```
 
-Expected:
+Expected branch:
 
 ```text
-branch = phase3-golden-lesson-review
-HEAD = ecc56e274739078b431cf8fe294040a9cb6bacf5
+phase3-golden-lesson-review
 ```
 
-Nếu HEAD khác base commit trên:
+Application source baseline remains:
 
 ```text
-STOP
-BLOCKED
+ecc56e274739078b431cf8fe294040a9cb6bacf5
 ```
 
-và ghi rõ vào `agent/AGENT_REPORT.md`.
+Later commits may contain only agent workflow docs unless a bug fix is explicitly required.
 
 ---
 
-# 2. Không thực hiện
+# B. Student Isolation Test
 
-Không:
+Use only TEST student accounts.
+
+Scenario:
+
+1. Student A has progress at 50% in G6-L03.
+2. Logout Student A.
+3. On the same browser/device, login Student B.
+4. Student B must NOT see:
+   - Student A progress;
+   - Student A responses;
+   - Student A products;
+   - Student A Exit Ticket;
+   - Student A offline queue;
+   - Student A current activity.
+5. Student B must start G6-L03 from 0% unless Student B independently already has valid data.
+
+Verify identity isolation is governed by StudentUID/server session, not name/ClassID/client username alone.
+
+Do not log passwords/tokens.
+
+---
+
+# C. Resume Test
+
+For Student A:
+
+1. Logout and login again.
+2. Open G6-L03.
+3. Restore expected state:
+
+```text
+percentComplete = 50
+status = in_progress
+nextActivityId = G6-L03-A05
+Period 2 = unlocked
+resume activity = A05
+```
+
+4. Verify A01–A04 evidence remains restored.
+5. Verify Student B session/data cannot contaminate Student A.
+
+---
+
+# D. Period 2 / Completion Test
+
+Complete:
+
+```text
+A05
+A06
+A07
+A08
+Exit Ticket
+```
+
+Check:
+
+- A05 worksheet uses real student inputs, not hardcoded values.
+- A06 Product 2 is student-created and open reasoning remains needs_teacher_review.
+- activity gates cannot be bypassed.
+- lesson must NOT complete before A01–A08 + valid Exit Ticket.
+- after all evidence:
+
+```text
+percentComplete = 100
+status = completed
+```
+
+Only then lesson completion is allowed.
+
+Do not introduce mastery decision in Phase 3.
+
+---
+
+# E. Teacher Evidence Check
+
+Using existing teacher/backend capabilities, verify teacher can recover for the test student:
+
+```text
+StudentUID
+lesson progress
+current/last activity
+responses
+products
+attempts where available
+Exit Ticket
+learning/session time where available
+```
+
+For open products confirm:
+
+```text
+isCorrect = null/blank
+score = null/blank
+evaluationStatus = needs_teacher_review
+```
+
+The evaluationStatus may be stored inside parsed ResponseValue JSON according to current Data Contract.
+
+Do not create a new schema solely for this task.
+
+---
+
+# F. Offline / Idempotency Verification
+
+Use automated tests where possible.
+
+Verify:
+
+1. an answer/event can be queued while offline;
+2. reconnect syncs the queued event;
+3. EventID/idempotency prevents duplicate storage;
+4. one student's queue cannot be replayed into another student's identity.
+
+If safe browser automation is unavailable, validate existing test coverage and mark the remaining browser action HUMAN_UAT_REQUIRED.
+
+---
+
+# G. Regression
+
+Run at minimum:
+
+```text
+P3.3 suite
+P2.5 suite
+Phase 1.5 suite
+Phase 1 audit suite
+```
+
+Expected previous baseline:
+
+```text
+P3.3: 30/30
+P2.5: 20/20
+Phase 1.5: 27/27
+Phase 1: 79/79
+```
+
+---
+
+# H. Bug Policy
+
+If a bug touches:
+
+```text
+auth
+StudentUID
+Data Contract
+completion contract
+progress restore
+backend identity
+source governance
+```
+
+do NOT silently redesign.
+
+Record:
+
+```text
+BUG ID
+Steps to reproduce
+Expected
+Actual
+Evidence
+Suspected files
+Risk
+PROPOSED_CHANGE if needed
+```
+
+and return BLOCKED if architecture approval is required.
+
+Small UI defects may be fixed only if clearly within scope and regression-tested.
+
+---
+
+# I. Production Safety
+
+Never:
 
 ```text
 merge main
 push main
 deploy GitHub Pages
 deploy Apps Script
-đổi googleScriptUrl
-ghi production data ngoài thao tác UAT hợp lệ
-tạo commit chỉ để chạy local preview
-tự sửa auth architecture
-```
-
-Nếu không phát hiện bug thì không sửa file ứng dụng.
-
----
-
-# 3. Apps Script Endpoint
-
-Frontend phải tiếp tục dùng endpoint đã cấu hình trong:
-
-```text
-assets/js/config.js
-```
-
-Endpoint production hiện tại đã được giáo viên kiểm tra và đang phản hồi:
-
-```json
-{
-  "success": true,
-  "data": {
-    "service": "tin-hoc-auth",
-    "version": "3.0.0-rc.1"
-  },
-  "error": null
-}
-```
-
-Không thay endpoint.
-
----
-
-# 4. Local HTTP Server
-
-Từ root repository chạy:
-
-```bash
-python3 -m http.server 8000
-```
-
-Nếu port `8000` đang được dùng, chọn port khác và ghi rõ trong report.
-
-Không mở website bằng:
-
-```text
-file://
+change production architecture
+change production data outside legitimate test-user UAT
+start Phase 4
 ```
 
 ---
 
-# 5. URL UAT dự kiến
+# Required Report
 
-```text
-http://localhost:8000/
-http://localhost:8000/index.html#/login
-http://localhost:8000/lessons/grade6/bai3/index.html
-```
-
-Nếu dùng port khác, thay `8000` bằng port thực tế.
-
----
-
-# 6. Smoke Test trước khi giao giáo viên
-
-Kiểm tra HTTP 200:
-
-```text
-/
-index.html
-assets/js/config.js
-data/lessons/G6-L03.golden.json
-lessons/grade6/bai3/index.html
-```
-
-Đồng thời xác nhận các script Golden Lesson mà HTML thực tế đang dùng đều tải được.
-
-Parse:
-
-```text
-data/lessons/G6-L03.golden.json
-```
-
-Expected:
-
-```text
-lessonId = G6-L03
-activities = 8
-questions = 10
-```
-
----
-
-# 7. Golden Lesson Shell
-
-Kiểm tra:
-
-```text
-lessons/grade6/bai3/index.html
-```
-
-phải dùng:
-
-```text
-data-lesson-id="G6-L03"
-```
-
-và kết nối đúng renderer/services hiện có.
-
-Không hard-code lại nội dung bài học vào HTML.
-
----
-
-# 8. Login Connectivity
-
-Mở:
-
-```text
-http://localhost:8000/index.html#/login
-```
-
-Kiểm tra không còn thông báo:
-
-```text
-Chưa kết nối được máy chủ
-```
-
-Không ghi password/token vào console hoặc report.
-
-Nếu login lỗi:
-
-- kiểm browser console;
-- kiểm Network request tới Apps Script;
-- ghi HTTP status;
-- ghi response/error;
-- ghi CORS/redirect nếu có;
-- không tự sửa auth architecture.
-
----
-
-# 9. Golden Lesson Visibility
-
-Sau login bằng tài khoản test học sinh hợp lệ:
-
-Dashboard phải thấy:
-
-```text
-Bài 3. Thông tin trong máy tính
-G6-L03
-```
-
-Mở bài.
-
-Tiết 1 phải có:
-
-```text
-A01
-A02
-A03
-A04
-```
-
-Tiết 2 phải bị khóa trước checkpoint.
-
-Expected message tương đương:
-
-```text
-Hoàn thành Checkpoint Tiết 1 để mở Tiết 2.
-```
-
----
-
-# 10. Evidence Gate
-
-## A01
-
-Không trả lời `Q001`.
-
-Bấm hoàn thành.
-
-Expected:
-
-```text
-BLOCKED
-Còn thiếu Q001
-```
-
-Sau đó trả lời `Q001`.
-
-Expected:
-
-```text
-A01 complete
-```
-
-## A02
-
-Không nộp Product 1.
-
-Expected:
-
-```text
-BLOCKED
-```
-
-Sau đó nộp đủ:
-
-```text
-bitString
-explanation
-Q002
-```
-
-Expected:
-
-```text
-A02 complete
-```
-
-## A03 / A04
-
-Thực hiện tương tự theo required evidence.
-
-Không cho phép hoàn thành hoạt động chỉ bằng click nếu thiếu evidence.
-
----
-
-# 11. Checkpoint Tiết 1
-
-Sau A04:
-
-Expected:
-
-```text
-percentComplete = 50
-status = in_progress
-nextActivityId = G6-L03-A05
-activePeriod = 1
-```
-
-Phải hiển thị thông báo kết thúc Tiết 1 tương đương:
-
-```text
-Em đã hoàn thành Tiết 1.
-Lần sau em sẽ tiếp tục từ Nhiệm vụ A05.
-```
-
-Không tự hoàn thành lesson.
-
-Không tự chuyển sang 100%.
-
-Không gọi completion cuối bài.
-
----
-
-# 12. Dừng UAT vòng đầu tại 50%
-
-Khi Stage 1–11 đạt yêu cầu:
-
-ghi:
-
-```text
-P3.4 LOCAL UAT – CHECKPOINT READY
-```
-
-Giữ local server chạy để giáo viên tiếp tục trải nghiệm.
-
-Không cần tự thực hiện Student B / resume / hoàn thành Tiết 2 trong task này trừ khi `NEXT_TASK.md` được cập nhật.
-
----
-
-# 13. Nếu phát hiện bug
-
-Không sửa ngay nếu bug ảnh hưởng:
-
-```text
-auth
-StudentUID
-Data Contract
-completion rule
-progress restore
-backend
-```
-
-Ghi vào report:
-
-```text
-BUG ID:
-Description:
-Steps to reproduce:
-Expected:
-Actual:
-Console/Network evidence:
-Suspected files:
-Risk:
-```
-
-Nếu chỉ là lỗi UI nhỏ, vẫn ghi report trước khi sửa.
-
----
-
-# Required Tests
-
-Tối thiểu:
-
-```text
-Local HTTP asset smoke test
-Golden JSON parse/shape validation
-Login connectivity
-Golden Lesson visibility
-Period 2 lock
-Evidence gate
-50% checkpoint
-Regression tests hiện có nếu không cần thay code
-```
-
----
-
-# Required Output
-
-Cập nhật:
+Update:
 
 ```text
 agent/AGENT_REPORT.md
 ```
 
-theo mẫu dự án, gồm tối thiểu:
+with:
 
 ```text
+Task ID: P3.4-B
 Branch:
-Base Commit:
+Base/Application Commit:
 Final Commit:
-Local server URL:
-Login page URL:
-Golden Lesson URL:
 
-Apps Script endpoint:
-Endpoint smoke test:
-
-Static asset checks:
-Golden JSON validation:
-
-Login connectivity:
-Golden Lesson visible:
-Period 2 lock:
-Evidence gate:
-50% checkpoint:
+Student isolation:
+Resume from 50%:
+Period 2:
+Completion:
+Teacher evidence:
+Offline/idempotency:
+Regression:
 
 Files changed:
 Commits created:
+Human UAT still required:
 
 Final Status:
 READY_FOR_REVIEW
 ```
 
-hoặc:
+or:
 
 ```text
 BLOCKED
 ```
 
-Sau đó:
+If remaining browser/human validation is needed, explicitly include:
 
 ```text
-STOP
+HUMAN_UAT_REQUIRED
 ```
 
-Không merge.
+Then STOP.
 
-Không deploy.
-
-Không tự bắt đầu Phase/Task khác.
+Do not start Phase 4.
