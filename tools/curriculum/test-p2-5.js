@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * PHASE 2 / TASK P2.5 (FIX) — Automated Test Suite & Fixture Generator
+ * PHASE 2 / TASK P2.5 (FIX ROUND 2) — Automated Test Suite & Fixture Generator
  */
 
 const fs = require('fs');
@@ -192,7 +192,7 @@ function runSuite() {
   }
 
   console.log('================================================================');
-  console.log('PHASE 2 / TASK P2.5 (FIX) — CURRICULUM DATA FOUNDATION TEST SUITE');
+  console.log('PHASE 2 / TASK P2.5 (FIX ROUND 2) — CURRICULUM DATA FOUNDATION TEST SUITE');
   console.log('================================================================\n');
 
   const validator = new CurriculumValidator(path.join(REPO_ROOT, 'schemas'));
@@ -219,7 +219,7 @@ function runSuite() {
     return `Verified ${requiredDirs.length} directories`;
   });
 
-  test('P25-02', 'All 12 JSON Schemas exist and pass Locked Data Contract Drift Verification (Blocker 3 & 7.7)', () => {
+  test('P25-02', 'All 12 JSON Schemas exist and pass Locked Data Contract Drift Verification', () => {
     const expectedSchemas = [
       'source.schema.json',
       'topic.schema.json',
@@ -258,43 +258,63 @@ function runSuite() {
     return `Topics: ${actualTopics.join(', ')}`;
   });
 
-  test('P25-04', 'Requirement Bank has exactly 38 requirements (A=10, B=4, C=7, D=5, E=9, F=3) (Blocker 1.1, 7.1, 7.2)', () => {
+  test('P25-04', 'Requirement Bank has 38 requirements (A=10, B=4, C=7, D=5, E=9, F=3) with immutable IDs (A05/A06, B02/B03, E01..E09)', () => {
     assert(
       baseDataset.requirements.length === EXPECT_REQUIREMENT_COUNT_G6,
       `Expected ${EXPECT_REQUIREMENT_COUNT_G6} requirements, got ${baseDataset.requirements.length}`
     );
     const counts = { 'G6-A': 0, 'G6-B': 0, 'G6-C': 0, 'G6-D': 0, 'G6-E': 0, 'G6-F': 0 };
+    const byId = new Map();
     for (const r of baseDataset.requirements) {
       counts[r.topicId] = (counts[r.topicId] || 0) + 1;
+      byId.set(r.requirementId, r);
     }
     for (const [topicId, exp] of Object.entries(EXPECT_TOPIC_COUNTS_G6)) {
       assert(counts[topicId] === exp, `Topic ${topicId}: expected ${exp}, got ${counts[topicId]}`);
     }
-    return `Total=38 (A=10, B=4, C=7, D=5, E=9, F=3)`;
+    assert(byId.get('G6-A-05').officialText.includes('công cụ hiệu quả'), 'G6-A-05 must be Vai trò máy tính');
+    assert(byId.get('G6-A-06').officialText.includes('các bước cơ bản trong xử lí thông tin'), 'G6-A-06 must be Các bước xử lí thông tin');
+    assert(byId.get('G6-B-02').officialText.includes('mạng không dây tiện dụng hơn'), 'G6-B-02 must be Mạng không dây tiện dụng hơn');
+    assert(byId.get('G6-B-03').officialText.includes('máy tính, cáp nối, Switch, Access Point'), 'G6-B-03 must be Thành phần mạng với cáp nối');
+    assert(byId.get('G6-E-01').officialText.includes('tác dụng của một số công cụ căn lề'), 'G6-E-01..06 must be Soạn thảo văn bản');
+    assert(byId.get('G6-E-07').officialText.includes('sơ đồ tư duy'), 'G6-E-07..09 must be Sơ đồ tư duy');
+    return `Total=38 (A=10, B=4, C=7, D=5, E=9, F=3) with immutable IDs verified`;
   });
 
-  test('P25-05', 'Trusted Official Text Snapshot, studentFriendlyText, and no TB in G6-A-09 officialText (Blocker 1.3–1.5, 7.3)', () => {
-    const g6a09 = baseDataset.requirements.find(r => r.requirementId === 'G6-A-09');
-    assert(g6a09, 'Missing G6-A-09');
+  test('P25-05', 'Exact CTGDPT 2018 officialText (G6-A-09 example sentence, G6-B-03 cáp nối, G6-C-01, G6-C-07, G6-D-01..05) & Trusted Snapshot Provenance', () => {
+    const byId = new Map(baseDataset.requirements.map(r => [r.requirementId, r]));
+    const g6a09 = byId.get('G6-A-09');
     assert(!/\bTB\b/.test(g6a09.officialText), 'G6-A-09 officialText must not contain TB');
     assert(
-      g6a09.officialText.includes('Byte, KB, MB, GB'),
-      'G6-A-09 officialText must contain Byte, KB, MB, GB'
+      g6a09.officialText.includes('Ví dụ: 1 KB xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.'),
+      'G6-A-09 must include the CTGDPT example sentence'
     );
-    for (const r of baseDataset.requirements) {
-      assert(r.studentFriendlyText && r.studentFriendlyText.length > 10, `Missing studentFriendlyText on ${r.requirementId}`);
-      assert(r.reviewStatus === 'approved_official', `Invalid reviewStatus on ${r.requirementId}`);
-      const trusted = validator.trustedSnapshot.requirements[r.requirementId];
-      assert(trusted, `Requirement ${r.requirementId} missing from trusted snapshot`);
-      assert(
-        r.officialText === trusted.officialText && r.officialTextHash === trusted.officialTextHash,
-        `Requirement ${r.requirementId} does not match trusted snapshot`
-      );
-    }
-    return 'All 38 requirements match Trusted Official Snapshot with studentFriendlyText';
+    assert(
+      byId.get('G6-C-01').officialText === 'Trình bày được sơ lược về các khái niệm WWW, website, địa chỉ của website, trình duyệt.',
+      'G6-C-01 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-C-07').officialText === 'Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.',
+      'G6-C-07 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-D-03').officialText === 'Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn.',
+      'G6-D-03 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-D-05').officialText === 'Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu.',
+      'G6-D-05 exact text mismatch'
+    );
+    const snap = validator.trustedSnapshot;
+    assert(snap.sourceId === 'SRC-GDPT-2018-TIN6', 'Snapshot missing sourceId');
+    assert(snap.sourceDocumentDriveId === '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma', 'Snapshot missing sourceDocumentDriveId');
+    assert(snap.sourceOfficialUrl && snap.sourceOfficialUrl.includes('ItemID=146721'), 'Snapshot missing ItemID=146721');
+    assert(snap.sourceSection === 'LỚP 6 – Chủ đề A–F', 'Snapshot missing sourceSection');
+    assert(snap.verifiedAt, 'Snapshot missing verifiedAt');
+    return 'All 38 requirements match exact CTGDPT 2018 wording and Trusted Snapshot provenance';
   });
 
-  test('P25-06', 'Viet Hoa 2026–2027 PPCT: 16 content lessons (1–13, 15–17), NO Lesson 14, exact periods & 35-period year plan (Blocker 2, 7.4–7.6)', () => {
+  test('P25-06', 'Viet Hoa 2026–2027 PPCT (1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM): G6-L05 = 2 tiết, 29 lesson + 2 review + 4 assessment = 35 tiết, exact 35-period schedule', () => {
     assert(
       baseDataset.lessons.length === EXPECT_PPCT_LESSON_COUNT_G6,
       `Expected ${EXPECT_PPCT_LESSON_COUNT_G6} lessons, got ${baseDataset.lessons.length}`
@@ -304,42 +324,54 @@ function runSuite() {
       'Phantom Lesson 14 must not exist in PPCT'
     );
     const l03 = baseDataset.lessons.find(l => l.lessonId === 'G6-L03');
+    const l05 = baseDataset.lessons.find(l => l.lessonId === 'G6-L05');
     const l08 = baseDataset.lessons.find(l => l.lessonId === 'G6-L08');
     const l13 = baseDataset.lessons.find(l => l.lessonId === 'G6-L13');
     const l17 = baseDataset.lessons.find(l => l.lessonId === 'G6-L17');
     assert(l03.periods === 2 && l03.durationMinutes === 90, 'G6-L03 must be 2 periods / 90m');
+    assert(l05.periods === 2 && l05.durationMinutes === 90, 'G6-L05 must be 2 periods / 90m');
     assert(l08.periods === 1 && l08.durationMinutes === 45, 'G6-L08 must be 1 period / 45m');
     assert(l13.periods === 1 && l13.durationMinutes === 45, 'G6-L13 must be 1 period / 45m');
     assert(l17.periods === 1 && l17.durationMinutes === 45, 'G6-L17 must be 1 period / 45m');
 
-    const dist = JSON.parse(
-      fs.readFileSync(path.join(REPO_ROOT, 'data/curriculum/ppct-distribution-g6.json'), 'utf8')
-    );
+    const dist = baseDataset.ppctDistribution;
     const lessonPeriodsSum = baseDataset.lessons.reduce((s, l) => s + l.periods, 0);
-    const nonLessonPeriodsSum = dist.nonLessonSessions.reduce((s, x) => s + x.periods, 0);
-    assert(
-      lessonPeriodsSum + nonLessonPeriodsSum === 35,
-      `Expected 35 total periods (${lessonPeriodsSum} lesson + ${nonLessonPeriodsSum} review/assessment)`
-    );
-    return `16 content lessons (${lessonPeriodsSum} periods) + ${nonLessonPeriodsSum} review/assessment periods = 35 periods/year`;
+    assert(lessonPeriodsSum === 29, `Expected 29 lesson periods, got ${lessonPeriodsSum}`);
+    assert(dist.summary.reviewPeriodsTotal === 2, `Expected 2 review periods, got ${dist.summary.reviewPeriodsTotal}`);
+    assert(dist.summary.assessmentPeriodsTotal === 4, `Expected 4 assessment periods, got ${dist.summary.assessmentPeriodsTotal}`);
+    assert(dist.totalPeriodsPerYear === 35, `Expected 35 total periods`);
+    assert(dist.periodSchedule.length === 35, `Expected 35-item periodSchedule`);
+    assert(dist.periodSchedule[7].periodNumber === 8 && dist.periodSchedule[7].refId === 'G6-ASM-GK1', 'Period 8 must be KIỂM TRA GIỮA HKI');
+    assert(dist.periodSchedule[8].periodNumber === 9 && dist.periodSchedule[8].refId === 'G6-L04', 'Period 9 must be Bài 4 (tiết 2)');
+    assert(dist.periodSchedule[25].periodNumber === 26 && dist.periodSchedule[25].refId === 'G6-ASM-GK2', 'Period 26 must be KIỂM TRA GIỮA HKII');
+    assert(dist.periodSchedule[26].periodNumber === 27 && dist.periodSchedule[26].refId === 'G6-L12', 'Period 27 must be Bài 12 (tiết 2)');
+    return '29 lesson + 2 review + 4 assessment = 35 periods/year; 35-period schedule verified';
   });
 
-  test('P25-07', 'Source Catalog specificity & two-layer verification (Blocker 4 & 5)', () => {
-    assert(baseDataset.sources.length >= 5, 'Expected >= 5 verified sources');
-    for (const s of baseDataset.sources) {
-      assert(!/^https?:\/\/[^/]+\/?$/i.test(s.url), `Source ${s.sourceId} uses generic root URL ${s.url}`);
-      assert(s.verificationStatus === 'verified', `Source ${s.sourceId} not verified`);
-      assert(s.verifiedAt && s.accessedAt && s.scopeUsed, `Source ${s.sourceId} missing verification metadata`);
-    }
-    return `Verified ${baseDataset.sources.length} sources with exact document URLs/Drive IDs`;
+  test('P25-07', 'Source Catalog uses 5 true teacher Google Drive IDs and VBPL ItemID=146721 & ItemID=175173 (no intermediate ChatGPT Doc IDs)', () => {
+    assert(baseDataset.sources.length === 6, `Expected 6 sources, got ${baseDataset.sources.length}`);
+    const byId = new Map(baseDataset.sources.map(s => [s.sourceId, s]));
+    assert(byId.get('SRC-GDPT-2018-TIN6').driveId === '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma', 'Wrong Drive ID for CTGDPT');
+    assert(byId.get('SRC-GDPT-2018-TIN6').url.includes('ItemID=146721'), 'Wrong VBPL ItemID for CTGDPT');
+    assert(byId.get('SRC-PPCT-VIETHOA-TIN6-2026').driveId === '1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM', 'Wrong Drive ID for PPCT');
+    assert(byId.get('SRC-SGK-KNTT-TIN6').driveId === '1hEqBximpHc2QQVSdEsfcwwPYsaXqeZmj', 'Wrong Drive ID for SGK');
+    assert(byId.get('SRC-SGK-KNTT-TIN6').externalVerificationStatus === 'pending', 'SGK externalVerificationStatus must be pending');
+    assert(byId.get('SRC-PHULUC3-TIN6-VIETHOA-2026').driveId === '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC', 'Wrong Drive ID for Phu luc III');
+    assert(byId.get('SRC-KHBD-TIN6-BAI3-VIETHOA').driveId === '1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp', 'Wrong Drive ID for KHBD Bai 3');
+    assert(byId.get('SRC-TT02-2025-NLS').url.includes('ItemID=175173'), 'Wrong VBPL ItemID for TT 02/2025');
+    return 'All 5 teacher Drive IDs and 2 VBPL ItemIDs (146721, 175173) verified';
   });
 
-  test('P25-08', 'NLS Framework vs School Mapping separation & AI prohibition in Requirement Bank (Blocker 6)', () => {
+  test('P25-08', 'NLS Mapping cites SRC-TT02-2025-NLS, SRC-PHULUC3-TIN6-VIETHOA-2026, and SRC-KHBD-TIN6-BAI3-VIETHOA; 0 AI in Requirement Bank', () => {
     for (const m of baseDataset.nlsMappings) {
       assert(m.frameworkSourceId === 'SRC-TT02-2025-NLS', 'NLS mapping must cite TT 02/2025 framework');
       assert(
-        m.mappingSourceId === 'SRC-PHULUC3-KHBD-VIETHOA-2026',
-        'NLS mapping must cite Viet Hoa Appendix III / KHBD'
+        m.mappingSourceId === 'SRC-PHULUC3-TIN6-VIETHOA-2026',
+        'NLS mapping must cite SRC-PHULUC3-TIN6-VIETHOA-2026'
+      );
+      assert(
+        m.supplementaryLessonPlanSourceId === 'SRC-KHBD-TIN6-BAI3-VIETHOA',
+        'NLS mapping must reference supplementary SRC-KHBD-TIN6-BAI3-VIETHOA'
       );
       assert(m.isOfficialGdpt2018Requirement === false, 'NLS mapping must not claim to be official GDPT 2018 YCCĐ');
     }
@@ -348,10 +380,10 @@ function runSuite() {
         assert(!cId.startsWith('AI'), `Requirement ${r.requirementId} contains AI competency ${cId}`);
       }
     }
-    return 'NLS 2-layer separation verified; 0 AI competencies in Requirement Bank';
+    return 'NLS 3-source attribution verified; 0 AI competencies in Requirement Bank';
   });
 
-  test('P25-09', 'Golden Lesson G6-L03 fixture matches specification and is marked isFixtureOnly=true (Blocker 7.8 & 8)', () => {
+  test('P25-09', 'Golden Lesson G6-L03 fixture matches specification and is marked isFixtureOnly=true', () => {
     const goldenFile = JSON.parse(
       fs.readFileSync(path.join(REPO_ROOT, 'data/lessons/G6-L03.golden.json'), 'utf8')
     );
@@ -372,13 +404,13 @@ function runSuite() {
   // ------------------------------------------------------------------------
   // GROUP 3: MANDATORY VALIDATOR FIXTURES & CONTENT QUALITY NEGATIVE TESTS
   // ------------------------------------------------------------------------
-  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 94 entities)', () => {
+  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 95 entities)', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'valid-grade6.fixture.json'), 'utf8')
     );
     const res = validator.validateDataset(fixture);
     assert(res.valid === true && res.errorCount === 0, `Expected PASS but got errors: ${JSON.stringify(res.errors)}`);
-    return `PASS with 0 errors across 94 entities`;
+    return `PASS with 0 errors across 95 entities`;
   });
 
   test('P25-11', 'Fixture 2: Duplicate ID -> FAIL with code DUPLICATE_ID', () => {
@@ -453,51 +485,76 @@ function runSuite() {
     return 'FAIL as expected (Trusted Snapshot caught recomputed hash tampering)';
   });
 
-  test('P25-17', 'Blocker 7 Content Quality Negative Tests (32 reqs, Phantom Lesson 14, Wrong PPCT periods, Generic Source URL, Contract Drift) -> FAIL', () => {
+  test('P25-17', 'Round 1 & Round 2 Content Quality Negative Tests (Phantom Lesson 14, Phantom Ôn tập giữa HKI, Forbidden Drive ID, Swapped Requirement IDs, Missing Snapshot Provenance, Contract Drift) -> FAIL', () => {
     const bad = clone(baseDataset);
     // 1. Remove a requirement -> triggers REQUIREMENT_COUNT_MISMATCH & TOPIC_REQUIREMENT_COUNT_MISMATCH
     bad.requirements.pop();
-    // 2. Add Phantom Lesson 14 -> triggers PHANTOM_LESSON_DETECTED
+    // 2. Swap G6-A-05 and G6-A-06 officialText -> triggers REQUIREMENT_STABLE_ID_DRIFT
+    const rA05 = bad.requirements.find(r => r.requirementId === 'G6-A-05');
+    const rA06 = bad.requirements.find(r => r.requirementId === 'G6-A-06');
+    const tmpText = rA05.officialText;
+    rA05.officialText = rA06.officialText;
+    rA06.officialText = tmpText;
+    // 3. Add Phantom Lesson 14 -> triggers PHANTOM_LESSON_DETECTED
     bad.lessons.push({
       ...clone(bad.lessons[0]),
       lessonId: 'G6-L14',
       lessonNumber: 14,
       title: 'Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm'
     });
-    // 3. Corrupt Lesson 8 period to 2 (90m) -> triggers PPCT_PERIOD_MISMATCH
-    const l08 = bad.lessons.find(l => l.lessonId === 'G6-L08');
-    l08.periods = 2;
-    l08.durationMinutes = 90;
-    // 4. Generic homepage URL on Source -> triggers SOURCE_URL_TOO_GENERIC
+    // 4. Corrupt Lesson 5 period to 1 (45m) -> triggers PPCT_PERIOD_MISMATCH
+    const l05 = bad.lessons.find(l => l.lessonId === 'G6-L05');
+    l05.periods = 1;
+    l05.durationMinutes = 45;
+    // 5. Add Phantom "Ôn tập giữa học kì I" -> triggers PHANTOM_REVIEW_SESSION_DETECTED
+    bad.ppctDistribution.nonLessonSessions.push({
+      sessionId: 'G6-HK1-MID-REVIEW',
+      semester: 1,
+      sessionType: 'review',
+      title: 'Ôn tập giữa học kì I',
+      periods: 1
+    });
+    // 6. Generic homepage URL + Forbidden Intermediate Drive ID -> triggers SOURCE_URL_TOO_GENERIC & FORBIDDEN_INTERMEDIATE_DRIVE_ID
     bad.sources[0].url = 'https://moet.gov.vn/';
-    // 5. Drift Question schema by dropping requirementId without APPROVED_CONTRACT_CHANGE
+    bad.sources[1].driveId = '1dadBFWiCuJHhVV2ult6wkfhDONwKuPMEgR8PVFed47U';
+    // 7. Strip provenance from Trusted Snapshot -> triggers TRUSTED_SNAPSHOT_MISSING_PROVENANCE
+    const badSnapshot = clone(validator.trustedSnapshot);
+    delete badSnapshot.sourceDocumentDriveId;
+    // 8. Drift Question schema by dropping requirementId without APPROVED_CONTRACT_CHANGE
     const driftedSchemas = clone(validator.schemas);
     driftedSchemas.question.required = driftedSchemas.question.required.filter(
       f => f !== 'requirementId'
     );
 
-    const res = validator.validateDataset(bad, { schemasOverride: driftedSchemas });
+    const res = validator.validateDataset(bad, {
+      schemasOverride: driftedSchemas,
+      trustedSnapshotOverride: badSnapshot
+    });
     assert(res.valid === false, 'Expected negative content quality dataset to FAIL');
     const codes = res.errors.map(e => e.code);
     assert(codes.includes('REQUIREMENT_COUNT_MISMATCH'), 'Missing REQUIREMENT_COUNT_MISMATCH');
     assert(codes.includes('TOPIC_REQUIREMENT_COUNT_MISMATCH'), 'Missing TOPIC_REQUIREMENT_COUNT_MISMATCH');
+    assert(codes.includes('REQUIREMENT_STABLE_ID_DRIFT'), 'Missing REQUIREMENT_STABLE_ID_DRIFT');
     assert(codes.includes('PHANTOM_LESSON_DETECTED'), 'Missing PHANTOM_LESSON_DETECTED');
     assert(codes.includes('PPCT_PERIOD_MISMATCH'), 'Missing PPCT_PERIOD_MISMATCH');
+    assert(codes.includes('PHANTOM_REVIEW_SESSION_DETECTED'), 'Missing PHANTOM_REVIEW_SESSION_DETECTED');
     assert(codes.includes('SOURCE_URL_TOO_GENERIC'), 'Missing SOURCE_URL_TOO_GENERIC');
+    assert(codes.includes('FORBIDDEN_INTERMEDIATE_DRIVE_ID'), 'Missing FORBIDDEN_INTERMEDIATE_DRIVE_ID');
+    assert(codes.includes('TRUSTED_SNAPSHOT_MISSING_PROVENANCE'), 'Missing TRUSTED_SNAPSHOT_MISSING_PROVENANCE');
     assert(codes.includes('CONTRACT_DRIFT_DETECTED'), 'Missing CONTRACT_DRIFT_DETECTED');
-    return 'Caught all 6 domain/contract violations (REQUIREMENT_COUNT_MISMATCH, TOPIC_REQUIREMENT_COUNT_MISMATCH, PHANTOM_LESSON_DETECTED, PPCT_PERIOD_MISMATCH, SOURCE_URL_TOO_GENERIC, CONTRACT_DRIFT_DETECTED)';
+    return 'Caught all 10 Round 1 + Round 2 domain/contract/source/schedule violations';
   });
 
   // ------------------------------------------------------------------------
   // GROUP 4: IDEMPOTENT IMPORTER & INTERMEDIATE ADAPTER
   // ------------------------------------------------------------------------
-  test('P25-18', 'Importer loads valid Grade 6 dataset (94 entities) into intermediate adapter and writes staging snapshot', () => {
+  test('P25-18', 'Importer loads valid Grade 6 dataset (95 entities) into intermediate adapter and writes staging snapshot', () => {
     const adapter = new IntermediateCurriculumAdapter({ snapshotPath: STAGING_SNAPSHOT_PATH });
     const importer = new CurriculumImporter({ validator, adapter });
 
     const run1 = importer.importDataset(baseDataset, { traceId: 'TRACE-P25-RUN-1' });
     assert(run1.imported === true, `Expected import success, got: ${run1.error}`);
-    assert(run1.stats.totalInserted === 94, `Expected 94 inserted records, got ${run1.stats.totalInserted}`);
+    assert(run1.stats.totalInserted === 95, `Expected 95 inserted records, got ${run1.stats.totalInserted}`);
     assert(run1.stats.totalUpdated === 0, 'Expected 0 updated on first run');
     assert(run1.stats.totalUnchanged === 0, 'Expected 0 unchanged on first run');
     assert(run1.stats.duplicatesCreated === 0, 'Expected 0 duplicatesCreated');
@@ -518,10 +575,10 @@ function runSuite() {
     assert(run2.imported === true && run3.imported === true, 'Retry runs failed');
     assert(run2.stats.totalInserted === 0, `Run 2 inserted ${run2.stats.totalInserted} (expected 0)`);
     assert(run2.stats.totalUpdated === 0, `Run 2 updated ${run2.stats.totalUpdated} (expected 0)`);
-    assert(run2.stats.totalUnchanged === 94, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 94)`);
-    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 94, 'Run 3 not idempotent');
-    assert(adapter.getTotalCount() === 94, `Expected total count to stay 94, got ${adapter.getTotalCount()}`);
-    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=94, duplicatesCreated=0';
+    assert(run2.stats.totalUnchanged === 95, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 95)`);
+    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 95, 'Run 3 not idempotent');
+    assert(adapter.getTotalCount() === 95, `Expected total count to stay 95, got ${adapter.getTotalCount()}`);
+    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=95, duplicatesCreated=0';
   });
 
   test('P25-20', 'Importer atomic rejection & Production isolation check', () => {

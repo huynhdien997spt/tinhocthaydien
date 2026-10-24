@@ -65,6 +65,15 @@
         "draft",
         "archived"
       ]
+    },
+    "supplementaryLessonPlanSourceId": {
+      "type": "string"
+    },
+    "mappingDriveId": {
+      "type": "string"
+    },
+    "supplementaryLessonPlanDriveId": {
+      "type": "string"
     }
   }
 }

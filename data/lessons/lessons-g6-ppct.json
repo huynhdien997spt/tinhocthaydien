@@ -8,6 +8,10 @@
     "title": "Bài 1. Thông tin và dữ liệu",
     "order": 1,
     "periods": 2,
+    "scheduledPeriods": [
+      1,
+      2
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -37,7 +41,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -53,6 +57,10 @@
     "title": "Bài 2. Xử lí thông tin",
     "order": 2,
     "periods": 2,
+    "scheduledPeriods": [
+      3,
+      4
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -81,7 +89,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -97,6 +105,10 @@
     "title": "Thông tin trong máy tính",
     "order": 3,
     "periods": 2,
+    "scheduledPeriods": [
+      5,
+      6
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "WebQuest",
@@ -155,11 +167,13 @@
     "isFixtureOnly": true,
     "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
-      "SRC-GDPT-2018-TIN6"
+      "SRC-GDPT-2018-TIN6",
+      "SRC-PHULUC3-TIN6-VIETHOA-2026",
+      "SRC-KHBD-TIN6-BAI3-VIETHOA"
     ]
   },
   {
@@ -171,6 +185,10 @@
     "title": "Bài 4. Mạng máy tính",
     "order": 4,
     "periods": 2,
+    "scheduledPeriods": [
+      7,
+      9
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -200,7 +218,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -215,8 +233,12 @@
     "topicId": "G6-B",
     "title": "Bài 5. Internet",
     "order": 5,
-    "periods": 1,
-    "durationMinutes": 45,
+    "periods": 2,
+    "scheduledPeriods": [
+      10,
+      11
+    ],
+    "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
@@ -244,7 +266,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -260,6 +282,10 @@
     "title": "Bài 6. Mạng thông tin toàn cầu",
     "order": 6,
     "periods": 2,
+    "scheduledPeriods": [
+      12,
+      13
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -289,7 +315,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -305,6 +331,10 @@
     "title": "Bài 7. Tìm kiếm thông tin trên Internet",
     "order": 7,
     "periods": 2,
+    "scheduledPeriods": [
+      14,
+      15
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -332,7 +362,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -348,6 +378,9 @@
     "title": "Bài 8. Thư điện tử",
     "order": 8,
     "periods": 1,
+    "scheduledPeriods": [
+      16
+    ],
     "durationMinutes": 45,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -376,7 +409,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -392,6 +425,10 @@
     "title": "Bài 9. An toàn thông tin trên Internet",
     "order": 9,
     "periods": 2,
+    "scheduledPeriods": [
+      19,
+      20
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -423,7 +460,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -439,13 +476,17 @@
     "title": "Bài 10. Sơ đồ tư duy",
     "order": 10,
     "periods": 2,
+    "scheduledPeriods": [
+      21,
+      22
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
-      "G6-E-01",
-      "G6-E-02",
-      "G6-E-03"
+      "G6-E-07",
+      "G6-E-08",
+      "G6-E-09"
     ],
     "competencyIds": [
       "NLa",
@@ -470,7 +511,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -486,14 +527,18 @@
     "title": "Bài 11. Định dạng văn bản",
     "order": 11,
     "periods": 2,
+    "scheduledPeriods": [
+      23,
+      24
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
-      "G6-E-04",
+      "G6-E-01",
+      "G6-E-02",
       "G6-E-05",
-      "G6-E-06",
-      "G6-E-09"
+      "G6-E-06"
     ],
     "competencyIds": [
       "NLa",
@@ -517,7 +562,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -533,12 +578,16 @@
     "title": "Bài 12. Trình bày thông tin ở dạng bảng",
     "order": 12,
     "periods": 2,
+    "scheduledPeriods": [
+      25,
+      27
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
-      "G6-E-07",
-      "G6-E-09"
+      "G6-E-04",
+      "G6-E-05"
     ],
     "competencyIds": [
       "NLa",
@@ -562,7 +611,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -578,13 +627,16 @@
     "title": "Bài 13. Thực hành: Tìm kiếm và thay thế",
     "order": 13,
     "periods": 1,
+    "scheduledPeriods": [
+      28
+    ],
     "durationMinutes": 45,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
     "requirementIds": [
-      "G6-E-05",
-      "G6-E-08",
-      "G6-E-09"
+      "G6-E-01",
+      "G6-E-03",
+      "G6-E-05"
     ],
     "competencyIds": [
       "NLa",
@@ -608,7 +660,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -624,6 +676,10 @@
     "title": "Bài 15. Thuật toán",
     "order": 14,
     "periods": 2,
+    "scheduledPeriods": [
+      29,
+      30
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -651,7 +707,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -667,6 +723,10 @@
     "title": "Bài 16. Các cấu trúc điều khiển",
     "order": 15,
     "periods": 2,
+    "scheduledPeriods": [
+      31,
+      32
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -693,7 +753,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
@@ -709,6 +769,9 @@
     "title": "Bài 17. Chương trình máy tính",
     "order": 16,
     "periods": 1,
+    "scheduledPeriods": [
+      33
+    ],
     "durationMinutes": 45,
     "sessionType": "lesson",
     "learningModel": "ActivityBased",
@@ -735,7 +798,7 @@
     "supplementaryKnowledge": null,
     "isFixtureOnly": false,
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",

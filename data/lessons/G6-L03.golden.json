@@ -13,6 +13,10 @@
     "title": "Thông tin trong máy tính",
     "order": 3,
     "periods": 2,
+    "scheduledPeriods": [
+      5,
+      6
+    ],
     "durationMinutes": 90,
     "sessionType": "lesson",
     "learningModel": "WebQuest",
@@ -71,11 +75,13 @@
     "isFixtureOnly": true,
     "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
     "status": "published",
-    "version": "2026.1",
+    "version": "2026.2",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
-      "SRC-GDPT-2018-TIN6"
+      "SRC-GDPT-2018-TIN6",
+      "SRC-PHULUC3-TIN6-VIETHOA-2026",
+      "SRC-KHBD-TIN6-BAI3-VIETHOA"
     ]
   },
   "activities": [

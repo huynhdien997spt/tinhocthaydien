@@ -2,6 +2,8 @@
   "schoolName": "Trường TH, THCS và THPT Việt Hoa",
   "schoolYear": "2026-2027",
   "grade": 6,
+  "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026",
+  "sourceDriveId": "1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM",
   "minutesPerPeriod": 45,
   "totalPeriodsPerYear": 35,
   "summary": {
@@ -13,26 +15,18 @@
         "reason": "Không nằm trong PPCT thực tế năm học 2026–2027 của Trường TH, THCS và THPT Việt Hoa"
       }
     ],
-    "lessonPeriodsTotal": 28,
-    "reviewPeriodsTotal": 3,
+    "lessonPeriodsTotal": 29,
+    "reviewPeriodsTotal": 2,
     "assessmentPeriodsTotal": 4,
     "grandTotalPeriods": 35
   },
   "nonLessonSessions": [
     {
-      "sessionId": "G6-REV-GK1",
-      "sessionType": "review",
-      "semester": 1,
-      "title": "Ôn tập giữa học kì I",
-      "periods": 1,
-      "durationMinutes": 45,
-      "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
-    },
-    {
       "sessionId": "G6-ASM-GK1",
       "sessionType": "assessment",
       "semester": 1,
-      "title": "Kiểm tra đánh giá giữa học kì I",
+      "periodNumber": 8,
+      "title": "Kiểm tra giữa HKI",
       "periods": 1,
       "durationMinutes": 45,
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
@@ -41,7 +35,8 @@
       "sessionId": "G6-REV-CK1",
       "sessionType": "review",
       "semester": 1,
-      "title": "Ôn tập cuối học kì I",
+      "periodNumber": 17,
+      "title": "Ôn tập cuối HKI",
       "periods": 1,
       "durationMinutes": 45,
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
@@ -50,7 +45,8 @@
       "sessionId": "G6-ASM-CK1",
       "sessionType": "assessment",
       "semester": 1,
-      "title": "Kiểm tra đánh giá cuối học kì I",
+      "periodNumber": 18,
+      "title": "Kiểm tra cuối HKI",
       "periods": 1,
       "durationMinutes": 45,
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
@@ -59,7 +55,8 @@
       "sessionId": "G6-ASM-GK2",
       "sessionType": "assessment",
       "semester": 2,
-      "title": "Kiểm tra đánh giá giữa học kì II",
+      "periodNumber": 26,
+      "title": "Kiểm tra giữa HKII",
       "periods": 1,
       "durationMinutes": 45,
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
@@ -68,7 +65,8 @@
       "sessionId": "G6-REV-CK2",
       "sessionType": "review",
       "semester": 2,
-      "title": "Ôn tập cuối học kì II",
+      "periodNumber": 34,
+      "title": "Ôn tập cuối HKII",
       "periods": 1,
       "durationMinutes": 45,
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
@@ -77,10 +75,258 @@
       "sessionId": "G6-ASM-CK2",
       "sessionType": "assessment",
       "semester": 2,
-      "title": "Kiểm tra đánh giá cuối học kì II",
+      "periodNumber": 35,
+      "title": "Kiểm tra cuối HKII",
       "periods": 1,
       "durationMinutes": 45,
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+    }
+  ],
+  "periodSchedule": [
+    {
+      "periodNumber": 1,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L01",
+      "label": "Bài 1"
+    },
+    {
+      "periodNumber": 2,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L01",
+      "label": "Bài 1"
+    },
+    {
+      "periodNumber": 3,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L02",
+      "label": "Bài 2"
+    },
+    {
+      "periodNumber": 4,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L02",
+      "label": "Bài 2"
+    },
+    {
+      "periodNumber": 5,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L03",
+      "label": "Bài 3"
+    },
+    {
+      "periodNumber": 6,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L03",
+      "label": "Bài 3"
+    },
+    {
+      "periodNumber": 7,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L04",
+      "label": "Bài 4"
+    },
+    {
+      "periodNumber": 8,
+      "semester": 1,
+      "sessionType": "assessment",
+      "refId": "G6-ASM-GK1",
+      "label": "KIỂM TRA GIỮA HKI"
+    },
+    {
+      "periodNumber": 9,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L04",
+      "label": "Bài 4"
+    },
+    {
+      "periodNumber": 10,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L05",
+      "label": "Bài 5"
+    },
+    {
+      "periodNumber": 11,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L05",
+      "label": "Bài 5"
+    },
+    {
+      "periodNumber": 12,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L06",
+      "label": "Bài 6"
+    },
+    {
+      "periodNumber": 13,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L06",
+      "label": "Bài 6"
+    },
+    {
+      "periodNumber": 14,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L07",
+      "label": "Bài 7"
+    },
+    {
+      "periodNumber": 15,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L07",
+      "label": "Bài 7"
+    },
+    {
+      "periodNumber": 16,
+      "semester": 1,
+      "sessionType": "lesson",
+      "refId": "G6-L08",
+      "label": "Bài 8"
+    },
+    {
+      "periodNumber": 17,
+      "semester": 1,
+      "sessionType": "review",
+      "refId": "G6-REV-CK1",
+      "label": "ÔN TẬP HKI"
+    },
+    {
+      "periodNumber": 18,
+      "semester": 1,
+      "sessionType": "assessment",
+      "refId": "G6-ASM-CK1",
+      "label": "KIỂM TRA CUỐI HKI"
+    },
+    {
+      "periodNumber": 19,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L09",
+      "label": "Bài 9"
+    },
+    {
+      "periodNumber": 20,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L09",
+      "label": "Bài 9"
+    },
+    {
+      "periodNumber": 21,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L10",
+      "label": "Bài 10"
+    },
+    {
+      "periodNumber": 22,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L10",
+      "label": "Bài 10"
+    },
+    {
+      "periodNumber": 23,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L11",
+      "label": "Bài 11"
+    },
+    {
+      "periodNumber": 24,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L11",
+      "label": "Bài 11"
+    },
+    {
+      "periodNumber": 25,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L12",
+      "label": "Bài 12"
+    },
+    {
+      "periodNumber": 26,
+      "semester": 2,
+      "sessionType": "assessment",
+      "refId": "G6-ASM-GK2",
+      "label": "KIỂM TRA GIỮA HKII"
+    },
+    {
+      "periodNumber": 27,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L12",
+      "label": "Bài 12"
+    },
+    {
+      "periodNumber": 28,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L13",
+      "label": "Bài 13"
+    },
+    {
+      "periodNumber": 29,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L15",
+      "label": "Bài 15"
+    },
+    {
+      "periodNumber": 30,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L15",
+      "label": "Bài 15"
+    },
+    {
+      "periodNumber": 31,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L16",
+      "label": "Bài 16"
+    },
+    {
+      "periodNumber": 32,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L16",
+      "label": "Bài 16"
+    },
+    {
+      "periodNumber": 33,
+      "semester": 2,
+      "sessionType": "lesson",
+      "refId": "G6-L17",
+      "label": "Bài 17"
+    },
+    {
+      "periodNumber": 34,
+      "semester": 2,
+      "sessionType": "review",
+      "refId": "G6-REV-CK2",
+      "label": "ÔN TẬP HKII"
+    },
+    {
+      "periodNumber": 35,
+      "semester": 2,
+      "sessionType": "assessment",
+      "refId": "G6-ASM-CK2",
+      "label": "KIỂM TRA CUỐI HKII"
     }
   ]
 }

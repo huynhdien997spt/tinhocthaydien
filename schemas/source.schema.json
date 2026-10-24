@@ -39,7 +39,8 @@
         "teacher_guide",
         "workbook",
         "digital_competency_framework",
-        "school_deployment_appendix"
+        "school_deployment_appendix",
+        "teacher_lesson_plan"
       ]
     },
     "grade": {
@@ -76,6 +77,10 @@
     "verificationStatus": {
       "type": "string",
       "enum": [
+        "both_verified",
+        "internal_source_verified",
+        "official_internet_verified",
+        "pending_external_verification",
         "verified",
         "pending_review",
         "rejected"
@@ -103,6 +108,31 @@
       "type": "string"
     },
     "updatedAt": {
+      "type": "string"
+    },
+    "internalVerificationStatus": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "pending",
+        "not_applicable"
+      ]
+    },
+    "externalVerificationStatus": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "pending",
+        "not_applicable_internal_only"
+      ]
+    },
+    "externalReferenceUrl": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verificationNote": {
       "type": "string"
     }
   }

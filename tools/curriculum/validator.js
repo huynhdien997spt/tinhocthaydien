@@ -1,30 +1,5 @@
 /**
- * PHASE 2 / TASK P2.5 (FIX) — Curriculum Data Foundation Validator
- *
- * Enforces:
- *   1. Data Contract Lock (Blocker 3 & 7.7): Verifies all 12 JSON Schemas preserve locked fields
- *      unless APPROVED_CONTRACT_CHANGE is explicitly provided.
- *   2. CTGDPT 2018 Requirement Bank Integrity (Blocker 1 & 7.1–7.3):
- *      - Total count = 38 (EXPECT_REQUIREMENT_COUNT_G6 = 38)
- *      - Topic counts: A=10, B=4, C=7, D=5, E=9, F=3
- *      - Exact match against Trusted Official Snapshot (trusted-official-requirements-g6.json)
- *      - No merged requirements, no 'TB' injected into G6-A-09 officialText
- *      - Non-empty studentFriendlyText on every Requirement
- *   3. Viet Hoa School PPCT 2026–2027 Alignment (Blocker 2 & 7.4–7.6):
- *      - Exactly 16 content lessons (Lessons 1–13, 15–17)
- *      - Zero Phantom Lesson 14 (G6-L14 / Bài 14 is forbidden)
- *      - Exact period & duration validation (1 period = 45m; Bài 3=2t/90m, Bài 8=1t/45m, Bài 13=1t/45m, Bài 17=1t/45m)
- *      - No review/assessment sessions disguised as fake content Lessons
- *   4. Source Catalog & NLS Governance (Blocker 4, 5, 6):
- *      - Rejects generic homepage URLs (e.g., https://moet.gov.vn/, https://hanhtrangso.nxbgd.vn/)
- *      - Requires verified status and two-layer source metadata
- *      - Distinguishes TT 02/2025 NLS framework from school Appendix III / KHBD lesson mappings
- *   5. All 10 Mandatory Referential & Pedagogical Rules:
- *      - DUPLICATE_ID, DANGLING_REFERENCE, PUBLISHED_LESSON_MISSING_REQUIREMENT,
- *        QUESTION_MISSING_REQUIREMENT, QUESTION_MISSING_CORRECT_ANSWER,
- *        QUESTION_MISSING_EXPLANATION, ACTIVITY_UNAPPROVED_WITHOUT_REQUIREMENTS,
- *        RESOURCE_MISSING_URL, UNAPPROVED_AI_MAPPING / UNAUTHORIZED_AI_IN_REQUIREMENT_BANK,
- *        OFFICIAL_REQUIREMENT_TEXT_TAMPERED.
+ * PHASE 2 / TASK P2.5 (FIX ROUND 2) — Curriculum Data Foundation Validator
  */
 
 const fs = require('fs');
@@ -47,7 +22,7 @@ const EXPECT_PPCT_PERIODS_G6 = {
   'G6-L02': 2,
   'G6-L03': 2,
   'G6-L04': 2,
-  'G6-L05': 1,
+  'G6-L05': 2,
   'G6-L06': 2,
   'G6-L07': 2,
   'G6-L08': 1,
@@ -59,6 +34,47 @@ const EXPECT_PPCT_PERIODS_G6 = {
   'G6-L15': 2,
   'G6-L16': 2,
   'G6-L17': 1
+};
+
+const EXPECT_TOTAL_LESSON_PERIODS_G6 = 29;
+const EXPECT_TOTAL_REVIEW_PERIODS_G6 = 2;
+const EXPECT_TOTAL_ASSESSMENT_PERIODS_G6 = 4;
+const EXPECT_GRAND_TOTAL_PERIODS_G6 = 35;
+
+const FORBIDDEN_INTERMEDIATE_DRIVE_IDS = [
+  '15pCBhBLdg077Q1XizVBVxyPSpM1Q0TAiU8jYVnY2zBw',
+  '1dadBFWiCuJHhVV2ult6wkfhDONwKuPMEgR8PVFed47U'
+];
+
+const REQUIRED_SOURCE_DRIVE_IDS = {
+  'SRC-GDPT-2018-TIN6': '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma',
+  'SRC-PPCT-VIETHOA-TIN6-2026': '1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM',
+  'SRC-SGK-KNTT-TIN6': '1hEqBximpHc2QQVSdEsfcwwPYsaXqeZmj',
+  'SRC-PHULUC3-TIN6-VIETHOA-2026': '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC',
+  'SRC-KHBD-TIN6-BAI3-VIETHOA': '1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp'
+};
+
+// Immutable semantic signatures for RequirementIDs (Section 4 & Section 9)
+const IMMUTABLE_REQUIREMENT_SIGNATURES = {
+  'G6-A-05': /máy tính là công cụ hiệu quả để thu thập,\s*lưu trữ,\s*xử lí và truyền thông tin/i,
+  'G6-A-06': /các bước cơ bản trong xử lí thông tin/i,
+  'G6-A-09': /1 KB xấp xỉ 1 ngàn byte,\s*1 MB xấp xỉ 1 triệu byte,\s*1 GB xấp xỉ 1 tỉ byte/i,
+  'G6-B-02': /mạng không dây tiện dụng hơn mạng có dây/i,
+  'G6-B-03': /máy tính,\s*cáp nối,\s*Switch,\s*Access Point/i,
+  'G6-C-01': /^Trình bày được sơ lược về các khái niệm WWW,\s*website,\s*địa chỉ của website,\s*trình duyệt\.$/,
+  'G6-C-07': /đăng nhập tài khoản email,\s*soạn và gửi email,\s*thoát ra/i,
+  'G6-D-01': /Giới thiệu được sơ lược một số tác hại và nguy cơ bị hại khi tham gia Internet/i,
+  'G6-D-03': /Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn/i,
+  'G6-D-05': /^Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu\.$/,
+  'G6-E-01': /tác dụng của một số công cụ căn lề,\s*định dạng,\s*tìm kiếm,\s*thay thế/i,
+  'G6-E-02': /Thực hiện được việc định dạng văn bản,\s*trình bày trang văn bản và in/i,
+  'G6-E-03': /Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản/i,
+  'G6-E-04': /Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản/i,
+  'G6-E-05': /Soạn thảo được văn bản phục vụ học tập và sinh hoạt hàng ngày/i,
+  'G6-E-06': /Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản/i,
+  'G6-E-07': /Sắp xếp được một cách lôgic và trình bày được dưới dạng sơ đồ tư duy/i,
+  'G6-E-08': /Giải thích được lợi ích của sơ đồ tư duy,\s*nêu được nhu cầu sử dụng phần mềm sơ đồ tư duy/i,
+  'G6-E-09': /Sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản/i
 };
 
 const LOCKED_DATA_CONTRACT_REQUIRED_FIELDS = {
@@ -304,9 +320,6 @@ class CurriculumValidator {
     return null;
   }
 
-  /**
-   * Blocker 3 & 7.7: Verify that schemas have not drifted from locked Data Contract.
-   */
   validateDataContractLock(schemasOverride = null, options = {}) {
     const targetSchemas = schemasOverride || this.schemas;
     const approvedChanges = new Set(options.APPROVED_CONTRACT_CHANGE || []);
@@ -346,13 +359,161 @@ class CurriculumValidator {
     };
   }
 
+  /**
+   * Section 6: Verify Trusted Snapshot has full provenance pointing to true CTGDPT source.
+   */
+  validateTrustedSnapshotProvenance(snapshot = this.trustedSnapshot) {
+    const errors = [];
+    if (!snapshot) {
+      errors.push({
+        code: 'TRUSTED_SNAPSHOT_MISSING_PROVENANCE',
+        entity: 'TrustedSnapshot',
+        id: 'NONE',
+        message: 'Trusted Official Snapshot is missing'
+      });
+      return { valid: false, errors };
+    }
+    if (
+      !snapshot.sourceId ||
+      snapshot.sourceDocumentDriveId !== '13o_7GOH_en10qIrlgLTyqrIlJSgCZxma' ||
+      !snapshot.sourceOfficialUrl ||
+      !snapshot.sourceOfficialUrl.includes('ItemID=146721') ||
+      !snapshot.sourceSection ||
+      !snapshot.verifiedAt
+    ) {
+      errors.push({
+        code: 'TRUSTED_SNAPSHOT_MISSING_PROVENANCE',
+        entity: 'TrustedSnapshot',
+        id: snapshot.snapshotId || 'SNAPSHOT',
+        message:
+          'Trusted Snapshot is missing valid provenance (sourceId, sourceDocumentDriveId=13o_7GOH_en10qIrlgLTyqrIlJSgCZxma, sourceOfficialUrl with ItemID=146721, sourceSection, verifiedAt)'
+      });
+    }
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  /**
+   * Section 1 & 9: Validate 35-period PPCT distribution (29 lesson + 2 review + 4 assessment = 35).
+   */
+  validatePpctDistribution(ppctDist, lessons = []) {
+    const errors = [];
+    if (!ppctDist || typeof ppctDist !== 'object') {
+      errors.push({
+        code: 'PPCT_DISTRIBUTION_MISSING',
+        entity: 'PPCTDistribution',
+        id: 'G6-PPCT-DIST',
+        message: 'Missing ppct-distribution-g6.json object'
+      });
+      return { valid: false, errors };
+    }
+
+    if (ppctDist.sourceDriveId !== '1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM') {
+      errors.push({
+        code: 'FORBIDDEN_INTERMEDIATE_DRIVE_ID',
+        entity: 'PPCTDistribution',
+        id: 'G6-PPCT-DIST',
+        message: `PPCT distribution must reference official Drive ID '1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM'`
+      });
+    }
+
+    const nonLessons = ppctDist.nonLessonSessions || [];
+    for (const s of nonLessons) {
+      if (/Ôn tập giữa học kì I|Ôn tập giữa HKI/i.test(s.title || '') || s.sessionId === 'G6-REV-GK1') {
+        errors.push({
+          code: 'PHANTOM_REVIEW_SESSION_DETECTED',
+          entity: 'PPCTDistribution',
+          id: s.sessionId || 'REV-GK1',
+          message: `Phantom session '${s.title}' detected. Viet Hoa PPCT has no 'Ôn tập giữa học kì I'.`
+        });
+      }
+    }
+
+    const lessonPeriodsSum = lessons.reduce((acc, l) => acc + (l.periods || 0), 0);
+    const reviewPeriodsSum = nonLessons
+      .filter(s => s.sessionType === 'review')
+      .reduce((acc, s) => acc + (s.periods || 0), 0);
+    const assessmentPeriodsSum = nonLessons
+      .filter(s => s.sessionType === 'assessment')
+      .reduce((acc, s) => acc + (s.periods || 0), 0);
+
+    if (
+      lessonPeriodsSum !== EXPECT_TOTAL_LESSON_PERIODS_G6 ||
+      reviewPeriodsSum !== EXPECT_TOTAL_REVIEW_PERIODS_G6 ||
+      assessmentPeriodsSum !== EXPECT_TOTAL_ASSESSMENT_PERIODS_G6 ||
+      lessonPeriodsSum + reviewPeriodsSum + assessmentPeriodsSum !== EXPECT_GRAND_TOTAL_PERIODS_G6
+    ) {
+      errors.push({
+        code: 'PPCT_TOTAL_PERIODS_MISMATCH',
+        entity: 'PPCTDistribution',
+        id: 'G6-PPCT-DIST',
+        message: `Expected 29 lesson + 2 review + 4 assessment = 35 periods, but got ${lessonPeriodsSum} + ${reviewPeriodsSum} + ${assessmentPeriodsSum}`
+      });
+    }
+
+    const schedule = ppctDist.periodSchedule || [];
+    if (schedule.length !== 35) {
+      errors.push({
+        code: 'PPCT_SCHEDULE_INVALID',
+        entity: 'PPCTDistribution',
+        id: 'periodSchedule',
+        message: `Expected 35 periodSchedule entries (1..35), got ${schedule.length}`
+      });
+    } else {
+      // Check key interleaving points from Viet Hoa PPCT (Section 1)
+      const p7 = schedule.find(x => x.periodNumber === 7);
+      const p8 = schedule.find(x => x.periodNumber === 8);
+      const p9 = schedule.find(x => x.periodNumber === 9);
+      const p17 = schedule.find(x => x.periodNumber === 17);
+      const p18 = schedule.find(x => x.periodNumber === 18);
+      const p25 = schedule.find(x => x.periodNumber === 25);
+      const p26 = schedule.find(x => x.periodNumber === 26);
+      const p27 = schedule.find(x => x.periodNumber === 27);
+      const p34 = schedule.find(x => x.periodNumber === 34);
+      const p35 = schedule.find(x => x.periodNumber === 35);
+
+      if (
+        !p7 || p7.refId !== 'G6-L04' ||
+        !p8 || p8.sessionType !== 'assessment' ||
+        !p9 || p9.refId !== 'G6-L04' ||
+        !p17 || p17.sessionType !== 'review' ||
+        !p18 || p18.sessionType !== 'assessment' ||
+        !p25 || p25.refId !== 'G6-L12' ||
+        !p26 || p26.sessionType !== 'assessment' ||
+        !p27 || p27.refId !== 'G6-L12' ||
+        !p34 || p34.sessionType !== 'review' ||
+        !p35 || p35.sessionType !== 'assessment'
+      ) {
+        errors.push({
+          code: 'PPCT_SCHEDULE_ORDER_MISMATCH',
+          entity: 'PPCTDistribution',
+          id: 'periodSchedule',
+          message: 'periodSchedule 1..35 does not match actual Viet Hoa interleaving (Periods 7-9, 17-18, 25-27, 34-35)'
+        });
+      }
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
   validateDataset(dataset, options = {}) {
     const errors = [];
 
-    // 0. Check Data Contract Lock first
+    // 0. Check Data Contract Lock & Trusted Snapshot Provenance
     const contractCheck = this.validateDataContractLock(options.schemasOverride, options);
     if (!contractCheck.valid) {
       errors.push(...contractCheck.errors);
+    }
+
+    const activeSnapshot = options.trustedSnapshotOverride || options.trustedSnapshot || this.trustedSnapshot;
+    const provCheck = this.validateTrustedSnapshotProvenance(activeSnapshot);
+    if (!provCheck.valid) {
+      errors.push(...provCheck.errors);
     }
 
     const sources = dataset.sources || [];
@@ -399,7 +560,7 @@ class CurriculumValidator {
       globalSeenIds.set(id, entityType);
     };
 
-    // 1. Validate Sources (including Blocker 5 specificity check)
+    // 1. Validate Sources (Sections 2, 3, 7, 9)
     for (const s of sources) {
       registerId('Source', s.sourceId, 'source');
       if (this.schemas.source) {
@@ -416,14 +577,58 @@ class CurriculumValidator {
             message: `Source '${s.sourceId}' uses generic homepage URL '${s.url}'. Must use exact document URL or Drive ID.`
           });
         }
+        if (s.sourceId === 'SRC-GDPT-2018-TIN6' && s.url.includes('134517')) {
+          errors.push({
+            code: 'INVALID_OFFICIAL_URL_ITEM_ID',
+            entity: 'Source',
+            id: s.sourceId,
+            field: 'url',
+            message: `Source '${s.sourceId}' must use VBPL ItemID=146721, not 134517`
+          });
+        }
       }
-      if (s.verificationStatus !== 'verified') {
+
+      // Section 2 & 9: Reject intermediate ChatGPT Drive IDs
+      const driveIdStr = String(s.driveId || '');
+      const urlStr = String(s.url || '');
+      if (
+        FORBIDDEN_INTERMEDIATE_DRIVE_IDS.some(
+          badId => driveIdStr.includes(badId) || urlStr.includes(badId)
+        )
+      ) {
         errors.push({
-          code: 'SOURCE_NOT_VERIFIED',
+          code: 'FORBIDDEN_INTERMEDIATE_DRIVE_ID',
+          entity: 'Source',
+          id: s.sourceId,
+          field: 'driveId',
+          message: `Source '${s.sourceId}' uses intermediate ChatGPT doc ID instead of true teacher source Drive ID`
+        });
+      }
+
+      if (
+        REQUIRED_SOURCE_DRIVE_IDS[s.sourceId] &&
+        s.driveId !== REQUIRED_SOURCE_DRIVE_IDS[s.sourceId]
+      ) {
+        errors.push({
+          code: 'SOURCE_DRIVE_ID_MISMATCH',
+          entity: 'Source',
+          id: s.sourceId,
+          field: 'driveId',
+          message: `Source '${s.sourceId}' has driveId='${s.driveId}', expected '${REQUIRED_SOURCE_DRIVE_IDS[s.sourceId]}'`
+        });
+      }
+
+      // Section 7: Prevent overclaiming external verification when externalVerificationStatus is pending
+      if (
+        s.externalVerificationStatus === 'pending' &&
+        (s.verificationStatus === 'both_verified' || s.verificationStatus === 'official_internet_verified')
+      ) {
+        errors.push({
+          code: 'SOURCE_OVERCLAIMED_VERIFICATION',
           entity: 'Source',
           id: s.sourceId,
           field: 'verificationStatus',
-          message: `Source '${s.sourceId}' must have verificationStatus='verified'`
+          message: `Source '${s.sourceId}' has externalVerificationStatus='pending' and must not claim '${s.verificationStatus}'`
         });
       }
     }
@@ -467,7 +672,7 @@ class CurriculumValidator {
       }
     }
 
-    // 4. Validate Requirements (Blocker 1 & Blocker 7.1–7.3)
+    // 4. Validate Requirements (Sections 4, 5, 6, 9)
     if (options.skipCountChecks !== true) {
       if (requirements.length !== EXPECT_REQUIREMENT_COUNT_G6) {
         errors.push({
@@ -503,10 +708,7 @@ class CurriculumValidator {
       }
     }
 
-    const trustedReqs =
-      (options.trustedSnapshot && options.trustedSnapshot.requirements) ||
-      (this.trustedSnapshot && this.trustedSnapshot.requirements) ||
-      null;
+    const trustedReqs = (activeSnapshot && activeSnapshot.requirements) || null;
 
     for (const r of requirements) {
       registerId('Requirement', r.requirementId, 'requirement');
@@ -538,13 +740,23 @@ class CurriculumValidator {
         });
       }
 
-      // Blocker 1.3: G6-A-09 officialText must not inject TB
+      // Section 4 & 9: Immutable RequirementID & exact wording checks
+      const sigRegex = IMMUTABLE_REQUIREMENT_SIGNATURES[r.requirementId];
+      if (sigRegex && !sigRegex.test(r.officialText || '')) {
+        errors.push({
+          code: 'REQUIREMENT_STABLE_ID_DRIFT',
+          entity: 'Requirement',
+          id: r.requirementId,
+          message: `Requirement '${r.requirementId}' does not match its immutable CTGDPT 2018 semantic/wording signature`
+        });
+      }
+
       if (r.requirementId === 'G6-A-09' && /\bTB\b/.test(r.officialText || '')) {
         errors.push({
           code: 'OFFICIAL_REQUIREMENT_TEXT_TAMPERED',
           entity: 'Requirement',
           id: r.requirementId,
-          message: `Requirement 'G6-A-09' officialText must not inject 'TB' (CTGDPT 2018 only specifies Byte, KB, MB, GB)`
+          message: `Requirement 'G6-A-09' officialText must not inject 'TB'`
         });
       }
 
@@ -611,14 +823,25 @@ class CurriculumValidator {
     for (const res of resources) registerId('Resource', res.resourceId, 'resource');
     for (const mr of masteryRules) registerId('MasteryRule', mr.masteryRuleId, 'masteryRule');
 
-    // 6. Validate Lessons (Blocker 2 & Blocker 7.4–7.6)
-    if (options.skipCountChecks !== true && lessons.length !== EXPECT_PPCT_LESSON_COUNT_G6) {
-      errors.push({
-        code: 'PPCT_LESSON_COUNT_MISMATCH',
-        entity: 'Lesson',
-        id: 'G6-PPCT',
-        message: `Expected ${EXPECT_PPCT_LESSON_COUNT_G6} content lessons (1–13, 15–17) per Viet Hoa PPCT, but got ${lessons.length}`
-      });
+    // 6. Validate Lessons (Section 1 & Section 9)
+    if (options.skipCountChecks !== true) {
+      if (lessons.length !== EXPECT_PPCT_LESSON_COUNT_G6) {
+        errors.push({
+          code: 'PPCT_LESSON_COUNT_MISMATCH',
+          entity: 'Lesson',
+          id: 'G6-PPCT',
+          message: `Expected ${EXPECT_PPCT_LESSON_COUNT_G6} content lessons (1–13, 15–17) per Viet Hoa PPCT, but got ${lessons.length}`
+        });
+      }
+      const totalLessonPeriods = lessons.reduce((acc, l) => acc + (l.periods || 0), 0);
+      if (totalLessonPeriods !== EXPECT_TOTAL_LESSON_PERIODS_G6) {
+        errors.push({
+          code: 'PPCT_TOTAL_PERIODS_MISMATCH',
+          entity: 'Lesson',
+          id: 'G6-PPCT',
+          message: `Expected ${EXPECT_TOTAL_LESSON_PERIODS_G6} total lesson periods across 16 content lessons, got ${totalLessonPeriods}`
+        });
+      }
     }
 
     for (const l of lessons) {
@@ -627,7 +850,6 @@ class CurriculumValidator {
         errors.push(...validateAgainstJsonSchema(l, this.schemas.lesson, 'Lesson', l.lessonId));
       }
 
-      // Blocker 7.4: Phantom Lesson 14 check
       if (
         l.lessonId === 'G6-L14' ||
         l.lessonNumber === 14 ||
@@ -641,7 +863,6 @@ class CurriculumValidator {
         });
       }
 
-      // Blocker 7.6: PPCT Period & Duration validation
       const expectedPeriods = EXPECT_PPCT_PERIODS_G6[l.lessonId];
       if (expectedPeriods !== undefined) {
         if (l.periods !== undefined && l.periods !== expectedPeriods) {
@@ -663,7 +884,6 @@ class CurriculumValidator {
         }
       }
 
-      // Rule #5.3: Published Lesson missing RequirementID
       if (
         l.status === 'published' &&
         (!Array.isArray(l.requirementIds) || l.requirementIds.length === 0)
@@ -796,7 +1016,6 @@ class CurriculumValidator {
       }
     }
 
-    // Verify Requirement.lessonIds references
     for (const r of requirements) {
       for (const lid of r.lessonIds || []) {
         if (!idSets.lesson.has(lid)) {
@@ -812,7 +1031,7 @@ class CurriculumValidator {
       }
     }
 
-    // 7. Validate NLS Mappings (Blocker 6)
+    // 7. Validate NLS Mappings (Section 8)
     for (const m of nlsMappings) {
       registerId('NLSMapping', m.mappingId, 'nlsMapping');
       if (this.schemas.nlsMapping) {
@@ -820,12 +1039,17 @@ class CurriculumValidator {
           ...validateAgainstJsonSchema(m, this.schemas.nlsMapping, 'NLSMapping', m.mappingId)
         );
       }
-      if (m.isOfficialGdpt2018Requirement !== false || !m.mappingSourceId || !m.frameworkSourceId) {
+      if (
+        m.isOfficialGdpt2018Requirement !== false ||
+        m.mappingSourceId !== 'SRC-PHULUC3-TIN6-VIETHOA-2026' ||
+        m.mappingDriveId !== '1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC' ||
+        m.frameworkSourceId !== 'SRC-TT02-2025-NLS'
+      ) {
         errors.push({
           code: 'NLS_MAPPING_INVALID_ORIGIN',
           entity: 'NLSMapping',
           id: m.mappingId,
-          message: `NLSMapping '${m.mappingId}' must separate frameworkSourceId and school mappingSourceId, with isOfficialGdpt2018Requirement=false`
+          message: `NLSMapping '${m.mappingId}' must cite SRC-TT02-2025-NLS and SRC-PHULUC3-TIN6-VIETHOA-2026 (Drive ID 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC)`
         });
       }
       if (m.lessonId && !idSets.lesson.has(m.lessonId)) {
@@ -866,6 +1090,19 @@ class CurriculumValidator {
           field: 'mappingSourceId',
           targetId: m.mappingSourceId,
           message: `NLSMapping '${m.mappingId}' references non-existent mappingSourceId '${m.mappingSourceId}'`
+        });
+      }
+      if (
+        m.supplementaryLessonPlanSourceId &&
+        !idSets.source.has(m.supplementaryLessonPlanSourceId)
+      ) {
+        errors.push({
+          code: 'DANGLING_REFERENCE',
+          entity: 'NLSMapping',
+          id: m.mappingId,
+          field: 'supplementaryLessonPlanSourceId',
+          targetId: m.supplementaryLessonPlanSourceId,
+          message: `NLSMapping '${m.mappingId}' references non-existent supplementaryLessonPlanSourceId '${m.supplementaryLessonPlanSourceId}'`
         });
       }
       for (const reqId of m.requirementIds || []) {
@@ -965,7 +1202,7 @@ class CurriculumValidator {
       }
     }
 
-    // 10. Validate Questions (Blocker 3.7: singular requirementId & questionText)
+    // 10. Validate Questions
     for (const q of questions) {
       if (this.schemas.question) {
         errors.push(...validateAgainstJsonSchema(q, this.schemas.question, 'Question', q.questionId));
@@ -1040,7 +1277,7 @@ class CurriculumValidator {
       }
     }
 
-    // 11. Validate Evidences (Blocker 3.8)
+    // 11. Validate Evidences
     for (const ev of evidences) {
       if (this.schemas.evidence) {
         errors.push(
@@ -1119,7 +1356,7 @@ class CurriculumValidator {
       }
     }
 
-    // 13. Validate MasteryRules (Blocker 3.9: evaluates Requirement/YCCD)
+    // 13. Validate MasteryRules
     for (const mr of masteryRules) {
       if (this.schemas.masteryRule) {
         errors.push(
@@ -1153,6 +1390,14 @@ class CurriculumValidator {
       }
     }
 
+    // 14. Validate PPCT Distribution & 35-period schedule if provided
+    if (dataset.ppctDistribution && options.skipCountChecks !== true) {
+      const ppctRes = this.validatePpctDistribution(dataset.ppctDistribution, lessons);
+      if (!ppctRes.valid) {
+        errors.push(...ppctRes.errors);
+      }
+    }
+
     return {
       valid: errors.length === 0,
       errorCount: errors.length,
@@ -1180,6 +1425,13 @@ module.exports = {
   EXPECT_TOPIC_COUNTS_G6,
   EXPECT_PPCT_LESSON_COUNT_G6,
   EXPECT_PPCT_PERIODS_G6,
+  EXPECT_TOTAL_LESSON_PERIODS_G6,
+  EXPECT_TOTAL_REVIEW_PERIODS_G6,
+  EXPECT_TOTAL_ASSESSMENT_PERIODS_G6,
+  EXPECT_GRAND_TOTAL_PERIODS_G6,
+  FORBIDDEN_INTERMEDIATE_DRIVE_IDS,
+  REQUIRED_SOURCE_DRIVE_IDS,
+  IMMUTABLE_REQUIREMENT_SIGNATURES,
   LOCKED_DATA_CONTRACT_REQUIRED_FIELDS,
   CurriculumValidator,
   sha256Text,

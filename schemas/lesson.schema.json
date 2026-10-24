@@ -140,6 +140,12 @@
       "items": {
         "type": "string"
       }
+    },
+    "scheduledPeriods": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
     }
   }
 }

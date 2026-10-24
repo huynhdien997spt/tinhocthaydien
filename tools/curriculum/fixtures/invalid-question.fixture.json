@@ -6,19 +6,22 @@
       "sourceType": "curriculum_regulation",
       "grade": 6,
       "versionOrSchoolYear": "TT 32/2018/TT-BGDĐT (26/12/2018)",
-      "url": "https://vbpl.vn/bogiaoducdaotao/Pages/vbpq-toanvan.aspx?ItemID=134517",
-      "driveId": "15pCBhBLdg077Q1XizVBVxyPSpM1Q0TAiU8jYVnY2zBw",
+      "url": "https://vbpl.vn/bogiaoducdaotao/Pages/vbpq-toanvan.aspx?ItemID=146721",
+      "driveId": "13o_7GOH_en10qIrlgLTyqrIlJSgCZxma",
       "authority": "Bộ Giáo dục và Đào tạo",
       "priority": 1,
-      "licenseNote": "Văn bản quy phạm pháp luật công khai của Bộ GDĐT",
-      "verifiedAt": "2026-10-24T13:15:00+07:00",
-      "accessedAt": "2026-10-24T13:15:00+07:00",
-      "verificationStatus": "verified",
+      "licenseNote": "Văn bản quy phạm pháp luật công khai của Bộ GDĐT trên CSDL Quốc gia về VBPL (ItemID=146721)",
+      "verifiedAt": "2026-10-24T13:50:00+07:00",
+      "accessedAt": "2026-10-24T13:50:00+07:00",
+      "internalVerificationStatus": "verified",
+      "externalVerificationStatus": "verified",
+      "verificationStatus": "both_verified",
+      "verificationNote": "Đã kiểm chứng cả bản gốc Drive (13o_7GOH_en10qIrlgLTyqrIlJSgCZxma) và hồ sơ CSDL Quốc gia VBPL (vbpl.vn, ItemID=146721). Thông tư 17/2025/TT-BGDĐT chỉ sửa đổi một số nội dung thuộc các môn Lịch sử và Địa lí, Lịch sử, Địa lí và Giáo dục công dân; không thay đổi YCCĐ môn Tin học lớp 6 đang sử dụng.",
       "scopeUsed": "Toàn bộ 38 Yêu cầu cần đạt (YCCĐ) môn Tin học lớp 6 (Chủ đề A–F) và 5 năng lực tin học cốt lõi (NLa–NLe).",
       "layer": "Layer_A_Teacher_Provided",
       "status": "active",
       "createdAt": "2026-10-24T12:00:00+07:00",
-      "updatedAt": "2026-10-24T13:15:00+07:00"
+      "updatedAt": "2026-10-24T13:50:00+07:00"
     },
     {
       "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026",
@@ -26,19 +29,22 @@
       "sourceType": "school_ppct",
       "grade": 6,
       "versionOrSchoolYear": "2026-2027",
-      "url": "https://docs.google.com/document/d/1dadBFWiCuJHhVV2ult6wkfhDONwKuPMEgR8PVFed47U/edit",
-      "driveId": "1dadBFWiCuJHhVV2ult6wkfhDONwKuPMEgR8PVFed47U",
+      "url": "https://drive.google.com/file/d/1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM/view",
+      "driveId": "1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM",
       "authority": "Trường TH, THCS và THPT Việt Hoa – Tổ Tin học",
       "priority": 2,
-      "licenseNote": "Tài liệu kế hoạch dạy học nội bộ của Trường TH, THCS và THPT Việt Hoa",
-      "verifiedAt": "2026-10-24T13:15:00+07:00",
-      "accessedAt": "2026-10-24T13:15:00+07:00",
-      "verificationStatus": "verified",
-      "scopeUsed": "Danh mục 16 bài học nội dung (Bài 1–13, Bài 15–17; không dạy Bài 14), thời lượng từng bài (Bài 3=2 tiết, Bài 8=1 tiết, Bài 13=1 tiết, Bài 17=1 tiết) và phân bổ 35 tiết/năm.",
+      "licenseNote": "Tài liệu kế hoạch dạy học chính thức của Trường TH, THCS và THPT Việt Hoa",
+      "verifiedAt": "2026-10-24T13:50:00+07:00",
+      "accessedAt": "2026-10-24T13:50:00+07:00",
+      "internalVerificationStatus": "verified",
+      "externalVerificationStatus": "not_applicable_internal_only",
+      "verificationStatus": "internal_source_verified",
+      "verificationNote": "Đã kiểm chứng trực tiếp từ file gốc PPCT của trường (Drive ID: 1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM): 16 bài học nội dung = 29 tiết (Bài 1..7=2t, Bài 8=1t, Bài 9..12=2t, Bài 13=1t, không có Bài 14, Bài 15..16=2t, Bài 17=1t) + 2 tiết ôn tập (CK1, CK2) + 4 tiết kiểm tra (GK1, CK1, GK2, CK2) = 35 tiết.",
+      "scopeUsed": "Danh mục 16 bài học nội dung (29 tiết), 2 tiết ôn tập, 4 tiết kiểm tra và lịch 35 tiết thực tế (1–35).",
       "layer": "Layer_A_Teacher_Provided",
       "status": "active",
       "createdAt": "2026-10-24T12:00:00+07:00",
-      "updatedAt": "2026-10-24T13:15:00+07:00"
+      "updatedAt": "2026-10-24T13:50:00+07:00"
     },
     {
       "sourceId": "SRC-SGK-KNTT-TIN6",
@@ -46,19 +52,23 @@
       "sourceType": "textbook",
       "grade": 6,
       "versionOrSchoolYear": "Tái bản 2025–2026 (ISBN 978-604-0-26018-5)",
-      "url": "https://hanhtrangso.nxbgd.vn/sach-dien-tu/tin-hoc-6-10762",
-      "driveId": "1dadBFWiCuJHhVV2ult6wkfhDONwKuPMEgR8PVFed47U",
+      "url": "https://drive.google.com/file/d/1hEqBximpHc2QQVSdEsfcwwPYsaXqeZmj/view",
+      "externalReferenceUrl": "https://hanhtrangso.nxbgd.vn/sach-dien-tu/tin-hoc-6-10762",
+      "driveId": "1hEqBximpHc2QQVSdEsfcwwPYsaXqeZmj",
       "authority": "Nhà xuất bản Giáo dục Việt Nam (Bộ GDĐT phê duyệt)",
       "priority": 3,
-      "licenseNote": "Bản quyền thuộc NXB Giáo dục Việt Nam – chỉ trích dẫn cấu trúc mục lục và thuật ngữ học thuật",
-      "verifiedAt": "2026-10-24T13:15:00+07:00",
-      "accessedAt": "2026-10-24T13:15:00+07:00",
-      "verificationStatus": "verified",
-      "scopeUsed": "Tên bài học Bài 1–13, Bài 15–17, cấu trúc hoạt động Bài 3 (Thông tin trong máy tính) và phần mở rộng kiến thức TB.",
+      "licenseNote": "Bản quyền thuộc NXB Giáo dục Việt Nam – kiểm chứng từ bản gốc trên Drive của giáo viên",
+      "verifiedAt": "2026-10-24T13:50:00+07:00",
+      "accessedAt": "2026-10-24T13:50:00+07:00",
+      "internalVerificationStatus": "verified",
+      "externalVerificationStatus": "pending",
+      "verificationStatus": "internal_source_verified",
+      "verificationNote": "Bản gốc SGK trên Drive (1hEqBximpHc2QQVSdEsfcwwPYsaXqeZmj) đã xác minh (internal = verified); cổng Hành trang số (external = pending) do yêu cầu đăng nhập tài khoản.",
+      "scopeUsed": "Tên bài học Bài 1–13, Bài 15–17, cấu trúc Bài 3 (Thông tin trong máy tính) và phần mở rộng kiến thức TB.",
       "layer": "Layer_A_Teacher_Provided",
       "status": "active",
       "createdAt": "2026-10-24T12:00:00+07:00",
-      "updatedAt": "2026-10-24T13:15:00+07:00"
+      "updatedAt": "2026-10-24T13:50:00+07:00"
     },
     {
       "sourceId": "SRC-TT02-2025-NLS",
@@ -66,39 +76,68 @@
       "sourceType": "digital_competency_framework",
       "grade": 6,
       "versionOrSchoolYear": "TT 02/2025/TT-BGDĐT (24/01/2025)",
-      "url": "https://moet.gov.vn/van-ban/vanban/Pages/chi-tiet-van-ban.aspx?ItemID=1696",
-      "driveId": "15pCBhBLdg077Q1XizVBVxyPSpM1Q0TAiU8jYVnY2zBw",
+      "url": "https://vbpl.vn/bogiaoducdaotao/Pages/vbpq-toanvan.aspx?ItemID=175173",
+      "driveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
       "authority": "Bộ Giáo dục và Đào tạo",
       "priority": 4,
-      "licenseNote": "Văn bản quy phạm pháp luật công khai của Bộ GDĐT",
-      "verifiedAt": "2026-10-24T13:15:00+07:00",
-      "accessedAt": "2026-10-24T13:15:00+07:00",
-      "verificationStatus": "verified",
-      "scopeUsed": "Định nghĩa khung năng lực số chính thức và các mã chỉ báo mức TC1 (1.3.TC1a, 5.2.TC1a, 5.2.TC1b).",
+      "licenseNote": "Văn bản quy phạm pháp luật công khai trên CSDL Quốc gia về VBPL (ItemID=175173)",
+      "verifiedAt": "2026-10-24T13:50:00+07:00",
+      "accessedAt": "2026-10-24T13:50:00+07:00",
+      "internalVerificationStatus": "verified",
+      "externalVerificationStatus": "verified",
+      "verificationStatus": "both_verified",
+      "verificationNote": "Đã xác minh hồ sơ pháp quy Thông tư 02/2025/TT-BGDĐT (ban hành ngày 24/01/2025) trên CSDL VBPL (ItemID=175173) và Phụ lục III của trường.",
+      "scopeUsed": "Định nghĩa khung năng lực số chính thức và các miền năng lực mức TC1 (1.3.TC1a, 5.2.TC1a, 5.2.TC1b).",
       "layer": "Layer_B_Official_Authoritative",
       "status": "active",
       "createdAt": "2026-10-24T12:00:00+07:00",
-      "updatedAt": "2026-10-24T13:15:00+07:00"
+      "updatedAt": "2026-10-24T13:50:00+07:00"
     },
     {
-      "sourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
-      "title": "Phụ lục III – Kế hoạch giáo dục môn học & KHBD Bài 3 Tin học 6 (Tích hợp Năng lực số) – Trường TH, THCS và THPT Việt Hoa",
+      "sourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+      "title": "Phụ lục III – Kế hoạch giáo dục của giáo viên môn Tin học lớp 6 (Tích hợp Năng lực số) – Trường TH, THCS và THPT Việt Hoa",
       "sourceType": "school_deployment_appendix",
       "grade": 6,
       "versionOrSchoolYear": "2026-2027",
-      "url": "https://docs.google.com/document/d/15pCBhBLdg077Q1XizVBVxyPSpM1Q0TAiU8jYVnY2zBw/edit",
-      "driveId": "15pCBhBLdg077Q1XizVBVxyPSpM1Q0TAiU8jYVnY2zBw",
+      "url": "https://drive.google.com/file/d/1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC/view",
+      "driveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
       "authority": "Trường TH, THCS và THPT Việt Hoa – Tổ Tin học",
       "priority": 5,
-      "licenseNote": "Hồ sơ chuyên môn nội bộ của trường (Phụ lục III & KHBD)",
-      "verifiedAt": "2026-10-24T13:15:00+07:00",
-      "accessedAt": "2026-10-24T13:15:00+07:00",
-      "verificationStatus": "verified",
-      "scopeUsed": "Mapping cụ thể các mã NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b vào Bài 3 (G6-L03); tách biệt với YCCĐ chính thức của CTGDPT 2018.",
+      "licenseNote": "Hồ sơ chuyên môn nội bộ của trường (Phụ lục III lớp 6)",
+      "verifiedAt": "2026-10-24T13:50:00+07:00",
+      "accessedAt": "2026-10-24T13:50:00+07:00",
+      "internalVerificationStatus": "verified",
+      "externalVerificationStatus": "not_applicable_internal_only",
+      "verificationStatus": "internal_source_verified",
+      "verificationNote": "Đã xác minh từ file gốc Phụ lục III lớp 6 trên Drive (1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC).",
+      "scopeUsed": "Nguồn gốc chính xác quy định mapping các mã NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b vào Bài 3 (G6-L03).",
       "layer": "Layer_A_Teacher_Provided",
       "status": "active",
       "createdAt": "2026-10-24T12:00:00+07:00",
-      "updatedAt": "2026-10-24T13:15:00+07:00"
+      "updatedAt": "2026-10-24T13:50:00+07:00"
+    },
+    {
+      "sourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+      "title": "Kế hoạch bài dạy (KHBD) Tin học 6 – Bài 3: Thông tin trong máy tính – Trường TH, THCS và THPT Việt Hoa",
+      "sourceType": "teacher_lesson_plan",
+      "grade": 6,
+      "versionOrSchoolYear": "2026-2027",
+      "url": "https://drive.google.com/file/d/1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp/view",
+      "driveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
+      "authority": "Trường TH, THCS và THPT Việt Hoa – Giáo viên Tin học",
+      "priority": 6,
+      "licenseNote": "Kế hoạch bài dạy nội bộ của giáo viên (KHBD Bài 3)",
+      "verifiedAt": "2026-10-24T13:50:00+07:00",
+      "accessedAt": "2026-10-24T13:50:00+07:00",
+      "internalVerificationStatus": "verified",
+      "externalVerificationStatus": "not_applicable_internal_only",
+      "verificationStatus": "internal_source_verified",
+      "verificationNote": "Đã xác minh từ file gốc KHBD Tin 6 – Bài 3 trên Drive (1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp).",
+      "scopeUsed": "Tham chiếu bổ sung cho tổ chức hoạt động và tích hợp NLS (1.3.TC1a, 5.2.TC1a, 5.2.TC1b) trong Bài 3.",
+      "layer": "Layer_A_Teacher_Provided",
+      "status": "active",
+      "createdAt": "2026-10-24T12:00:00+07:00",
+      "updatedAt": "2026-10-24T13:50:00+07:00"
     }
   ],
   "topics": [
@@ -279,7 +318,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-02",
@@ -306,7 +345,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-03",
@@ -333,7 +372,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-04",
@@ -360,38 +399,10 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-05",
-      "grade": 6,
-      "topicId": "G6-A",
-      "subTopic": "Xử lí thông tin",
-      "officialText": "Nêu được các bước cơ bản trong xử lí thông tin.",
-      "studentFriendlyText": "Em kể được các bước cơ bản của quá trình xử lí thông tin: thu nhận, lưu trữ, xử lí và truyền thông tin.",
-      "officialTextHash": "161b8b7a392f9a7f6ebbf6daced5fc2ece1873550d7b6abec5e9fd13f6b86060",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "nhan_biet",
-      "competencyIds": [
-        "NLa",
-        "NLc"
-      ],
-      "evidenceTypes": [
-        "quiz_response",
-        "short_answer"
-      ],
-      "lessonIds": [
-        "G6-L02"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-A-06",
       "grade": 6,
       "topicId": "G6-A",
       "subTopic": "Xử lí thông tin",
@@ -416,7 +427,35 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-A-06",
+      "grade": 6,
+      "topicId": "G6-A",
+      "subTopic": "Xử lí thông tin",
+      "officialText": "Nêu được các bước cơ bản trong xử lí thông tin.",
+      "studentFriendlyText": "Em kể được các bước cơ bản của quá trình xử lí thông tin: thu nhận, lưu trữ, xử lí và truyền thông tin.",
+      "officialTextHash": "161b8b7a392f9a7f6ebbf6daced5fc2ece1873550d7b6abec5e9fd13f6b86060",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "evidenceTypes": [
+        "quiz_response",
+        "short_answer"
+      ],
+      "lessonIds": [
+        "G6-L02"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-07",
@@ -446,7 +485,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-08",
@@ -474,16 +513,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-09",
       "grade": 6,
       "topicId": "G6-A",
       "subTopic": "Biểu diễn thông tin và lưu trữ dữ liệu trong máy tính",
-      "officialText": "Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này.",
-      "studentFriendlyText": "Em nêu được tên, độ lớn xấp xỉ của các đơn vị cơ bản Byte, KB, MB, GB và quy đổi gần đúng giữa chúng (trong bài học SGK mở rộng giới thiệu thêm đơn vị TB).",
-      "officialTextHash": "4bfca4050bdb6b8fa1442a3e4189965811c4c2a1d5052d8ffcf426cf0add2005",
+      "officialText": "Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.",
+      "studentFriendlyText": "Em nêu được tên, độ lớn xấp xỉ của các đơn vị cơ bản Byte, KB, MB, GB và quy đổi gần đúng giữa chúng (1 KB ≈ 1 ngàn byte, 1 MB ≈ 1 triệu byte, 1 GB ≈ 1 tỉ byte).",
+      "officialTextHash": "7123d67eeaabe0493fcbb1492a5fb08bd13f10343fa94118f7fb9566d861bcab",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
       "competencyIds": [
@@ -502,10 +541,10 @@
         "NLS-MAP-G6-L03-03"
       ],
       "aiCompetencyMappings": [],
-      "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (1 TB ≈ 1000 GB) cho các ổ cứng dung lượng lớn.",
+      "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (1 TB xấp xỉ 1000 GB) khi tìm hiểu ổ cứng dung lượng lớn.",
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-A-10",
@@ -534,7 +573,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-B-01",
@@ -562,42 +601,15 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-B-02",
       "grade": 6,
       "topicId": "G6-B",
-      "subTopic": "Các thành phần của mạng máy tính",
-      "officialText": "Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể tên được một vài thiết bị mạng cơ bản như cáp xoắn, Switch, Access Point,...",
-      "studentFriendlyText": "Em kể được các thành phần chính của mạng máy tính và nhận biết được cáp xoắn, bộ chuyển mạch (Switch), bộ thu phát không dây (Access Point).",
-      "officialTextHash": "1ae19ca999916a0acd990b39b7e04bc2f164e97e65a5d131f1230cf1462d280b",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "nhan_biet",
-      "competencyIds": [
-        "NLa"
-      ],
-      "evidenceTypes": [
-        "quiz_response",
-        "short_answer"
-      ],
-      "lessonIds": [
-        "G6-L04"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-B-03",
-      "grade": 6,
-      "topicId": "G6-B",
       "subTopic": "Mạng có dây và mạng không dây",
       "officialText": "Nêu được ví dụ cụ thể về trường hợp mạng không dây tiện dụng hơn mạng có dây.",
-      "studentFriendlyText": "Em nêu được tình huống thực tế mà kết nối Wi-Fi (mạng không dây) thuận tiện hơn so với dùng dây cáp mạng.",
+      "studentFriendlyText": "Em nêu được tình huống thực tế mà kết nối mạng không dây (Wi-Fi) thuận tiện hơn so với dùng dây cáp mạng.",
       "officialTextHash": "93680321e0346639ece30475f76aff9f9e9836ad9d645342827b83ddaed9e214",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
@@ -615,16 +627,43 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-B-03",
+      "grade": 6,
+      "topicId": "G6-B",
+      "subTopic": "Các thành phần của mạng máy tính",
+      "officialText": "Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể được tên của một vài thiết bị mạng cơ bản như máy tính, cáp nối, Switch, Access Point,...",
+      "studentFriendlyText": "Em kể được các thành phần chính của mạng máy tính và nhận biết được máy tính, cáp nối, bộ chuyển mạch (Switch), bộ thu phát không dây (Access Point).",
+      "officialTextHash": "9b498ea357701a766f5af86768a8d47ceabc66a2689aa24f587cd81a0955dc05",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa"
+      ],
+      "evidenceTypes": [
+        "quiz_response",
+        "short_answer"
+      ],
+      "lessonIds": [
+        "G6-L04"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-B-04",
       "grade": 6,
       "topicId": "G6-B",
       "subTopic": "Khái niệm và lợi ích của dịch vụ Internet",
-      "officialText": "Giới thiệu tóm tắt được các đặc điểm và lợi ích chính của Internet.",
-      "studentFriendlyText": "Em trình bày ngắn gọn được đặc điểm toàn cầu của Internet và những lợi ích chính mà Internet mang lại trong học tập, đời sống.",
-      "officialTextHash": "a7fce11ef66af002a450f0a057fdad88793b7c99929172ad5db783f3cf306dfd",
+      "officialText": "Giới thiệu tóm tắt được các đặc điểm và ích lợi chính của Internet.",
+      "studentFriendlyText": "Em trình bày ngắn gọn được các đặc điểm và ích lợi chính của Internet trong học tập và đời sống.",
+      "officialTextHash": "8de8cfa1f1accef15ca1f7f685970d877096944c6279558108acab47dba247e8",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
       "competencyIds": [
@@ -644,16 +683,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-01",
       "grade": 6,
       "topicId": "G6-C",
       "subTopic": "Mạng thông tin toàn cầu và trình duyệt",
-      "officialText": "Trình bày được sơ lược các khái niệm cơ bản về mạng thông tin toàn cầu: World Wide Web, website, địa chỉ của website, trình duyệt.",
-      "studentFriendlyText": "Em trình bày được khái niệm cơ bản về World Wide Web (WWW), website, địa chỉ website và trình duyệt web.",
-      "officialTextHash": "55d5c267d50d5151a04fbe7fde7625fbae18cbb8303b72e13c052eb333133eed",
+      "officialText": "Trình bày được sơ lược về các khái niệm WWW, website, địa chỉ của website, trình duyệt.",
+      "studentFriendlyText": "Em trình bày được khái niệm cơ bản về WWW, website, địa chỉ của website và trình duyệt web.",
+      "officialTextHash": "9974eef6b2bc68e49817deeb89b31a0802d50e4ca538cce25b4544b6e1ff45bf",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "nhan_biet",
       "competencyIds": [
@@ -672,7 +711,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-02",
@@ -699,7 +738,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-03",
@@ -707,7 +746,7 @@
       "topicId": "G6-C",
       "subTopic": "Mạng thông tin toàn cầu và trình duyệt",
       "officialText": "Khai thác được thông tin trên một số trang web thông dụng như tra từ điển, xem thời tiết, tin thời sự,...",
-      "studentFriendlyText": "Em sử dụng được các trang web thông dụng để tra cứu từ điển, xem dự báo thời tiết hoặc đọc tin tức phục vụ học tập.",
+      "studentFriendlyText": "Em sử dụng được các trang web thông dụng để tra cứu từ điển, xem dự báo thời tiết hoặc đọc tin thời sự phục vụ học tập.",
       "officialTextHash": "5a7fe92201c967e062cdf4a89e03a8a20b755a14363bb585302f8961b9587f5a",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
@@ -726,7 +765,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-04",
@@ -753,7 +792,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-05",
@@ -761,7 +800,7 @@
       "topicId": "G6-C",
       "subTopic": "Tìm kiếm thông tin trên Internet",
       "officialText": "Xác định được từ khoá ứng với một mục đích tìm kiếm cho trước.",
-      "studentFriendlyText": "Em chọn được từ khoá ngắn gọn, chính xác để tìm thông tin theo yêu cầu bài học.",
+      "studentFriendlyText": "Em xác định được từ khoá phù hợp với mục đích tìm kiếm thông tin cho trước.",
       "officialTextHash": "2ca885ac6ecc0761a0399789a319d282d03e9575d25acb063d1d2183ecd75e99",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
@@ -780,7 +819,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-06",
@@ -788,7 +827,7 @@
       "topicId": "G6-C",
       "subTopic": "Thư điện tử",
       "officialText": "Nêu được những ưu, nhược điểm cơ bản của dịch vụ thư điện tử so với các phương thức liên lạc khác.",
-      "studentFriendlyText": "Em so sánh được ưu điểm và hạn chế của thư điện tử (email) so với các cách liên lạc truyền thống.",
+      "studentFriendlyText": "Em so sánh được ưu điểm và nhược điểm cơ bản của thư điện tử (email) so với các phương thức liên lạc khác.",
       "officialTextHash": "4ac8fbab014f8e8a9e12d0aa223e1366b6e13a51ee0ed1a4f5727f101f7ca1b9",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
@@ -807,16 +846,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-C-07",
       "grade": 6,
       "topicId": "G6-C",
       "subTopic": "Thư điện tử",
-      "officialText": "Biết cách đăng kí tài khoản thư điện tử, thực hiện được một số thao tác cơ bản: đăng nhập, soạn, gửi và thoát khỏi tài khoản thư điện tử.",
-      "studentFriendlyText": "Em biết quy trình đăng kí email và thực hiện được các thao tác đăng nhập, soạn thư, gửi thư, đăng xuất an toàn.",
-      "officialTextHash": "3c8dca52fad88a23ad22896bea7eaa7a7ee96d5659009a8c56dfd20a63df2fdd",
+      "officialText": "Biết cách đăng kí tài khoản email, thực hiện được một số thao tác cơ bản như đăng nhập tài khoản email, soạn và gửi email, thoát ra.",
+      "studentFriendlyText": "Em biết cách đăng kí tài khoản email và thực hiện được các thao tác đăng nhập tài khoản email, soạn và gửi email, thoát ra.",
+      "officialTextHash": "44eed050023ebbd7d91e72e44baec2fee4025e35c7cb692e146a9d413d72fe13",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
       "competencyIds": [
@@ -835,24 +874,24 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-D-01",
       "grade": 6,
       "topicId": "G6-D",
       "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
-      "officialText": "Nêu được một số tác hại và nguy cơ bị hại khi tham gia Internet.",
-      "studentFriendlyText": "Em nhận biết và kể được một số nguy cơ, tác hại có thể gặp phải khi sử dụng Internet.",
-      "officialTextHash": "05f630a101c543d33d789a94f5e57364f570b455132c64ec3555bf0e0bd8452e",
+      "officialText": "Giới thiệu được sơ lược một số tác hại và nguy cơ bị hại khi tham gia Internet; nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên.",
+      "studentFriendlyText": "Em nhận biết được một số tác hại, nguy cơ khi tham gia Internet và thực hiện được các biện pháp phòng ngừa cơ bản theo hướng dẫn của giáo viên.",
+      "officialTextHash": "3c88e118c692fdfaa4f5e018b2bdec093e43526fe28fb2307ca2cf52bc6a70b6",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "nhan_biet",
+      "cognitiveLevel": "van_dung",
       "competencyIds": [
         "NLb"
       ],
       "evidenceTypes": [
         "quiz_response",
-        "short_answer"
+        "practical_observation"
       ],
       "lessonIds": [
         "G6-L09"
@@ -862,7 +901,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-D-02",
@@ -870,7 +909,7 @@
       "topicId": "G6-D",
       "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
       "officialText": "Trình bày được tầm quan trọng của sự an toàn và hợp pháp của thông tin cá nhân và tập thể, nêu được ví dụ minh hoạ.",
-      "studentFriendlyText": "Em giải thích được vì sao phải giữ an toàn, hợp pháp cho thông tin cá nhân và tập thể, đồng thời nêu được ví dụ minh hoạ.",
+      "studentFriendlyText": "Em trình bày được vì sao phải giữ an toàn, hợp pháp cho thông tin cá nhân và tập thể, kèm theo ví dụ minh hoạ.",
       "officialTextHash": "8d55d47121667a27eb216b9c0a502eea33a2d4d40958f1818ebc68d06d85cb41",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
@@ -889,16 +928,43 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-D-03",
       "grade": 6,
       "topicId": "G6-D",
       "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
-      "officialText": "Nêu được một vài cách thông dụng để bảo vệ, chia sẻ thông tin của bản thân và tập thể sao cho an toàn và hợp pháp.",
-      "studentFriendlyText": "Em nêu được các cách thông dụng để bảo vệ và chia sẻ thông tin cá nhân, tập thể một cách an toàn, đúng quy định.",
-      "officialTextHash": "d79d482fe0a858848ee12a03f8482e992a920b4ecceefefbb82e37da2817df31",
+      "officialText": "Bảo vệ được thông tin và tài khoản cá nhân với sự hỗ trợ của người lớn.",
+      "studentFriendlyText": "Em thực hiện được việc bảo vệ thông tin và tài khoản cá nhân trên mạng với sự hỗ trợ của người lớn.",
+      "officialTextHash": "604e0d7285b13d437c576f3de6685aba18a408f6595281dbb69b06e044cebe00",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLb"
+      ],
+      "evidenceTypes": [
+        "practical_observation",
+        "exit_ticket_reflection"
+      ],
+      "lessonIds": [
+        "G6-L09"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-D-04",
+      "grade": 6,
+      "topicId": "G6-D",
+      "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
+      "officialText": "Nêu được một vài cách thông dụng để chia sẻ thông tin của bản thân và tập thể sao cho an toàn và hợp pháp.",
+      "studentFriendlyText": "Em nêu được các cách thông dụng để chia sẻ thông tin của bản thân và tập thể một cách an toàn và hợp pháp.",
+      "officialTextHash": "3c7a4f3b00952acad58c10987d7696564b5c2912252c6525b933d213a06b274d",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
       "competencyIds": [
@@ -917,45 +983,18 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-D-04",
-      "grade": 6,
-      "topicId": "G6-D",
-      "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
-      "officialText": "Thực hiện được một số biện pháp cơ bản để phòng ngừa tác hại khi tham gia Internet với sự hướng dẫn của giáo viên.",
-      "studentFriendlyText": "Em thực hành được các biện pháp cơ bản để tự bảo vệ mình và phòng tránh rủi ro trên Internet theo hướng dẫn của thầy cô.",
-      "officialTextHash": "816ff2b708d46cfc886542a78b80ccef4b292ab808ae96549cd9ccb5b4c79c73",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "van_dung",
-      "competencyIds": [
-        "NLb"
-      ],
-      "evidenceTypes": [
-        "practical_observation",
-        "exit_ticket_reflection"
-      ],
-      "lessonIds": [
-        "G6-L09"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-D-05",
       "grade": 6,
       "topicId": "G6-D",
       "subTopic": "Đề phòng một số tác hại khi tham gia Internet",
-      "officialText": "Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu và biết nhờ người lớn hỗ trợ để hạn chế tác hại từ Internet.",
-      "studentFriendlyText": "Em nhận biết được tin nhắn lừa đảo hoặc nội dung xấu trên mạng và biết báo ngay cho cha mẹ, thầy cô để được hỗ trợ.",
-      "officialTextHash": "542614b11053705ecdd14203a16b7d4dfa9eb7d700ee2d63ae57dcad815f7391",
+      "officialText": "Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu.",
+      "studentFriendlyText": "Em nhận diện được một số tin nhắn, thông điệp lừa đảo hoặc mang nội dung xấu trên Internet để phòng tránh.",
+      "officialTextHash": "8d95b9a2c9809aef6a90406ec80c62a6907e8bcda753250e55004459bcba653d",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "van_dung",
+      "cognitiveLevel": "thong_hieu",
       "competencyIds": [
         "NLb"
       ],
@@ -971,20 +1010,20 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-E-01",
       "grade": 6,
       "topicId": "G6-E",
-      "subTopic": "Sơ đồ tư duy và phần mềm sơ đồ tư duy",
-      "officialText": "Giải thích được lợi ích của sơ đồ tư duy, nêu được nhu cầu sử dụng phần mềm sơ đồ tư duy trong học tập và trao đổi thông tin.",
-      "studentFriendlyText": "Em giải thích được ích lợi của sơ đồ tư duy và vì sao nên dùng phần mềm sơ đồ tư duy trong học tập, trao đổi thông tin.",
-      "officialTextHash": "2a3e357c64a017b9649c1ad126cb125b0863a1671a47662bfa4a243b5d369ac8",
+      "subTopic": "Soạn thảo văn bản cơ bản",
+      "officialText": "Trình bày được tác dụng của một số công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.",
+      "studentFriendlyText": "Em trình bày được tác dụng của các công cụ căn lề, định dạng, tìm kiếm và thay thế trong phần mềm soạn thảo văn bản.",
+      "officialTextHash": "8ccbf4296f2b9f5f5d87653242a494866ad36c43e5e60950dec8526489ae8ae0",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
       "competencyIds": [
-        "NLc",
+        "NLa",
         "NLd"
       ],
       "evidenceTypes": [
@@ -992,22 +1031,164 @@
         "short_answer"
       ],
       "lessonIds": [
-        "G6-L10"
+        "G6-L11",
+        "G6-L13"
       ],
       "nlsMappings": [],
       "aiCompetencyMappings": [],
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-E-02",
       "grade": 6,
       "topicId": "G6-E",
+      "subTopic": "Soạn thảo văn bản cơ bản",
+      "officialText": "Thực hiện được việc định dạng văn bản, trình bày trang văn bản và in.",
+      "studentFriendlyText": "Em thực hành được việc định dạng văn bản, trình bày trang văn bản và thực hiện lệnh in.",
+      "officialTextHash": "9080c35dde81424b3a8cf04071bf5cb0a7f9794e1423279946dfbaa315a19045",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "evidenceTypes": [
+        "digital_product",
+        "practical_observation"
+      ],
+      "lessonIds": [
+        "G6-L11"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-E-03",
+      "grade": 6,
+      "topicId": "G6-E",
+      "subTopic": "Soạn thảo văn bản cơ bản",
+      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
+      "studentFriendlyText": "Em sử dụng được công cụ tìm kiếm (Find) và thay thế (Replace) của phần mềm soạn thảo văn bản.",
+      "officialTextHash": "ab0a6a9d60cbb763e0b6f9b6dfa6f50b8976b335256da50eb7eb0e8f5632c26e",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "evidenceTypes": [
+        "practical_observation",
+        "quiz_response"
+      ],
+      "lessonIds": [
+        "G6-L13"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-E-04",
+      "grade": 6,
+      "topicId": "G6-E",
+      "subTopic": "Soạn thảo văn bản cơ bản",
+      "officialText": "Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
+      "studentFriendlyText": "Em tạo và trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
+      "officialTextHash": "be5de9f2a5c9f62f80cc08f8e8a386766466ef6777e35d51e857bf6d1da553db",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "evidenceTypes": [
+        "digital_product",
+        "practical_observation"
+      ],
+      "lessonIds": [
+        "G6-L12"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-E-05",
+      "grade": 6,
+      "topicId": "G6-E",
+      "subTopic": "Soạn thảo văn bản cơ bản",
+      "officialText": "Soạn thảo được văn bản phục vụ học tập và sinh hoạt hàng ngày.",
+      "studentFriendlyText": "Em soạn thảo được văn bản hoàn chỉnh phục vụ học tập và sinh hoạt hàng ngày.",
+      "officialTextHash": "c6f917822e445b4dd72ab956369e61104a56838b6d2f3367ee549dcfa731607f",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "van_dung_cao",
+      "competencyIds": [
+        "NLd",
+        "NLe"
+      ],
+      "evidenceTypes": [
+        "digital_product"
+      ],
+      "lessonIds": [
+        "G6-L11",
+        "G6-L12",
+        "G6-L13"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-E-06",
+      "grade": 6,
+      "topicId": "G6-E",
+      "subTopic": "Soạn thảo văn bản cơ bản",
+      "officialText": "Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản.",
+      "studentFriendlyText": "Em nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản.",
+      "officialTextHash": "b0e3d18d1809333c4c7ab84860c210acdb6e8f4b9aaa44979abe8b729deb6524",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "evidenceTypes": [
+        "quiz_response",
+        "short_answer"
+      ],
+      "lessonIds": [
+        "G6-L11"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-E-07",
+      "grade": 6,
+      "topicId": "G6-E",
       "subTopic": "Sơ đồ tư duy và phần mềm sơ đồ tư duy",
       "officialText": "Sắp xếp được một cách lôgic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.",
-      "studentFriendlyText": "Em sắp xếp được các ý chính, ý phụ một cách hợp lí để trình bày thành sơ đồ tư duy rõ ràng.",
+      "studentFriendlyText": "Em sắp xếp được một cách lôgic các ý tưởng, khái niệm và trình bày dưới dạng sơ đồ tư duy.",
       "officialTextHash": "5b5b299e2c3f2df76a2e965ce4c9e8be55f6f0fb2a6c17cf5e0e0502bc3ac607",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
@@ -1027,15 +1208,43 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
-      "requirementId": "G6-E-03",
+      "requirementId": "G6-E-08",
+      "grade": 6,
+      "topicId": "G6-E",
+      "subTopic": "Sơ đồ tư duy và phần mềm sơ đồ tư duy",
+      "officialText": "Giải thích được lợi ích của sơ đồ tư duy, nêu được nhu cầu sử dụng phần mềm sơ đồ tư duy trong học tập và trao đổi thông tin.",
+      "studentFriendlyText": "Em giải thích được lợi ích của sơ đồ tư duy và nêu được nhu cầu sử dụng phần mềm sơ đồ tư duy trong học tập, trao đổi thông tin.",
+      "officialTextHash": "2a3e357c64a017b9649c1ad126cb125b0863a1671a47662bfa4a243b5d369ac8",
+      "officialSourceId": "SRC-GDPT-2018-TIN6",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLc",
+        "NLd"
+      ],
+      "evidenceTypes": [
+        "quiz_response",
+        "short_answer"
+      ],
+      "lessonIds": [
+        "G6-L10"
+      ],
+      "nlsMappings": [],
+      "aiCompetencyMappings": [],
+      "supplementaryKnowledge": null,
+      "reviewStatus": "approved_official",
+      "status": "published",
+      "version": "2018.2"
+    },
+    {
+      "requirementId": "G6-E-09",
       "grade": 6,
       "topicId": "G6-E",
       "subTopic": "Sơ đồ tư duy và phần mềm sơ đồ tư duy",
       "officialText": "Sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản phục vụ học tập và trao đổi thông tin.",
-      "studentFriendlyText": "Em sử dụng được phần mềm trên máy tính để tạo một sơ đồ tư duy đơn giản phục vụ bài học.",
+      "studentFriendlyText": "Em sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản phục vụ học tập và trao đổi thông tin.",
       "officialTextHash": "3f8d950958b3dd034564afae057cdf63293cade91df3d13380ae85e08fba4c15",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
@@ -1056,176 +1265,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-E-04",
-      "grade": 6,
-      "topicId": "G6-E",
-      "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản.",
-      "studentFriendlyText": "Em nêu được các chức năng chính của phần mềm soạn thảo văn bản như nhập, sửa, định dạng, lưu trữ và in văn bản.",
-      "officialTextHash": "b0e3d18d1809333c4c7ab84860c210acdb6e8f4b9aaa44979abe8b729deb6524",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "nhan_biet",
-      "competencyIds": [
-        "NLa",
-        "NLd"
-      ],
-      "evidenceTypes": [
-        "quiz_response",
-        "short_answer"
-      ],
-      "lessonIds": [
-        "G6-L11"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-E-05",
-      "grade": 6,
-      "topicId": "G6-E",
-      "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Nhận biết được tác dụng của các công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.",
-      "studentFriendlyText": "Em nhận biết được công dụng của các nút lệnh căn lề, định dạng chữ/đoạn văn và công cụ tìm kiếm, thay thế.",
-      "officialTextHash": "04adf69af0f5f86c92c53e711e792a53023e57b6afdba83948ac6df9af0375ae",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "nhan_biet",
-      "competencyIds": [
-        "NLa",
-        "NLd"
-      ],
-      "evidenceTypes": [
-        "quiz_response"
-      ],
-      "lessonIds": [
-        "G6-L11",
-        "G6-L13"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-E-06",
-      "grade": 6,
-      "topicId": "G6-E",
-      "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Thực hiện được việc định dạng văn bản, trình bày trang văn bản và in.",
-      "studentFriendlyText": "Em thực hành được thao tác định dạng phông chữ, đoạn văn, thiết lập trang văn bản và lệnh in.",
-      "officialTextHash": "9080c35dde81424b3a8cf04071bf5cb0a7f9794e1423279946dfbaa315a19045",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "van_dung",
-      "competencyIds": [
-        "NLa",
-        "NLd"
-      ],
-      "evidenceTypes": [
-        "digital_product",
-        "practical_observation"
-      ],
-      "lessonIds": [
-        "G6-L11"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-E-07",
-      "grade": 6,
-      "topicId": "G6-E",
-      "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
-      "studentFriendlyText": "Em tạo và trình bày được bảng biểu rõ ràng, khoa học trong phần mềm soạn thảo văn bản.",
-      "officialTextHash": "be5de9f2a5c9f62f80cc08f8e8a386766466ef6777e35d51e857bf6d1da553db",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "van_dung",
-      "competencyIds": [
-        "NLa",
-        "NLd"
-      ],
-      "evidenceTypes": [
-        "digital_product",
-        "practical_observation"
-      ],
-      "lessonIds": [
-        "G6-L12"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-E-08",
-      "grade": 6,
-      "topicId": "G6-E",
-      "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
-      "studentFriendlyText": "Em sử dụng được công cụ Find và Replace để tìm nhanh và thay thế từ/cụm từ trong văn bản.",
-      "officialTextHash": "ab0a6a9d60cbb763e0b6f9b6dfa6f50b8976b335256da50eb7eb0e8f5632c26e",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "van_dung",
-      "competencyIds": [
-        "NLa",
-        "NLd"
-      ],
-      "evidenceTypes": [
-        "practical_observation",
-        "quiz_response"
-      ],
-      "lessonIds": [
-        "G6-L13"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
-    },
-    {
-      "requirementId": "G6-E-09",
-      "grade": 6,
-      "topicId": "G6-E",
-      "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Soạn thảo được văn bản hoàn chỉnh phục vụ học tập và sinh hoạt hằng ngày.",
-      "studentFriendlyText": "Em kết hợp các kĩ năng đã học để soạn thảo và định dạng hoàn chỉnh một văn bản phục vụ học tập và đời sống.",
-      "officialTextHash": "afbffa6ce392fac14d91f6e54ca8c5f81186f85fe840257032b027407259f520",
-      "officialSourceId": "SRC-GDPT-2018-TIN6",
-      "cognitiveLevel": "van_dung_cao",
-      "competencyIds": [
-        "NLd",
-        "NLe"
-      ],
-      "evidenceTypes": [
-        "digital_product"
-      ],
-      "lessonIds": [
-        "G6-L11",
-        "G6-L12",
-        "G6-L13"
-      ],
-      "nlsMappings": [],
-      "aiCompetencyMappings": [],
-      "supplementaryKnowledge": null,
-      "reviewStatus": "approved_official",
-      "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-F-01",
@@ -1233,7 +1273,7 @@
       "topicId": "G6-F",
       "subTopic": "Khái niệm thuật toán và biểu diễn thuật toán",
       "officialText": "Diễn tả được sơ lược khái niệm thuật toán, nêu được một vài ví dụ minh hoạ.",
-      "studentFriendlyText": "Em diễn tả được thuật toán là dãy các bước chỉ dẫn rõ ràng để giải quyết một nhiệm vụ và nêu được ví dụ thực tế.",
+      "studentFriendlyText": "Em diễn tả được sơ lược khái niệm thuật toán và nêu được một vài ví dụ minh hoạ.",
       "officialTextHash": "5b7220fdfaed70a9f83b87df77ed24e62eba3fb48f7399d078075e446bf84640",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "thong_hieu",
@@ -1252,7 +1292,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-F-02",
@@ -1260,7 +1300,7 @@
       "topicId": "G6-F",
       "subTopic": "Các cấu trúc điều khiển cơ bản",
       "officialText": "Mô tả được thuật toán đơn giản có các cấu trúc tuần tự, rẽ nhánh và lặp dưới dạng liệt kê hoặc sơ đồ khối.",
-      "studentFriendlyText": "Em mô tả được thuật toán đơn giản có cấu trúc tuần tự, rẽ nhánh và lặp bằng cách liệt kê các bước hoặc vẽ sơ đồ khối.",
+      "studentFriendlyText": "Em mô tả được thuật toán đơn giản có cấu trúc tuần tự, rẽ nhánh và lặp dưới dạng liệt kê hoặc sơ đồ khối.",
       "officialTextHash": "42ceda8ed6fb8aafed8a5f05deefcecf8f9feb31c213c72b9893dcf34f436855",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
@@ -1280,7 +1320,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     },
     {
       "requirementId": "G6-F-03",
@@ -1288,7 +1328,7 @@
       "topicId": "G6-F",
       "subTopic": "Chương trình máy tính",
       "officialText": "Biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.",
-      "studentFriendlyText": "Em biết chương trình máy tính là bản mô tả thuật toán bằng ngôn ngữ mà máy tính có thể hiểu và thực hiện tự động.",
+      "studentFriendlyText": "Em biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.",
       "officialTextHash": "17806bb93a6bf5a8be4fe8feed39a05735e47eb0a81b4a4143754adbbdec908d",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "nhan_biet",
@@ -1307,7 +1347,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.1"
+      "version": "2018.2"
     }
   ],
   "nlsMappings": [
@@ -1321,10 +1361,13 @@
       "nlsCode": "1.3.TC1a",
       "competencyId": "NLS-1.3.TC1a",
       "frameworkSourceId": "SRC-TT02-2025-NLS",
-      "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+      "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+      "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+      "supplementaryLessonPlanSourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+      "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
       "mappingOriginType": "school_deployment_appendix_khbd",
       "isOfficialGdpt2018Requirement": false,
-      "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB để quản lí, tổ chức lưu trữ dữ liệu số.",
+      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB để quản lí, lưu trữ dữ liệu số.",
       "status": "published"
     },
     {
@@ -1336,10 +1379,13 @@
       "nlsCode": "5.2.TC1a",
       "competencyId": "NLS-5.2.TC1a",
       "frameworkSourceId": "SRC-TT02-2025-NLS",
-      "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+      "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+      "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+      "supplementaryLessonPlanSourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+      "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
       "mappingOriginType": "school_deployment_appendix_khbd",
       "isOfficialGdpt2018Requirement": false,
-      "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh hiểu giải pháp công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (hai kí hiệu 0 và 1).",
+      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh hiểu giải pháp công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (0 và 1).",
       "status": "published"
     },
     {
@@ -1352,10 +1398,13 @@
       "nlsCode": "5.2.TC1b",
       "competencyId": "NLS-5.2.TC1b",
       "frameworkSourceId": "SRC-TT02-2025-NLS",
-      "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+      "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+      "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+      "supplementaryLessonPlanSourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+      "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
       "mappingOriginType": "school_deployment_appendix_khbd",
       "isOfficialGdpt2018Requirement": false,
-      "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh ước lượng và lựa chọn thiết bị nhớ thông dụng (đĩa cứng, USB, CD, thẻ nhớ) phù hợp với dung lượng dữ liệu.",
+      "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh ước lượng và lựa chọn thiết bị nhớ thông dụng (đĩa cứng, USB, CD, thẻ nhớ) phù hợp với dung lượng dữ liệu.",
       "status": "published"
     }
   ],
@@ -1370,6 +1419,10 @@
       "title": "Bài 1. Thông tin và dữ liệu",
       "order": 1,
       "periods": 2,
+      "scheduledPeriods": [
+        1,
+        2
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1399,7 +1452,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1415,6 +1468,10 @@
       "title": "Bài 2. Xử lí thông tin",
       "order": 2,
       "periods": 2,
+      "scheduledPeriods": [
+        3,
+        4
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1443,7 +1500,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1459,6 +1516,10 @@
       "title": "Thông tin trong máy tính",
       "order": 3,
       "periods": 2,
+      "scheduledPeriods": [
+        5,
+        6
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "WebQuest",
@@ -1517,11 +1578,13 @@
       "isFixtureOnly": true,
       "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
-        "SRC-GDPT-2018-TIN6"
+        "SRC-GDPT-2018-TIN6",
+        "SRC-PHULUC3-TIN6-VIETHOA-2026",
+        "SRC-KHBD-TIN6-BAI3-VIETHOA"
       ]
     },
     {
@@ -1533,6 +1596,10 @@
       "title": "Bài 4. Mạng máy tính",
       "order": 4,
       "periods": 2,
+      "scheduledPeriods": [
+        7,
+        9
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1562,7 +1629,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1577,8 +1644,12 @@
       "topicId": "G6-B",
       "title": "Bài 5. Internet",
       "order": 5,
-      "periods": 1,
-      "durationMinutes": 45,
+      "periods": 2,
+      "scheduledPeriods": [
+        10,
+        11
+      ],
+      "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
       "requirementIds": [
@@ -1606,7 +1677,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1622,6 +1693,10 @@
       "title": "Bài 6. Mạng thông tin toàn cầu",
       "order": 6,
       "periods": 2,
+      "scheduledPeriods": [
+        12,
+        13
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1651,7 +1726,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1667,6 +1742,10 @@
       "title": "Bài 7. Tìm kiếm thông tin trên Internet",
       "order": 7,
       "periods": 2,
+      "scheduledPeriods": [
+        14,
+        15
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1694,7 +1773,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1710,6 +1789,9 @@
       "title": "Bài 8. Thư điện tử",
       "order": 8,
       "periods": 1,
+      "scheduledPeriods": [
+        16
+      ],
       "durationMinutes": 45,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1738,7 +1820,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1754,6 +1836,10 @@
       "title": "Bài 9. An toàn thông tin trên Internet",
       "order": 9,
       "periods": 2,
+      "scheduledPeriods": [
+        19,
+        20
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -1785,7 +1871,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1801,13 +1887,17 @@
       "title": "Bài 10. Sơ đồ tư duy",
       "order": 10,
       "periods": 2,
+      "scheduledPeriods": [
+        21,
+        22
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
       "requirementIds": [
-        "G6-E-01",
-        "G6-E-02",
-        "G6-E-03"
+        "G6-E-07",
+        "G6-E-08",
+        "G6-E-09"
       ],
       "competencyIds": [
         "NLa",
@@ -1832,7 +1922,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1848,14 +1938,18 @@
       "title": "Bài 11. Định dạng văn bản",
       "order": 11,
       "periods": 2,
+      "scheduledPeriods": [
+        23,
+        24
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
       "requirementIds": [
-        "G6-E-04",
+        "G6-E-01",
+        "G6-E-02",
         "G6-E-05",
-        "G6-E-06",
-        "G6-E-09"
+        "G6-E-06"
       ],
       "competencyIds": [
         "NLa",
@@ -1879,7 +1973,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1895,12 +1989,16 @@
       "title": "Bài 12. Trình bày thông tin ở dạng bảng",
       "order": 12,
       "periods": 2,
+      "scheduledPeriods": [
+        25,
+        27
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
       "requirementIds": [
-        "G6-E-07",
-        "G6-E-09"
+        "G6-E-04",
+        "G6-E-05"
       ],
       "competencyIds": [
         "NLa",
@@ -1924,7 +2022,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1940,13 +2038,16 @@
       "title": "Bài 13. Thực hành: Tìm kiếm và thay thế",
       "order": 13,
       "periods": 1,
+      "scheduledPeriods": [
+        28
+      ],
       "durationMinutes": 45,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
       "requirementIds": [
-        "G6-E-05",
-        "G6-E-08",
-        "G6-E-09"
+        "G6-E-01",
+        "G6-E-03",
+        "G6-E-05"
       ],
       "competencyIds": [
         "NLa",
@@ -1970,7 +2071,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -1986,6 +2087,10 @@
       "title": "Bài 15. Thuật toán",
       "order": 14,
       "periods": 2,
+      "scheduledPeriods": [
+        29,
+        30
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -2013,7 +2118,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -2029,6 +2134,10 @@
       "title": "Bài 16. Các cấu trúc điều khiển",
       "order": 15,
       "periods": 2,
+      "scheduledPeriods": [
+        31,
+        32
+      ],
       "durationMinutes": 90,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -2055,7 +2164,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -2071,6 +2180,9 @@
       "title": "Bài 17. Chương trình máy tính",
       "order": 16,
       "periods": 1,
+      "scheduledPeriods": [
+        33
+      ],
       "durationMinutes": 45,
       "sessionType": "lesson",
       "learningModel": "ActivityBased",
@@ -2097,7 +2209,7 @@
       "supplementaryKnowledge": null,
       "isFixtureOnly": false,
       "status": "published",
-      "version": "2026.1",
+      "version": "2026.2",
       "sourceRefs": [
         "SRC-PPCT-VIETHOA-TIN6-2026",
         "SRC-SGK-KNTT-TIN6",
@@ -2105,6 +2217,338 @@
       ]
     }
   ],
+  "ppctDistribution": {
+    "schoolName": "Trường TH, THCS và THPT Việt Hoa",
+    "schoolYear": "2026-2027",
+    "grade": 6,
+    "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026",
+    "sourceDriveId": "1Ikqso2NezM1eNOmcAGeq3veuBGTY1wHM",
+    "minutesPerPeriod": 45,
+    "totalPeriodsPerYear": 35,
+    "summary": {
+      "contentLessonsCount": 16,
+      "excludedTextbookLessons": [
+        {
+          "lessonNumber": 14,
+          "title": "Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm",
+          "reason": "Không nằm trong PPCT thực tế năm học 2026–2027 của Trường TH, THCS và THPT Việt Hoa"
+        }
+      ],
+      "lessonPeriodsTotal": 29,
+      "reviewPeriodsTotal": 2,
+      "assessmentPeriodsTotal": 4,
+      "grandTotalPeriods": 35
+    },
+    "nonLessonSessions": [
+      {
+        "sessionId": "G6-ASM-GK1",
+        "sessionType": "assessment",
+        "semester": 1,
+        "periodNumber": 8,
+        "title": "Kiểm tra giữa HKI",
+        "periods": 1,
+        "durationMinutes": 45,
+        "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+      },
+      {
+        "sessionId": "G6-REV-CK1",
+        "sessionType": "review",
+        "semester": 1,
+        "periodNumber": 17,
+        "title": "Ôn tập cuối HKI",
+        "periods": 1,
+        "durationMinutes": 45,
+        "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+      },
+      {
+        "sessionId": "G6-ASM-CK1",
+        "sessionType": "assessment",
+        "semester": 1,
+        "periodNumber": 18,
+        "title": "Kiểm tra cuối HKI",
+        "periods": 1,
+        "durationMinutes": 45,
+        "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+      },
+      {
+        "sessionId": "G6-ASM-GK2",
+        "sessionType": "assessment",
+        "semester": 2,
+        "periodNumber": 26,
+        "title": "Kiểm tra giữa HKII",
+        "periods": 1,
+        "durationMinutes": 45,
+        "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+      },
+      {
+        "sessionId": "G6-REV-CK2",
+        "sessionType": "review",
+        "semester": 2,
+        "periodNumber": 34,
+        "title": "Ôn tập cuối HKII",
+        "periods": 1,
+        "durationMinutes": 45,
+        "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+      },
+      {
+        "sessionId": "G6-ASM-CK2",
+        "sessionType": "assessment",
+        "semester": 2,
+        "periodNumber": 35,
+        "title": "Kiểm tra cuối HKII",
+        "periods": 1,
+        "durationMinutes": 45,
+        "sourceId": "SRC-PPCT-VIETHOA-TIN6-2026"
+      }
+    ],
+    "periodSchedule": [
+      {
+        "periodNumber": 1,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L01",
+        "label": "Bài 1"
+      },
+      {
+        "periodNumber": 2,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L01",
+        "label": "Bài 1"
+      },
+      {
+        "periodNumber": 3,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L02",
+        "label": "Bài 2"
+      },
+      {
+        "periodNumber": 4,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L02",
+        "label": "Bài 2"
+      },
+      {
+        "periodNumber": 5,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L03",
+        "label": "Bài 3"
+      },
+      {
+        "periodNumber": 6,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L03",
+        "label": "Bài 3"
+      },
+      {
+        "periodNumber": 7,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L04",
+        "label": "Bài 4"
+      },
+      {
+        "periodNumber": 8,
+        "semester": 1,
+        "sessionType": "assessment",
+        "refId": "G6-ASM-GK1",
+        "label": "KIỂM TRA GIỮA HKI"
+      },
+      {
+        "periodNumber": 9,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L04",
+        "label": "Bài 4"
+      },
+      {
+        "periodNumber": 10,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L05",
+        "label": "Bài 5"
+      },
+      {
+        "periodNumber": 11,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L05",
+        "label": "Bài 5"
+      },
+      {
+        "periodNumber": 12,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L06",
+        "label": "Bài 6"
+      },
+      {
+        "periodNumber": 13,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L06",
+        "label": "Bài 6"
+      },
+      {
+        "periodNumber": 14,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L07",
+        "label": "Bài 7"
+      },
+      {
+        "periodNumber": 15,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L07",
+        "label": "Bài 7"
+      },
+      {
+        "periodNumber": 16,
+        "semester": 1,
+        "sessionType": "lesson",
+        "refId": "G6-L08",
+        "label": "Bài 8"
+      },
+      {
+        "periodNumber": 17,
+        "semester": 1,
+        "sessionType": "review",
+        "refId": "G6-REV-CK1",
+        "label": "ÔN TẬP HKI"
+      },
+      {
+        "periodNumber": 18,
+        "semester": 1,
+        "sessionType": "assessment",
+        "refId": "G6-ASM-CK1",
+        "label": "KIỂM TRA CUỐI HKI"
+      },
+      {
+        "periodNumber": 19,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L09",
+        "label": "Bài 9"
+      },
+      {
+        "periodNumber": 20,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L09",
+        "label": "Bài 9"
+      },
+      {
+        "periodNumber": 21,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L10",
+        "label": "Bài 10"
+      },
+      {
+        "periodNumber": 22,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L10",
+        "label": "Bài 10"
+      },
+      {
+        "periodNumber": 23,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L11",
+        "label": "Bài 11"
+      },
+      {
+        "periodNumber": 24,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L11",
+        "label": "Bài 11"
+      },
+      {
+        "periodNumber": 25,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L12",
+        "label": "Bài 12"
+      },
+      {
+        "periodNumber": 26,
+        "semester": 2,
+        "sessionType": "assessment",
+        "refId": "G6-ASM-GK2",
+        "label": "KIỂM TRA GIỮA HKII"
+      },
+      {
+        "periodNumber": 27,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L12",
+        "label": "Bài 12"
+      },
+      {
+        "periodNumber": 28,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L13",
+        "label": "Bài 13"
+      },
+      {
+        "periodNumber": 29,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L15",
+        "label": "Bài 15"
+      },
+      {
+        "periodNumber": 30,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L15",
+        "label": "Bài 15"
+      },
+      {
+        "periodNumber": 31,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L16",
+        "label": "Bài 16"
+      },
+      {
+        "periodNumber": 32,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L16",
+        "label": "Bài 16"
+      },
+      {
+        "periodNumber": 33,
+        "semester": 2,
+        "sessionType": "lesson",
+        "refId": "G6-L17",
+        "label": "Bài 17"
+      },
+      {
+        "periodNumber": 34,
+        "semester": 2,
+        "sessionType": "review",
+        "refId": "G6-REV-CK2",
+        "label": "ÔN TẬP HKII"
+      },
+      {
+        "periodNumber": 35,
+        "semester": 2,
+        "sessionType": "assessment",
+        "refId": "G6-ASM-CK2",
+        "label": "KIỂM TRA CUỐI HKII"
+      }
+    ]
+  },
   "activities": [
     {
       "activityId": "G6-L03-A1",

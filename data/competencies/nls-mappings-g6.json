@@ -9,10 +9,13 @@
     "nlsCode": "1.3.TC1a",
     "competencyId": "NLS-1.3.TC1a",
     "frameworkSourceId": "SRC-TT02-2025-NLS",
-    "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+    "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+    "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+    "supplementaryLessonPlanSourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+    "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
     "mappingOriginType": "school_deployment_appendix_khbd",
     "isOfficialGdpt2018Requirement": false,
-    "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB để quản lí, tổ chức lưu trữ dữ liệu số.",
+    "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB để quản lí, lưu trữ dữ liệu số.",
     "status": "published"
   },
   {
@@ -24,10 +27,13 @@
     "nlsCode": "5.2.TC1a",
     "competencyId": "NLS-5.2.TC1a",
     "frameworkSourceId": "SRC-TT02-2025-NLS",
-    "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+    "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+    "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+    "supplementaryLessonPlanSourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+    "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
     "mappingOriginType": "school_deployment_appendix_khbd",
     "isOfficialGdpt2018Requirement": false,
-    "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh hiểu giải pháp công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (hai kí hiệu 0 và 1).",
+    "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh hiểu giải pháp công nghệ số biểu diễn thông tin trong máy tính bằng dãy bit (0 và 1).",
     "status": "published"
   },
   {
@@ -40,10 +46,13 @@
     "nlsCode": "5.2.TC1b",
     "competencyId": "NLS-5.2.TC1b",
     "frameworkSourceId": "SRC-TT02-2025-NLS",
-    "mappingSourceId": "SRC-PHULUC3-KHBD-VIETHOA-2026",
+    "mappingSourceId": "SRC-PHULUC3-TIN6-VIETHOA-2026",
+    "mappingDriveId": "1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC",
+    "supplementaryLessonPlanSourceId": "SRC-KHBD-TIN6-BAI3-VIETHOA",
+    "supplementaryLessonPlanDriveId": "1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp",
     "mappingOriginType": "school_deployment_appendix_khbd",
     "isOfficialGdpt2018Requirement": false,
-    "rationale": "Theo Phụ lục III & KHBD Bài 3 của Trường TH, THCS và THPT Việt Hoa: Học sinh ước lượng và lựa chọn thiết bị nhớ thông dụng (đĩa cứng, USB, CD, thẻ nhớ) phù hợp với dung lượng dữ liệu.",
+    "rationale": "Theo Phụ lục III lớp 6 (Drive ID: 1eB5ZVwDLISaR57-DM2B9TJ9-JYgobwAC) và KHBD Bài 3 (Drive ID: 1vMj4YlylG09AqZOuc3G9hNq-L-MFHRtp): Học sinh ước lượng và lựa chọn thiết bị nhớ thông dụng (đĩa cứng, USB, CD, thẻ nhớ) phù hợp với dung lượng dữ liệu.",
     "status": "published"
   }
 ]

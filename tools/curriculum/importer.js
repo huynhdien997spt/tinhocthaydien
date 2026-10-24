@@ -208,6 +208,7 @@ class CurriculumImporter {
     const nlsMappings = readJson('data/competencies/nls-mappings-g6.json');
     const aiMappings = readJson('data/competencies/ai-mappings-g6.json');
     const lessons = readJson('data/lessons/lessons-g6-ppct.json');
+    const ppctDistribution = readJson('data/curriculum/ppct-distribution-g6.json');
     const resourcesCatalog = readJson('data/resources/resources-g6.json');
     const goldenL03 = readJson('data/lessons/G6-L03.golden.json');
 
@@ -236,6 +237,7 @@ class CurriculumImporter {
       nlsMappings,
       aiMappings,
       lessons,
+      ppctDistribution,
       activities: goldenL03.activities || [],
       questions: goldenL03.questions || [],
       evidences: goldenL03.evidences || [],
