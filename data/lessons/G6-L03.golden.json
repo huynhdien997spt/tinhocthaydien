@@ -852,6 +852,7 @@
         ],
         "webquest": {
           "title": "WebQuest: Cứu bộ nhớ",
+          "scenarioPrompt": "Bạn An cần mang khoảng 6 GB dữ liệu học tập (gồm khoảng 4000 MB video bài giảng và 2000 MB tài liệu, hình ảnh) sang máy tính ở trường.",
           "steps": [
             "1. Xác định nhu cầu dung lượng.",
             "2. Quy đổi về cùng đơn vị.",
@@ -862,51 +863,66 @@
           "deviceCatalog": [
             {
               "deviceId": "CD-700MB",
-              "name": "Đĩa CD",
-              "typicalCapacity": "Khoảng 700 MB (< 1 GB)"
+              "name": "CD 700 MB",
+              "typicalCapacity": "Khoảng 700 MB (< 1 GB)",
+              "capacityGbApprox": 0.7
             },
             {
-              "deviceId": "SD-2GB",
-              "name": "Thẻ nhớ 2 GB",
-              "typicalCapacity": "2 GB (≈ 2000 MB)"
+              "deviceId": "USB-4GB",
+              "name": "USB 4 GB",
+              "typicalCapacity": "4 GB (≈ 4000 MB)",
+              "capacityGbApprox": 4
             },
             {
               "deviceId": "USB-16GB",
               "name": "USB 16 GB",
-              "typicalCapacity": "16 GB (≈ 16 000 MB)"
+              "typicalCapacity": "16 GB (≈ 16 000 MB)",
+              "capacityGbApprox": 16
+            },
+            {
+              "deviceId": "SD-32GB",
+              "name": "Thẻ nhớ 32 GB",
+              "typicalCapacity": "32 GB (≈ 32 000 MB)",
+              "capacityGbApprox": 32
             },
             {
               "deviceId": "HDD-500GB",
-              "name": "Ổ đĩa cứng 500 GB",
-              "typicalCapacity": "500 GB (≈ 500 000 MB)"
+              "name": "Ổ cứng 500 GB",
+              "typicalCapacity": "500 GB (≈ 500 000 MB)",
+              "capacityGbApprox": 500
             }
           ],
           "productQuestionId": "G6-L03-PROD-02",
           "productTitle": "Sản phẩm 2: PHIẾU TƯ VẤN LƯU TRỮ",
           "fields": [
             {
-              "key": "needDescription",
+              "key": "need",
               "label": "Nhu cầu",
-              "defaultValue": "Lưu bộ video bài giảng và ảnh tư liệu học tập của lớp"
+              "defaultValue": "",
+              "placeholder": "Nhập nhu cầu lưu trữ của bạn An..."
             },
             {
               "key": "estimatedCapacity",
               "label": "Dung lượng ước lượng",
-              "defaultValue": "Khoảng 6 GB (≈ 6000 MB)"
+              "defaultValue": "",
+              "placeholder": "Nhập dung lượng ước lượng (ví dụ: 6 GB hoặc 6000 MB)..."
             },
             {
               "key": "selectedDevice",
               "label": "Thiết bị chọn",
+              "defaultValue": "",
               "options": [
+                "CD 700 MB",
+                "USB 4 GB",
                 "USB 16 GB",
-                "Thẻ nhớ 16 GB",
-                "Ổ đĩa cứng 500 GB",
-                "Đĩa CD 700 MB"
+                "Thẻ nhớ 32 GB",
+                "Ổ cứng 500 GB"
               ]
             },
             {
               "key": "reason",
               "label": "Lí do",
+              "defaultValue": "",
               "placeholder": "Giải thích vì sao thiết bị em chọn đủ dung lượng và phù hợp nhu cầu..."
             }
           ]

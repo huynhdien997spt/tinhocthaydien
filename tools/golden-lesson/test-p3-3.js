@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /**
- * PHASE 3 / TASK P3.3 — Golden Lesson G6-L03 Automated Test & Mock Integration Suite
- * Verifies P3-01 through P3-20 + Mock Integration (Frontend LessonBridge <-> Backend StudentV2.gs & Teacher.gs)
+ * PHASE 3 / TASK P3.3 (FIX ROUND 1) — Golden Lesson G6-L03 Automated Test & Mock Integration Suite
+ * Verifies:
+ *   - P3-01 through P3-20
+ *   - P3-FIX-01 through P3-FIX-10 (Negative & Governance Tests)
+ *   - Realistic UI-like Student Flow (Student A -> Student B shared device -> Student A Resume)
  */
 
 const fs = require('fs');
@@ -16,7 +19,7 @@ const { runAuditCli } = require('../curriculum/audit-requirement-text');
 const GoldenLessonRenderer = require('../../assets/js/golden-lesson-renderer');
 
 // ============================================================================
-// MOCK GAS SANDBOX & FRONTEND CLIENT FOR INTEGRATION TESTS (P3-08, P3-15, P3-16, P3-19)
+// MOCK GAS SANDBOX & FRONTEND CLIENT FOR INTEGRATION TESTS
 // ============================================================================
 function createGasSandbox() {
   const sheets = {};
@@ -388,7 +391,7 @@ function createFrontendLessonClient(gasSandbox, sharedLocalStorage = null) {
 }
 
 // ============================================================================
-// RUN P3.3 TEST SUITE (P3-01 .. P3-20)
+// RUN P3.3 TEST SUITE (P3-01 .. P3-20 + P3-FIX-01 .. P3-FIX-10)
 // ============================================================================
 async function runP3Suite() {
   const results = [];
@@ -413,7 +416,7 @@ async function runP3Suite() {
   }
 
   console.log('================================================================');
-  console.log('PHASE 3 / TASK P3.3 — GOLDEN LESSON G6-L03 TEST SUITE');
+  console.log('PHASE 3 / TASK P3.3 (FIX ROUND 1) — GOLDEN LESSON G6-L03 TEST SUITE');
   console.log('================================================================\n');
 
   const goldenRaw = fs.readFileSync(
@@ -421,6 +424,10 @@ async function runP3Suite() {
     'utf8'
   );
   const goldenData = JSON.parse(goldenRaw);
+  const rendererRaw = fs.readFileSync(
+    path.join(REPO_ROOT, 'assets/js/golden-lesson-renderer.js'),
+    'utf8'
+  );
   const validator = new CurriculumValidator(path.join(REPO_ROOT, 'schemas'));
   const fullDataset = CurriculumImporter.loadNormalizedGrade6Dataset(REPO_ROOT);
 
@@ -576,38 +583,78 @@ async function runP3Suite() {
   });
 
   // --------------------------------------------------------------------------
-  // P3-08: A01–A04 completion = 50% + Period 1 boundary behavior
+  // P3-08: Realistic UI Student Flow for Period 1 (A01–A04) + Evidence Gates + Period 2 Lock
   // --------------------------------------------------------------------------
-  await test('P3-08', 'Completing A01–A04 reaches 50%, status=in_progress, nextActivityId=G6-L03-A05, calls endLearningSession(false), does not call completeLesson()', async () => {
+  await test('P3-08', 'Student A Period 1 flow: evidence gates block premature completeActivity, Period 2 is locked before A04, and completing A01–A04 reaches 50%', async () => {
     const initRes = await ctrlA1.init();
     assert(initRes.authenticated === true && initRes.resumed.percentComplete === 0, 'New student must start at 0% / A01');
     assert(initRes.resumed.firstIncompleteActivityId === 'G6-L03-A01', 'New student firstIncomplete must be G6-L03-A01');
 
-    // Complete A01, A02 (including Product 1), A03, A04
-    ctrlA1.submitQuestion('G6-L03-Q001', 'B');
-    ctrlA1.completeActivity('G6-L03-A01');
+    // Try opening Period 2 before A01–A04 completed -> LOCKED
+    const lockCheck = ctrlA1.switchPeriod(2);
+    assert(
+      lockCheck.locked === true &&
+        lockCheck.switched === false &&
+        ctrlA1.state.activePeriod === 1 &&
+        lockCheck.message === 'Hoàn thành Checkpoint Tiết 1 để mở Tiết 2.',
+      'Period 2 must be locked before Checkpoint Tiết 1'
+    );
 
-    ctrlA1.togglePixelCell(0, 0);
-    ctrlA1.togglePixelCell(0, 0); // back to T pattern
+    // A01: try completing before answering Q001 -> BLOCKED
+    const tryA01Empty = ctrlA1.completeActivity('G6-L03-A01');
+    assert(tryA01Empty.blocked === true && tryA01Empty.ok === false, 'A01 must be BLOCKED before Q001 is answered');
+    assert(tryA01Empty.message.includes('Câu Q001'), 'A01 gate message must list Câu Q001');
+
+    // Answer Q001 -> complete A01 -> PASS
+    ctrlA1.submitQuestion('G6-L03-Q001', 'B');
+    const doneA01 = ctrlA1.completeActivity('G6-L03-A01');
+    assert(doneA01.ok === true && doneA01.blocked === false, 'A01 must complete after Q001');
+
+    // A02: try completing before Product 1 & Q002 -> BLOCKED
+    const tryA02Empty = ctrlA1.completeActivity('G6-L03-A02');
+    assert(
+      tryA02Empty.blocked === true &&
+        tryA02Empty.missingCodes.includes('G6-L03-PROD-01') &&
+        tryA02Empty.missingCodes.includes('G6-L03-Q002'),
+      'A02 must be BLOCKED when PROD-01 and Q002 are missing'
+    );
+
+    // Submit Product 1 -> still blocked until Q002 is answered
     const prod1Res = ctrlA1.submitPixelProduct(
       '1111010001000100',
       'Số 0 biểu diễn ô trắng và số 1 biểu diễn ô được tô màu trên lưới 4×4.'
     );
-    assert(prod1Res.ok === true, 'Product 1 save failed');
+    assert(prod1Res.ok === true && prod1Res.submitted === true, 'Product 1 submission failed');
+    assert(
+      prod1Res.isCorrect === null && prod1Res.score === null && prod1Res.evaluationStatus === 'needs_teacher_review',
+      'Product 1 open explanation must NOT auto-assign isCorrect=true or full score'
+    );
+
+    const tryA02NoQ002 = ctrlA1.completeActivity('G6-L03-A02');
+    assert(tryA02NoQ002.blocked === true && tryA02NoQ002.missingCodes.includes('G6-L03-Q002'), 'A02 must still be BLOCKED without Q002');
+
+    // Answer Q002 -> complete A02 -> PASS
     ctrlA1.submitQuestion('G6-L03-Q002', '1111010001000100');
-    ctrlA1.completeActivity('G6-L03-A02');
+    const doneA02 = ctrlA1.completeActivity('G6-L03-A02');
+    assert(doneA02.ok === true && doneA02.blocked === false, 'A02 must complete after PROD-01 + Q002');
 
+    // A03: try completing without Q003 -> BLOCKED; answer Q003 -> PASS
+    assert(ctrlA1.completeActivity('G6-L03-A03').blocked === true, 'A03 must be BLOCKED before Q003');
     ctrlA1.submitQuestion('G6-L03-Q003', 'A');
-    ctrlA1.completeActivity('G6-L03-A03');
+    assert(ctrlA1.completeActivity('G6-L03-A03').ok === true, 'A03 must complete after Q003');
 
+    // A04: try completing without Q004/Q005 -> BLOCKED; answer Q004 + Q005 -> PASS
+    assert(ctrlA1.completeActivity('G6-L03-A04').blocked === true, 'A04 must be BLOCKED before Q004 & Q005');
     ctrlA1.submitQuestion('G6-L03-Q004', 'A');
+    assert(ctrlA1.completeActivity('G6-L03-A04').blocked === true, 'A04 must be BLOCKED when Q005 is still missing');
     ctrlA1.submitQuestion('G6-L03-Q005', 'bit');
     const p1Boundary = ctrlA1.completeActivity('G6-L03-A04');
 
-    assert(p1Boundary.percentComplete === 50, `Expected 50%, got ${p1Boundary.percentComplete}`);
+    assert(p1Boundary.ok === true && p1Boundary.percentComplete === 50, `Expected 50%, got ${p1Boundary.percentComplete}`);
     assert(p1Boundary.status === 'in_progress', `Expected in_progress, got ${p1Boundary.status}`);
     assert(p1Boundary.nextActivityId === 'G6-L03-A05', `Expected nextActivityId=G6-L03-A05, got ${p1Boundary.nextActivityId}`);
     assert(p1Boundary.period1BoundaryReached === true, 'Must flag period1BoundaryReached=true');
+    assert(p1Boundary.period2Unlocked === true, 'Period 2 must become unlocked after A04');
     assert(p1Boundary.endedSessionWithCompletedFalse === true, 'Must call endLearningSession(false)');
     assert(p1Boundary.completeLessonCalled === false, 'Must NOT call completeLesson() at end of Period 1');
     assert(
@@ -615,12 +662,12 @@ async function runP3Suite() {
         p1Boundary.bannerText.includes('Lần sau em sẽ tiếp tục từ Nhiệm vụ A05.'),
       'Missing mandatory Period 1 completion message'
     );
-    assert(ctrlA1.state.activePeriod === 1, 'Must not auto-jump to Period 2');
+    assert(ctrlA1.state.activePeriod === 1, 'Must stay on Period 1 completion screen and NOT auto-jump to Period 2');
 
     await clientA1.LessonBridge.syncNow();
     const sessionRow = gas._sheets.LEARNING_SESSIONS._data[1];
     assert(sessionRow[6] !== '' && String(sessionRow[9]) === 'FALSE', 'Backend LEARNING_SESSIONS must record EndedAt and Completed=FALSE');
-    return 'A01–A04 -> 50%, status=in_progress, next=G6-L03-A05, endLearningSession(false), no auto-jump';
+    return 'A01–A04 gated by evidence -> 50%, status=in_progress, next=A05, Period 2 unlocked, endLearningSession(false)';
   });
 
   // --------------------------------------------------------------------------
@@ -746,9 +793,10 @@ async function runP3Suite() {
   });
 
   // --------------------------------------------------------------------------
-  // P3-16: resume 50% resolves first incomplete = A05 (and shared device isolation)
+  // P3-16: Student B shared device isolation (0%) & Student A resume 1 week later at 50% -> A05
   // --------------------------------------------------------------------------
-  await test('P3-16', 'Resume at 50% (A01–A04 completed) resolves first incomplete = G6-L03-A05 and preserves shared device isolation', async () => {
+  await test('P3-16', 'Student B on same device starts at 0% (no leak); Student A resume at 50% unlocks Period 2 and selects G6-L03-A05', async () => {
+    await clientA1.LessonBridge.syncNow();
     // Student A logs out on shared device; Student B logs in on the SAME device
     await clientA1.Auth.logout();
     await clientA1.Auth.login('6A1-02', 'StudentB#2026');
@@ -760,11 +808,13 @@ async function runP3Suite() {
     assert(
       initB.resumed.percentComplete === 0 &&
         initB.resumed.completedActivityIds.length === 0 &&
-        initB.resumed.firstIncompleteActivityId === 'G6-L03-A01',
-      'Shared device isolation failed: Student B must see 0% / A01'
+        initB.resumed.firstIncompleteActivityId === 'G6-L03-A01' &&
+        Object.keys(initB.resumed.responses).length === 0 &&
+        ctrlB.isPeriod2Unlocked() === false,
+      'Shared device isolation failed: Student B must see 0% / A01 and Period 2 locked'
     );
 
-    // Student A logs in on a brand new device (clientA2) -> restores 50% from cloud and resolves G6-L03-A05
+    // Student A logs in a week later -> restores 50% from cloud, Period 2 unlocked, A05 selected
     const clientA2 = createFrontendLessonClient(gas);
     await clientA2.Auth.login('6A1-01', 'StudentA#2026');
     const ctrlA2 = clientA2.GoldenLessonRenderer.createController({
@@ -777,7 +827,7 @@ async function runP3Suite() {
       initA2.resumed.firstIncompleteActivityId === 'G6-L03-A05',
       `Expected firstIncompleteActivityId=G6-L03-A05, got ${initA2.resumed.firstIncompleteActivityId}`
     );
-    assert(initA2.resumed.activePeriod === 2, 'Should open directly on Period 2');
+    assert(ctrlA2.isPeriod2Unlocked() === true && initA2.resumed.activePeriod === 2, 'Period 2 must be unlocked and selected on resume at 50%');
     assert(
       initA2.resumed.resumeBannerText &&
         initA2.resumed.resumeBannerText.includes('Tiếp tục Tiết 2') &&
@@ -787,52 +837,102 @@ async function runP3Suite() {
     );
     clientA2.__ctrlA2 = ctrlA2;
     global.__testClientA2 = clientA2;
-    return 'Restored 50% -> firstIncomplete = G6-L03-A05 (Period 2); Student B isolated at 0%';
+    return 'Student B isolated at 0%; Student A resumed at 50% -> Period 2 unlocked & A05 selected';
   });
 
   // --------------------------------------------------------------------------
-  // P3-15: completeLesson blocked before A01–A08 + Exit Ticket, allowed after
+  // P3-15: Student A Period 2 flow (A05–A08) + completeLesson() gate
   // --------------------------------------------------------------------------
-  await test('P3-15', 'completeLesson() is blocked before A01–A08 + Exit Ticket, and succeeds only after A01–A08 + Exit Ticket', async () => {
+  await test('P3-15', 'Student A Period 2 flow: A05/A06/A07/A08 evidence gates, wrong worksheet feedback & retry, and completeLesson() gate', async () => {
     const clientA2 = global.__testClientA2;
     const ctrlA2 = clientA2.__ctrlA2;
 
-    // 1. Complete A05, A06 (with Product 2), A07, and even mark A08 completed WITHOUT Exit Ticket
-    ctrlA2.submitCapacityWorksheet({ '1KB_in_byte': '1000', '1MB_in_KB': '1000', '1GB_in_MB': '1000' });
+    // A05: try completing without worksheet -> BLOCKED
+    const tryA05Empty = ctrlA2.completeActivity('G6-L03-A05');
+    assert(
+      tryA05Empty.blocked === true && tryA05Empty.missingCodes.includes('G6-L03-WS-01'),
+      'A05 must be BLOCKED when worksheet is not completed'
+    );
+
+    // A05: enter wrong worksheet values -> feedback + retry, still BLOCKED
+    const wsWrong = ctrlA2.submitCapacityWorksheet({
+      '1KB_in_byte': '500',
+      '1MB_in_KB': '1024',
+      '1GB_in_MB': '100'
+    });
+    assert(
+      wsWrong.ok === false &&
+        wsWrong.isCorrect === false &&
+        wsWrong.canRetry === true &&
+        wsWrong.feedback === 'Chưa chính xác.\nEm hãy xem lại thang dung lượng và thử lại.',
+      'Wrong worksheet input must return retry feedback'
+    );
+    assert(ctrlA2.completeActivity('G6-L03-A05').blocked === true, 'A05 must remain BLOCKED when worksheet is wrong');
+
+    // A05: enter correct worksheet values + Q006 + Q007 -> complete A05 PASS
+    const wsRight = ctrlA2.submitCapacityWorksheet({
+      '1KB_in_byte': '1000',
+      '1MB_in_KB': '1000',
+      '1GB_in_MB': '1000'
+    });
+    assert(wsRight.ok === true && wsRight.isCorrect === true, 'Correct worksheet input must pass');
     ctrlA2.submitQuestion('G6-L03-Q006', 'C');
     ctrlA2.submitQuestion('G6-L03-Q007', '3000');
-    ctrlA2.completeActivity('G6-L03-A05');
+    const doneA05 = ctrlA2.completeActivity('G6-L03-A05');
+    assert(doneA05.ok === true && doneA05.blocked === false, 'A05 must complete after valid worksheet + Q006 + Q007');
 
+    // A06: try completing without PROD-02 or Q009 -> BLOCKED with missing list
+    ctrlA2.submitQuestion('G6-L03-Q008', 'B');
+    const tryA06Partial = ctrlA2.completeActivity('G6-L03-A06');
+    assert(
+      tryA06Partial.blocked === true &&
+        tryA06Partial.message.includes('Còn thiếu:') &&
+        tryA06Partial.message.includes('- Phiếu tư vấn lưu trữ') &&
+        tryA06Partial.message.includes('- Câu Q009'),
+      `Expected missing message for PROD-02 and Q009, got: ${tryA06Partial.message}`
+    );
+
+    // Submit PROD-02 + Q009 -> complete A06 PASS
     const prod2Res = ctrlA2.submitStorageAdvisoryProduct({
-      needDescription: 'Lưu bộ video bài giảng và ảnh tư liệu học tập khoảng 6 GB',
+      need: 'Mang khoảng 6 GB dữ liệu học tập sang máy tính ở trường',
       estimatedCapacity: '6 GB (≈ 6000 MB)',
       selectedDevice: 'USB 16 GB',
       reason: 'USB 16 GB có dung lượng lớn hơn 6 GB (16 GB > 6 GB) và nhỏ gọn dễ mang theo.'
     });
-    assert(prod2Res.ok === true, 'Product 2 save failed');
-    ctrlA2.submitQuestion('G6-L03-Q008', 'B');
+    assert(
+      prod2Res.ok === true &&
+        prod2Res.submitted === true &&
+        prod2Res.isCorrect === null &&
+        prod2Res.score === null &&
+        prod2Res.evaluationStatus === 'needs_teacher_review',
+      'Product 2 must save for teacher evaluation without auto full score'
+    );
     ctrlA2.submitQuestion('G6-L03-Q009', 'C');
-    ctrlA2.completeActivity('G6-L03-A06');
+    const doneA06 = ctrlA2.completeActivity('G6-L03-A06');
+    assert(doneA06.ok === true && doneA06.blocked === false, 'A06 must complete after PROD-02 + Q008 + Q009');
 
+    // A07: try without Q010 -> BLOCKED; answer Q010 -> PASS
+    assert(ctrlA2.completeActivity('G6-L03-A07').blocked === true, 'A07 must be BLOCKED before Q010');
     ctrlA2.setDeviceInspectMode('SIMULATION');
     ctrlA2.submitQuestion('G6-L03-Q010', 'B');
-    ctrlA2.completeActivity('G6-L03-A07');
-    ctrlA2.completeActivity('G6-L03-A08'); // A01..A08 all marked completed, but NO Exit Ticket yet!
+    assert(ctrlA2.completeActivity('G6-L03-A07').ok === true, 'A07 must complete after Q010');
 
+    // A08: try completing without Exit Ticket -> BLOCKED; finishLesson() -> BLOCKED
+    assert(ctrlA2.completeActivity('G6-L03-A08').blocked === true, 'A08 must be BLOCKED before Exit Ticket');
     const blockedNoExit = await ctrlA2.finishLesson();
     assert(
       blockedNoExit.completed === false &&
         Array.isArray(blockedNoExit.missing) &&
-        blockedNoExit.missing.includes('exit_ticket'),
-      `Expected completeLesson() to be blocked by missing exit_ticket, got: ${JSON.stringify(blockedNoExit)}`
+        (blockedNoExit.missing.includes('G6-L03-A08') || blockedNoExit.missing.includes('exit_ticket')),
+      `Expected completeLesson() to be blocked before A08 + Exit Ticket, got: ${JSON.stringify(blockedNoExit)}`
     );
 
-    // 2. Now submit Exit Ticket and call finishLesson() -> must succeed!
+    // Submit Exit Ticket -> completes A08 -> finishLesson() succeeds!
     const etRes = await ctrlA2.submitExitTicketAndCompleteA08({
       understandingLevel: 'clear',
       keyLearning: 'Hiểu biểu diễn nhị phân 0–1, đơn vị bit, quy đổi xấp xỉ Byte/KB/MB/GB và chọn thiết bị nhớ.',
       stillConfused: 'Không còn',
-      applicationAnswer: 'Em chọn USB 16 GB hoặc thẻ nhớ 16 GB vì 16 GB lớn hơn 6 GB (CD 700 MB không đủ).',
+      applicationAnswer: 'Em chọn USB 16 GB hoặc thẻ nhớ 32 GB vì dung lượng lớn hơn 6 GB (CD 700 MB và USB 4 GB không đủ).',
       selfAssessment: 'good'
     });
     assert(etRes.submitted === true, 'Exit ticket submission failed');
@@ -842,7 +942,7 @@ async function runP3Suite() {
       completedOk.completed === true && completedOk.missing.length === 0,
       `Expected completeLesson() to succeed after A01-A08 + Exit Ticket, got: ${JSON.stringify(completedOk)}`
     );
-    return 'Blocked when Exit Ticket missing (missing=["exit_ticket"]); succeeded after A01–A08 + Exit Ticket';
+    return 'Period 2 flow verified: A05/A06/A07/A08 evidence gates + Exit Ticket + completeLesson() = PASS';
   });
 
   // --------------------------------------------------------------------------
@@ -899,17 +999,13 @@ async function runP3Suite() {
   // P3-19: no direct lesson → Apps Script fetch & Teacher Dashboard evidence compatibility
   // --------------------------------------------------------------------------
   await test('P3-19', 'No direct lesson -> Apps Script fetch; all G6-L03 evidence readable by Teacher Dashboard V3 APIs', () => {
-    const rendererCode = fs.readFileSync(
-      path.join(REPO_ROOT, 'assets/js/golden-lesson-renderer.js'),
-      'utf8'
-    );
     const htmlCode = fs.readFileSync(
       path.join(REPO_ROOT, 'lessons/grade6/bai3/index.html'),
       'utf8'
     );
-    assert(!/script\.google\.com\/macros/i.test(rendererCode), 'Renderer must not hardcode Apps Script URL');
+    assert(!/script\.google\.com\/macros/i.test(rendererRaw), 'Renderer must not hardcode Apps Script URL');
     assert(!/script\.google\.com\/macros/i.test(htmlCode), 'HTML must not hardcode Apps Script URL');
-    assert(!/ApiClient\.authenticatedRequest/i.test(rendererCode), 'Renderer must go through LessonBridge, not call ApiClient directly');
+    assert(!/ApiClient\.authenticatedRequest/i.test(rendererRaw), 'Renderer must go through LessonBridge, not call ApiClient directly');
 
     // Verify Teacher V3 APIs read G6-L03 progress, responses (including Product 1 & Product 2), Exit Ticket, and session time
     const overview = gas.callPost({
@@ -934,6 +1030,11 @@ async function runP3Suite() {
     assert(qIds.includes('G6-L03-PROD-02'), 'Teacher responses must include Storage Advisory Product (G6-L03-PROD-02)');
     assert(qIds.includes('G6-L03-Q006'), 'Teacher responses must include Q006 with attempt count');
 
+    const prod1Row = responses.data.rows.find(r => r.questionId === 'G6-L03-PROD-01');
+    const prod2Row = responses.data.rows.find(r => r.questionId === 'G6-L03-PROD-02');
+    assert(prod1Row.isCorrect === null && prod1Row.score === null, 'Teacher V3 must see Product 1 as pending evaluation (isCorrect=null, score=null)');
+    assert(prod2Row.isCorrect === null && prod2Row.score === null, 'Teacher V3 must see Product 2 as pending evaluation (isCorrect=null, score=null)');
+
     const exitTickets = gas.callPost({
       action: 'getClassExitTickets',
       token: gvToken,
@@ -942,7 +1043,7 @@ async function runP3Suite() {
       schoolYear: '2026-2027'
     });
     assert(exitTickets.success && exitTickets.data.summary.hieu_ro === 1, 'Teacher getClassExitTickets must read G6-L03 Exit Ticket');
-    return 'All writes routed via LessonBridge; Teacher Dashboard V3 reads progress, Product 1, Product 2, responses & Exit Ticket';
+    return 'All writes routed via LessonBridge; Teacher Dashboard V3 reads progress, Product 1/2 (pending teacher eval), responses & Exit Ticket';
   });
 
   // --------------------------------------------------------------------------
@@ -954,6 +1055,259 @@ async function runP3Suite() {
     const valRes = validator.validateDataset(fullDataset);
     assert(valRes.valid === true && valRes.errorCount === 0, 'CurriculumValidator failed on normalized Grade 6 dataset');
     return '38/38 officialText audit = TRUE; CurriculumValidator 0 errors across 94 entities';
+  });
+
+  // ==========================================================================
+  // NEGATIVE & FIX VERIFICATION TESTS (P3-FIX-01 .. P3-FIX-10)
+  // ==========================================================================
+  function makeIsolatedController() {
+    const fakeBridge = {
+      getStudent: () => ({
+        studentUid: 'STD-TEST-01',
+        studentId: '6A1-99',
+        fullName: 'Học sinh Kiểm thử',
+        classId: '6A1',
+        grade: 6,
+        schoolLevel: 'THCS',
+        schoolYear: '2026-2027'
+      }),
+      getProgress: async () => ({
+        lessonId: 'G6-L03',
+        status: 'not_started',
+        currentActivityId: 'G6-L03-A01',
+        percentComplete: 0,
+        completedActivityIds: [],
+        responses: {},
+        exitTicket: null
+      }),
+      startLesson: () => {},
+      startLearningSession: () => {},
+      endLearningSession: () => {},
+      saveProgress: () => {},
+      markActivityCompleted: () => {},
+      saveResponse: () => ({ eventId: 'ev_1', attemptNumber: 1 }),
+      submitExitTicket: async () => ({ submitted: true }),
+      completeLesson: async () => ({ completed: true, missing: [] })
+    };
+    return GoldenLessonRenderer.createController({ goldenData, bridge: fakeBridge });
+  }
+
+  // P3-FIX-01: FAIL nếu A05 handler chứa hard-coded 1000 / 1000 / 1000 thay vì đọc student input
+  await test('P3-FIX-01', 'A05 worksheet handler reads student input (no hard-coded 1000/1000/1000 in handler or input defaults)', () => {
+    assert(
+      !/submitCapacityWorksheet\s*\(\s*\{\s*["']1KB_in_byte["']\s*:\s*["']1000["']/s.test(rendererRaw),
+      'Found forbidden hard-coded submitCapacityWorksheet({ "1KB_in_byte": "1000", ... }) in golden-lesson-renderer.js'
+    );
+    assert(
+      !/const\s+payload\s*=\s*rowsData\s*\|\|\s*\{\s*["']1KB_in_byte["']\s*:\s*["']1000["']/s.test(rendererRaw),
+      'Found forbidden default 1000 fallback inside submitCapacityWorksheet'
+    );
+    assert(
+      rendererRaw.includes('id="ws-kb-byte"') &&
+        rendererRaw.includes('id="ws-mb-kb"') &&
+        rendererRaw.includes('id="ws-gb-mb"'),
+      'A05 must render 3 real student input boxes (#ws-kb-byte, #ws-mb-kb, #ws-gb-mb)'
+    );
+
+    const ctrl = makeIsolatedController();
+    const emptyCall = ctrl.submitCapacityWorksheet();
+    assert(emptyCall.ok === false && emptyCall.isCorrect === false, 'Calling submitCapacityWorksheet() with no student input must FAIL');
+    const wrongCall = ctrl.submitCapacityWorksheet({ '1KB_in_byte': '100', '1MB_in_KB': '1000', '1GB_in_MB': '1000' });
+    assert(
+      wrongCall.ok === false &&
+        wrongCall.isCorrect === false &&
+        wrongCall.feedback === 'Chưa chính xác.\nEm hãy xem lại thang dung lượng và thử lại.',
+      'Wrong student input in A05 must return exact retry feedback'
+    );
+    return 'A05 renders 3 empty inputs and reads student input without hard-coded 1000';
+  });
+
+  // P3-FIX-02: FAIL nếu A06 estimatedCapacity có đáp án mặc định
+  await test('P3-FIX-02', 'A06 estimatedCapacity has no prefilled default answer in JSON blueprint or renderer', () => {
+    const fields = goldenData.goldenLessonBlueprint.activityComponents['G6-L03-A06'].webquest.fields;
+    const capField = fields.find(f => f.key === 'estimatedCapacity');
+    assert(capField && (!capField.defaultValue || capField.defaultValue === ''), 'G6-L03.golden.json estimatedCapacity must have empty defaultValue');
+    assert(
+      !/savedProd2\.estimatedCapacity\s*\|\|\s*["'][^"']+["']/.test(rendererRaw),
+      'golden-lesson-renderer.js must not prefill estimatedCapacity with a non-empty fallback string'
+    );
+    return 'A06 estimatedCapacity default value is empty ("")';
+  });
+
+  // P3-FIX-03: FAIL nếu A06 selectedDevice có đáp án đúng mặc định
+  await test('P3-FIX-03', 'A06 selectedDevice has no prefilled default answer in JSON blueprint or renderer', () => {
+    const fields = goldenData.goldenLessonBlueprint.activityComponents['G6-L03-A06'].webquest.fields;
+    const devField = fields.find(f => f.key === 'selectedDevice');
+    assert(devField && (!devField.defaultValue || devField.defaultValue === ''), 'G6-L03.golden.json selectedDevice must have empty defaultValue');
+    assert(
+      JSON.stringify(devField.options) ===
+        JSON.stringify(['CD 700 MB', 'USB 4 GB', 'USB 16 GB', 'Thẻ nhớ 32 GB', 'Ổ cứng 500 GB']),
+      'A06 selectedDevice options must include distractor and valid devices'
+    );
+    assert(
+      !/savedProd2\.selectedDevice\s*\|\|\s*["'][^"']+["']/.test(rendererRaw),
+      'golden-lesson-renderer.js must not prefill selectedDevice with a non-empty fallback string'
+    );
+    return 'A06 selectedDevice has no default selection and includes full device options';
+  });
+
+  // P3-FIX-04: FAIL nếu open product tự isCorrect=true/full score chỉ vì non-empty
+  await test('P3-FIX-04', 'Open products (PROD-01 and PROD-02) do NOT auto-assign isCorrect=true or full score', () => {
+    const ctrl = makeIsolatedController();
+    const p1 = ctrl.submitPixelProduct('1111010001000100', 'Giải thích của học sinh chờ giáo viên chấm.');
+    assert(p1.ok === true && p1.submitted === true, 'PROD-01 should be accepted as valid submission');
+    assert(p1.isCorrect !== true && p1.isCorrect === null, `PROD-01 must have isCorrect=null, got ${p1.isCorrect}`);
+    assert(p1.score === null, `PROD-01 must have score=null (not auto full score), got ${p1.score}`);
+    assert(p1.evaluationStatus === 'needs_teacher_review', 'PROD-01 must set evaluationStatus=needs_teacher_review');
+
+    const p2 = ctrl.submitStorageAdvisoryProduct({
+      need: 'Mang 6 GB dữ liệu học tập',
+      estimatedCapacity: '6 GB',
+      selectedDevice: 'USB 16 GB',
+      reason: 'Vì 16 GB lớn hơn 6 GB và dễ mang đi học.'
+    });
+    assert(p2.ok === true && p2.submitted === true, 'PROD-02 should be accepted as valid submission');
+    assert(p2.isCorrect !== true && p2.isCorrect === null, `PROD-02 must have isCorrect=null, got ${p2.isCorrect}`);
+    assert(p2.score === null, `PROD-02 must have score=null (not auto full score 2/2), got ${p2.score}`);
+    assert(p2.evaluationStatus === 'needs_teacher_review', 'PROD-02 must set evaluationStatus=needs_teacher_review');
+    return 'submission valid != answer correct: PROD-01 & PROD-02 saved with isCorrect=null, score=null, evaluationStatus=needs_teacher_review';
+  });
+
+  // P3-FIX-05: FAIL nếu completeActivity(A02) thành công mà PROD-01 hoặc Q002 chưa có
+  await test('P3-FIX-05', 'completeActivity(G6-L03-A02) is BLOCKED if PROD-01 or Q002 is missing', () => {
+    const ctrl = makeIsolatedController();
+    // Neither PROD-01 nor Q002
+    const r1 = ctrl.completeActivity('G6-L03-A02');
+    assert(r1.ok === false && r1.blocked === true, 'A02 must fail when both PROD-01 and Q002 are missing');
+
+    // Only Q002, no PROD-01
+    ctrl.submitQuestion('G6-L03-Q002', '1111010001000100');
+    const r2 = ctrl.completeActivity('G6-L03-A02');
+    assert(r2.ok === false && r2.blocked === true && r2.missingCodes.includes('G6-L03-PROD-01'), 'A02 must fail when PROD-01 is missing');
+
+    // Only PROD-01, no Q002
+    const ctrl2 = makeIsolatedController();
+    ctrl2.submitPixelProduct('1111010001000100', 'Số 0 là ô trắng, số 1 là ô tô màu.');
+    const r3 = ctrl2.completeActivity('G6-L03-A02');
+    assert(r3.ok === false && r3.blocked === true && r3.missingCodes.includes('G6-L03-Q002'), 'A02 must fail when Q002 is missing');
+    return 'A02 completion strictly requires both PROD-01 and Q002';
+  });
+
+  // P3-FIX-06: FAIL nếu completeActivity(A05) thành công mà worksheet/Q006/Q007 chưa có
+  await test('P3-FIX-06', 'completeActivity(G6-L03-A05) is BLOCKED if worksheet, Q006, or Q007 is missing', () => {
+    const ctrl = makeIsolatedController();
+    // Unlock Period 1 first
+    ctrl.submitQuestion('G6-L03-Q001', 'B');
+    ctrl.completeActivity('G6-L03-A01');
+    ctrl.submitPixelProduct('1111010001000100', 'Số 0 là ô trắng, số 1 là ô tô màu.');
+    ctrl.submitQuestion('G6-L03-Q002', '1111010001000100');
+    ctrl.completeActivity('G6-L03-A02');
+    ctrl.submitQuestion('G6-L03-Q003', 'A');
+    ctrl.completeActivity('G6-L03-A03');
+    ctrl.submitQuestion('G6-L03-Q004', 'A');
+    ctrl.submitQuestion('G6-L03-Q005', 'bit');
+    ctrl.completeActivity('G6-L03-A04');
+
+    // Missing all 3 in A05
+    assert(ctrl.completeActivity('G6-L03-A05').blocked === true, 'A05 must be blocked when worksheet/Q006/Q007 missing');
+    // Only worksheet + Q006, missing Q007
+    ctrl.submitCapacityWorksheet({ '1KB_in_byte': '1000', '1MB_in_KB': '1000', '1GB_in_MB': '1000' });
+    ctrl.submitQuestion('G6-L03-Q006', 'C');
+    const rMissingQ007 = ctrl.completeActivity('G6-L03-A05');
+    assert(rMissingQ007.blocked === true && rMissingQ007.missingCodes.includes('G6-L03-Q007'), 'A05 must be blocked when Q007 is missing');
+    return 'A05 completion strictly requires valid worksheet + Q006 + Q007';
+  });
+
+  // P3-FIX-07: FAIL nếu completeActivity(A06) thành công mà PROD-02/Q008/Q009 chưa có
+  await test('P3-FIX-07', 'completeActivity(G6-L03-A06) is BLOCKED if PROD-02, Q008, or Q009 is missing', () => {
+    const ctrl = makeIsolatedController();
+    ctrl.submitQuestion('G6-L03-Q001', 'B');
+    ctrl.completeActivity('G6-L03-A01');
+    ctrl.submitPixelProduct('1111010001000100', 'Số 0 là ô trắng, số 1 là ô tô màu.');
+    ctrl.submitQuestion('G6-L03-Q002', '1111010001000100');
+    ctrl.completeActivity('G6-L03-A02');
+    ctrl.submitQuestion('G6-L03-Q003', 'A');
+    ctrl.completeActivity('G6-L03-A03');
+    ctrl.submitQuestion('G6-L03-Q004', 'A');
+    ctrl.submitQuestion('G6-L03-Q005', 'bit');
+    ctrl.completeActivity('G6-L03-A04');
+
+    ctrl.submitQuestion('G6-L03-Q008', 'B');
+    const r = ctrl.completeActivity('G6-L03-A06');
+    assert(
+      r.blocked === true &&
+        r.missingCodes.includes('G6-L03-PROD-02') &&
+        r.missingCodes.includes('G6-L03-Q009') &&
+        r.message === 'Còn thiếu:\n- Phiếu tư vấn lưu trữ\n- Câu Q009',
+      `Unexpected A06 gate result: ${JSON.stringify(r)}`
+    );
+    return 'A06 completion strictly requires PROD-02 + Q008 + Q009 with exact missing notice';
+  });
+
+  // P3-FIX-08: FAIL nếu student có thể mở Tiết 2 trước A01–A04
+  await test('P3-FIX-08', 'Student cannot open Period 2 before A01–A04 are all completed, and Period 1 completion does not auto-open Period 2', () => {
+    const ctrl = makeIsolatedController();
+    assert(ctrl.isPeriod2Unlocked() === false, 'Period 2 must start locked');
+    const s1 = ctrl.switchPeriod(2);
+    assert(s1.locked === true && s1.switched === false && ctrl.state.activePeriod === 1, 'switchPeriod(2) must be blocked before A01–A04');
+    const e1 = ctrl.enterPeriod2Explicitly();
+    assert(e1.locked === true && e1.switched === false && ctrl.state.activePeriod === 1, 'enterPeriod2Explicitly() must be blocked before A01–A04');
+
+    // Complete A01..A04
+    ctrl.submitQuestion('G6-L03-Q001', 'B');
+    ctrl.completeActivity('G6-L03-A01');
+    ctrl.submitPixelProduct('1111010001000100', 'Số 0 là ô trắng, số 1 là ô tô màu.');
+    ctrl.submitQuestion('G6-L03-Q002', '1111010001000100');
+    ctrl.completeActivity('G6-L03-A02');
+    ctrl.submitQuestion('G6-L03-Q003', 'A');
+    ctrl.completeActivity('G6-L03-A03');
+    ctrl.submitQuestion('G6-L03-Q004', 'A');
+    ctrl.submitQuestion('G6-L03-Q005', 'bit');
+    ctrl.completeActivity('G6-L03-A04');
+
+    assert(ctrl.isPeriod2Unlocked() === true, 'Period 2 must be unlocked after A01–A04');
+    assert(ctrl.state.activePeriod === 1 && ctrl.state.period1CompletedScreenVisible === true, 'Must stay on Period 1 completion screen until student clicks Tiếp tục Tiết 2');
+
+    const e2 = ctrl.enterPeriod2Explicitly();
+    assert(e2.switched === true && e2.activePeriod === 2 && ctrl.state.currentActivityId === 'G6-L03-A05', 'Clicking Tiếp tục Tiết 2 must open Period 2 at A05');
+    return 'Period 2 lock before A01–A04 and explicit transition to A05 verified';
+  });
+
+  // P3-FIX-09: FAIL nếu traceability SourceID không tồn tại trong sources-g6.json
+  await test('P3-FIX-09', 'Every SourceID in PHASE3_TRACEABILITY_REPORT.md exists in data/curriculum/sources-g6.json', () => {
+    const sourcesData = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data/curriculum/sources-g6.json'), 'utf8'));
+    const validSourceIds = new Set(sourcesData.map(s => s.sourceId));
+    const traceReport = fs.readFileSync(path.join(REPO_ROOT, 'PHASE3_TRACEABILITY_REPORT.md'), 'utf8');
+    const matchedIds = traceReport.match(/SRC-[A-Z0-9-]+/g) || [];
+    assert(matchedIds.length > 0, 'No SRC-* IDs found in PHASE3_TRACEABILITY_REPORT.md');
+    const invalidIds = Array.from(new Set(matchedIds)).filter(id => !validSourceIds.has(id));
+    assert(
+      invalidIds.length === 0,
+      `Found unapproved SourceIDs in PHASE3_TRACEABILITY_REPORT.md not in sources-g6.json: ${invalidIds.join(', ')}`
+    );
+    return `All ${new Set(matchedIds).size} SourceIDs in PHASE3_TRACEABILITY_REPORT.md exist in sources-g6.json`;
+  });
+
+  // P3-FIX-10: FAIL nếu officialText trong traceability khác requirements-g6.json
+  await test('P3-FIX-10', 'Every officialText in PHASE3_TRACEABILITY_REPORT.md matches data/requirements/requirements-g6.json verbatim', () => {
+    const reqsData = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data/requirements/requirements-g6.json'), 'utf8'));
+    const reqMap = new Map(reqsData.map(r => [r.requirementId, r.officialText]));
+    const traceReport = fs.readFileSync(path.join(REPO_ROOT, 'PHASE3_TRACEABILITY_REPORT.md'), 'utf8');
+
+    for (const rId of ['G6-A-07', 'G6-A-08', 'G6-A-09', 'G6-A-10']) {
+      const expectedText = reqMap.get(rId);
+      assert(expectedText, `Missing ${rId} in requirements-g6.json`);
+      const escapedId = rId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const rowRegex = new RegExp(`\\|\\s*\`${escapedId}\`\\s*\\|\\s*([^|]+?)\\s*\\|\\s*\`G6-L03-A`, 'm');
+      const m = traceReport.match(rowRegex);
+      assert(m && m[1], `Could not find officialText table row for ${rId} in PHASE3_TRACEABILITY_REPORT.md`);
+      const actualText = m[1].trim();
+      assert(
+        actualText === expectedText,
+        `officialText mismatch for ${rId} in PHASE3_TRACEABILITY_REPORT.md:\n  Expected: "${expectedText}"\n  Actual:   "${actualText}"`
+      );
+    }
+    return 'All 4 officialText entries (G6-A-07..10) in PHASE3_TRACEABILITY_REPORT.md match requirements-g6.json verbatim';
   });
 
   console.log('\n================================================================');
