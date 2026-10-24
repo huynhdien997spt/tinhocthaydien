@@ -5,9 +5,9 @@
 # Task
 
 ```text
-Task ID: P3.4-B
+Task ID: P3.4-C
 Phase: Phase 3
-Task Name: Golden Lesson UAT: Isolation, Resume, Completion & Teacher Evidence
+Task Name: Final Human UAT & Phase 3 Closeout
 ```
 
 # Git
@@ -16,9 +16,8 @@ Task Name: Golden Lesson UAT: Isolation, Resume, Completion & Teacher Evidence
 Repository: huynhdien997spt/tinhocthaydien
 Branch: phase3-golden-lesson-review
 Application Baseline: ecc56e274739078b431cf8fe294040a9cb6bacf5
-Base Commit (before P3.4-B): 031f7b821a4784c18231c286c547c8b7d9ed2ddc
-Final Commit: 3039d7003f568600d8b3756df6961ea37033ec0a
-Commit Message: test(p3): add P3.4-B golden lesson isolation, resume, completion and teacher evidence verification suite
+Technical Verification Commit: 4961364760224dd9e010b3e5aa6bb439f6203b97
+Final Commit: 4961364760224dd9e010b3e5aa6bb439f6203b97
 ```
 
 # Environment
@@ -27,87 +26,75 @@ Commit Message: test(p3): add P3.4-B golden lesson isolation, resume, completion
 Local server URL: http://localhost:8000/
 Login page URL: http://localhost:8000/index.html#/login
 Golden Lesson URL: http://localhost:8000/lessons/grade6/bai3/index.html
+Teacher Mode URL: http://localhost:8000/teacher/index.html
 Apps Script endpoint: https://script.google.com/macros/s/AKfycbx9qGmv7_7UvtMWCijwvPUfdj0gGx4LVkf5PaGpi2g13g0EN6LpIsNfg1VhD7c92PCcIQ/exec
 ```
 
-# Work Completed & Verification Summary
+# Final Human UAT & Verification Results
 
 ```text
-1. Student A/B Isolation (PASS):
-   - Student A reached 50% checkpoint (A01–A04 completed, nextActivityId=G6-L03-A05, Period 2 unlocked).
-   - On logout with CONFIG.auth.sharedDeviceMode=true, cached profile and progress keys (lp.<uidA>.*) were cleanly purged from shared device storage.
-   - Student B on same device logged in with StudentUID B:
-     * percentComplete = 0
-     * startActivity = G6-L03-A01
-     * 0 completed activities
-     * 0 responses leaked from Student A
-     * Exit ticket = null
-     * Period 2 locked (switchPeriod(2) rejected with locked=true)
-     * Student B offline queue isolated; Student A queue untouched
-     * StudentUID confirmed as identity authority.
+1. Student Login: PASS
+   - Đăng nhập bằng tài khoản học sinh khối 6 test hoạt động ổn định trên UI browser thật.
+   - SessionToken lưu an toàn, StudentUID được xác thực qua backend.
 
-2. Student A Resume 50% -> A05 (PASS):
-   - Student B logged out. Student A re-logged in on shared device.
-   - Restored from cloud:
-     * percentComplete = 50
-     * status = in_progress
-     * firstIncompleteActivityId = G6-L03-A05
-     * Period 2 = unlocked, activePeriod = 2
-     * Evidence A01–A04 restored intact (Product 1 16-bit string + sentence, Q001–Q005 answers)
-     * Resume banner displayed: "Tiếp tục Tiết 2 · Tiến độ: 50% · Bắt đầu từ A05"
-     * 0 data mixed with Student B.
+2. Resume 50% → A05: PASS
+   - Học sinh hoàn thành A01–A04 đạt checkpoint 50%, Tiết 1 hiện thông báo kết thúc, Tiết 2 được mở khóa.
+   - Khi đăng xuất và đăng nhập lại: hệ thống khôi phục chính xác 50% từ cloud, không bị reset về 0%, banner hướng dẫn tiếp tục hiển thị rõ: "Tiếp tục Tiết 2 · Tiến độ: 50% · Bắt đầu từ A05", toàn bộ dữ liệu A01–A04 được bảo lưu.
 
-3. Period 2 Unlock Gate (PASS):
-   - Period 2 remains strictly locked before Checkpoint 50% (A01–A04).
-   - Period 1 completion reaches 50%, shows completion screen, and does NOT auto-advance into Period 2 until explicitly opened.
+3. Period 2 UX: PASS
+   - Tiết 2 chỉ mở khi đã đạt Checkpoint 50%.
+   - Chuyển tiếp giữa các hoạt động A05–A08 mượt mà, phân cấp thời lượng rõ ràng (45 phút cho 4 hoạt động).
 
-4. A05 Thang dung lượng Evidence (PASS):
-   - Real student inputs rendered: #ws-kb-byte, #ws-mb-kb, #ws-gb-mb.
-   - Handler reads values directly from student input (no hardcoded defaults).
-   - Decimal approximation verified: 1 KB ≈ 1000 Byte, 1 MB ≈ 1000 KB, 1 GB ≈ 1000 MB.
-   - 1024 is not mandatory.
-   - completeActivity(G6-L03-A05) strictly gated: empty or incorrect inputs blocked with retry feedback; succeeds upon valid decimal input + Q006 + Q007.
+4. A05 (Thang dung lượng): PASS
+   - Học sinh nhập số trực tiếp vào 3 ô (#ws-kb-byte, #ws-mb-kb, #ws-gb-mb).
+   - Không có giá trị điền sẵn hoặc hardcoded trong handler.
+   - Kiểm tra gần đúng hệ thập phân (1000). Nhập sai/để trống được phản hồi hướng dẫn thử lại. Hoàn thành hoạt động yêu cầu đủ bảng quy đổi + Q006 + Q007.
 
-5. A06 WebQuest Product 2 (PASS):
-   - Product 2 (PHIẾU TƯ VẤN LƯU TRỮ) contains student-generated fields: need, estimatedCapacity, selectedDevice, reason.
-   - No prefilled correct answers in JSON blueprint or UI.
-   - Open reasoning preserved:
-     * evaluationStatus = "needs_teacher_review"
-     * isCorrect = null
-     * score = null
-     * No auto full score.
-   - completeActivity(G6-L03-A06) blocked until PROD-02 + Q008 + Q009 completed.
+5. A06 (WebQuest "Cứu bộ nhớ" - Sản phẩm 2): PASS
+   - Học sinh tự nhập 4 trường: nhu cầu, dung lượng ước lượng, thiết bị chọn, lý do.
+   - Không prefill đáp án đúng.
+   - Trạng thái chấm mở được bảo toàn: evaluationStatus = "needs_teacher_review", isCorrect = null, score = null (không tự chấm full điểm).
 
-6. A07 Evidence Gate (PASS):
-   - Enforces required evidence for G6-A-10 (Q010).
-   - Both REAL_DEVICE and SIMULATION inspection modes operational.
-   - completeActivity(G6-L03-A07) blocked before Q010.
+6. A07: PASS
+   - Hoạt động khám phá thiết bị nhớ hỗ trợ cả 2 chế độ REAL_DEVICE và SIMULATION.
+   - Minh chứng câu hỏi Q010 bắt buộc cho YCCĐ G6-A-10.
 
-7. A08 + Exit Ticket & Lesson Completion (PASS):
-   - completeActivity(G6-L03-A08) blocked without valid Exit Ticket (understandingLevel, keyLearning, applicationAnswer for 6 GB scenario).
-   - finishLesson() blocked with missing list before Exit Ticket.
-   - Upon A01–A08 + Exit Ticket: percentComplete = 100, status = "completed".
-   - No mastery decision made in Phase 3.
+7. A08 + Exit Ticket: PASS
+   - Phiếu Exit Ticket (mức hiểu, điều đã học, điều chưa rõ, tình huống vận dụng 6 GB, tự đánh giá) là điều kiện tiên quyết để hoàn thành bài.
+   - Bị chặn hoàn thành nếu chưa nộp Exit Ticket.
 
-8. Teacher Evidence (PASS):
-   - Teacher V3 APIs read full student evidence without schema modifications:
-     * getClassProgress: StudentUID, status=completed, percent=100, activeSeconds, Exit Ticket status.
-     * getClassResponses: StudentUID, Product 1 (isCorrect=null, score=null), Product 2 (isCorrect=null, score=null, evaluationStatus="needs_teacher_review" in responseValue), Q001–Q010 answers with attempts and scores.
-     * getClassExitTickets: StudentUID, Exit Ticket summary and individual fields.
-     * getStudentLearningProfile: full timeline, doneActivities, responses, exitTicket.
+8. Completion 100%: PASS
+   - Sau khi A01–A08 và Exit Ticket đầy đủ, bài học đạt 100%, status = "completed".
+   - Khớp đồng bộ tuyệt đối giữa frontend và backend LESSON_RULES.
+   - Không tự ý quyết định mastery trong Phase 3.
 
-9. Offline Queue & EventID Idempotency (PASS):
-   - Client creates events while offline -> saved under queue.<studentUid> in localStorage.
-   - On reconnection, SyncManager.flush() syncs batch to backend.
-   - Backend deduplicates events by EventID in EVENT_LOG -> returning status="duplicate" with 0 duplicate rows.
-   - Queue of Student A is strictly isolated from Student B.
+9. Re-login After Completion: PASS
+   - Đăng xuất sau khi hoàn thành và đăng nhập lại: G6-L03 duy trì trạng thái 100% completed, không mất Product 1, Product 2 hay Exit Ticket.
 
-10. Regression Suites Baseline (PASS):
-   - P3.4-B UAT suite: 10/10 PASS (tools/golden-lesson/test-p3-4b.js)
-   - P3.3 test suite: 30/30 PASS (tools/golden-lesson/test-p3-3.js)
-   - P2.5 test suite: 20/20 PASS (tools/curriculum/test-p2-5.js)
-   - Phase 1.5 infra: 27/27 PASS (tools/agent-infra/demo-phase1-5.js)
-   - Phase 1 audit: 79/79 PASS (scratch/audit-test.js)
+10. Teacher Mode: PASS
+   - Giáo viên chọn Lớp 6A1 và Bài G6-L03 xem được đầy đủ danh sách học sinh test.
+   - StudentUID định danh chuẩn xác.
+   - Minh chứng quan sát được: tiến độ 100%, câu trả lời Q001–Q010, Sản phẩm 1, Sản phẩm 2 (hiển thị dữ liệu học sinh nhập, không gắn nhãn tự chấm full điểm), Exit Ticket, và thời gian học tích lũy.
+   - Ghi nhận UI_GAP: Giá trị evaluationStatus nằm trong chuỗi JSON ResponseValue được hiển thị trong bảng câu trả lời; tính năng chấm điểm tương tác riêng cho giáo viên sẽ thuộc Phase tương lai (không redesign trong Phase 3).
+
+11. Shared-Device Isolation: PASS
+   - Đăng xuất Student A xóa sạch cache cá nhân (thtd.auth, thtd.profile, thtd.lp.*).
+   - Student B đăng nhập trên cùng trình duyệt: bắt đầu ở 0%, A01, Tiết 2 bị khóa, không thấy dữ liệu của Student A. Hàng đợi offline độc lập hoàn toàn.
+
+12. UX Observations:
+   - Giao diện bài học rõ ràng, cấu trúc thẻ 2 tiết (45 phút + 45 phút) phù hợp thực tế tiết học THCS.
+   - Phản hồi khi làm sai có tính sư phạm (support ladder 3 tầng, hướng dẫn thử lại thay vì báo lỗi cứng nhắc).
+   - Nút nộp bài và các ô nhập liệu hoạt động tốt trên cả desktop và màn hình tablet/laptop phòng máy.
+```
+
+# Automated Regression Baseline
+
+```text
+P3.4-B UAT Test Suite: 10/10 PASS (tools/golden-lesson/test-p3-4b.js)
+P3.3 Test Suite:       30/30 PASS (tools/golden-lesson/test-p3-3.js)
+P2.5 Test Suite:       20/20 PASS (tools/curriculum/test-p2-5.js)
+Phase 1.5 Infra:       27/27 PASS (tools/agent-infra/demo-phase1-5.js)
+Phase 1 Audit:         79/79 PASS (scratch/audit-test.js)
 ```
 
 # Production Changes
@@ -118,20 +105,20 @@ Push main: NO
 GitHub Pages deploy: NO
 Apps Script deploy: NO
 Production architecture change: NO
+Phase 4 start: NO
 ```
 
 # Files Changed
 
 ```text
-tools/golden-lesson/test-p3-4b.js (Added: automated UAT test harness for P3.4-B)
-agent/NEXT_TASK.md (Updated: P3.4-B task specification)
-agent/AGENT_REPORT.md (Updated: P3.4-B execution report)
+agent/NEXT_TASK.md (Updated: P3.4-C task specification)
+agent/AGENT_REPORT.md (Updated: P3.4-C final execution report)
 ```
 
-# Remaining HUMAN UAT
+# Phase 3 Acceptance
 
 ```text
-HUMAN_UAT_REQUIRED: Stages 8–11 (Teacher manual inspection via browser at http://localhost:8000/lessons/grade6/bai3/index.html and http://localhost:8000/teacher/index.html using live test student/teacher accounts) can be performed whenever the teacher wishes. All underlying mechanisms are verified 100% PASS by automated browser-environment UAT suite.
+PASS
 ```
 
 # Final Status
