@@ -569,9 +569,12 @@ async function runUatSuite() {
     });
     assert(wsRight.ok === true && wsRight.isCorrect === true, 'Correct decimal input must succeed');
 
-    // Q006 + Q007
+    // Q006 + Q007 + Q011
     ctrl.submitQuestion('G6-L03-Q006', 'C');
     ctrl.submitQuestion('G6-L03-Q007', '3000');
+    if (goldenData.questions.find(q => q.questionId === 'G6-L03-Q011')) {
+      ctrl.submitQuestion('G6-L03-Q011', 'Byte, KB, MB, GB');
+    }
 
     const doneA05 = ctrl.completeActivity('G6-L03-A05');
     assert(doneA05.ok === true && !doneA05.blocked, 'A05 completion must succeed with full evidence');

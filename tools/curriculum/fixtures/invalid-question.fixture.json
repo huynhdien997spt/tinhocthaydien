@@ -2656,7 +2656,7 @@
       "activityType": "knowledge",
       "title": "A05 – Thang dung lượng",
       "objective": "Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này.",
-      "instruction": "Tìm hiểu thang đơn vị Byte, KB, MB, GB theo quy đổi gần đúng hệ thập phân của CTGDPT (1 KB ≈ 1000 byte, 1 MB ≈ 1 000 000 byte ≈ 1000 KB, 1 GB ≈ 1 000 000 000 byte ≈ 1000 MB), điền bảng quy đổi và trả lời câu hỏi G6-L03-Q006, G6-L03-Q007.",
+      "instruction": "Thực hiện câu hỏi G6-L03-Q011 để tự nêu các đơn vị cơ bản theo thứ tự tăng dần, sau đó tìm hiểu quy đổi gần đúng hệ thập phân (gấp nhau xấp xỉ 1000 lần) của CTGDPT trong bảng quy đổi và trả lời câu hỏi G6-L03-Q006, G6-L03-Q007.",
       "requirementIds": [
         "G6-A-09"
       ],
@@ -3046,6 +3046,22 @@
       ],
       "correctAnswer": "B",
       "explanation": "Theo YCCĐ G6-A-10, đĩa cứng có khả năng lưu trữ rất lớn (hàng trăm GB trở lên), USB và thẻ nhớ có dung lượng vừa đến lớn (vài GB đến hàng trăm GB), còn đĩa CD lưu khoảng 700 MB.",
+      "maxScore": 1,
+      "status": "published"
+    },
+    {
+      "questionId": "G6-L03-Q011",
+      "grade": 6,
+      "topicId": "G6-A",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A05",
+      "requirementId": "G6-A-09",
+      "questionType": "short_answer",
+      "cognitiveLevel": "nhan_biet",
+      "questionText": "Hãy viết bốn đơn vị cơ bản đo dung lượng thông tin theo thứ tự từ nhỏ đến lớn.\n\nGợi ý cách nhập:\nĐơn vị 1, Đơn vị 2, Đơn vị 3, Đơn vị 4",
+      "options": [],
+      "correctAnswer": "Byte, KB, MB, GB",
+      "explanation": "Bốn đơn vị cơ bản đo dung lượng thông tin theo thứ tự từ nhỏ đến lớn là: Byte, KB (Kilobyte), MB (Megabyte), GB (Gigabyte) (G6-A-09).",
       "maxScore": 1,
       "status": "published"
     },

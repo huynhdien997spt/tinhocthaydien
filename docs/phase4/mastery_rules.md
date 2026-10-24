@@ -155,44 +155,35 @@ Hệ thống thiết kế bảng đối chiếu minh chứng cụ thể cho từ
 
 | Chiều kích YCCĐ (Dimension) | Nội dung cần đạt | Minh chứng đảm nhiệm trong Golden Lesson `G6-L03` | Trạng thái minh chứng (Coverage Status) | Đánh giá năng lực độc lập |
 |---|---|---|:---:|---|
-| **1. `unit_names`** *(Tên đơn vị)* | Nêu được tên các đơn vị cơ bản: Byte, KB, MB, GB. | - `G6-L03-Q006` (Trắc nghiệm quan hệ GB ↔ MB).<br/>- `G6-L03-WS-01` (Bảng quy đổi in sẵn nhãn "1 KB", "byte", "1 MB", "KB", "1 GB", "MB", học sinh chỉ gõ số).<br/>- `G6-L03-PROD-02` (Chọn thiết bị có nhãn sẵn trong danh mục). | **`evidence_gap`**<br/>(Chưa đủ điều kiện cấp Mastery) | **Khoảng trống minh chứng:** Việc nhìn thấy nhãn đơn vị có sẵn trên giao diện (seeing a unit label) **KHÔNG ĐỒNG NGHĨA** với việc học sinh tự lực độc lập nêu được tên 4 đơn vị cơ bản (Byte, KB, MB, GB). Cần có minh chứng độc lập không in sẵn đáp án. |
+| **1. `unit_names`** *(Tên đơn vị)* | Nêu được tên các đơn vị cơ bản: Byte, KB, MB, GB. | - `G6-L03-Q011` (Tự luận ngắn độc lập nêu 4 đơn vị cơ bản theo thứ tự từ nhỏ đến lớn: Byte, KB, MB, GB).<br/>- `G6-L03-Q006` (Trắc nghiệm quan hệ GB ↔ MB). | **`covered`**<br/>(Đã giải quyết bằng `G6-L03-Q011`) | Minh chứng vững chắc: Học sinh tự lực nhớ và viết đúng tên/ký hiệu 4 đơn vị cơ bản Byte, KB, MB, GB theo thứ tự từ nhỏ đến lớn không in sẵn đáp án. |
 | **2. `decimal_approximation`** *(Độ lớn xấp xỉ hệ thập phân)* | Nêu được độ lớn xấp xỉ theo hệ thập phân (1 KB ≈ 1000 Byte, 1 MB ≈ 1000 KB, 1 GB ≈ 1000 MB). | - `G6-L03-WS-01` (Học sinh tự gõ số `1000` vào cả 3 ô `#ws-kb-byte`, `#ws-mb-kb`, `#ws-gb-mb`).<br/>- `G6-L03-Q006` (Khẳng định quan hệ gấp xấp xỉ 1000 lần giữa các đơn vị liền kề). | **`covered`**<br/>(Đã bao phủ đầy đủ) | Minh chứng vững chắc: Học sinh tự gõ giá trị số `1000` vào bảng quy đổi và chọn đúng bội số xấp xỉ 1000 lần. |
 | **3. `approximate_conversion`** *(Quy đổi gần đúng)* | Quy đổi được một cách gần đúng giữa các đơn vị đo lường này. | - `G6-L03-WS-01` (Quy đổi hoàn chỉnh giữa các bậc dung lượng).<br/>- `G6-L03-Q007` (Tính toán quy đổi 3 xấp văn bản x 1000 KB = 3000 KB).<br/>- `G6-L03-Q008` (So sánh dung lượng 2 GB với tệp 3 GB).<br/>- `G6-L03-PROD-02` (Ước lượng tổng nhu cầu ~6 GB = xấp xỉ 6000 MB để chọn thiết bị). | **`covered`**<br/>(Đã bao phủ đầy đủ) | Minh chứng vững chắc: Học sinh tính toán quy đổi gần đúng chính xác và vận dụng vào bài toán tư vấn lưu trữ thực tế. |
 
-#### A. Khai báo khoảng trống thiết kế cấu trúc (Explicit Structured Design Gap)
+#### A. Khai báo khoảng trống thiết kế cấu trúc và trạng thái khắc phục (Structured Design Gap & Resolution Status)
 - **Mã khoảng trống (Gap Code):** `G6_A09_UNIT_NAMES_EVIDENCE_GAP`
-- **Chiều kích bị ảnh hưởng:** `unit_names`
-- **Mức độ nghiêm trọng:** `mastery_blocking` (Chặn cấp chuẩn thành thạo)
-- **Mô tả:** Minh chứng hiện tại của `G6-L03` hiển thị Byte, KB, MB, GB chủ yếu dưới dạng nhãn in sẵn; học sinh chỉ thao tác nhập số hoặc chọn phương án trắc nghiệm quan hệ cục bộ giữa GB và MB, chưa có hoạt động nào độc lập yêu cầu học sinh tự nêu/viết đủ 4 đơn vị cơ bản.
-- **Rào cản thành thạo (Mastery Blocking Rules):**
-  - `blocksMeetsRequirement = true` (Chặn không cho cấp mức 🌳 Đạt yêu cầu).
-  - `blocksTransferExtension = true` (Chặn không cho cấp mức 🚀 Vận dụng mở rộng).
-  - `maximumAutomatedMastery = "developing"` (Mức thành thạo tối đa trước khi khắc phục khoảng trống là 🌿 Đang hình thành).
+- **Chiều kích ảnh hưởng:** `unit_names`
+- **Trạng thái (Status):** `resolved` (Đã được khắc phục trong P4.2-E1)
+- **Minh chứng khắc phục (Resolved by Evidence):** `G6-L03-Q011` (Câu hỏi tự luận ngắn tại Hoạt động A05)
+- **Mô tả:** Minh chứng trước đây của `G6-L03` hiển thị Byte, KB, MB, GB chủ yếu dưới dạng nhãn in sẵn; học sinh chỉ thao tác nhập số. Khoảng trống này đã được giải quyết triệt để thông qua câu hỏi canonical `G6-L03-Q011` yêu cầu học sinh tự nhớ và nêu 4 đơn vị cơ bản độc lập trước khi tiếp xúc với bảng nhãn in sẵn.
+- **Rào cản thành thạo sau khắc phục (Mastery Rules after Resolution):**
+  - `blocksMeetsRequirement = false` (Không còn chặn cấp mức 🌳 Đạt yêu cầu khi đã hoàn thành Q011 đạt chuẩn).
+  - `blocksTransferExtension = false` (Không còn chặn cấp mức 🚀 Vận dụng mở rộng).
+  - `maximumAutomatedMastery = "transfer_extension"` (Được phép cấp chuẩn năng lực đầy đủ khi thỏa mãn minh chứng).
 
 #### B. Quy tắc an toàn thành thạo (Mastery Safety Rule)
-1. **Tuyệt đối không cấp 🌳 / 🚀 khi chưa giải quyết Gap:** Chừng nào khoảng trống `G6_A09_UNIT_NAMES_EVIDENCE_GAP` chưa được bổ sung minh chứng độc lập được phê duyệt, hệ thống đánh giá năng lực **KHÔNG ĐƯỢC TỰ ĐỘNG CẤP MỨC 🌳 ĐẠT YÊU CẦU HOẶC 🚀 VẬN DỤNG MỞ RỘNG** cho YCCĐ `G6-A-09`, ngay cả khi học sinh làm đúng 100% các câu hỏi hiện có (`WS-01`, `Q006`, `Q007`, `Q008`) và tiến độ bài học đạt 100%.
-2. **Bảo tồn giá trị minh chứng hợp lệ (Do Not Throw Away Valid Evidence):** Không đánh đồng việc thiếu minh chứng `unit_names` với việc học sinh hoàn toàn chưa biết gì. Các minh chứng học sinh đã làm tốt ở `decimal_approximation` và `approximate_conversion` vẫn được ghi nhận ở trạng thái `ready_evidence`. Hệ thống lưu trữ trạng thái năng lực ở cấp độ chiều kích (dimension-level state):
-   - `dimensions.unit_names.status = "evidence_gap"`
-   - `dimensions.decimal_approximation.status = "ready_evidence"`
-   - `dimensions.approximate_conversion.status = "ready_evidence"`
-   - `mastery = "developing"` (với `masteryBlockedBy = ["unit_names"]`).
-3. **Tách biệt Tiến độ hoàn thành bài học và Chuẩn năng lực (Lesson Completion vs Competency Mastery):** Học sinh hoàn thành 100% các hoạt động A01–A08 của bài học thì tiến độ bài học (Lesson Completion) vẫn đạt 100%. Tuy nhiên, mức chuẩn năng lực (Competency Mastery) của riêng YCCĐ `G6-A-09` tạm dừng an toàn ở mức 🌿 `developing` do rào cản minh chứng `unit_names`.
+1. **Đầy đủ 3 chiều kích mới được cấp 🌳:** YCCĐ `G6-A-09` chỉ cấp mức 🌳 Đạt yêu cầu khi học sinh đạt đầy đủ cả 3 chiều kích: `unit_names` (Q011 đúng), `decimal_approximation` (WS-01 đúng 3 ô giá trị 1000), và `approximate_conversion` (Q006/Q007 đúng).
+2. **Bảo tồn giá trị minh chứng theo chiều kích (Dimension-level State):**
+   - `dimensions.unit_names.status = "covered"` (Minh chứng: `G6-L03-Q011`)
+   - `dimensions.decimal_approximation.status = "covered"` (Minh chứng: `G6-L03-WS-01`, `G6-L03-Q006`)
+   - `dimensions.approximate_conversion.status = "covered"` (Minh chứng: `G6-L03-WS-01`, `G6-L03-Q007`, `G6-L03-Q008`, `G6-L03-PROD-02`)
+3. **Tách biệt Tiến độ hoàn thành bài học và Chuẩn năng lực:** Tiến độ hoàn thành Hoạt động A05 đòi hỏi hoàn thành cả 4 minh chứng (WS-01, Q006, Q007, Q011).
 
-#### C. Đề xuất minh chứng tương lai tối thiểu (Minimal Future Evidence Design Proposal)
-> **NGUYÊN TẮC QUẢN TRỊ:** Đây là bản đề xuất thiết kế (DESIGN PROPOSAL ONLY). **TUYỆT ĐỐI KHÔNG** tự ý thêm câu hỏi này vào mã nguồn `G6-L03.golden.json` hoặc giao diện bài học trong Phase 4A-R2. Project Controller sẽ quyết định thời điểm và phương thức phê duyệt triển khai.
-
-- **Mã đề xuất tạm thời (Provisional ID):** `PROVISIONAL-G6-L03-E-NAMES`
+#### C. Minh chứng chính thức đã triển khai (Canonical Implemented Evidence)
+- **Mã minh chứng chính thức:** `G6-L03-Q011` (thay thế mã đề xuất tạm thời `PROVISIONAL-G6-L03-E-NAMES`)
 - **YCCĐ mục tiêu:** `G6-A-09` (Chiều kích: `unit_names`)
-- **Dạng thức minh chứng:** Điền khuyết 4 trường độc lập không điền sẵn (Short answer / 4 blank fields).
-- **Ý định nhận thức (Cognitive Intent):** Yêu cầu học sinh tự lực viết tên hoặc kí hiệu của 4 đơn vị cơ bản đo dung lượng thông tin theo thứ tự từ nhỏ đến lớn mà không nhìn thấy gợi ý sẵn.
-- **Nội dung lệnh hỏi (Prompt Intent):** *"Hãy viết tên hoặc kí hiệu của bốn đơn vị cơ bản đo dung lượng thông tin từ nhỏ đến lớn."*
-- **Giao diện phản hồi dự kiến (Expected Student Interaction):**
-  - Đơn vị 1 (nhỏ nhất): `[________]` (Kỳ vọng: `Byte` hoặc `B`)
-  - Đơn vị 2: `[________]` (Kỳ vọng: `Kilobyte` hoặc `KB`)
-  - Đơn vị 3: `[________]` (Kỳ vọng: `Megabyte` hoặc `MB`)
-  - Đơn vị 4 (lớn nhất): `[________]` (Kỳ vọng: `Gigabyte` hoặc `GB`)
-  *(Hoàn toàn KHÔNG in sẵn chữ Byte, KB, MB, GB trong các ô nhập hoặc nhãn kế bên).*
-- **Khả năng chấm tự động (Auto-grade Feasibility):** Khả thi cao. Hệ thống chuẩn hóa chuỗi (trim, lowercase, chấp nhận cả tên đầy đủ tiếng Anh/Việt hoặc ký hiệu viết tắt chuẩn: `byte`/`b`, `kilobyte`/`kb`, `megabyte`/`mb`, `gigabyte`/`gb`).
+- **Dạng thức minh chứng:** Tự luận ngắn (`short_answer`) với chuẩn hóa phân tách đa dạng (phẩy, chấm phẩy, dấu lớn `>`, mũi tên `→`, gạch ngang `-`, khoảng trắng).
+- **Ý định nhận thức:** Yêu cầu học sinh tự lực viết 4 đơn vị cơ bản theo thứ tự từ nhỏ đến lớn: `Byte, KB, MB, GB` (hoặc tên đầy đủ `Byte, Kilobyte, Megabyte, Gigabyte`). Từ chối `B` đơn lẻ và từ chối sai thứ tự/thiếu đơn vị.
+- **Vị trí hiển thị:** Render ở phần mở đầu của Hoạt động A05 trước bảng quy đổi số để ngăn ngừa hiện tượng lộ nhãn in sẵn (source contamination).
 
 #### D. Rà soát đối chiếu các YCCĐ khác của Bài 3 (`G6-A-07`, `G6-A-08`, `G6-A-10`)
 Đã thực hiện rà soát độc lập toàn diện để đảm bảo không xảy ra hiện tượng overclaim tương tự ở các YCCĐ còn lại:
@@ -223,7 +214,7 @@ Bảng quy chuẩn logic quyết định mức độ thành thạo cho 4 YCCĐ c
 |---|---|---|:---:|---|---|---|---|---|
 | **`G6-A-07`** *(Biểu diễn 0 và 1)* | `evidenceId: G6-L03-PROD-01`<br/>`evidenceId: G6-L03-Q001`<br/>`evidenceId: G6-L03-Q002` | `G6-L03-Q004`, Diagnostic Probe 6 | **CÓ** (Duyệt Sản phẩm 1) | Thiếu PROD-01 hoặc Q001/Q002 chưa làm. | Chuỗi bit đúng nhưng giải thích 0/1 chưa rõ, hoặc cần gợi ý Tier 2/3. | PROD-01 chuỗi bit chuẩn + câu giải thích đúng + Q001/Q002 đúng + GV duyệt đạt. | Đạt 🌳 + biểu diễn được ký tự mới hoặc giải thích mở rộng ảnh số. | Q001 đúng nhưng PROD-01 vẽ sai hoặc giải thích sai -> Giữ ở 🌿, gắn cờ `REVIEW_REQUIRED`. |
 | **`G6-A-08`** *(Bit là đơn vị nhỏ nhất)* | `evidenceId: G6-L03-Q003`<br/>`evidenceId: G6-L03-Q005` | PROD-01 bit logic, Diagnostic Probe 6 | **KHÔNG** (Trắc nghiệm khách quan) | Thiếu cả Q003 và Q005. | Đúng 1 trong 2 câu nhưng còn phân vân, cần thử lại lần 2. | Đúng cả Q003 và Q005 khẳng định bit là đơn vị nhỏ nhất. | Đạt 🌳 + giải thích được mối liên hệ giữa bit và trạng thái vật lý thiết bị. | Q003 chọn bit nhưng Q005 lại chọn Byte -> Giữ ở 🌿. |
-| **`G6-A-09`** *(Tên, độ lớn xấp xỉ & quy đổi Byte/KB/MB/GB)* | `evidenceId: G6-L03-WS-01`<br/>`evidenceId: G6-L03-Q006`<br/>`evidenceId: G6-L03-Q007` | `G6-L03-Q008`, Diagnostic Probe 7 | **KHÔNG** (Tự động chấm theo bảng số) | Bảng WS-01 chưa điền hoặc sai cả 3 ô; hoặc để trống toàn bộ bài tập quy đổi. | Đã đạt `decimal_approximation` (WS-01 gõ 1000) và `approximate_conversion` (Q007 đúng) nhưng chiều kích `unit_names` bị thiếu minh chứng độc lập (`G6_A09_UNIT_NAMES_EVIDENCE_GAP`). Mức tối đa hiện tại dừng ở 🌿. | Yêu cầu cả 3 chiều kích (`unit_names`, `decimal_approximation`, `approximate_conversion`). **HIỆN TẠI BỊ CHẶN BỞI G6_A09_UNIT_NAMES_EVIDENCE_GAP (UNIT_NAMES_EVIDENCE_REQUIRED)** cho đến khi có minh chứng độc lập của `unit_names`. | Đòi hỏi phải đạt 🌳 trước + giải quyết bài toán quy đổi đa bước trong tình huống mới. **Hiện tại bị chặn theo mức 🌳.** | Thuộc vẹt thứ tự độ lớn ở Q006 nhưng tính toán quy đổi sai ở Q007 -> Giữ ở 🌿. Hoàn thành 100% bài học nhưng thiếu minh chứng unit_names -> Tạm dừng ở 🌿. |
+| **`G6-A-09`** *(Tên, độ lớn xấp xỉ & quy đổi Byte/KB/MB/GB)* | `evidenceId: G6-L03-Q011`<br/>`evidenceId: G6-L03-WS-01`<br/>`evidenceId: G6-L03-Q006`<br/>`evidenceId: G6-L03-Q007` | `G6-L03-Q008`, Diagnostic Probe 7 | **KHÔNG** (Tự động chấm theo bảng số) | Bảng WS-01 chưa điền hoặc sai cả 3 ô; hoặc chưa làm Q011/Q007. | Đạt 1 hoặc 2 trong 3 chiều kích, ví dụ: Q011 đúng nhưng chưa đạt WS-01/Q007 hoặc ngược lại. | Yêu cầu cả 3 chiều kích: Q011 đúng (unit_names) + WS-01 đúng 3 ô 1000 (decimal_approximation) + Q006/Q007 đúng (approximate_conversion). Khoảng trống `G6_A09_UNIT_NAMES_EVIDENCE_GAP` đã được giải quyết bằng Q011. | Đòi hỏi phải đạt 🌳 trước + giải quyết bài toán quy đổi đa bước trong tình huống thực tế (PROD-02 hoặc câu hỏi vận dụng Exit Ticket). | Thuộc vẹt thứ tự độ lớn ở Q006 nhưng tính toán quy đổi sai ở Q007 -> Giữ ở 🌿. Chưa hoàn thành Q011 -> Tạm dừng ở 🌿. |
 | **`G6-A-10`** *(Khả năng lưu trữ thiết bị nhớ)* | `evidenceId: G6-L03-PROD-02`<br/>`evidenceId: G6-L03-Q010 (tại A07)`<br/>`activityId: G6-L03-A08 (Exit Ticket)` | `G6-L03-Q009`, Diagnostic Probe 8 | **CÓ** (Duyệt Sản phẩm 2) | Thiếu PROD-02 hoặc chưa nộp Exit Ticket. | Chọn thiết bị dung lượng nhỏ hơn nhu cầu (< 6 GB), hoặc lý do không logic. | PROD-02 chọn đúng thiết bị ≥ 6 GB kèm lý do logic + Q010 đúng + GV duyệt đạt. | Đạt 🌳 + so sánh toàn diện ưu nhược điểm các thiết bị trong Exit Ticket. | Q009 chọn đúng USB nhưng PROD-02 lại chọn CD 700 MB cho 6 GB -> Giữ ở 🌿. |
 
 ---

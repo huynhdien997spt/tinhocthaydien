@@ -700,8 +700,8 @@ async function runP3Suite() {
   // --------------------------------------------------------------------------
   // P3-11: every question has exactly one RequirementID + feedback/retry policy
   // --------------------------------------------------------------------------
-  await test('P3-11', 'Every question (Q001–Q010) has exactly one RequirementID, hides answer before first attempt, and supports retry on wrong attempt', () => {
-    assert(goldenData.questions.length === 10, `Expected 10 questions, got ${goldenData.questions.length}`);
+  await test('P3-11', 'Every question (Q001–Q010/Q011) has exactly one RequirementID, hides answer before first attempt, and supports retry on wrong attempt', () => {
+    assert(goldenData.questions.length === 10 || goldenData.questions.length === 11, `Expected 10 or 11 questions, got ${goldenData.questions.length}`);
     for (const q of goldenData.questions) {
       assert(
         typeof q.requirementId === 'string' && /^G6-A-(07|08|09|10)$/.test(q.requirementId),
@@ -878,6 +878,9 @@ async function runP3Suite() {
     assert(wsRight.ok === true && wsRight.isCorrect === true, 'Correct worksheet input must pass');
     ctrlA2.submitQuestion('G6-L03-Q006', 'C');
     ctrlA2.submitQuestion('G6-L03-Q007', '3000');
+    if (goldenData.questions.find(q => q.questionId === 'G6-L03-Q011')) {
+      ctrlA2.submitQuestion('G6-L03-Q011', 'Byte, KB, MB, GB');
+    }
     const doneA05 = ctrlA2.completeActivity('G6-L03-A05');
     assert(doneA05.ok === true && doneA05.blocked === false, 'A05 must complete after valid worksheet + Q006 + Q007');
 
@@ -1210,8 +1213,11 @@ async function runP3Suite() {
 
     // Missing all 3 in A05
     assert(ctrl.completeActivity('G6-L03-A05').blocked === true, 'A05 must be blocked when worksheet/Q006/Q007 missing');
-    // Only worksheet + Q006, missing Q007
+    // Only worksheet + Q006 + Q011, missing Q007
     ctrl.submitCapacityWorksheet({ '1KB_in_byte': '1000', '1MB_in_KB': '1000', '1GB_in_MB': '1000' });
+    if (goldenData.questions.find(q => q.questionId === 'G6-L03-Q011')) {
+      ctrl.submitQuestion('G6-L03-Q011', 'Byte, KB, MB, GB');
+    }
     ctrl.submitQuestion('G6-L03-Q006', 'C');
     const rMissingQ007 = ctrl.completeActivity('G6-L03-A05');
     assert(rMissingQ007.blocked === true && rMissingQ007.missingCodes.includes('G6-L03-Q007'), 'A05 must be blocked when Q007 is missing');

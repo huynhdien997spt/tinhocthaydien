@@ -204,11 +204,13 @@ check('V4A-R2-03', 'phase4_design_contract.json is valid JSON with executable te
   // G6-A-09 gap declared in contract
   const g6a09 = contract.masterySpec.lessonRules['G6-L03']['G6-A-09'];
   assert(g6a09.dimensions && g6a09.dimensions.unit_names && g6a09.dimensions.decimal_approximation && g6a09.dimensions.approximate_conversion, 'G6-A-09 missing 3 dimensions in contract');
-  assert(g6a09.dimensions.unit_names.status === 'evidence_gap', 'unit_names status must be evidence_gap');
+  assert(g6a09.dimensions.unit_names.status === 'covered', 'unit_names status must be covered after P4.2-E1 patch');
   assert(g6a09.designGap !== null && typeof g6a09.designGap === 'object', 'G6-A-09 designGap must be a non-null object');
   assert(g6a09.designGap.code === 'G6_A09_UNIT_NAMES_EVIDENCE_GAP', 'designGap code mismatch');
-  assert(g6a09.designGap.blocksMeetsRequirement === true, 'designGap must block meets_requirement');
-  assert(g6a09.designGap.blocksTransferExtension === true, 'designGap must block transfer_extension');
+  assert.strictEqual(g6a09.designGap.status, 'resolved', 'designGap status must be resolved');
+  assert.strictEqual(g6a09.designGap.resolvedByEvidenceId, 'G6-L03-Q011', 'designGap resolvedByEvidenceId mismatch');
+  assert(g6a09.designGap.blocksMeetsRequirement === false, 'designGap must no longer block meets_requirement');
+  assert(g6a09.designGap.blocksTransferExtension === false, 'designGap must no longer block transfer_extension');
 
   // G6-A-07, G6-A-08, G6-A-10 must have designGap === null
   assert(contract.masterySpec.lessonRules['G6-L03']['G6-A-07'].designGap === null, 'G6-A-07 designGap must be null');
@@ -245,7 +247,7 @@ check('V4A-R2-04', 'Verbatim CTGDPT 2018 officialText (38/38) exact match agains
 // --------------------------------------------------------------------------
 // 5. Application Source Diff Check against BASE_COMMIT
 // --------------------------------------------------------------------------
-check('V4A-R2-05', 'Application source directories (assets/, backend/, data/, schemas/, lessons/, teacher/) have 0 modifications against base', () => {
+check('V4A-R2-05', 'Application source directories diff limited strictly to authorized P4.2-E1 patch (G6-L03.golden.json & golden-lesson-renderer.js)', () => {
   let diffOutput;
   try {
     diffOutput = execSync(`git diff --name-only ${BASE_COMMIT}..HEAD`, { cwd: REPO_ROOT, encoding: 'utf8' }).trim();
@@ -254,10 +256,15 @@ check('V4A-R2-05', 'Application source directories (assets/, backend/, data/, sc
   }
 
   const modifiedFiles = diffOutput.split('\n').map(s => s.trim()).filter(Boolean);
+  const allowedPatchedAppFiles = new Set([
+    'data/lessons/G6-L03.golden.json',
+    'assets/js/golden-lesson-renderer.js'
+  ]);
   const forbiddenDirs = ['assets/', 'backend/', 'data/', 'schemas/', 'lessons/', 'teacher/'];
   const violations = [];
 
   for (const f of modifiedFiles) {
+    if (allowedPatchedAppFiles.has(f)) continue;
     for (const d of forbiddenDirs) {
       if (f.startsWith(d) || f === 'index.html') {
         violations.push(f);
@@ -358,7 +365,7 @@ check('V4A-R2-06', 'Dynamic Evidence Reference Integrity derived from G6-L03.gol
 // --------------------------------------------------------------------------
 // 7. Mandatory Dimension Evidence Gap Assertion
 // --------------------------------------------------------------------------
-check('V4A-R2-07', 'Mandatory Requirement Dimension Gap Assertion (Fails if un-evidenced dimension lacks designGap)', () => {
+check('V4A-R2-07', 'Mandatory Requirement Dimension Gap Assertion (Asserts unit_names is resolved by G6-L03-Q011 with blocksMeetsRequirement=false)', () => {
   const contractPath = path.join(REPO_ROOT, 'docs/phase4/phase4_design_contract.json');
   const contract = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
   const g6a09 = contract.masterySpec.lessonRules['G6-L03']['G6-A-09'];
@@ -366,16 +373,18 @@ check('V4A-R2-07', 'Mandatory Requirement Dimension Gap Assertion (Fails if un-e
   const dims = g6a09.dimensions;
   assert(dims, 'G6-A-09 missing dimensions');
 
-  // Verify that unit_names is correctly flagged as evidence_gap
+  // Verify that unit_names is resolved by G6-L03-Q011
   const unitNames = dims.unit_names;
-  assert(unitNames.status === 'evidence_gap', 'unit_names must have status evidence_gap');
+  assert.strictEqual(unitNames.status, 'covered', 'unit_names must have status covered after patch');
+  assert(Array.isArray(unitNames.evidence) && unitNames.evidence.some(e => e.evidenceId === 'G6-L03-Q011'), 'unit_names must include G6-L03-Q011 in evidence');
 
-  // Assert that having an evidence_gap without a designGap must throw an error
-  if (unitNames.status === 'evidence_gap') {
-    assert(g6a09.designGap !== null, 'FAIL: unit_names has evidence_gap but designGap is null!');
-    assert(g6a09.designGap.blocksMeetsRequirement === true, 'FAIL: designGap must block meets_requirement!');
-    assert(g6a09.designGap.blocksTransferExtension === true, 'FAIL: designGap must block transfer_extension!');
-  }
+  // Assert designGap is resolved
+  assert(g6a09.designGap !== null, 'designGap must exist');
+  assert.strictEqual(g6a09.designGap.code, 'G6_A09_UNIT_NAMES_EVIDENCE_GAP');
+  assert.strictEqual(g6a09.designGap.status, 'resolved');
+  assert.strictEqual(g6a09.designGap.resolvedByEvidenceId, 'G6-L03-Q011');
+  assert.strictEqual(g6a09.designGap.blocksMeetsRequirement, false);
+  assert.strictEqual(g6a09.designGap.blocksTransferExtension, false);
 
   // Verify that decimal_approximation and approximate_conversion are covered
   assert.strictEqual(dims.decimal_approximation.status, 'covered', 'decimal_approximation must be covered');

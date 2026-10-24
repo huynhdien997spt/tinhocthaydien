@@ -326,27 +326,56 @@
           "designGap": null
         },
         "G6-A-09": {
+          "requiredEvidence": [
+            {
+              "evidenceId": "G6-L03-Q011",
+              "activityId": "G6-L03-A05",
+              "sourceType": "response",
+              "responseType": "short_answer",
+              "evidenceType": "short_answer"
+            },
+            {
+              "evidenceId": "G6-L03-WS-01",
+              "activityId": "G6-L03-A05",
+              "sourceType": "response",
+              "responseType": "worksheet_table",
+              "evidenceType": "worksheet_table"
+            },
+            {
+              "evidenceId": "G6-L03-Q006",
+              "activityId": "G6-L03-A05",
+              "sourceType": "response",
+              "responseType": "single_choice",
+              "evidenceType": "single_choice"
+            },
+            {
+              "evidenceId": "G6-L03-Q007",
+              "activityId": "G6-L03-A05",
+              "sourceType": "response",
+              "responseType": "short_answer",
+              "evidenceType": "short_answer"
+            }
+          ],
           "dimensions": {
             "unit_names": {
               "description": "Nêu được tên các đơn vị đo dung lượng thông tin: Byte, KB, MB, GB",
-              "status": "evidence_gap",
-              "coverage": "partial_insufficient_for_mastery",
-              "existingEvidence": [
+              "status": "covered",
+              "coverage": "sufficient",
+              "evidence": [
+                {
+                  "evidenceId": "G6-L03-Q011",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "response",
+                  "responseType": "short_answer",
+                  "evidenceType": "short_answer",
+                  "description": "Học sinh tự lực nêu đúng 4 đơn vị cơ bản: Byte, KB, MB, GB theo thứ tự từ nhỏ đến lớn"
+                },
                 {
                   "evidenceId": "G6-L03-Q006",
                   "activityId": "G6-L03-A05",
                   "sourceType": "response",
                   "responseType": "single_choice",
-                  "evidenceType": "single_choice",
-                  "limitation": "Chỉ hỏi quan hệ GB <-> MB, không độc lập yêu cầu nêu 4 đơn vị"
-                },
-                {
-                  "evidenceId": "G6-L03-WS-01",
-                  "activityId": "G6-L03-A05",
-                  "sourceType": "response",
-                  "responseType": "worksheet_table",
-                  "evidenceType": "worksheet_table",
-                  "limitation": "Chỉ nhập số 1000 vào bảng có sẵn nhãn tên đơn vị, không độc lập nêu tên"
+                  "evidenceType": "single_choice"
                 }
               ]
             },
@@ -411,11 +440,13 @@
           "designGap": {
             "code": "G6_A09_UNIT_NAMES_EVIDENCE_GAP",
             "dimension": "unit_names",
-            "severity": "mastery_blocking",
-            "description": "Current G6-L03 evidence exposes Byte/KB/MB/GB mainly as provided labels and does not independently require the learner to name all four units.",
-            "blocksMeetsRequirement": true,
-            "blocksTransferExtension": true,
-            "maximumAutomatedMastery": "developing"
+            "severity": "resolved",
+            "status": "resolved",
+            "resolvedByEvidenceId": "G6-L03-Q011",
+            "description": "Resolved by G6-L03-Q011 short answer question in activity G6-L03-A05.",
+            "blocksMeetsRequirement": false,
+            "blocksTransferExtension": false,
+            "maximumAutomatedMastery": "transfer_extension"
           },
           "proposedFutureEvidence": {
             "provisionalId": "PROVISIONAL-G6-L03-E-NAMES",

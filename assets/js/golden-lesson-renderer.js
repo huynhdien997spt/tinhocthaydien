@@ -95,6 +95,24 @@
   }
 
   /**
+   * Chuẩn hóa và chấm chuỗi 4 đơn vị cơ bản theo thứ tự từ nhỏ đến lớn cho G6-L03-Q011 (G6-A-09).
+   * Chấp nhận các dấu phân tách: phẩy, chấm phẩy, >, →, gạch nối, khoảng trắng.
+   * Chấp nhận tên viết tắt chuẩn hoặc tên đầy đủ (tiếng Anh/Việt).
+   * Bắt buộc đúng đủ 4 đơn vị và đúng thứ tự: Byte -> KB -> MB -> GB.
+   * Không chấp nhận "B, KB, MB, GB".
+   */
+  function evaluateUnitNamesSequence(raw) {
+    const norm = String(raw == null ? "" : raw).toLowerCase().trim();
+    const tokens = norm.split(/[,;>→\->\s]+/).filter(Boolean);
+    if (tokens.length !== 4) return false;
+    const isU1 = tokens[0] === "byte";
+    const isU2 = tokens[1] === "kb" || tokens[1] === "kilobyte";
+    const isU3 = tokens[2] === "mb" || tokens[2] === "megabyte";
+    const isU4 = tokens[3] === "gb" || tokens[3] === "gigabyte";
+    return isU1 && isU2 && isU3 && isU4;
+  }
+
+  /**
    * Chấm câu trả lời của một Question đóng (single_choice / short_answer) trong G6-L03.
    * Không tiết lộ đáp án đúng trước lần nộp đầu tiên.
    */
@@ -107,7 +125,11 @@
     if (qType === "single_choice") {
       isCorrect = String(submittedValue == null ? "" : submittedValue).trim() === String(questionObj.correctAnswer).trim();
     } else if (qType === "short_answer") {
-      isCorrect = normalizeTextAnswer(submittedValue) === normalizeTextAnswer(questionObj.correctAnswer);
+      if (questionObj.questionId === "G6-L03-Q011") {
+        isCorrect = evaluateUnitNamesSequence(submittedValue);
+      } else {
+        isCorrect = normalizeTextAnswer(submittedValue) === normalizeTextAnswer(questionObj.correctAnswer);
+      }
     } else {
       isCorrect = String(submittedValue == null ? "" : submittedValue).trim() === String(questionObj.correctAnswer).trim();
     }
@@ -288,7 +310,9 @@
       const saved = bridge.saveResponse({
         activityId: q.activityId,
         questionId: q.questionId,
+        requirementId: q.requirementId,
         questionText: q.questionText,
+        questionType: q.questionType,
         responseType: q.questionType,
         responseValue: cleanVal,
         isCorrect: evalRes.isCorrect,
@@ -299,13 +323,16 @@
       state.responses[q.questionId] = {
         activityId: q.activityId,
         questionId: q.questionId,
+        requirementId: q.requirementId,
         questionText: q.questionText,
+        questionType: q.questionType,
         responseType: q.questionType,
         responseValue: cleanVal,
         isCorrect: evalRes.isCorrect,
         score: evalRes.score,
         maxScore: evalRes.maxScore,
         attemptNumber: (saved && saved.attemptNumber) || 1,
+        submittedAt: new Date().toISOString(),
         required: true
       };
       delete state.activityGateErrors[q.activityId];
@@ -672,6 +699,10 @@
         if (!isPeriod2Unlocked()) {
           missing.push("Hoàn thành Checkpoint Tiết 1 (A01–A04)");
           missingCodes.push("PERIOD1_LOCKED");
+        }
+        if (!hasQuestionSubmitted("G6-L03-Q011")) {
+          missing.push("Câu Q011 (Nêu 4 đơn vị cơ bản Byte, KB, MB, GB)");
+          missingCodes.push("G6-L03-Q011");
         }
         if (!hasWorksheetA05Completed()) {
           missing.push("Bảng quy đổi dung lượng (đúng cả 3 ô)");
@@ -1045,7 +1076,18 @@
       function renderActivityCard(act) {
         const comp = compMap[act.activityId] || {};
         const isDone = ctrl.state.completedActivityIds.has(act.activityId);
-        const qHtml = (comp.questionIds || []).map(renderQuestionBlock).join("");
+        let preQHtml = "";
+        let postQHtml = "";
+        if (act.activityId === "G6-L03-A05") {
+          // Q011 render trước bảng quy đổi để học sinh độc lập nhớ lại trước khi tiếp xúc nhãn in sẵn
+          preQHtml = renderQuestionBlock("G6-L03-Q011");
+          postQHtml = (comp.questionIds || [])
+            .filter(qid => qid !== "G6-L03-Q011")
+            .map(renderQuestionBlock)
+            .join("");
+        } else {
+          postQHtml = (comp.questionIds || []).map(renderQuestionBlock).join("");
+        }
         const gateErr = ctrl.state.activityGateErrors[act.activityId] || "";
 
         let specialHtml = "";
@@ -1204,8 +1246,9 @@
           </header>
           <p><strong>Mục tiêu:</strong> ${escHtml(act.objective)}</p>
           <p>${escHtml(act.instruction)}</p>
+          ${preQHtml}
           ${specialHtml}
-          ${qHtml}
+          ${postQHtml}
           ${renderSupportBlock(act.activityId)}
           ${
             gateErr
@@ -1380,6 +1423,7 @@
     WORKSHEET_WRONG_FEEDBACK,
     resolveResumeState,
     evaluateQuestionSubmission,
+    evaluateUnitNamesSequence,
     validateStorageAdvisoryLogic,
     createController,
     mountBrowserUI
