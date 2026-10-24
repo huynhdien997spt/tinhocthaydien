@@ -24,6 +24,19 @@ const V2_CONFIG = {
 
 /** Điều kiện hoàn thành bài do BACKEND kiểm tra. Phải khớp `completion` trong data/lessons.js. Bài không khai báo: chỉ cần percent = 100. */
 const LESSON_RULES = {
+  "G6-L03": {
+    requiredActivities: [
+      "G6-L03-A01",
+      "G6-L03-A02",
+      "G6-L03-A03",
+      "G6-L03-A04",
+      "G6-L03-A05",
+      "G6-L03-A06",
+      "G6-L03-A07",
+      "G6-L03-A08"
+    ],
+    requireExitTicket: true
+  },
   "G6-B3": { requiredActivities: ["A1", "A2", "A3", "A4"], requireExitTicket: true }
 };
 

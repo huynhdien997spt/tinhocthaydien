@@ -1,7 +1,7 @@
 {
   "adapterType": "IntermediateCurriculumAdapter",
   "productionWrite": false,
-  "exportedAt": "2026-10-24T08:01:32.816Z",
+  "exportedAt": "2026-10-24T08:59:37.298Z",
   "counts": {
     "sources": 6,
     "topics": 6,
@@ -10,11 +10,11 @@
     "nlsMappings": 3,
     "aiMappings": 0,
     "lessons": 16,
-    "activities": 4,
-    "questions": 4,
-    "evidences": 4,
+    "activities": 8,
+    "questions": 10,
+    "evidences": 0,
     "resources": 2,
-    "masteryRules": 4
+    "masteryRules": 0
   },
   "tables": {
     "sources": [
@@ -45,8 +45,8 @@
         },
         "contentHash": "f8acc4ffa6c270dcea01cdb60f773ff62ce6ada1109d78f449fa1dbcfca973d5",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.810Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.810Z",
+        "firstImportedAt": "2026-10-24T08:59:37.292Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.292Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -76,8 +76,8 @@
         },
         "contentHash": "402389cad40d21dcef0b9199783759a301db6910d8605d9249a172c85dd85ff2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -108,8 +108,8 @@
         },
         "contentHash": "a23caae612490b16ebb4a50b1e890a999d9f259d1d106edc570d71d9c42990e8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -139,8 +139,8 @@
         },
         "contentHash": "f77a4d67b8642849b3694b5f8c710ffea15938f31438a2976d8d9cbfc4d3decc",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -170,8 +170,8 @@
         },
         "contentHash": "b9dc185fd6163bdf3619406ce9c80e121205d29ff6b4a2ca32952e696b9d0e87",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -201,8 +201,8 @@
         },
         "contentHash": "a74af65d0a774cd51c3744057400c5178ca9f95dbb47dbb8a9e680bb3bc2f3e2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -221,8 +221,8 @@
         },
         "contentHash": "40f42ed9e198ea4a4f83f076de2e9853b97fafc8a20aef2251a56560511e3172",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -239,8 +239,8 @@
         },
         "contentHash": "a82251220f608fa227199603b9bd496537aac8146f3f9fa410d6cb6be68685fe",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -257,8 +257,8 @@
         },
         "contentHash": "fff5e269b6bc1e11262b66727a3de52907247f8cf621611865380b818db58a3b",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -275,8 +275,8 @@
         },
         "contentHash": "1bad785e3138eb7afcea60b28eecdad4748189efbb0e3289567a0dbee1e45af3",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -293,8 +293,8 @@
         },
         "contentHash": "767c7e4656472f8cbaa3cd7b0528d0da5d420ed87f43c74837b8ce21c652efcf",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -311,8 +311,8 @@
         },
         "contentHash": "65ca09fcfd41b046f30a80ce4493425747e332c5391824f68c532698a1bba85d",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -332,8 +332,8 @@
         },
         "contentHash": "7e9dc1625479b2cb50e59984f9e8ea5a6898b8915bff17e59cc68e453f5deb60",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -351,8 +351,8 @@
         },
         "contentHash": "2f914b43399bd8d915df8640a0e895d1ce085da9081dcd52bc39d9b7d9145f32",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -370,8 +370,8 @@
         },
         "contentHash": "48f561b9452178ceafd7738c5504d0f9ede69faad7d5fb5d0b53b18b0a3851f2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -389,8 +389,8 @@
         },
         "contentHash": "0b8508e45f179949a9f46c576583c6e9e3bd360de3c1570a921ab5efd6bd4f15",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -408,8 +408,8 @@
         },
         "contentHash": "211e70626bba6632f9ffcc9b24eecbec877a0dd46ac43461aa50f2399af5a68e",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -445,8 +445,8 @@
         },
         "contentHash": "d804b952ffb90b0e3557c4cbd285736cfaa343ad4467691d57cdeaf0b99f7bfe",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -480,8 +480,8 @@
         },
         "contentHash": "bbf44089719ceb6c33172bab6a3374131da4a53655a4e396a4960528b6d5d2e6",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -515,8 +515,8 @@
         },
         "contentHash": "2498f5090a8fe23c720209b0f14be424b19c1b7411f14fff225c7a32a7ca38a0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -550,8 +550,8 @@
         },
         "contentHash": "9cd7d4658571d419a069a07fa3164fe6d8a0361f0e1ff51632a16d5bac22b09f",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -586,8 +586,8 @@
         },
         "contentHash": "0cc4260171782aa2c5abf0bc0156eb47ffa6a7be733813d68b234e5132306ca9",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -622,8 +622,8 @@
         },
         "contentHash": "055cbf960ed327bca71a4e97706487c65d8e312e75cd25b6c9d35b867f5e1558",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -658,8 +658,8 @@
         },
         "contentHash": "be807cdebc6ed0e16c7c8f4efa6bbc4f6972af422a21095ee5ffa8546e670372",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -692,8 +692,8 @@
         },
         "contentHash": "250ad00bda4631c9a734bbe9e175b63c9f7b2aa110a74fd1089a6bf264ff96e1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -732,8 +732,8 @@
         },
         "contentHash": "6f5d3fe06365196f21ab84d77406f9f7a355c9efe806b55afa29b4d9f5f5bec1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -771,8 +771,8 @@
         },
         "contentHash": "8c0ea7d9077e84d0651687f81c7f6e8c460b797642e6e40bfec20469df3163b1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -807,8 +807,8 @@
         },
         "contentHash": "9779006d79f94b6dea03a272842a0fcbc614e825c6b10fb38c451aedfe0501fb",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -841,8 +841,8 @@
         },
         "contentHash": "20ab67356a863ddd7ee99ecb2caedad9750958f4c18f18aefafa206b0f09ebdc",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -876,8 +876,8 @@
         },
         "contentHash": "0d8e3f505e330e24a472b8b5a320a1f5ad09fcd744d00dab05fb8521669f5025",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -913,8 +913,8 @@
         },
         "contentHash": "26a77cb1d51d2c520d5d86d34b8370dc2195cc400dfdf75b8cce999f5a3294c8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -949,8 +949,8 @@
         },
         "contentHash": "85bbca7242447e3150e7cc75d8aa97a5e5557cfcc5b0f479389d14c29c7055f1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -984,8 +984,8 @@
         },
         "contentHash": "cd5359e0703cddd5dc40e9de7ddde4b2e54854feb9e1a261f7b37798c17078d8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1019,8 +1019,8 @@
         },
         "contentHash": "d2760511e82508b5eacf1c2a6eb6d53e4308b475f977f82930315544b78852ba",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1054,8 +1054,8 @@
         },
         "contentHash": "369661c1ff7564ccd0e6f02481218166a85091d5bae172770669cd9802c2d097",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1089,8 +1089,8 @@
         },
         "contentHash": "e15803ebcd5f83194d4fe0189fc8927fb61ad258cfa2fbdfbf2f69cb5fc81389",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1124,8 +1124,8 @@
         },
         "contentHash": "9069986fff25a891a992e557fed2985f76d816c4a943fa41cc84e2fe9410daf4",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1160,8 +1160,8 @@
         },
         "contentHash": "6bf810e0e976b39068fcb37710b508bdd61cace5b57bd6a5da7f2e54df64cb04",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.811Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.811Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1195,8 +1195,8 @@
         },
         "contentHash": "33dda8727637d732fcf47f900915b9002bad499c3c8ae12db778ae02cc81d738",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1230,8 +1230,8 @@
         },
         "contentHash": "937a096b7e96e4d7ede229b2f6ce98d76a4ccdaa4badfc9262ff58568ba35599",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1265,8 +1265,8 @@
         },
         "contentHash": "2c05d3f0de8085264036fd8a6389dc7d701b0450f382f1f8c9a13a2a808935d2",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1301,8 +1301,8 @@
         },
         "contentHash": "1744309997ca65f88b22229bc3496ef13f1551f2b554f544cc0ea8ff66672822",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1336,8 +1336,8 @@
         },
         "contentHash": "a5593724507321240c839f6c7194710bef14b9bc82ed7e603eb0069395eed40d",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1373,8 +1373,8 @@
         },
         "contentHash": "12ed0e3f974f6b9139485af8a2df30f406689e85f4b2aaacf7461938e9fd1353",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1409,8 +1409,8 @@
         },
         "contentHash": "9e9b34462accd57fe7dce88efb0006a3610539ebcb5336ef1df50e221dfac5d4",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1445,8 +1445,8 @@
         },
         "contentHash": "2e10084967aafff4c7fb6022a6b70af0819a26cfa597891dff0811a10a53c95a",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1481,8 +1481,8 @@
         },
         "contentHash": "33879884d71065481b73c6be6f4650d1f38a0a8cbd987d1ddd03af0759c8ce9f",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1518,8 +1518,8 @@
         },
         "contentHash": "876da9fa7dd09ce941523c49c57f887a18fa4910b2d463380e22e1ef1039ca5b",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1554,8 +1554,8 @@
         },
         "contentHash": "5c5ca342090cdb4f87267214f9fb94283cd06ec6a54f9b79fae43e78f246230d",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1590,8 +1590,8 @@
         },
         "contentHash": "78e3d4e7fa52029132c06f3eda37ed0dfa65ed15a53d7d2048dbd3f4ef8e3627",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1626,8 +1626,8 @@
         },
         "contentHash": "36e709512cb650750d8f1fdf72680dfb0d21976339429a02ac9dc8d175ce3819",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1663,8 +1663,8 @@
         },
         "contentHash": "49fa47c1a49232331653547055efc36e1db2d5530fe9ceaccc785103564d38fa",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1698,8 +1698,8 @@
         },
         "contentHash": "3d6ad2907bc278f20a37c28fffced3b9c5bb05ea0a407e959c85a1456ad0e817",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1734,8 +1734,8 @@
         },
         "contentHash": "a54a99c42b038e5ec0c309f4e3d45459d2e2bbc5e1ce0b74bfcce0e968224c01",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1769,8 +1769,8 @@
         },
         "contentHash": "cde7cb6a4eae8cc0d9e31e1f664fbd39c01e4ccbe5856eed56286c6d294030e8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -1801,8 +1801,8 @@
         },
         "contentHash": "182bd8e18f6d3d9f2402266d4a49a3995f3ec11df408da359dbf6933d3c65dd1",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1831,8 +1831,8 @@
         },
         "contentHash": "bf659ebd9bff470a4e5234ebe320d5fc6cf780bb296221b513d63e4f06ee0c4a",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1861,8 +1861,8 @@
         },
         "contentHash": "04ab27a751740dbb2ccd320beb927407594d98016b407674dfd1c5fb804244e7",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
@@ -1921,8 +1921,8 @@
         },
         "contentHash": "dc6eb3062d465f6a99b0ab007b5cbfe5339a5407b4b6b3a425d23195598650af",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1977,8 +1977,8 @@
         },
         "contentHash": "bcc603b904c243193e13c1d11fd24e33b4a57d2e1404e9b51deba76d9a5c54ab",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -1989,7 +1989,7 @@
           "lessonNumber": 3,
           "grade": 6,
           "topicId": "G6-A",
-          "title": "Thông tin trong máy tính",
+          "title": "Bài 3. Thông tin trong máy tính",
           "order": 3,
           "periods": 2,
           "scheduledPeriods": [
@@ -2015,46 +2015,55 @@
             "5.2.TC1b"
           ],
           "activityIds": [
-            "G6-L03-A1",
-            "G6-L03-A2",
-            "G6-L03-A3",
-            "G6-L03-A4"
+            "G6-L03-A01",
+            "G6-L03-A02",
+            "G6-L03-A03",
+            "G6-L03-A04",
+            "G6-L03-A05",
+            "G6-L03-A06",
+            "G6-L03-A07",
+            "G6-L03-A08"
           ],
           "questionIds": [
-            "G6-L03-Q01",
-            "G6-L03-Q02",
-            "G6-L03-Q03",
-            "G6-L03-Q04"
+            "G6-L03-Q001",
+            "G6-L03-Q002",
+            "G6-L03-Q003",
+            "G6-L03-Q004",
+            "G6-L03-Q005",
+            "G6-L03-Q006",
+            "G6-L03-Q007",
+            "G6-L03-Q008",
+            "G6-L03-Q009",
+            "G6-L03-Q010"
           ],
-          "evidenceIds": [
-            "EVD-G6-L03-01",
-            "EVD-G6-L03-02",
-            "EVD-G6-L03-03",
-            "EVD-G6-L03-04"
-          ],
+          "evidenceIds": [],
           "assessmentPlan": {
             "formativeEvidenceTypes": [
               "quiz_response",
+              "short_answer",
+              "worksheet_table",
               "exit_ticket_reflection"
             ],
             "requireExitTicket": true,
-            "masteryEvaluationMode": "by_requirement"
+            "requiredActivities": [
+              "G6-L03-A01",
+              "G6-L03-A02",
+              "G6-L03-A03",
+              "G6-L03-A04",
+              "G6-L03-A05",
+              "G6-L03-A06",
+              "G6-L03-A07",
+              "G6-L03-A08"
+            ]
           },
           "resourceIds": [
             "RES-G6-L03-01",
             "RES-G6-L03-02"
           ],
-          "masteryRuleIds": [
-            "MR-G6-A-07",
-            "MR-G6-A-08",
-            "MR-G6-A-09",
-            "MR-G6-A-10"
-          ],
-          "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (TB) khi tìm hiểu dung lượng ổ cứng.",
-          "isFixtureOnly": true,
-          "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
+          "masteryRuleIds": [],
+          "supplementaryKnowledge": "Kiến thức bổ sung của bài học theo SGK Kết nối tri thức Bài 3 (không phải tiêu chí bắt buộc của YCCĐ CTGDPT 2018): 1 Byte = 8 bit (bổ sung cho G6-A-08); đơn vị Terabyte (1 TB ≈ 1000 GB) khi tìm hiểu ổ cứng dung lượng lớn (bổ sung cho G6-A-09).",
           "status": "published",
-          "version": "2026.2",
+          "version": "2026.3",
           "sourceRefs": [
             "SRC-PPCT-VIETHOA-TIN6-2026",
             "SRC-SGK-KNTT-TIN6",
@@ -2063,10 +2072,10 @@
             "SRC-KHBD-TIN6-BAI3-VIETHOA"
           ]
         },
-        "contentHash": "07348a2b133f56ac3d11ea44d21f5271085f57edce8026e72a43b3a3a6d2858a",
+        "contentHash": "6ffebc3dbb6ed0e614606bf346b07612ca59382eaf62504a068933b42c9305f6",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2122,8 +2131,8 @@
         },
         "contentHash": "662f19d2e452ae941a518a5af85ee2fe7104b19ea45bb27821acc3c3a24f6001",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2178,8 +2187,8 @@
         },
         "contentHash": "4e537dac30f8f5ede21164911beb75ac0859b62fff55f9bc59b389d288459be0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2235,8 +2244,8 @@
         },
         "contentHash": "356ee78243fe774281027aaddcdb8434a12c5964274f824218cbc6d34937c6a8",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2290,8 +2299,8 @@
         },
         "contentHash": "e9fec90f9dbd52351682a952178c05461261a51ffebccbc8bd494565805a6c65",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2345,8 +2354,8 @@
         },
         "contentHash": "8afacef65e2c0599401f8e564518fda0bd0120b0c8f4110723882ff2c48c9f15",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2404,8 +2413,8 @@
         },
         "contentHash": "63a2a80e73e7fdb1c1d34cc357eb6570cb98458ccf766bb1fce945c950ad6b87",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2463,8 +2472,8 @@
         },
         "contentHash": "4cd5c4fd74aafd7b7b7c0634a87bc88056d42df043a487af083b0d0a1c1770e3",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2522,8 +2531,8 @@
         },
         "contentHash": "316e3305ebebec4b4ee6da3919fd665f0f74c4a1fc90fc99194cc365fc7a8483",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2579,8 +2588,8 @@
         },
         "contentHash": "3fd37b8c4021795a8a8dfb32d7071bc32b4e0f5741bbb217f23120b909923bcb",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2636,8 +2645,8 @@
         },
         "contentHash": "f3981ef9e4a6a1837b76ed7d02861dffe4bd514d49d1b35762bdda80326eb34c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2691,8 +2700,8 @@
         },
         "contentHash": "29df1029824dcb4c8a5a965211202af5f4ef7d906f780433a8993ede13ce1e64",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2745,8 +2754,8 @@
         },
         "contentHash": "f30a257577e5564647c6d0060b7b07f2ea3e509b20901c10604adb13328002c0",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -2798,22 +2807,22 @@
         },
         "contentHash": "6b1c3f12b28935a78b69f0b06bde63ad9ca68c7ee3d54bbe4521a4f0b4d01595",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
     "activities": [
       {
-        "pk": "G6-L03-A1",
+        "pk": "G6-L03-A01",
         "data": {
-          "activityId": "G6-L03-A1",
+          "activityId": "G6-L03-A01",
           "lessonId": "G6-L03",
           "order": 1,
           "activityType": "opening",
-          "title": "Khởi động: Biểu diễn thông tin bằng hai kí hiệu 0 và 1 (Fixture)",
-          "objective": "Nhận biết máy tính có thể biểu diễn thông tin chỉ với hai kí hiệu 0 và 1.",
-          "instruction": "Quan sát ví dụ mã nhị phân và trả lời câu hỏi khởi động G6-L03-Q01.",
+          "title": "A01 – Thử thách 0–1",
+          "objective": "HS nhận ra vấn đề: máy tính biểu diễn thông tin bằng 0 và 1.",
+          "instruction": "Quan sát tình huống bóng đèn bật/tắt (1/0) trong mạch điện máy tính và trả lời câu hỏi khởi động G6-L03-Q001.",
           "requirementIds": [
             "G6-A-07"
           ],
@@ -2821,35 +2830,72 @@
             "quiz_response"
           ],
           "required": true,
-          "supportPolicyId": "SP-G6-DEFAULT-HINT",
+          "supportPolicyId": "SP-G6-L03-A01",
           "resourceIds": [
             "RES-G6-L03-01"
           ],
           "toolIds": [],
-          "estimatedMinutes": 15,
+          "estimatedMinutes": 5,
           "allowExternalNavigation": false,
           "scoringMethod": "auto_binary",
           "educationalPurposeApproved": true,
-          "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-07.",
-          "isFixtureOnly": true,
+          "educationalPurposeNote": "Tiết 1 (5 phút): Khởi động nhận biết máy tính biểu diễn thông tin chỉ với hai kí hiệu 0 và 1 (G6-A-07).",
           "status": "published"
         },
-        "contentHash": "bdce89e637716a206ba19c85b957b5d70e40205d9446a1c881aa253187101f12",
+        "contentHash": "0454e04f85748c42ac960038b291ee3e5f0bf28820e3815bca9ef1182c85786f",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
-        "pk": "G6-L03-A2",
+        "pk": "G6-L03-A02",
         "data": {
-          "activityId": "G6-L03-A2",
+          "activityId": "G6-L03-A02",
           "lessonId": "G6-L03",
           "order": 2,
           "activityType": "knowledge",
-          "title": "Khám phá: Đơn vị bit và các đơn vị đo dung lượng (Fixture)",
+          "title": "A02 – Phòng thí nghiệm Pixel → Bit",
+          "objective": "Giải thích được có thể biểu diễn thông tin chỉ với hai kí hiệu 0 và 1 thông qua mã hóa lưới điểm ảnh 4×4 thành chuỗi bit.",
+          "instruction": "Chạm/nhấp (tap/click) trên lưới 4×4 (ô trắng = 0, ô tô = 1), đọc từng hàng từ trên xuống dưới để tạo chuỗi bit (G6-L03-Q002) và hoàn thành Sản phẩm 1 (chuỗi bit + 1 câu giải thích 0 và 1 đang biểu diễn điều gì).",
+          "requirementIds": [
+            "G6-A-07"
+          ],
+          "expectedEvidenceTypes": [
+            "short_answer"
+          ],
+          "required": true,
+          "supportPolicyId": "SP-G6-L03-A02-3TIER",
+          "resourceIds": [
+            "RES-G6-L03-01",
+            "RES-G6-L03-02"
+          ],
+          "toolIds": [
+            "PIXEL-BIT-LAB-4X4"
+          ],
+          "estimatedMinutes": 18,
+          "allowExternalNavigation": false,
+          "scoringMethod": "rubric_and_auto",
+          "educationalPurposeApproved": true,
+          "educationalPurposeNote": "Tiết 1 (18 phút): Khám phá lưới 4×4 bằng tap/click (không bắt buộc drag/drop, tương thích mobile), thu Sản phẩm 1 và câu hỏi Q002 (G6-A-07).",
+          "status": "published"
+        },
+        "contentHash": "e65187b3adc51822c009a4951a834d4ed335b1a338f34b7c7041e5be029a3097",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-A03",
+        "data": {
+          "activityId": "G6-L03-A03",
+          "lessonId": "G6-L03",
+          "order": 3,
+          "activityType": "knowledge",
+          "title": "A03 – Bit là gì?",
           "objective": "Biết được bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
-          "instruction": "Đọc bảng đơn vị đo dung lượng và hoàn thành câu hỏi G6-L03-Q02.",
+          "instruction": "Đọc phần chốt kiến thức 'bit là đơn vị nhỏ nhất trong lưu trữ thông tin' (lưu ý: '1 Byte = 8 bit' là kiến thức bổ sung của bài học, không phải tiêu chí bắt buộc của G6-A-08) và trả lời câu hỏi G6-L03-Q003.",
           "requirementIds": [
             "G6-A-08"
           ],
@@ -2857,113 +2903,227 @@
             "quiz_response"
           ],
           "required": true,
-          "supportPolicyId": "SP-G6-DEFAULT-HINT",
+          "supportPolicyId": "SP-G6-L03-A03",
+          "resourceIds": [
+            "RES-G6-L03-01",
+            "RES-G6-L03-02"
+          ],
+          "toolIds": [],
+          "estimatedMinutes": 12,
+          "allowExternalNavigation": false,
+          "scoringMethod": "auto_binary",
+          "educationalPurposeApproved": true,
+          "educationalPurposeNote": "Tiết 1 (12 phút): Chốt khái niệm bit là đơn vị nhỏ nhất trong lưu trữ thông tin theo G6-A-08; tách bạch thông tin bổ sung 1 Byte = 8 bit.",
+          "status": "published"
+        },
+        "contentHash": "16f53f1adff2d419d804b925876564c2c6f9f9e15bc4b212f34e118846c53ae4",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-A04",
+        "data": {
+          "activityId": "G6-L03-A04",
+          "lessonId": "G6-L03",
+          "order": 4,
+          "activityType": "reflection",
+          "title": "A04 – Checkpoint Tiết 1",
+          "objective": "Kiểm tra nhanh và củng cố hai yêu cầu cần đạt của Tiết 1 (G6-A-07 và G6-A-08) để khép lại Tiết 1 ở mốc 50%.",
+          "instruction": "Trả lời câu hỏi G6-L03-Q004 (gắn với G6-A-07) và G6-L03-Q005 (gắn với G6-A-08) để hoàn thành Tiết 1 (50%).",
+          "requirementIds": [
+            "G6-A-07",
+            "G6-A-08"
+          ],
+          "expectedEvidenceTypes": [
+            "quiz_response",
+            "short_answer"
+          ],
+          "required": true,
+          "supportPolicyId": "SP-G6-L03-A04",
           "resourceIds": [
             "RES-G6-L03-01"
           ],
           "toolIds": [],
-          "estimatedMinutes": 25,
+          "estimatedMinutes": 10,
           "allowExternalNavigation": false,
           "scoringMethod": "auto_binary",
           "educationalPurposeApproved": true,
-          "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-08.",
-          "isFixtureOnly": true,
+          "educationalPurposeNote": "Tiết 1 (10 phút): Checkpoint Tiết 1 gồm Q004 (G6-A-07) và Q005 (G6-A-08). Khi hoàn tất A01–A04: đạt 50%, gọi endLearningSession(false), không gọi completeLesson().",
           "status": "published"
         },
-        "contentHash": "0090835df0694e8410bb0aa3286c741a5e943ae16688614a2155cd6b58b7cb61",
+        "contentHash": "3a07c39ec94bac7fff044f14f0df29ca47acf706596f25f5fe94d6b79ed6b608",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
-        "pk": "G6-L03-A3",
+        "pk": "G6-L03-A05",
         "data": {
-          "activityId": "G6-L03-A3",
+          "activityId": "G6-L03-A05",
           "lessonId": "G6-L03",
-          "order": 3,
-          "activityType": "practice",
-          "title": "Luyện tập: Quy đổi gần đúng giữa Byte, KB, MB, GB (Fixture)",
-          "objective": "Nêu được tên, độ lớn xấp xỉ và quy đổi gần đúng giữa Byte, KB, MB, GB.",
-          "instruction": "Thực hiện quy đổi xấp xỉ giữa các đơn vị cơ bản trong câu hỏi G6-L03-Q03.",
+          "order": 5,
+          "activityType": "knowledge",
+          "title": "A05 – Thang dung lượng",
+          "objective": "Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này.",
+          "instruction": "Tìm hiểu thang đơn vị Byte, KB, MB, GB theo quy đổi gần đúng hệ thập phân của CTGDPT (1 KB ≈ 1000 byte, 1 MB ≈ 1 000 000 byte ≈ 1000 KB, 1 GB ≈ 1 000 000 000 byte ≈ 1000 MB), điền bảng quy đổi và trả lời câu hỏi G6-L03-Q006, G6-L03-Q007.",
           "requirementIds": [
             "G6-A-09"
           ],
           "expectedEvidenceTypes": [
-            "quiz_response",
-            "worksheet_table"
+            "worksheet_table",
+            "quiz_response"
           ],
           "required": true,
-          "supportPolicyId": "SP-G6-DEFAULT-HINT",
+          "supportPolicyId": "SP-G6-L03-A05-3TIER",
           "resourceIds": [
+            "RES-G6-L03-01",
             "RES-G6-L03-02"
           ],
-          "toolIds": [],
-          "estimatedMinutes": 25,
+          "toolIds": [
+            "CAPACITY-SCALE-CONVERTER"
+          ],
+          "estimatedMinutes": 15,
           "allowExternalNavigation": false,
           "scoringMethod": "auto_binary",
           "educationalPurposeApproved": true,
-          "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-09.",
-          "isFixtureOnly": true,
+          "educationalPurposeNote": "Tiết 2 (15 phút): Quy đổi gần đúng theo hệ thập phân giữa Byte, KB, MB, GB (G6-A-09); không trộn 1024 vào câu hỏi bắt buộc; TB chỉ là supplementaryKnowledge.",
           "status": "published"
         },
-        "contentHash": "97686c200528f66bc3ea4984c1d0b6857653ff2e9e4845d90f1b10b38c627d59",
+        "contentHash": "89f6c6edb2332ae7da1617b521f7c0b4ddc4c9eef19770c62de9971cdc077344",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
-        "pk": "G6-L03-A4",
+        "pk": "G6-L03-A06",
         "data": {
-          "activityId": "G6-L03-A4",
+          "activityId": "G6-L03-A06",
           "lessonId": "G6-L03",
-          "order": 4,
+          "order": 6,
           "activityType": "application",
-          "title": "Vận dụng: Khả năng lưu trữ của các thiết bị nhớ thông dụng (Fixture)",
-          "objective": "Nêu được sơ lược khả năng lưu trữ của đĩa cứng, USB, CD, thẻ nhớ.",
-          "instruction": "So sánh dung lượng thiết bị nhớ và trả lời câu hỏi G6-L03-Q04.",
+          "title": "A06 – WebQuest “Cứu bộ nhớ”",
+          "objective": "Vận dụng quy đổi gần đúng dung lượng (G6-A-09) và khả năng lưu trữ của các thiết bị nhớ thông dụng (G6-A-10) để lập Phiếu tư vấn lưu trữ tích hợp Năng lực số 1.3.TC1a, 5.2.TC1a, 5.2.TC1b.",
+          "instruction": "Thực hiện quy trình 5 bước: (1) Xác định nhu cầu dung lượng → (2) Quy đổi về cùng đơn vị → (3) So sánh với thiết bị → (4) Chọn thiết bị → (5) Viết lí do vào Sản phẩm 2 (PHIẾU TƯ VẤN LƯU TRỮ) và trả lời câu hỏi G6-L03-Q008, G6-L03-Q009.",
+          "requirementIds": [
+            "G6-A-09",
+            "G6-A-10"
+          ],
+          "expectedEvidenceTypes": [
+            "worksheet_table",
+            "quiz_response"
+          ],
+          "required": true,
+          "supportPolicyId": "SP-G6-L03-A06-3TIER",
+          "resourceIds": [
+            "RES-G6-L03-01",
+            "RES-G6-L03-02"
+          ],
+          "toolIds": [
+            "WEBQUEST-STORAGE-ADVISOR"
+          ],
+          "estimatedMinutes": 20,
+          "allowExternalNavigation": false,
+          "scoringMethod": "rubric_and_auto",
+          "educationalPurposeApproved": true,
+          "educationalPurposeNote": "Tiết 2 (20 phút): WebQuest 'Cứu bộ nhớ' tích hợp NLS 1.3.TC1a, 5.2.TC1a, 5.2.TC1b; thu Sản phẩm 2 (PHIẾU TƯ VẤN LƯU TRỮ) và câu hỏi Q008 (G6-A-09), Q009 (G6-A-10).",
+          "status": "published"
+        },
+        "contentHash": "51b886bbf466f9c64e7d9ff41f8990df8fc73fb9224f285a67fb1a19fce43596",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.293Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.293Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-A07",
+        "data": {
+          "activityId": "G6-L03-A07",
+          "lessonId": "G6-L03",
+          "order": 7,
+          "activityType": "application",
+          "title": "A07 – Vận dụng máy đang dùng",
+          "objective": "Nêu được sơ lược khả năng lưu trữ của các thiết bị nhớ thông dụng qua quan sát thực tế trên máy đang dùng (REAL_DEVICE) hoặc thẻ giả lập ổ đĩa (SIMULATION).",
+          "instruction": "Chọn mode REAL_DEVICE (nếu em được phép xem dung lượng máy đang dùng) hoặc mode SIMULATION (xem thẻ giả lập ổ đĩa để không bị chặn bởi quyền hệ điều hành), sau đó trả lời câu hỏi G6-L03-Q010.",
           "requirementIds": [
             "G6-A-10"
           ],
           "expectedEvidenceTypes": [
-            "quiz_response",
-            "exit_ticket_reflection"
+            "quiz_response"
           ],
           "required": true,
-          "supportPolicyId": "SP-G6-DEFAULT-HINT",
+          "supportPolicyId": "SP-G6-L03-A07",
           "resourceIds": [
-            "RES-G6-L03-02"
+            "RES-G6-L03-01"
           ],
-          "toolIds": [],
-          "estimatedMinutes": 25,
+          "toolIds": [
+            "DEVICE-STORAGE-INSPECTOR"
+          ],
+          "estimatedMinutes": 5,
           "allowExternalNavigation": false,
           "scoringMethod": "auto_binary",
           "educationalPurposeApproved": true,
-          "educationalPurposeNote": "Fixture kiểm thử hoạt động gắn với G6-A-10.",
-          "isFixtureOnly": true,
+          "educationalPurposeNote": "Tiết 2 (5 phút): Vận dụng đọc dung lượng ổ đĩa/thiết bị nhớ với 2 mode REAL_DEVICE và SIMULATION (G6-A-10).",
           "status": "published"
         },
-        "contentHash": "dc3e75107908b8005203e0654ea0ff569e71894f7c56aedc198e868e90d09db6",
+        "contentHash": "0f6983cf91cb09cd69fe86c7f70e3e2456b5f0dadf857e86935c732bf13e3b5c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-A08",
+        "data": {
+          "activityId": "G6-L03-A08",
+          "lessonId": "G6-L03",
+          "order": 8,
+          "activityType": "reflection",
+          "title": "A08 – Nhìn lại + Exit Ticket",
+          "objective": "Nhìn lại kiến thức toàn bài và hoàn thành Exit Ticket với câu vận dụng chọn thiết bị lưu trữ cho khoảng 6 GB dữ liệu (G6-A-10).",
+          "instruction": "Hoàn thành phiếu Exit Ticket (understandingLevel, keyLearning, stillConfused, applicationAnswer cho câu hỏi lưu khoảng 6 GB dữ liệu, selfAssessment) rồi nhấn 'Hoàn thành bài học'.",
+          "requirementIds": [
+            "G6-A-10"
+          ],
+          "expectedEvidenceTypes": [
+            "exit_ticket_reflection"
+          ],
+          "required": true,
+          "supportPolicyId": "SP-G6-L03-A08",
+          "resourceIds": [
+            "RES-G6-L03-01"
+          ],
+          "toolIds": [],
+          "estimatedMinutes": 5,
+          "allowExternalNavigation": false,
+          "scoringMethod": "completion_and_reflection",
+          "educationalPurposeApproved": true,
+          "educationalPurposeNote": "Tiết 2 (5 phút): Nhìn lại + Exit Ticket bắt buộc trước khi cho phép completeLesson().",
+          "status": "published"
+        },
+        "contentHash": "f60bf2c72be0b75195d21c741eb0ec9da6363a27637974ea391c318c327bae9a",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
     "questions": [
       {
-        "pk": "G6-L03-Q01",
+        "pk": "G6-L03-Q001",
         "data": {
-          "questionId": "G6-L03-Q01",
+          "questionId": "G6-L03-Q001",
           "grade": 6,
           "topicId": "G6-A",
           "lessonId": "G6-L03",
-          "activityId": "G6-L03-A1",
+          "activityId": "G6-L03-A01",
           "requirementId": "G6-A-07",
           "questionType": "single_choice",
-          "cognitiveLevel": "thong_hieu",
-          "questionText": "[Fixture] Trong máy tính, thông tin được biểu diễn chỉ với hai kí hiệu nào?",
+          "cognitiveLevel": "nhan_biet",
+          "questionText": "Máy tính dùng hai kí hiệu nào để biểu diễn thông tin?",
           "options": [
             {
               "id": "A",
@@ -2975,7 +3135,7 @@
             },
             {
               "id": "C",
-              "text": "Các chữ số từ 0 đến 9"
+              "text": "Mười chữ số từ 0 đến 9"
             },
             {
               "id": "D",
@@ -2983,258 +3143,336 @@
             }
           ],
           "correctAnswer": "B",
-          "explanation": "Máy tính biểu diễn và xử lí thông tin bằng các dãy bit chỉ gồm hai kí hiệu 0 và 1.",
+          "explanation": "Theo YCCĐ G6-A-07 (CTGDPT 2018), trong máy tính thông tin được biểu diễn chỉ với hai kí hiệu 0 và 1.",
           "maxScore": 1,
-          "isFixtureOnly": true,
           "status": "published"
         },
-        "contentHash": "93448a8d2dda37d7868f37b286e369b5c02407ff57d64a16fc79ec6c54537dbe",
+        "contentHash": "089eae582f49cdd9aa5be3b978a77e80a7fe0548560a9e58e97f50235e970d06",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
-        "pk": "G6-L03-Q02",
+        "pk": "G6-L03-Q002",
         "data": {
-          "questionId": "G6-L03-Q02",
+          "questionId": "G6-L03-Q002",
           "grade": 6,
           "topicId": "G6-A",
           "lessonId": "G6-L03",
-          "activityId": "G6-L03-A2",
+          "activityId": "G6-L03-A02",
+          "requirementId": "G6-A-07",
+          "questionType": "short_answer",
+          "cognitiveLevel": "thong_hieu",
+          "questionText": "Viết chuỗi bit tương ứng với lưới 4×4 hình chữ T (quy ước ô trắng = 0, ô tô = 1; Hàng 1 tô cả 4 ô: 1111; Hàng 2, 3, 4 chỉ tô ô thứ hai: 0100).",
+          "options": [],
+          "correctAnswer": "1111010001000100",
+          "explanation": "Đọc lần lượt từng hàng từ trên xuống dưới: Hàng 1 là 1111, Hàng 2 là 0100, Hàng 3 là 0100, Hàng 4 là 0100. Ghép lại được chuỗi 16 bit: 1111010001000100.",
+          "maxScore": 2,
+          "status": "published"
+        },
+        "contentHash": "ea1ede8a6ebcb71a3534d1977dddaac786e3a87d1856d9807c2a00a033ddeb67",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-Q003",
+        "data": {
+          "questionId": "G6-L03-Q003",
+          "grade": 6,
+          "topicId": "G6-A",
+          "lessonId": "G6-L03",
+          "activityId": "G6-L03-A03",
           "requirementId": "G6-A-08",
           "questionType": "single_choice",
           "cognitiveLevel": "nhan_biet",
-          "questionText": "[Fixture] Đơn vị nhỏ nhất trong lưu trữ thông tin là gì?",
+          "questionText": "Bit là gì?",
           "options": [
             {
               "id": "A",
-              "text": "bit"
+              "text": "Là đơn vị nhỏ nhất trong lưu trữ thông tin"
             },
             {
               "id": "B",
-              "text": "Byte"
+              "text": "Là đơn vị lớn nhất dùng để đo dung lượng ổ cứng"
             },
             {
               "id": "C",
-              "text": "KB"
+              "text": "Là tên một thiết bị nhớ gắn ngoài"
             },
             {
               "id": "D",
-              "text": "MB"
+              "text": "Là một chương trình soạn thảo văn bản"
             }
           ],
           "correctAnswer": "A",
-          "explanation": "Theo CTGDPT 2018 (G6-A-08), bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
+          "explanation": "Theo YCCĐ G6-A-08 (CTGDPT 2018), bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
           "maxScore": 1,
-          "isFixtureOnly": true,
           "status": "published"
         },
-        "contentHash": "e0547e0660a381b3a5dd6fc24855c95bbde590cfc90e2396fdf835bf7074e505",
+        "contentHash": "73e7b8a0f09eb11b3a4123319a5ac1896e243251f768c4573eb7cd57da4f778a",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
-        "pk": "G6-L03-Q03",
+        "pk": "G6-L03-Q004",
         "data": {
-          "questionId": "G6-L03-Q03",
+          "questionId": "G6-L03-Q004",
           "grade": 6,
           "topicId": "G6-A",
           "lessonId": "G6-L03",
-          "activityId": "G6-L03-A3",
+          "activityId": "G6-L03-A04",
+          "requirementId": "G6-A-07",
+          "questionType": "single_choice",
+          "cognitiveLevel": "thong_hieu",
+          "questionText": "Vì sao hình ảnh, văn bản và âm thanh đều có thể được lưu trữ và xử lí trong máy tính?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Vì chúng đều có thể được chuyển đổi thành các dãy bit chỉ gồm hai kí hiệu 0 và 1"
+            },
+            {
+              "id": "B",
+              "text": "Vì máy tính chỉ lưu được ảnh đen trắng"
+            },
+            {
+              "id": "C",
+              "text": "Vì bàn phím máy tính chỉ có hai phím 0 và 1"
+            },
+            {
+              "id": "D",
+              "text": "Vì ổ cứng máy tính là một cuốn sổ giấy"
+            }
+          ],
+          "correctAnswer": "A",
+          "explanation": "Mọi dạng thông tin (văn bản, hình ảnh, âm thanh) khi đưa vào máy tính đều được biểu diễn thành các dãy bit chỉ gồm hai kí hiệu 0 và 1 (G6-A-07).",
+          "maxScore": 1,
+          "status": "published"
+        },
+        "contentHash": "b1584bc08b06d008d44b13cf4c144e6402a062d859756b154fc414f6f94b28bf",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-Q005",
+        "data": {
+          "questionId": "G6-L03-Q005",
+          "grade": 6,
+          "topicId": "G6-A",
+          "lessonId": "G6-L03",
+          "activityId": "G6-L03-A04",
+          "requirementId": "G6-A-08",
+          "questionType": "short_answer",
+          "cognitiveLevel": "nhan_biet",
+          "questionText": "Điền từ thích hợp (3 chữ cái) vào chỗ trống: '...... là đơn vị nhỏ nhất trong lưu trữ thông tin.'",
+          "options": [],
+          "correctAnswer": "bit",
+          "explanation": "Theo YCCĐ G6-A-08, bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
+          "maxScore": 1,
+          "status": "published"
+        },
+        "contentHash": "5a6dcad2841adad037a613d8034049991466b241576fdcc8a1deb7a6743414d3",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-Q006",
+        "data": {
+          "questionId": "G6-L03-Q006",
+          "grade": 6,
+          "topicId": "G6-A",
+          "lessonId": "G6-L03",
+          "activityId": "G6-L03-A05",
+          "requirementId": "G6-A-09",
+          "questionType": "single_choice",
+          "cognitiveLevel": "nhan_biet",
+          "questionText": "Theo quy đổi gần đúng hệ thập phân trong CTGDPT 2018, 1 GB xấp xỉ bao nhiêu MB?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Xấp xỉ 10 MB"
+            },
+            {
+              "id": "B",
+              "text": "Xấp xỉ 100 MB"
+            },
+            {
+              "id": "C",
+              "text": "Xấp xỉ 1000 MB"
+            },
+            {
+              "id": "D",
+              "text": "Xấp xỉ 1 000 000 MB"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "Theo hệ thập phân gần đúng của CTGDPT 2018 (1 KB ≈ 1000 byte, 1 MB ≈ 1 triệu byte, 1 GB ≈ 1 tỉ byte), mỗi đơn vị liền kề hơn kém nhau xấp xỉ 1000 lần nên 1 GB ≈ 1000 MB (G6-A-09).",
+          "maxScore": 1,
+          "status": "published"
+        },
+        "contentHash": "b3c4a76e14acc449b94c3863ec7e85dd98f62898e1cf81618050a48929e11129",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-Q007",
+        "data": {
+          "questionId": "G6-L03-Q007",
+          "grade": 6,
+          "topicId": "G6-A",
+          "lessonId": "G6-L03",
+          "activityId": "G6-L03-A05",
+          "requirementId": "G6-A-09",
+          "questionType": "short_answer",
+          "cognitiveLevel": "thong_hieu",
+          "questionText": "Theo quy đổi gần đúng hệ thập phân (1 GB ≈ 1000 MB), 3 GB xấp xỉ bao nhiêu MB? (Chỉ nhập số)",
+          "options": [],
+          "correctAnswer": "3000",
+          "explanation": "Vì 1 GB xấp xỉ 1000 MB theo hệ thập phân nên 3 GB xấp xỉ 3 × 1000 = 3000 MB (G6-A-09).",
+          "maxScore": 1,
+          "status": "published"
+        },
+        "contentHash": "b91a97cbe9d51b4c3b39bfe97d16db4316ff3641b45d2d9de2daf30fcb03404f",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-Q008",
+        "data": {
+          "questionId": "G6-L03-Q008",
+          "grade": 6,
+          "topicId": "G6-A",
+          "lessonId": "G6-L03",
+          "activityId": "G6-L03-A06",
           "requirementId": "G6-A-09",
           "questionType": "single_choice",
           "cognitiveLevel": "van_dung",
-          "questionText": "[Fixture] Theo quy đổi gần đúng hệ thập phân giữa các đơn vị cơ bản Byte, KB, MB, GB thì 1 GB xấp xỉ bằng bao nhiêu MB?",
+          "questionText": "Điện thoại còn 2 GB dung lượng trống, video bài giảng cần 3 GB: điện thoại có đủ dung lượng để lưu video đó hay không?",
           "options": [
             {
               "id": "A",
-              "text": "Khoảng 100 MB"
+              "text": "Đủ dung lượng vì 2 GB lớn hơn 3 GB"
             },
             {
               "id": "B",
-              "text": "Khoảng 1000 MB"
+              "text": "Không đủ dung lượng vì 2 GB (≈ 2000 MB) nhỏ hơn 3 GB (≈ 3000 MB), còn thiếu khoảng 1 GB"
             },
             {
               "id": "C",
-              "text": "Khoảng 10 MB"
+              "text": "Đủ dung lượng vì mọi video đều chỉ chiếm 1 KB"
             },
             {
               "id": "D",
-              "text": "Khoảng 8 MB"
+              "text": "Không thể so sánh được giữa 2 GB và 3 GB"
             }
           ],
           "correctAnswer": "B",
-          "explanation": "Theo hệ thập phân, các đơn vị cơ bản Byte, KB, MB, GB hơn kém nhau xấp xỉ 1000 lần nên 1 GB ≈ 1000 MB.",
-          "maxScore": 1,
-          "isFixtureOnly": true,
+          "explanation": "Khi so sánh cùng đơn vị GB (hoặc quy đổi 2 GB ≈ 2000 MB và 3 GB ≈ 3000 MB), dung lượng trống 2 GB nhỏ hơn nhu cầu 3 GB nên không đủ chỗ lưu (G6-A-09).",
+          "maxScore": 2,
           "status": "published"
         },
-        "contentHash": "1f8e0f9b612fa8c2c65beefbf04fc6f601a86177a58f5211998f049ca200b7a8",
+        "contentHash": "9d6147079f8f034ba4f3102b53185ee966f34924dbf92389c034c7f05b78f57c",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
-        "pk": "G6-L03-Q04",
+        "pk": "G6-L03-Q009",
         "data": {
-          "questionId": "G6-L03-Q04",
+          "questionId": "G6-L03-Q009",
           "grade": 6,
           "topicId": "G6-A",
           "lessonId": "G6-L03",
-          "activityId": "G6-L03-A4",
+          "activityId": "G6-L03-A06",
           "requirementId": "G6-A-10",
           "questionType": "single_choice",
-          "cognitiveLevel": "thong_hieu",
-          "questionText": "[Fixture] Trong các thiết bị nhớ thông dụng sau (đĩa cứng, USB, CD, thẻ nhớ), thiết bị nào thường có dung lượng lưu trữ lớn nhất trong máy tính cá nhân?",
+          "cognitiveLevel": "van_dung",
+          "questionText": "Chọn thiết bị phù hợp để lưu trữ và mang theo khoảng 6 GB dữ liệu học tập:",
           "options": [
             {
               "id": "A",
-              "text": "Đĩa CD (khoảng 700 MB)"
+              "text": "Đĩa CD (dung lượng khoảng 700 MB)"
             },
             {
               "id": "B",
-              "text": "Đĩa cứng (hàng trăm GB trở lên)"
+              "text": "Thẻ nhớ cũ dung lượng 2 GB"
             },
             {
               "id": "C",
-              "text": "Đĩa mềm (1.44 MB)"
+              "text": "USB 16 GB hoặc thẻ nhớ 16 GB (dung lượng lớn hơn 6 GB và nhỏ gọn)"
             },
             {
               "id": "D",
-              "text": "Thẻ nhớ 2 GB"
+              "text": "Một đĩa CD 700 MB kèm một thẻ nhớ 1 GB"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "Đĩa CD (~700 MB < 1 GB) và thẻ nhớ 2 GB đều nhỏ hơn 6 GB. USB 16 GB hoặc thẻ nhớ 16 GB có khả năng lưu trữ lớn hơn 6 GB và thuận tiện mang theo (G6-A-10, NLS 5.2.TC1a & 5.2.TC1b).",
+          "maxScore": 2,
+          "status": "published"
+        },
+        "contentHash": "843585489cdf1bd92158ecd5efc6443ee3f5ad0719e4eca09dcfdbcdc5f7bd5a",
+        "revision": 1,
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
+        "lastTraceId": "TRACE-P25-RUN-1"
+      },
+      {
+        "pk": "G6-L03-Q010",
+        "data": {
+          "questionId": "G6-L03-Q010",
+          "grade": 6,
+          "topicId": "G6-A",
+          "lessonId": "G6-L03",
+          "activityId": "G6-L03-A07",
+          "requirementId": "G6-A-10",
+          "questionType": "single_choice",
+          "cognitiveLevel": "van_dung",
+          "questionText": "Khi đọc dung lượng của thiết bị/ổ đĩa (trên máy đang dùng hoặc trên thẻ mô phỏng: Ổ đĩa cứng 256 GB, USB 16 GB, Thẻ nhớ 32 GB, Đĩa CD 700 MB), nhận xét nào sau đây đúng về khả năng lưu trữ của chúng?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đĩa CD (~700 MB) lưu trữ được nhiều dữ liệu hơn ổ đĩa cứng 256 GB"
+            },
+            {
+              "id": "B",
+              "text": "Đĩa cứng thường có dung lượng lớn (hàng trăm GB trở lên), USB và thẻ nhớ từ vài GB đến hàng trăm GB, còn đĩa CD khoảng 700 MB"
+            },
+            {
+              "id": "C",
+              "text": "Tất cả các thiết bị nhớ đều có dung lượng bằng nhau là 700 Byte"
+            },
+            {
+              "id": "D",
+              "text": "USB 16 GB có dung lượng nhỏ hơn đĩa CD 700 MB"
             }
           ],
           "correctAnswer": "B",
-          "explanation": "Đĩa cứng là thiết bị nhớ thông dụng có khả năng lưu trữ lớn (hàng trăm GB trở lên), lớn hơn nhiều so với đĩa CD (~700 MB).",
+          "explanation": "Theo YCCĐ G6-A-10, đĩa cứng có khả năng lưu trữ rất lớn (hàng trăm GB trở lên), USB và thẻ nhớ có dung lượng vừa đến lớn (vài GB đến hàng trăm GB), còn đĩa CD lưu khoảng 700 MB.",
           "maxScore": 1,
-          "isFixtureOnly": true,
           "status": "published"
         },
-        "contentHash": "4bf7d1145f9227ea0fd0826e8be950888660af97f76ed6a50aa688b5e2bd7384",
+        "contentHash": "b50abcb73dee98e97beff16f20eb4b5606251d87fb69c9ef4374504338352214",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
-    "evidences": [
-      {
-        "pk": "EVD-G6-L03-01",
-        "data": {
-          "evidenceId": "EVD-G6-L03-01",
-          "studentUid": "STD-FIXTURE-SAMPLE-001",
-          "schoolYear": "2026-2027",
-          "lessonId": "G6-L03",
-          "requirementId": "G6-A-07",
-          "evidenceType": "quiz_response",
-          "sourceActivityId": "G6-L03-A1",
-          "submittedAt": "2026-10-24T08:15:00Z",
-          "evaluationStatus": "evaluated",
-          "questionId": "G6-L03-Q01",
-          "productId": null,
-          "score": 1,
-          "maxScore": 1,
-          "isCorrect": true,
-          "rubricResult": null,
-          "teacherFeedback": null,
-          "aiFeedback": null,
-          "isFixtureSample": true
-        },
-        "contentHash": "8692d3be469cbe29dd766e836047a45c08d7848ed25494cf919903c426084fab",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      },
-      {
-        "pk": "EVD-G6-L03-02",
-        "data": {
-          "evidenceId": "EVD-G6-L03-02",
-          "studentUid": "STD-FIXTURE-SAMPLE-001",
-          "schoolYear": "2026-2027",
-          "lessonId": "G6-L03",
-          "requirementId": "G6-A-08",
-          "evidenceType": "quiz_response",
-          "sourceActivityId": "G6-L03-A2",
-          "submittedAt": "2026-10-24T08:30:00Z",
-          "evaluationStatus": "evaluated",
-          "questionId": "G6-L03-Q02",
-          "productId": null,
-          "score": 1,
-          "maxScore": 1,
-          "isCorrect": true,
-          "rubricResult": null,
-          "teacherFeedback": null,
-          "aiFeedback": null,
-          "isFixtureSample": true
-        },
-        "contentHash": "506060889bc99073de7b0ed17170ef214acdf90ed73102dfa9997e41b7259607",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      },
-      {
-        "pk": "EVD-G6-L03-03",
-        "data": {
-          "evidenceId": "EVD-G6-L03-03",
-          "studentUid": "STD-FIXTURE-SAMPLE-001",
-          "schoolYear": "2026-2027",
-          "lessonId": "G6-L03",
-          "requirementId": "G6-A-09",
-          "evidenceType": "quiz_response",
-          "sourceActivityId": "G6-L03-A3",
-          "submittedAt": "2026-10-24T08:50:00Z",
-          "evaluationStatus": "evaluated",
-          "questionId": "G6-L03-Q03",
-          "productId": null,
-          "score": 1,
-          "maxScore": 1,
-          "isCorrect": true,
-          "rubricResult": null,
-          "teacherFeedback": null,
-          "aiFeedback": null,
-          "isFixtureSample": true
-        },
-        "contentHash": "7103a08b8ed7cfe3c20b256b08d1bd6b880296b2519bd692cd018eb2817e2eb1",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      },
-      {
-        "pk": "EVD-G6-L03-04",
-        "data": {
-          "evidenceId": "EVD-G6-L03-04",
-          "studentUid": "STD-FIXTURE-SAMPLE-001",
-          "schoolYear": "2026-2027",
-          "lessonId": "G6-L03",
-          "requirementId": "G6-A-10",
-          "evidenceType": "quiz_response",
-          "sourceActivityId": "G6-L03-A4",
-          "submittedAt": "2026-10-24T09:10:00Z",
-          "evaluationStatus": "evaluated",
-          "questionId": "G6-L03-Q04",
-          "productId": null,
-          "score": 1,
-          "maxScore": 1,
-          "isCorrect": true,
-          "rubricResult": null,
-          "teacherFeedback": null,
-          "aiFeedback": null,
-          "isFixtureSample": true
-        },
-        "contentHash": "ac9be674a1e23215b3fe8d099f54599b34fac570f452094205a1a6c32d67c48b",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      }
-    ],
+    "evidences": [],
     "resources": [
       {
         "pk": "RES-G6-L03-01",
@@ -3248,17 +3486,17 @@
             "G6-A-09",
             "G6-A-10"
           ],
-          "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính (Fixture)",
+          "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính",
           "resourceType": "interactive_lesson",
           "requiresUrl": true,
           "url": "lessons/grade6/bai3/index.html",
           "sourceId": "SRC-SGK-KNTT-TIN6",
           "status": "published"
         },
-        "contentHash": "c094f1d1ac9ddac977a04b0d8d7ed980225e7faa3e981e73e519938045d923c9",
+        "contentHash": "9ed4065069788eac04f1d5bb917580fc063cf49f6df43ecd8dd2d50079c2f823",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       },
       {
@@ -3281,188 +3519,23 @@
         },
         "contentHash": "49e1e9413daa1e673d3cde029e87589b3ef94c226f9bc96774e22a98033c4aff",
         "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
+        "firstImportedAt": "2026-10-24T08:59:37.294Z",
+        "lastUpdatedAt": "2026-10-24T08:59:37.294Z",
         "lastTraceId": "TRACE-P25-RUN-1"
       }
     ],
-    "masteryRules": [
-      {
-        "pk": "MR-G6-A-07",
-        "data": {
-          "masteryRuleId": "MR-G6-A-07",
-          "requirementId": "G6-A-07",
-          "lessonId": "G6-L03",
-          "minimumEvidenceCount": 1,
-          "requiredEvidenceTypes": [
-            "quiz_response"
-          ],
-          "thresholds": {
-            "insufficient_evidence": {
-              "minEvidenceCount": 0,
-              "maxScoreRatio": 0
-            },
-            "developing": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.4,
-              "maxScoreRatio": 0.69
-            },
-            "achieved": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.7,
-              "maxScoreRatio": 0.89
-            },
-            "extended": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.9,
-              "maxScoreRatio": 1
-            }
-          },
-          "recencyRule": "latest_3_evidences_weighted",
-          "teacherOverrideAllowed": true,
-          "status": "published"
-        },
-        "contentHash": "22d5809f4f7697e9e94b9ccdfd492d4d6870f0e0235c619b915cb558cb710b66",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      },
-      {
-        "pk": "MR-G6-A-08",
-        "data": {
-          "masteryRuleId": "MR-G6-A-08",
-          "requirementId": "G6-A-08",
-          "lessonId": "G6-L03",
-          "minimumEvidenceCount": 1,
-          "requiredEvidenceTypes": [
-            "quiz_response"
-          ],
-          "thresholds": {
-            "insufficient_evidence": {
-              "minEvidenceCount": 0,
-              "maxScoreRatio": 0
-            },
-            "developing": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.4,
-              "maxScoreRatio": 0.69
-            },
-            "achieved": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.7,
-              "maxScoreRatio": 0.89
-            },
-            "extended": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.9,
-              "maxScoreRatio": 1
-            }
-          },
-          "recencyRule": "latest_3_evidences_weighted",
-          "teacherOverrideAllowed": true,
-          "status": "published"
-        },
-        "contentHash": "9531f1a938d8c21e74144f1e79695dda8a764e60f254cf11eac92e3578840c8b",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      },
-      {
-        "pk": "MR-G6-A-09",
-        "data": {
-          "masteryRuleId": "MR-G6-A-09",
-          "requirementId": "G6-A-09",
-          "lessonId": "G6-L03",
-          "minimumEvidenceCount": 1,
-          "requiredEvidenceTypes": [
-            "quiz_response"
-          ],
-          "thresholds": {
-            "insufficient_evidence": {
-              "minEvidenceCount": 0,
-              "maxScoreRatio": 0
-            },
-            "developing": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.4,
-              "maxScoreRatio": 0.69
-            },
-            "achieved": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.7,
-              "maxScoreRatio": 0.89
-            },
-            "extended": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.9,
-              "maxScoreRatio": 1
-            }
-          },
-          "recencyRule": "latest_3_evidences_weighted",
-          "teacherOverrideAllowed": true,
-          "status": "published"
-        },
-        "contentHash": "7bbd4b84a3c86805fda7021777b594cba1502b245f35653950c5adb489731ce3",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      },
-      {
-        "pk": "MR-G6-A-10",
-        "data": {
-          "masteryRuleId": "MR-G6-A-10",
-          "requirementId": "G6-A-10",
-          "lessonId": "G6-L03",
-          "minimumEvidenceCount": 1,
-          "requiredEvidenceTypes": [
-            "quiz_response"
-          ],
-          "thresholds": {
-            "insufficient_evidence": {
-              "minEvidenceCount": 0,
-              "maxScoreRatio": 0
-            },
-            "developing": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.4,
-              "maxScoreRatio": 0.69
-            },
-            "achieved": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.7,
-              "maxScoreRatio": 0.89
-            },
-            "extended": {
-              "minEvidenceCount": 1,
-              "minScoreRatio": 0.9,
-              "maxScoreRatio": 1
-            }
-          },
-          "recencyRule": "latest_3_evidences_weighted",
-          "teacherOverrideAllowed": true,
-          "status": "published"
-        },
-        "contentHash": "e6a76b587738ff8e61c9640632b4b1198a4b7c302372618e992750a422a76562",
-        "revision": 1,
-        "firstImportedAt": "2026-10-24T08:01:32.812Z",
-        "lastUpdatedAt": "2026-10-24T08:01:32.812Z",
-        "lastTraceId": "TRACE-P25-RUN-1"
-      }
-    ]
+    "masteryRules": []
   },
   "importHistory": [
     {
       "traceId": "TRACE-P25-RUN-1",
-      "timestamp": "2026-10-24T08:01:32.812Z",
-      "totalProcessed": 92,
-      "totalInserted": 92,
+      "timestamp": "2026-10-24T08:59:37.294Z",
+      "totalProcessed": 94,
+      "totalInserted": 94,
       "totalUpdated": 0,
       "totalUnchanged": 0,
       "duplicatesCreated": 0,
-      "totalInAdapter": 92,
+      "totalInAdapter": 94,
       "tableStats": {
         "sources": {
           "processed": 6,
@@ -3514,25 +3587,25 @@
           "totalInStore": 16
         },
         "activities": {
-          "processed": 4,
-          "inserted": 4,
+          "processed": 8,
+          "inserted": 8,
           "updated": 0,
           "unchanged": 0,
-          "totalInStore": 4
+          "totalInStore": 8
         },
         "questions": {
-          "processed": 4,
-          "inserted": 4,
+          "processed": 10,
+          "inserted": 10,
           "updated": 0,
           "unchanged": 0,
-          "totalInStore": 4
+          "totalInStore": 10
         },
         "evidences": {
-          "processed": 4,
-          "inserted": 4,
+          "processed": 0,
+          "inserted": 0,
           "updated": 0,
           "unchanged": 0,
-          "totalInStore": 4
+          "totalInStore": 0
         },
         "resources": {
           "processed": 2,
@@ -3542,23 +3615,23 @@
           "totalInStore": 2
         },
         "masteryRules": {
-          "processed": 4,
-          "inserted": 4,
+          "processed": 0,
+          "inserted": 0,
           "updated": 0,
           "unchanged": 0,
-          "totalInStore": 4
+          "totalInStore": 0
         }
       }
     },
     {
       "traceId": "TRACE-P25-RUN-2",
-      "timestamp": "2026-10-24T08:01:32.815Z",
-      "totalProcessed": 92,
+      "timestamp": "2026-10-24T08:59:37.296Z",
+      "totalProcessed": 94,
       "totalInserted": 0,
       "totalUpdated": 0,
-      "totalUnchanged": 92,
+      "totalUnchanged": 94,
       "duplicatesCreated": 0,
-      "totalInAdapter": 92,
+      "totalInAdapter": 94,
       "tableStats": {
         "sources": {
           "processed": 6,
@@ -3610,25 +3683,25 @@
           "totalInStore": 16
         },
         "activities": {
-          "processed": 4,
+          "processed": 8,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 8,
+          "totalInStore": 8
         },
         "questions": {
-          "processed": 4,
+          "processed": 10,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 10,
+          "totalInStore": 10
         },
         "evidences": {
-          "processed": 4,
+          "processed": 0,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 0,
+          "totalInStore": 0
         },
         "resources": {
           "processed": 2,
@@ -3638,23 +3711,23 @@
           "totalInStore": 2
         },
         "masteryRules": {
-          "processed": 4,
+          "processed": 0,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 0,
+          "totalInStore": 0
         }
       }
     },
     {
       "traceId": "TRACE-P25-RUN-3",
-      "timestamp": "2026-10-24T08:01:32.816Z",
-      "totalProcessed": 92,
+      "timestamp": "2026-10-24T08:59:37.298Z",
+      "totalProcessed": 94,
       "totalInserted": 0,
       "totalUpdated": 0,
-      "totalUnchanged": 92,
+      "totalUnchanged": 94,
       "duplicatesCreated": 0,
-      "totalInAdapter": 92,
+      "totalInAdapter": 94,
       "tableStats": {
         "sources": {
           "processed": 6,
@@ -3706,25 +3779,25 @@
           "totalInStore": 16
         },
         "activities": {
-          "processed": 4,
+          "processed": 8,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 8,
+          "totalInStore": 8
         },
         "questions": {
-          "processed": 4,
+          "processed": 10,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 10,
+          "totalInStore": 10
         },
         "evidences": {
-          "processed": 4,
+          "processed": 0,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 0,
+          "totalInStore": 0
         },
         "resources": {
           "processed": 2,
@@ -3734,11 +3807,11 @@
           "totalInStore": 2
         },
         "masteryRules": {
-          "processed": 4,
+          "processed": 0,
           "inserted": 0,
           "updated": 0,
-          "unchanged": 4,
-          "totalInStore": 4
+          "unchanged": 0,
+          "totalInStore": 0
         }
       }
     }

@@ -1,0 +1,219 @@
+{
+  "fixtureNote": "Sample Evidence and MasteryRule test fixture for Phase 2 / P2.5 schema and validator regression only. Kept strictly outside production Golden Lesson data.",
+  "evidences": [
+    {
+      "evidenceId": "EVD-G6-L03-01",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
+      "lessonId": "G6-L03",
+      "requirementId": "G6-A-07",
+      "evidenceType": "quiz_response",
+      "sourceActivityId": "G6-L03-A01",
+      "submittedAt": "2026-10-24T08:15:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q001",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
+    },
+    {
+      "evidenceId": "EVD-G6-L03-02",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
+      "lessonId": "G6-L03",
+      "requirementId": "G6-A-08",
+      "evidenceType": "quiz_response",
+      "sourceActivityId": "G6-L03-A03",
+      "submittedAt": "2026-10-24T08:30:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q003",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
+    },
+    {
+      "evidenceId": "EVD-G6-L03-03",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
+      "lessonId": "G6-L03",
+      "requirementId": "G6-A-09",
+      "evidenceType": "quiz_response",
+      "sourceActivityId": "G6-L03-A05",
+      "submittedAt": "2026-10-24T08:50:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q006",
+      "productId": null,
+      "score": 1,
+      "maxScore": 1,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
+    },
+    {
+      "evidenceId": "EVD-G6-L03-04",
+      "studentUid": "STD-FIXTURE-SAMPLE-001",
+      "schoolYear": "2026-2027",
+      "lessonId": "G6-L03",
+      "requirementId": "G6-A-10",
+      "evidenceType": "quiz_response",
+      "sourceActivityId": "G6-L03-A06",
+      "submittedAt": "2026-10-24T09:10:00Z",
+      "evaluationStatus": "evaluated",
+      "questionId": "G6-L03-Q009",
+      "productId": null,
+      "score": 2,
+      "maxScore": 2,
+      "isCorrect": true,
+      "rubricResult": null,
+      "teacherFeedback": null,
+      "aiFeedback": null,
+      "isFixtureSample": true
+    }
+  ],
+  "masteryRules": [
+    {
+      "masteryRuleId": "MR-G6-A-07",
+      "requirementId": "G6-A-07",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    },
+    {
+      "masteryRuleId": "MR-G6-A-08",
+      "requirementId": "G6-A-08",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    },
+    {
+      "masteryRuleId": "MR-G6-A-09",
+      "requirementId": "G6-A-09",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    },
+    {
+      "masteryRuleId": "MR-G6-A-10",
+      "requirementId": "G6-A-10",
+      "lessonId": "G6-L03",
+      "minimumEvidenceCount": 1,
+      "requiredEvidenceTypes": [
+        "quiz_response"
+      ],
+      "thresholds": {
+        "insufficient_evidence": {
+          "minEvidenceCount": 0,
+          "maxScoreRatio": 0
+        },
+        "developing": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.4,
+          "maxScoreRatio": 0.69
+        },
+        "achieved": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.7,
+          "maxScoreRatio": 0.89
+        },
+        "extended": {
+          "minEvidenceCount": 1,
+          "minScoreRatio": 0.9,
+          "maxScoreRatio": 1
+        }
+      },
+      "recencyRule": "latest_3_evidences_weighted",
+      "teacherOverrideAllowed": true,
+      "status": "published"
+    }
+  ]
+}

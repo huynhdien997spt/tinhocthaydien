@@ -93,7 +93,7 @@ function ensureFixturesOnDisk(baseDataset) {
       grade: 6,
       topicId: 'G6-A',
       lessonId: 'G6-L03',
-      activityId: 'G6-L03-A4',
+      activityId: 'G6-L03-A04',
       requirementId: '',
       questionType: 'multiple_choice',
       cognitiveLevel: 'nhan_biet',
@@ -109,7 +109,7 @@ function ensureFixturesOnDisk(baseDataset) {
       grade: 6,
       topicId: 'G6-A',
       lessonId: 'G6-L03',
-      activityId: 'G6-L03-A4',
+      activityId: 'G6-L03-A04',
       requirementId: 'G6-A-08',
       questionType: 'multiple_choice',
       cognitiveLevel: 'thong_hieu',
@@ -452,34 +452,42 @@ function runSuite() {
     return '1.3.TC1a, 5.2.TC1a, 5.2.TC1b mapped to G6-A-09 & G6-A-10 with Phụ lục III descriptions';
   });
 
-  test('P25-09', 'Golden Lesson G6-L03 fixture matches specification and is marked isFixtureOnly=true', () => {
+  test('P25-09', 'Golden Lesson G6-L03 (2 periods / 90m, G6-A-07..10) & Phase 2 sample Evidence/Mastery fixture pass schema validation', () => {
     const goldenFile = JSON.parse(
       fs.readFileSync(path.join(REPO_ROOT, 'data/lessons/G6-L03.golden.json'), 'utf8')
     );
     const l03 = goldenFile.lesson;
     assert(l03.lessonId === 'G6-L03', `Expected lessonId=G6-L03, got ${l03.lessonId}`);
-    assert(l03.title === 'Thông tin trong máy tính', `Unexpected title: ${l03.title}`);
+    assert(l03.title.includes('Thông tin trong máy tính'), `Unexpected title: ${l03.title}`);
     assert(l03.topicId === 'G6-A', `Expected topicId=G6-A, got ${l03.topicId}`);
     assert(l03.periods === 2 && l03.durationMinutes === 90, 'Expected 2 periods / 90 minutes');
-    assert(l03.isFixtureOnly === true && goldenFile.fixtureMetadata.isFixtureOnly === true, 'Must be marked isFixtureOnly=true');
     const expectedReqs = ['G6-A-07', 'G6-A-08', 'G6-A-09', 'G6-A-10'];
     assert(
       JSON.stringify(l03.requirementIds) === JSON.stringify(expectedReqs),
       `Expected requirements ${expectedReqs.join(',')}`
     );
-    return 'G6-L03 fixture verified (2 periods, 90m, G6-A-07..10, isFixtureOnly=true)';
+
+    const sampleEvdMastery = JSON.parse(
+      fs.readFileSync(path.join(FIXTURES_DIR, 'p2-sample-evidences-mastery.fixture.json'), 'utf8')
+    );
+    const withSamples = clone(baseDataset);
+    withSamples.evidences = sampleEvdMastery.evidences;
+    withSamples.masteryRules = sampleEvdMastery.masteryRules;
+    const sampleRes = validator.validateDataset(withSamples);
+    assert(sampleRes.valid === true, `Sample Evidence/Mastery fixture failed: ${JSON.stringify(sampleRes.errors)}`);
+    return 'G6-L03 (2 periods, 90m, G6-A-07..10) & sample Evidence/Mastery fixture verified';
   });
 
   // ------------------------------------------------------------------------
   // GROUP 3: MANDATORY VALIDATOR FIXTURES & CONTENT QUALITY NEGATIVE TESTS
   // ------------------------------------------------------------------------
-  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 92 entities)', () => {
+  test('P25-10', 'Fixture 1: Valid Grade 6 dataset -> PASS (0 errors across 94 entities)', () => {
     const fixture = JSON.parse(
       fs.readFileSync(path.join(FIXTURES_DIR, 'valid-grade6.fixture.json'), 'utf8')
     );
     const res = validator.validateDataset(fixture);
     assert(res.valid === true && res.errorCount === 0, `Expected PASS but got errors: ${JSON.stringify(res.errors)}`);
-    return `PASS with 0 errors across 92 entities`;
+    return `PASS with 0 errors across 94 entities`;
   });
 
   test('P25-11', 'Fixture 2: Duplicate ID -> FAIL with code DUPLICATE_ID', () => {
@@ -679,13 +687,13 @@ function runSuite() {
   // ------------------------------------------------------------------------
   // GROUP 4: IDEMPOTENT IMPORTER & INTERMEDIATE ADAPTER
   // ------------------------------------------------------------------------
-  test('P25-18', 'Importer loads valid Grade 6 dataset (92 entities) into intermediate adapter and writes staging snapshot', () => {
+  test('P25-18', 'Importer loads valid Grade 6 dataset (94 entities) into intermediate adapter and writes staging snapshot', () => {
     const adapter = new IntermediateCurriculumAdapter({ snapshotPath: STAGING_SNAPSHOT_PATH });
     const importer = new CurriculumImporter({ validator, adapter });
 
     const run1 = importer.importDataset(baseDataset, { traceId: 'TRACE-P25-RUN-1' });
     assert(run1.imported === true, `Expected import success, got: ${run1.error}`);
-    assert(run1.stats.totalInserted === 92, `Expected 92 inserted records, got ${run1.stats.totalInserted}`);
+    assert(run1.stats.totalInserted === 94, `Expected 94 inserted records, got ${run1.stats.totalInserted}`);
     assert(run1.stats.totalUpdated === 0, 'Expected 0 updated on first run');
     assert(run1.stats.totalUnchanged === 0, 'Expected 0 unchanged on first run');
     assert(run1.stats.duplicatesCreated === 0, 'Expected 0 duplicatesCreated');
@@ -706,10 +714,10 @@ function runSuite() {
     assert(run2.imported === true && run3.imported === true, 'Retry runs failed');
     assert(run2.stats.totalInserted === 0, `Run 2 inserted ${run2.stats.totalInserted} (expected 0)`);
     assert(run2.stats.totalUpdated === 0, `Run 2 updated ${run2.stats.totalUpdated} (expected 0)`);
-    assert(run2.stats.totalUnchanged === 92, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 92)`);
-    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 92, 'Run 3 not idempotent');
-    assert(adapter.getTotalCount() === 92, `Expected total count to stay 92, got ${adapter.getTotalCount()}`);
-    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=92, duplicatesCreated=0';
+    assert(run2.stats.totalUnchanged === 94, `Run 2 unchanged ${run2.stats.totalUnchanged} (expected 94)`);
+    assert(run3.stats.totalInserted === 0 && run3.stats.totalUnchanged === 94, 'Run 3 not idempotent');
+    assert(adapter.getTotalCount() === 94, `Expected total count to stay 94, got ${adapter.getTotalCount()}`);
+    return 'Run 2 & Run 3: inserted=0, updated=0, unchanged=94, duplicatesCreated=0';
   });
 
   test('P25-20', 'Importer atomic rejection & Production isolation check', () => {

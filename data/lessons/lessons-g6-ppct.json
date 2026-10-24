@@ -102,7 +102,7 @@
     "lessonNumber": 3,
     "grade": 6,
     "topicId": "G6-A",
-    "title": "Thông tin trong máy tính",
+    "title": "Bài 3. Thông tin trong máy tính",
     "order": 3,
     "periods": 2,
     "scheduledPeriods": [
@@ -128,46 +128,55 @@
       "5.2.TC1b"
     ],
     "activityIds": [
-      "G6-L03-A1",
-      "G6-L03-A2",
-      "G6-L03-A3",
-      "G6-L03-A4"
+      "G6-L03-A01",
+      "G6-L03-A02",
+      "G6-L03-A03",
+      "G6-L03-A04",
+      "G6-L03-A05",
+      "G6-L03-A06",
+      "G6-L03-A07",
+      "G6-L03-A08"
     ],
     "questionIds": [
-      "G6-L03-Q01",
-      "G6-L03-Q02",
-      "G6-L03-Q03",
-      "G6-L03-Q04"
+      "G6-L03-Q001",
+      "G6-L03-Q002",
+      "G6-L03-Q003",
+      "G6-L03-Q004",
+      "G6-L03-Q005",
+      "G6-L03-Q006",
+      "G6-L03-Q007",
+      "G6-L03-Q008",
+      "G6-L03-Q009",
+      "G6-L03-Q010"
     ],
-    "evidenceIds": [
-      "EVD-G6-L03-01",
-      "EVD-G6-L03-02",
-      "EVD-G6-L03-03",
-      "EVD-G6-L03-04"
-    ],
+    "evidenceIds": [],
     "assessmentPlan": {
       "formativeEvidenceTypes": [
         "quiz_response",
+        "short_answer",
+        "worksheet_table",
         "exit_ticket_reflection"
       ],
       "requireExitTicket": true,
-      "masteryEvaluationMode": "by_requirement"
+      "requiredActivities": [
+        "G6-L03-A01",
+        "G6-L03-A02",
+        "G6-L03-A03",
+        "G6-L03-A04",
+        "G6-L03-A05",
+        "G6-L03-A06",
+        "G6-L03-A07",
+        "G6-L03-A08"
+      ]
     },
     "resourceIds": [
       "RES-G6-L03-01",
       "RES-G6-L03-02"
     ],
-    "masteryRuleIds": [
-      "MR-G6-A-07",
-      "MR-G6-A-08",
-      "MR-G6-A-09",
-      "MR-G6-A-10"
-    ],
-    "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (TB) khi tìm hiểu dung lượng ổ cứng.",
-    "isFixtureOnly": true,
-    "fixtureNote": "Golden Lesson fixture chỉ phục vụ kiểm thử kỹ thuật Phase 2/P2.5, không phải bài học hoàn chỉnh của Phase 3.",
+    "masteryRuleIds": [],
+    "supplementaryKnowledge": "Kiến thức bổ sung của bài học theo SGK Kết nối tri thức Bài 3 (không phải tiêu chí bắt buộc của YCCĐ CTGDPT 2018): 1 Byte = 8 bit (bổ sung cho G6-A-08); đơn vị Terabyte (1 TB ≈ 1000 GB) khi tìm hiểu ổ cứng dung lượng lớn (bổ sung cho G6-A-09).",
     "status": "published",
-    "version": "2026.2",
+    "version": "2026.3",
     "sourceRefs": [
       "SRC-PPCT-VIETHOA-TIN6-2026",
       "SRC-SGK-KNTT-TIN6",
