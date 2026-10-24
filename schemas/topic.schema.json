@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "topic.schema.json",
+  "title": "Topic",
+  "type": "object",
+  "required": [
+    "topicId",
+    "code",
+    "grade",
+    "title",
+    "sourceId",
+    "order",
+    "status"
+  ],
+  "properties": {
+    "topicId": {
+      "type": "string",
+      "pattern": "^G6-[A-F]$"
+    },
+    "code": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "grade": {
+      "type": "integer",
+      "const": 6
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "subtopicTitle": {
+      "type": "string"
+    },
+    "sourceId": {
+      "type": "string",
+      "minLength": 3
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

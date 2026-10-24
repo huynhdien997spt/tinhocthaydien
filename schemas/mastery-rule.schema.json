@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mastery-rule.schema.json",
+  "title": "MasteryRule",
+  "type": "object",
+  "required": [
+    "masteryRuleId",
+    "lessonId",
+    "requiredActivityIds",
+    "requireExitTicket",
+    "minMasteryScorePercent",
+    "requirementThresholdCount",
+    "status"
+  ],
+  "properties": {
+    "masteryRuleId": {
+      "type": "string",
+      "pattern": "^MR-G6-L[0-9]{2}$"
+    },
+    "lessonId": {
+      "type": "string",
+      "pattern": "^G6-L[0-9]{2}$"
+    },
+    "requiredActivityIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^G6-L[0-9]{2}-A[0-9]+$"
+      }
+    },
+    "requireExitTicket": {
+      "type": "boolean"
+    },
+    "minMasteryScorePercent": {
+      "type": "number",
+      "minimum": 50,
+      "maximum": 100
+    },
+    "requirementThresholdCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

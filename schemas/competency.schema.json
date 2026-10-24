@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "competency.schema.json",
+  "title": "Competency",
+  "type": "object",
+  "required": [
+    "competencyId",
+    "code",
+    "domain",
+    "title",
+    "description",
+    "sourceId",
+    "status"
+  ],
+  "properties": {
+    "competencyId": {
+      "type": "string",
+      "minLength": 2
+    },
+    "code": {
+      "type": "string",
+      "minLength": 2
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "informatics_core",
+        "digital_competence_nls",
+        "general_competence",
+        "ai_competence"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string",
+      "minLength": 5
+    },
+    "sourceId": {
+      "type": "string",
+      "minLength": 3
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

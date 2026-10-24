@@ -1,0 +1,595 @@
+[
+  {
+    "requirementId": "G6-A-01",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Phân biệt được thông tin với vật mang tin.",
+    "officialTextHash": "bc33e0175b604c946622ef3f4082ad46426b029fc2ed270750b3a62d51f6ce69",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L01"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-02",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Nhận biết được sự khác nhau giữa thông tin và dữ liệu.",
+    "officialTextHash": "026d489984508507c32e97140d3679f951be4a50c513c4d2565d1c14041100ed",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L01"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-03",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Nêu được ví dụ minh họa mối quan hệ giữa thông tin và dữ liệu.",
+    "officialTextHash": "334977884471ce53bfe73fe70f2a9295290f6fc1cede2358c528f3c9eba87acd",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L01"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-04",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Nêu được ví dụ minh họa tầm quan trọng của thông tin.",
+    "officialTextHash": "86b7bd217117087397b8144cc7d5a579c05f1d432d4620f60622cc97a78cb82f",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L01"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-05",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Nêu được các bước cơ bản trong xử lí thông tin.",
+    "officialTextHash": "161b8b7a392f9a7f6ebbf6daced5fc2ece1873550d7b6abec5e9fd13f6b86060",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLa",
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L02"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-06",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Giải thích được máy tính là công cụ hiệu quả để thu thập, lưu trữ, xử lí và truyền thông tin; nêu được ví dụ minh họa.",
+    "officialTextHash": "60bca5afa5891d3bd326bbacae3450f6df57e95643e5f5ce8dbbad6364ae4625",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa",
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L02"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-07",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Giải thích được có thể biểu diễn thông tin chỉ với hai kí hiệu 0 và 1.",
+    "officialTextHash": "5562d141c6cce1b1f0e05c416ef985669ec334e11f411f8cf2416ceb6749fa2e",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa",
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L03"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-08",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Biết được bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
+    "officialTextHash": "4c8da387f2adcd984a046e20477db75c7f03f319037e7496b81281d3034dd0a2",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L03"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-09",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Nêu được tên và độ lớn xấp xỉ (theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, TB; quy đổi được một cách gần đúng giữa các đơn vị này.",
+    "officialTextHash": "c3f562e205a168b8805fa3bae2917093caa0d736fed1f2b106b47555728fdccd",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLa",
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L03"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-A-10",
+    "topicId": "G6-A",
+    "grade": 6,
+    "officialText": "Nêu được sơ lược khả năng lưu trữ của các thiết bị nhớ thông dụng như đĩa cứng, USB, CD, thẻ nhớ.",
+    "officialTextHash": "b70ab42043f8250ec61a6e7a16cbce4a0796a8ea79bb79529c24eddf59d77ba8",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L03"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-B-01",
+    "topicId": "G6-B",
+    "grade": 6,
+    "officialText": "Nêu được khái niệm và lợi ích của mạng máy tính.",
+    "officialTextHash": "ca6880fc8686596fb1ddb87019aa8261270eb147d91c3754f7a783e0b153001f",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLa",
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L04"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-B-02",
+    "topicId": "G6-B",
+    "grade": 6,
+    "officialText": "Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể tên được một vài thiết bị mạng cơ bản như cáp xoắn, Switch, Access Point.",
+    "officialTextHash": "ff7868cfb5ff515261955db4104e463c8351fce05fcb582b3e93b108cf5717e7",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L04"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-B-03",
+    "topicId": "G6-B",
+    "grade": 6,
+    "officialText": "Nêu được ví dụ cụ thể về trường hợp mạng không dây tiện dụng hơn mạng có dây.",
+    "officialTextHash": "93680321e0346639ece30475f76aff9f9e9836ad9d645342827b83ddaed9e214",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa"
+    ],
+    "lessonIds": [
+      "G6-L04"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-B-04",
+    "topicId": "G6-B",
+    "grade": 6,
+    "officialText": "Giới thiệu tóm tắt được các đặc điểm và lợi ích chính của Internet.",
+    "officialTextHash": "a7fce11ef66af002a450f0a057fdad88793b7c99929172ad5db783f3cf306dfd",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLa",
+      "NLd",
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L05"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-C-01",
+    "topicId": "G6-C",
+    "grade": 6,
+    "officialText": "Trình bày được sơ lược các khái niệm cơ bản về mạng thông tin toàn cầu: World Wide Web, website, địa chỉ của website, trình duyệt.",
+    "officialTextHash": "55d5c267d50d5151a04fbe7fde7625fbae18cbb8303b72e13c052eb333133eed",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLa",
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L06"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-C-02",
+    "topicId": "G6-C",
+    "grade": 6,
+    "officialText": "Xem và nêu được những thông tin chính trên trang web cho trước; khai thác được thông tin trên một số trang web thông dụng như tra từ điển, xem thời tiết, tin thời sự.",
+    "officialTextHash": "fe71948a2700a97a537a3895a74a8466a0c982789b8b0eca447144ce3a177d98",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L06"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-C-03",
+    "topicId": "G6-C",
+    "grade": 6,
+    "officialText": "Nêu được công dụng của máy tìm kiếm; xác định được từ khóa ứng với một mục đích tìm kiếm cho trước.",
+    "officialTextHash": "4e59771b1b3050c47887c99beee238807bcd7722049e5a88d2837ea885e54722",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L07"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-C-04",
+    "topicId": "G6-C",
+    "grade": 6,
+    "officialText": "Nêu được những ưu, nhược điểm cơ bản của dịch vụ thư điện tử so với các phương thức liên lạc khác.",
+    "officialTextHash": "4ac8fbab014f8e8a9e12d0aa223e1366b6e13a51ee0ed1a4f5727f101f7ca1b9",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L08"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-C-05",
+    "topicId": "G6-C",
+    "grade": 6,
+    "officialText": "Biết cách đăng kí tài khoản thư điện tử; thực hiện được một số thao tác cơ bản: đăng nhập, soạn, gửi và thoát khỏi tài khoản thư điện tử.",
+    "officialTextHash": "a5e34aca57f11d291b9b84d2c173fa003d0e8680b8169b606dbc4d4b774ed677",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLa",
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L08"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-D-01",
+    "topicId": "G6-D",
+    "grade": 6,
+    "officialText": "Nêu được một số tác hại và nguy cơ bị hại khi tham gia Internet; biết cách phòng vệ và bảo vệ thông tin cá nhân, gia đình khi giao tiếp qua mạng.",
+    "officialTextHash": "d42939d674ee9572f3ba0be9d7cf770518328f476f1b6f6461136d565347be47",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLb"
+    ],
+    "lessonIds": [
+      "G6-L09"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-D-02",
+    "topicId": "G6-D",
+    "grade": 6,
+    "officialText": "Trình bày được tầm quan trọng của sự an toàn và hợp pháp của thông tin cá nhân và tập thể, nêu được ví dụ minh họa.",
+    "officialTextHash": "84a7f2ae8de105a77a84d699ede2673d029b1239d4028c69daab817cf749eb63",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLb"
+    ],
+    "lessonIds": [
+      "G6-L09"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-D-03",
+    "topicId": "G6-D",
+    "grade": 6,
+    "officialText": "Nêu được một vài cách thông dụng để bảo vệ, chia sẻ thông tin của bản thân và tập thể sao cho an toàn và hợp pháp.",
+    "officialTextHash": "d79d482fe0a858848ee12a03f8482e992a920b4ecceefefbb82e37da2817df31",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLb",
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L09"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-D-04",
+    "topicId": "G6-D",
+    "grade": 6,
+    "officialText": "Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu và biết nhờ người lớn hỗ trợ để hạn chế tác hại từ Internet.",
+    "officialTextHash": "542614b11053705ecdd14203a16b7d4dfa9eb7d700ee2d63ae57dcad815f7391",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLb"
+    ],
+    "lessonIds": [
+      "G6-L09"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-E-01",
+    "topicId": "G6-E",
+    "grade": 6,
+    "officialText": "Giải thích được lợi ích của sơ đồ tư duy; sắp xếp được một cách logic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.",
+    "officialTextHash": "2698000d41754d88d1e8acb55f007d73ead23e53406ca4cf940576edaa9e7c57",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLc",
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L10"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-E-02",
+    "topicId": "G6-E",
+    "grade": 6,
+    "officialText": "Sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản phục vụ học tập và trao đổi thông tin.",
+    "officialTextHash": "3f8d950958b3dd034564afae057cdf63293cade91df3d13380ae85e08fba4c15",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLa",
+      "NLd",
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L10"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-E-03",
+    "topicId": "G6-E",
+    "grade": 6,
+    "officialText": "Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản; thực hiện được việc định dạng văn bản, trình bày trang văn bản và in.",
+    "officialTextHash": "82b704c14924a99c5ff1e2af424873a0d5cbc74447f161bec9fa10a8dbf08a85",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLa",
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L11"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-E-04",
+    "topicId": "G6-E",
+    "grade": 6,
+    "officialText": "Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
+    "officialTextHash": "be5de9f2a5c9f62f80cc08f8e8a386766466ef6777e35d51e857bf6d1da553db",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLa",
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L12"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-E-05",
+    "topicId": "G6-E",
+    "grade": 6,
+    "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
+    "officialTextHash": "ab0a6a9d60cbb763e0b6f9b6dfa6f50b8976b335256da50eb7eb0e8f5632c26e",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLa",
+      "NLd"
+    ],
+    "lessonIds": [
+      "G6-L13"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-E-06",
+    "topicId": "G6-E",
+    "grade": 6,
+    "officialText": "Soạn thảo được văn bản hoàn chỉnh phục vụ học tập và sinh hoạt hàng ngày (ví dụ: hoàn thiện sổ lưu niệm lớp học).",
+    "officialTextHash": "d348b8ca7c18b54b6211f3331019410376ab775ca19358a22cc2013cba44cc32",
+    "cognitiveLevel": "van_dung_cao",
+    "competencyIds": [
+      "NLd",
+      "NLe"
+    ],
+    "lessonIds": [
+      "G6-L14"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-F-01",
+    "topicId": "G6-F",
+    "grade": 6,
+    "officialText": "Diễn tả được sơ lược khái niệm thuật toán, nêu được một vài ví dụ minh họa và mô tả được thuật toán đơn giản theo cách liệt kê hoặc sơ đồ khối.",
+    "officialTextHash": "38251351884f0245b8ac010383a7eebaf019ca1a98f777976bbf0e742cb966fd",
+    "cognitiveLevel": "thong_hieu",
+    "competencyIds": [
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L15"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-F-02",
+    "topicId": "G6-F",
+    "grade": 6,
+    "officialText": "Biết được các cấu trúc điều khiển cơ bản (tuần tự, rẽ nhánh, lặp) và mô tả được thuật toán đơn giản có các cấu trúc tuần tự, rẽ nhánh và lặp dưới dạng liệt kê hoặc sơ đồ khối.",
+    "officialTextHash": "86d43e59800234964edbde439d29ff68f5e04533433e527ccb55f0f634ff26be",
+    "cognitiveLevel": "van_dung",
+    "competencyIds": [
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L16"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  },
+  {
+    "requirementId": "G6-F-03",
+    "topicId": "G6-F",
+    "grade": 6,
+    "officialText": "Biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.",
+    "officialTextHash": "17806bb93a6bf5a8be4fe8feed39a05735e47eb0a81b4a4143754adbbdec908d",
+    "cognitiveLevel": "nhan_biet",
+    "competencyIds": [
+      "NLc"
+    ],
+    "lessonIds": [
+      "G6-L17"
+    ],
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "version": "2018.1",
+    "reviewStatus": "approved_official",
+    "status": "published"
+  }
+]

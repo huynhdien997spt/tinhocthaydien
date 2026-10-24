@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nls-mapping.schema.json",
+  "title": "NLSMapping",
+  "type": "object",
+  "required": [
+    "mappingId",
+    "lessonId",
+    "requirementIds",
+    "nlsCode",
+    "competencyId",
+    "rationale",
+    "sourceId",
+    "status"
+  ],
+  "properties": {
+    "mappingId": {
+      "type": "string",
+      "pattern": "^NLS-MAP-[A-Z0-9-]+$"
+    },
+    "lessonId": {
+      "type": "string",
+      "pattern": "^G6-L[0-9]{2}$"
+    },
+    "requirementIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^G6-[A-F]-[0-9]{2}$"
+      }
+    },
+    "nlsCode": {
+      "type": "string",
+      "minLength": 3
+    },
+    "competencyId": {
+      "type": "string",
+      "minLength": 3
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 5
+    },
+    "sourceId": {
+      "type": "string",
+      "minLength": 3
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

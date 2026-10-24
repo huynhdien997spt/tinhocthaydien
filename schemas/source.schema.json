@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "source.schema.json",
+  "title": "Source",
+  "type": "object",
+  "required": [
+    "sourceId",
+    "title",
+    "sourceType",
+    "grade",
+    "subject",
+    "version",
+    "status"
+  ],
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "pattern": "^SRC-[A-Z0-9-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "curriculum_standard",
+        "textbook",
+        "digital_competence_framework",
+        "ppct_distribution",
+        "teacher_guide"
+      ]
+    },
+    "grade": {
+      "type": "integer",
+      "enum": [
+        6
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "const": "Tin học"
+    },
+    "publisherOrAuthority": {
+      "type": "string",
+      "minLength": 2
+    },
+    "publishedYear": {
+      "type": "integer",
+      "minimum": 2018,
+      "maximum": 2035
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

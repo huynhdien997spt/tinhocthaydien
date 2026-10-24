@@ -1,0 +1,50 @@
+[
+  {
+    "sourceId": "SRC-GDPT-2018-TIN6",
+    "title": "Chương trình Giáo dục phổ thông môn Tin học (Thông tư 32/2018/TT-BGDĐT) – Lớp 6",
+    "sourceType": "curriculum_standard",
+    "grade": 6,
+    "subject": "Tin học",
+    "publisherOrAuthority": "Bộ Giáo dục và Đào tạo",
+    "publishedYear": 2018,
+    "version": "2018.1",
+    "url": "https://moet.gov.vn/tintuc/Pages/ct-gdpt-moi.aspx",
+    "status": "published"
+  },
+  {
+    "sourceId": "SRC-SGK-KNTT-TIN6",
+    "title": "Sách giáo khoa Tin học 6 – Bộ Kết nối tri thức với cuộc sống",
+    "sourceType": "textbook",
+    "grade": 6,
+    "subject": "Tin học",
+    "publisherOrAuthority": "NXB Giáo dục Việt Nam",
+    "publishedYear": 2021,
+    "version": "1.0",
+    "url": "https://hanhtrangso.nxbgd.vn/",
+    "status": "published"
+  },
+  {
+    "sourceId": "SRC-NLS-BGD-2025",
+    "title": "Khung Năng lực số dành cho học sinh phổ thông (Mức TC1 – Lớp 6-7)",
+    "sourceType": "digital_competence_framework",
+    "grade": 6,
+    "subject": "Tin học",
+    "publisherOrAuthority": "Bộ Giáo dục và Đào tạo",
+    "publishedYear": 2025,
+    "version": "1.0",
+    "url": "https://moet.gov.vn/",
+    "status": "published"
+  },
+  {
+    "sourceId": "SRC-PPCT-TIN6-2026",
+    "title": "Phân phối chương trình Tin học 6 (17 bài, 35 tiết) năm học 2026-2027",
+    "sourceType": "ppct_distribution",
+    "grade": 6,
+    "subject": "Tin học",
+    "publisherOrAuthority": "Tổ Tin học – Thầy Huỳnh Văn Diễn",
+    "publishedYear": 2026,
+    "version": "2026.1",
+    "url": "internal://ppct/grade6/2026-2027",
+    "status": "published"
+  }
+]

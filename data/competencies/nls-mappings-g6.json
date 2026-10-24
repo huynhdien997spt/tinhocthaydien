@@ -1,0 +1,40 @@
+[
+  {
+    "mappingId": "NLS-MAP-G6-L03-01",
+    "lessonId": "G6-L03",
+    "requirementIds": [
+      "G6-A-08",
+      "G6-A-09"
+    ],
+    "nlsCode": "1.3.TC1a",
+    "competencyId": "NLS-1.3.TC1a",
+    "rationale": "Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB, TB để quản lí, tổ chức lưu trữ dữ liệu số.",
+    "sourceId": "SRC-NLS-BGD-2025",
+    "status": "published"
+  },
+  {
+    "mappingId": "NLS-MAP-G6-L03-02",
+    "lessonId": "G6-L03",
+    "requirementIds": [
+      "G6-A-07"
+    ],
+    "nlsCode": "5.2.TC1a",
+    "competencyId": "NLS-5.2.TC1a",
+    "rationale": "Học sinh hiểu giải pháp công nghệ biểu diễn mọi loại thông tin trong máy tính bằng dãy bit (hai kí hiệu 0 và 1).",
+    "sourceId": "SRC-NLS-BGD-2025",
+    "status": "published"
+  },
+  {
+    "mappingId": "NLS-MAP-G6-L03-03",
+    "lessonId": "G6-L03",
+    "requirementIds": [
+      "G6-A-09",
+      "G6-A-10"
+    ],
+    "nlsCode": "5.2.TC1b",
+    "competencyId": "NLS-5.2.TC1b",
+    "rationale": "Học sinh lựa chọn và ước lượng được khả năng lưu trữ của các thiết bị nhớ thông dụng (đĩa cứng, USB, thẻ nhớ, CD) phù hợp với dung lượng dữ liệu thực tế.",
+    "sourceId": "SRC-NLS-BGD-2025",
+    "status": "published"
+  }
+]

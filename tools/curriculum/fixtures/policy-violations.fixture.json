@@ -1,0 +1,1565 @@
+{
+  "sources": [
+    {
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "title": "Chương trình Giáo dục phổ thông môn Tin học (Thông tư 32/2018/TT-BGDĐT) – Lớp 6",
+      "sourceType": "curriculum_standard",
+      "grade": 6,
+      "subject": "Tin học",
+      "publisherOrAuthority": "Bộ Giáo dục và Đào tạo",
+      "publishedYear": 2018,
+      "version": "2018.1",
+      "url": "https://moet.gov.vn/tintuc/Pages/ct-gdpt-moi.aspx",
+      "status": "published"
+    },
+    {
+      "sourceId": "SRC-SGK-KNTT-TIN6",
+      "title": "Sách giáo khoa Tin học 6 – Bộ Kết nối tri thức với cuộc sống",
+      "sourceType": "textbook",
+      "grade": 6,
+      "subject": "Tin học",
+      "publisherOrAuthority": "NXB Giáo dục Việt Nam",
+      "publishedYear": 2021,
+      "version": "1.0",
+      "url": "https://hanhtrangso.nxbgd.vn/",
+      "status": "published"
+    },
+    {
+      "sourceId": "SRC-NLS-BGD-2025",
+      "title": "Khung Năng lực số dành cho học sinh phổ thông (Mức TC1 – Lớp 6-7)",
+      "sourceType": "digital_competence_framework",
+      "grade": 6,
+      "subject": "Tin học",
+      "publisherOrAuthority": "Bộ Giáo dục và Đào tạo",
+      "publishedYear": 2025,
+      "version": "1.0",
+      "url": "https://moet.gov.vn/",
+      "status": "published"
+    },
+    {
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "title": "Phân phối chương trình Tin học 6 (17 bài, 35 tiết) năm học 2026-2027",
+      "sourceType": "ppct_distribution",
+      "grade": 6,
+      "subject": "Tin học",
+      "publisherOrAuthority": "Tổ Tin học – Thầy Huỳnh Văn Diễn",
+      "publishedYear": 2026,
+      "version": "2026.1",
+      "url": "internal://ppct/grade6/2026-2027",
+      "status": "published"
+    }
+  ],
+  "topics": [
+    {
+      "topicId": "G6-A",
+      "code": "A",
+      "grade": 6,
+      "title": "Chủ đề A. Máy tính và cộng đồng",
+      "subtopicTitle": "Thông tin và dữ liệu; Biểu diễn thông tin và lưu trữ dữ liệu trong máy tính",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "order": 1,
+      "status": "published"
+    },
+    {
+      "topicId": "G6-B",
+      "code": "B",
+      "grade": 6,
+      "title": "Chủ đề B. Mạng máy tính và Internet",
+      "subtopicTitle": "Giới thiệu về mạng máy tính và Internet",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "order": 2,
+      "status": "published"
+    },
+    {
+      "topicId": "G6-C",
+      "code": "C",
+      "grade": 6,
+      "title": "Chủ đề C. Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin",
+      "subtopicTitle": "World Wide Web, công cụ tìm kiếm và thư điện tử",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "order": 3,
+      "status": "published"
+    },
+    {
+      "topicId": "G6-D",
+      "code": "D",
+      "grade": 6,
+      "title": "Chủ đề D. Đạo đức, pháp luật và văn hóa trong môi trường số",
+      "subtopicTitle": "Đề phòng một số tác hại khi tham gia Internet và bảo vệ thông tin cá nhân",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "order": 4,
+      "status": "published"
+    },
+    {
+      "topicId": "G6-E",
+      "code": "E",
+      "grade": 6,
+      "title": "Chủ đề E. Ứng dụng tin học",
+      "subtopicTitle": "Sơ đồ tư duy và soạn thảo văn bản cơ bản",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "order": 5,
+      "status": "published"
+    },
+    {
+      "topicId": "G6-F",
+      "code": "F",
+      "grade": 6,
+      "title": "Chủ đề F. Giải quyết vấn đề với sự trợ giúp của máy tính",
+      "subtopicTitle": "Khái niệm thuật toán, các cấu trúc điều khiển và chương trình máy tính",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "order": 6,
+      "status": "published"
+    }
+  ],
+  "competencies": [
+    {
+      "competencyId": "NLa",
+      "code": "NLa",
+      "domain": "informatics_core",
+      "title": "Sử dụng và quản lí các phương tiện công nghệ thông tin và truyền thông",
+      "description": "Nhận biết, sử dụng và quản lí an toàn các thiết bị số, phần cứng, phần mềm và hệ thống lưu trữ dữ liệu cơ bản.",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLb",
+      "code": "NLb",
+      "domain": "informatics_core",
+      "title": "Ứng xử phù hợp trong môi trường số",
+      "description": "Thực hiện các quy tắc đạo đức, văn hóa, pháp luật và bảo vệ an toàn thông tin cá nhân, gia đình khi tham gia môi trường số.",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLc",
+      "code": "NLc",
+      "domain": "informatics_core",
+      "title": "Giải quyết vấn đề với sự trợ giúp của công nghệ thông tin và truyền thông",
+      "description": "Phân tích vấn đề, biểu diễn thông tin, xây dựng thuật toán với các cấu trúc điều khiển và bước đầu tạo chương trình máy tính.",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLd",
+      "code": "NLd",
+      "domain": "informatics_core",
+      "title": "Ứng dụng công nghệ thông tin và truyền thông trong học và tự học",
+      "description": "Sử dụng phần mềm sơ đồ tư duy, soạn thảo văn bản, trình duyệt web và máy tìm kiếm để phục vụ việc học tập và tự học.",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLe",
+      "code": "NLe",
+      "domain": "informatics_core",
+      "title": "Hợp tác trong môi trường số",
+      "description": "Sử dụng dịch vụ mạng, thư điện tử và các công cụ số để trao đổi thông tin, chia sẻ tài liệu và hợp tác nhóm an toàn.",
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLS-1.3.TC1a",
+      "code": "1.3.TC1a",
+      "domain": "digital_competence_nls",
+      "title": "Quản lí dữ liệu, thông tin và nội dung số (1.3.TC1a)",
+      "description": "Lựa chọn được dữ liệu, thông tin và nội dung số để tổ chức, lưu trữ, quy đổi đơn vị dung lượng và truy xuất trên thiết bị nhớ.",
+      "sourceId": "SRC-NLS-BGD-2025",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLS-5.2.TC1a",
+      "code": "5.2.TC1a",
+      "domain": "digital_competence_nls",
+      "title": "Xác định nhu cầu và giải pháp công nghệ (5.2.TC1a)",
+      "description": "Xác định được nhu cầu lưu trữ, xử lí dữ liệu số và nhận biết giải pháp biểu diễn thông tin trong máy tính.",
+      "sourceId": "SRC-NLS-BGD-2025",
+      "status": "published"
+    },
+    {
+      "competencyId": "NLS-5.2.TC1b",
+      "code": "5.2.TC1b",
+      "domain": "digital_competence_nls",
+      "title": "Lựa chọn công cụ số và thiết bị lưu trữ phù hợp (5.2.TC1b)",
+      "description": "Chọn và ước lượng được khả năng lưu trữ của các thiết bị nhớ thông dụng (ổ cứng, USB, thẻ nhớ) phù hợp với nhu cầu thực tế.",
+      "sourceId": "SRC-NLS-BGD-2025",
+      "status": "published"
+    }
+  ],
+  "requirements": [
+    {
+      "requirementId": "G6-A-01",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nội dung YCCĐ đã bị chỉnh sửa trái phép không qua review.",
+      "officialTextHash": "bc33e0175b604c946622ef3f4082ad46426b029fc2ed270750b3a62d51f6ce69",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L01"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-02",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nhận biết được sự khác nhau giữa thông tin và dữ liệu.",
+      "officialTextHash": "026d489984508507c32e97140d3679f951be4a50c513c4d2565d1c14041100ed",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L01"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-03",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nêu được ví dụ minh họa mối quan hệ giữa thông tin và dữ liệu.",
+      "officialTextHash": "334977884471ce53bfe73fe70f2a9295290f6fc1cede2358c528f3c9eba87acd",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L01"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-04",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nêu được ví dụ minh họa tầm quan trọng của thông tin.",
+      "officialTextHash": "86b7bd217117087397b8144cc7d5a579c05f1d432d4620f60622cc97a78cb82f",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L01"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-05",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nêu được các bước cơ bản trong xử lí thông tin.",
+      "officialTextHash": "161b8b7a392f9a7f6ebbf6daced5fc2ece1873550d7b6abec5e9fd13f6b86060",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L02"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-06",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Giải thích được máy tính là công cụ hiệu quả để thu thập, lưu trữ, xử lí và truyền thông tin; nêu được ví dụ minh họa.",
+      "officialTextHash": "60bca5afa5891d3bd326bbacae3450f6df57e95643e5f5ce8dbbad6364ae4625",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L02"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-07",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Giải thích được có thể biểu diễn thông tin chỉ với hai kí hiệu 0 và 1.",
+      "officialTextHash": "5562d141c6cce1b1f0e05c416ef985669ec334e11f411f8cf2416ceb6749fa2e",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L03"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-08",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Biết được bit là đơn vị nhỏ nhất trong lưu trữ thông tin.",
+      "officialTextHash": "4c8da387f2adcd984a046e20477db75c7f03f319037e7496b81281d3034dd0a2",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L03"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-09",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nêu được tên và độ lớn xấp xỉ (theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, TB; quy đổi được một cách gần đúng giữa các đơn vị này.",
+      "officialTextHash": "c3f562e205a168b8805fa3bae2917093caa0d736fed1f2b106b47555728fdccd",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L03"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-A-10",
+      "topicId": "G6-A",
+      "grade": 6,
+      "officialText": "Nêu được sơ lược khả năng lưu trữ của các thiết bị nhớ thông dụng như đĩa cứng, USB, CD, thẻ nhớ.",
+      "officialTextHash": "b70ab42043f8250ec61a6e7a16cbce4a0796a8ea79bb79529c24eddf59d77ba8",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L03"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-B-01",
+      "topicId": "G6-B",
+      "grade": 6,
+      "officialText": "Nêu được khái niệm và lợi ích của mạng máy tính.",
+      "officialTextHash": "ca6880fc8686596fb1ddb87019aa8261270eb147d91c3754f7a783e0b153001f",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa",
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L04"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-B-02",
+      "topicId": "G6-B",
+      "grade": 6,
+      "officialText": "Nêu được các thành phần chủ yếu của một mạng máy tính (máy tính và các thiết bị kết nối) và kể tên được một vài thiết bị mạng cơ bản như cáp xoắn, Switch, Access Point.",
+      "officialTextHash": "ff7868cfb5ff515261955db4104e463c8351fce05fcb582b3e93b108cf5717e7",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L04"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-B-03",
+      "topicId": "G6-B",
+      "grade": 6,
+      "officialText": "Nêu được ví dụ cụ thể về trường hợp mạng không dây tiện dụng hơn mạng có dây.",
+      "officialTextHash": "93680321e0346639ece30475f76aff9f9e9836ad9d645342827b83ddaed9e214",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa"
+      ],
+      "lessonIds": [
+        "G6-L04"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-B-04",
+      "topicId": "G6-B",
+      "grade": 6,
+      "officialText": "Giới thiệu tóm tắt được các đặc điểm và lợi ích chính của Internet.",
+      "officialTextHash": "a7fce11ef66af002a450f0a057fdad88793b7c99929172ad5db783f3cf306dfd",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLa",
+        "NLd",
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L05"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-C-01",
+      "topicId": "G6-C",
+      "grade": 6,
+      "officialText": "Trình bày được sơ lược các khái niệm cơ bản về mạng thông tin toàn cầu: World Wide Web, website, địa chỉ của website, trình duyệt.",
+      "officialTextHash": "55d5c267d50d5151a04fbe7fde7625fbae18cbb8303b72e13c052eb333133eed",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L06"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-C-02",
+      "topicId": "G6-C",
+      "grade": 6,
+      "officialText": "Xem và nêu được những thông tin chính trên trang web cho trước; khai thác được thông tin trên một số trang web thông dụng như tra từ điển, xem thời tiết, tin thời sự.",
+      "officialTextHash": "fe71948a2700a97a537a3895a74a8466a0c982789b8b0eca447144ce3a177d98",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L06"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-C-03",
+      "topicId": "G6-C",
+      "grade": 6,
+      "officialText": "Nêu được công dụng của máy tìm kiếm; xác định được từ khóa ứng với một mục đích tìm kiếm cho trước.",
+      "officialTextHash": "4e59771b1b3050c47887c99beee238807bcd7722049e5a88d2837ea885e54722",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L07"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-C-04",
+      "topicId": "G6-C",
+      "grade": 6,
+      "officialText": "Nêu được những ưu, nhược điểm cơ bản của dịch vụ thư điện tử so với các phương thức liên lạc khác.",
+      "officialTextHash": "4ac8fbab014f8e8a9e12d0aa223e1366b6e13a51ee0ed1a4f5727f101f7ca1b9",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L08"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-C-05",
+      "topicId": "G6-C",
+      "grade": 6,
+      "officialText": "Biết cách đăng kí tài khoản thư điện tử; thực hiện được một số thao tác cơ bản: đăng nhập, soạn, gửi và thoát khỏi tài khoản thư điện tử.",
+      "officialTextHash": "a5e34aca57f11d291b9b84d2c173fa003d0e8680b8169b606dbc4d4b774ed677",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L08"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-D-01",
+      "topicId": "G6-D",
+      "grade": 6,
+      "officialText": "Nêu được một số tác hại và nguy cơ bị hại khi tham gia Internet; biết cách phòng vệ và bảo vệ thông tin cá nhân, gia đình khi giao tiếp qua mạng.",
+      "officialTextHash": "d42939d674ee9572f3ba0be9d7cf770518328f476f1b6f6461136d565347be47",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLb"
+      ],
+      "lessonIds": [
+        "G6-L09"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-D-02",
+      "topicId": "G6-D",
+      "grade": 6,
+      "officialText": "Trình bày được tầm quan trọng của sự an toàn và hợp pháp của thông tin cá nhân và tập thể, nêu được ví dụ minh họa.",
+      "officialTextHash": "84a7f2ae8de105a77a84d699ede2673d029b1239d4028c69daab817cf749eb63",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLb"
+      ],
+      "lessonIds": [
+        "G6-L09"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-D-03",
+      "topicId": "G6-D",
+      "grade": 6,
+      "officialText": "Nêu được một vài cách thông dụng để bảo vệ, chia sẻ thông tin của bản thân và tập thể sao cho an toàn và hợp pháp.",
+      "officialTextHash": "d79d482fe0a858848ee12a03f8482e992a920b4ecceefefbb82e37da2817df31",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLb",
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L09"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-D-04",
+      "topicId": "G6-D",
+      "grade": 6,
+      "officialText": "Nhận diện được một số thông điệp lừa đảo hoặc mang nội dung xấu và biết nhờ người lớn hỗ trợ để hạn chế tác hại từ Internet.",
+      "officialTextHash": "542614b11053705ecdd14203a16b7d4dfa9eb7d700ee2d63ae57dcad815f7391",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLb"
+      ],
+      "lessonIds": [
+        "G6-L09"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-E-01",
+      "topicId": "G6-E",
+      "grade": 6,
+      "officialText": "Giải thích được lợi ích của sơ đồ tư duy; sắp xếp được một cách logic và trình bày được dưới dạng sơ đồ tư duy các ý tưởng, khái niệm.",
+      "officialTextHash": "2698000d41754d88d1e8acb55f007d73ead23e53406ca4cf940576edaa9e7c57",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLc",
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L10"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-E-02",
+      "topicId": "G6-E",
+      "grade": 6,
+      "officialText": "Sử dụng được phần mềm để tạo sơ đồ tư duy đơn giản phục vụ học tập và trao đổi thông tin.",
+      "officialTextHash": "3f8d950958b3dd034564afae057cdf63293cade91df3d13380ae85e08fba4c15",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd",
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L10"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-E-03",
+      "topicId": "G6-E",
+      "grade": 6,
+      "officialText": "Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản; thực hiện được việc định dạng văn bản, trình bày trang văn bản và in.",
+      "officialTextHash": "82b704c14924a99c5ff1e2af424873a0d5cbc74447f161bec9fa10a8dbf08a85",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L11"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-E-04",
+      "topicId": "G6-E",
+      "grade": 6,
+      "officialText": "Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.",
+      "officialTextHash": "be5de9f2a5c9f62f80cc08f8e8a386766466ef6777e35d51e857bf6d1da553db",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L12"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-E-05",
+      "topicId": "G6-E",
+      "grade": 6,
+      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
+      "officialTextHash": "ab0a6a9d60cbb763e0b6f9b6dfa6f50b8976b335256da50eb7eb0e8f5632c26e",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "lessonIds": [
+        "G6-L13"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-E-06",
+      "topicId": "G6-E",
+      "grade": 6,
+      "officialText": "Soạn thảo được văn bản hoàn chỉnh phục vụ học tập và sinh hoạt hàng ngày (ví dụ: hoàn thiện sổ lưu niệm lớp học).",
+      "officialTextHash": "d348b8ca7c18b54b6211f3331019410376ab775ca19358a22cc2013cba44cc32",
+      "cognitiveLevel": "van_dung_cao",
+      "competencyIds": [
+        "NLd",
+        "NLe"
+      ],
+      "lessonIds": [
+        "G6-L14"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-F-01",
+      "topicId": "G6-F",
+      "grade": 6,
+      "officialText": "Diễn tả được sơ lược khái niệm thuật toán, nêu được một vài ví dụ minh họa và mô tả được thuật toán đơn giản theo cách liệt kê hoặc sơ đồ khối.",
+      "officialTextHash": "38251351884f0245b8ac010383a7eebaf019ca1a98f777976bbf0e742cb966fd",
+      "cognitiveLevel": "thong_hieu",
+      "competencyIds": [
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L15"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-F-02",
+      "topicId": "G6-F",
+      "grade": 6,
+      "officialText": "Biết được các cấu trúc điều khiển cơ bản (tuần tự, rẽ nhánh, lặp) và mô tả được thuật toán đơn giản có các cấu trúc tuần tự, rẽ nhánh và lặp dưới dạng liệt kê hoặc sơ đồ khối.",
+      "officialTextHash": "86d43e59800234964edbde439d29ff68f5e04533433e527ccb55f0f634ff26be",
+      "cognitiveLevel": "van_dung",
+      "competencyIds": [
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L16"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    },
+    {
+      "requirementId": "G6-F-03",
+      "topicId": "G6-F",
+      "grade": 6,
+      "officialText": "Biết được chương trình là mô tả một thuật toán để máy tính hiểu và thực hiện được.",
+      "officialTextHash": "17806bb93a6bf5a8be4fe8feed39a05735e47eb0a81b4a4143754adbbdec908d",
+      "cognitiveLevel": "nhan_biet",
+      "competencyIds": [
+        "NLc"
+      ],
+      "lessonIds": [
+        "G6-L17"
+      ],
+      "sourceId": "SRC-GDPT-2018-TIN6",
+      "version": "2018.1",
+      "reviewStatus": "approved_official",
+      "status": "published"
+    }
+  ],
+  "nlsMappings": [
+    {
+      "mappingId": "NLS-MAP-G6-L03-01",
+      "lessonId": "G6-L03",
+      "requirementIds": [
+        "G6-A-08",
+        "G6-A-09"
+      ],
+      "nlsCode": "1.3.TC1a",
+      "competencyId": "NLS-1.3.TC1a",
+      "rationale": "Học sinh nhận biết đơn vị bit/Byte và quy đổi gần đúng giữa Byte, KB, MB, GB, TB để quản lí, tổ chức lưu trữ dữ liệu số.",
+      "sourceId": "SRC-NLS-BGD-2025",
+      "status": "published"
+    },
+    {
+      "mappingId": "NLS-MAP-G6-L03-02",
+      "lessonId": "G6-L03",
+      "requirementIds": [
+        "G6-A-07"
+      ],
+      "nlsCode": "5.2.TC1a",
+      "competencyId": "NLS-5.2.TC1a",
+      "rationale": "Học sinh hiểu giải pháp công nghệ biểu diễn mọi loại thông tin trong máy tính bằng dãy bit (hai kí hiệu 0 và 1).",
+      "sourceId": "SRC-NLS-BGD-2025",
+      "status": "published"
+    },
+    {
+      "mappingId": "NLS-MAP-G6-L03-03",
+      "lessonId": "G6-L03",
+      "requirementIds": [
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "nlsCode": "5.2.TC1b",
+      "competencyId": "NLS-5.2.TC1b",
+      "rationale": "Học sinh lựa chọn và ước lượng được khả năng lưu trữ của các thiết bị nhớ thông dụng (đĩa cứng, USB, thẻ nhớ, CD) phù hợp với dung lượng dữ liệu thực tế.",
+      "sourceId": "SRC-NLS-BGD-2025",
+      "status": "published"
+    }
+  ],
+  "aiMappings": [],
+  "lessons": [
+    {
+      "lessonId": "G6-L01",
+      "ppctNumber": 1,
+      "grade": 6,
+      "topicId": "G6-A",
+      "title": "Bài 1. Thông tin và dữ liệu",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-A-01",
+        "G6-A-02",
+        "G6-A-03",
+        "G6-A-04"
+      ],
+      "competencyIds": [
+        "NLa"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L02",
+      "ppctNumber": 2,
+      "grade": 6,
+      "topicId": "G6-A",
+      "title": "Bài 2. Xử lí thông tin",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-A-05",
+        "G6-A-06"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L03",
+      "legacyLessonId": "G6-B3",
+      "ppctNumber": 3,
+      "grade": 6,
+      "topicId": "G6-A",
+      "title": "Thông tin trong máy tính",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "WebQuest",
+      "requirementIds": [
+        "G6-A-07",
+        "G6-A-08",
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLc"
+      ],
+      "nlsCodes": [
+        "1.3.TC1a",
+        "5.2.TC1a",
+        "5.2.TC1b"
+      ],
+      "activityIds": [
+        "G6-L03-A1",
+        "G6-L03-A2",
+        "G6-L03-A3",
+        "G6-L03-A4"
+      ],
+      "questionIds": [
+        "G6-L03-Q01",
+        "G6-L03-Q02",
+        "G6-L03-Q03",
+        "G6-L03-Q04"
+      ],
+      "evidenceIds": [
+        "EVD-G6-L03-01",
+        "EVD-G6-L03-02",
+        "EVD-G6-L03-03",
+        "EVD-G6-L03-04"
+      ],
+      "resourceIds": [
+        "RES-G6-L03-01",
+        "RES-G6-L03-02"
+      ],
+      "masteryRuleId": "MR-G6-L03",
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L04",
+      "ppctNumber": 4,
+      "grade": 6,
+      "topicId": "G6-B",
+      "title": "Bài 4. Mạng máy tính",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-B-01",
+        "G6-B-02",
+        "G6-B-03"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLe"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L05",
+      "ppctNumber": 5,
+      "grade": 6,
+      "topicId": "G6-B",
+      "title": "Bài 5. Internet",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-B-04"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLd",
+        "NLe"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L06",
+      "ppctNumber": 6,
+      "grade": 6,
+      "topicId": "G6-C",
+      "title": "Bài 6. Mạng thông tin toàn cầu",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-C-01",
+        "G6-C-02"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L07",
+      "ppctNumber": 7,
+      "grade": 6,
+      "topicId": "G6-C",
+      "title": "Bài 7. Tìm kiếm thông tin trên Internet",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "WebQuest",
+      "requirementIds": [
+        "G6-C-03"
+      ],
+      "competencyIds": [
+        "NLd"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L08",
+      "ppctNumber": 8,
+      "grade": 6,
+      "topicId": "G6-C",
+      "title": "Bài 8. Thư điện tử",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-C-04",
+        "G6-C-05"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLe"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L09",
+      "ppctNumber": 9,
+      "grade": 6,
+      "topicId": "G6-D",
+      "title": "Bài 9. An toàn thông tin trên Internet",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "PRIDAM",
+      "requirementIds": [
+        "G6-D-01",
+        "G6-D-02",
+        "G6-D-03",
+        "G6-D-04"
+      ],
+      "competencyIds": [
+        "NLb",
+        "NLe"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L10",
+      "ppctNumber": 10,
+      "grade": 6,
+      "topicId": "G6-E",
+      "title": "Bài 10. Sơ đồ tư duy",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "PRIDAM",
+      "requirementIds": [
+        "G6-E-01",
+        "G6-E-02"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLc",
+        "NLd",
+        "NLe"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L11",
+      "ppctNumber": 11,
+      "grade": 6,
+      "topicId": "G6-E",
+      "title": "Bài 11. Định dạng văn bản",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-E-03"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L12",
+      "ppctNumber": 12,
+      "grade": 6,
+      "topicId": "G6-E",
+      "title": "Bài 12. Trình bày thông tin ở dạng bảng",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-E-04"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L13",
+      "ppctNumber": 13,
+      "grade": 6,
+      "topicId": "G6-E",
+      "title": "Bài 13. Thực hành: Tìm kiếm và thay thế",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "ActivityBased",
+      "requirementIds": [
+        "G6-E-05"
+      ],
+      "competencyIds": [
+        "NLa",
+        "NLd"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L14",
+      "ppctNumber": 14,
+      "grade": 6,
+      "topicId": "G6-E",
+      "title": "Bài 14. Thực hành tổng hợp: Hoàn thiện sổ lưu niệm",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "PRIDAM",
+      "requirementIds": [
+        "G6-E-06"
+      ],
+      "competencyIds": [
+        "NLd",
+        "NLe"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L15",
+      "ppctNumber": 15,
+      "grade": 6,
+      "topicId": "G6-F",
+      "title": "Bài 15. Thuật toán",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "PRIMM",
+      "requirementIds": [
+        "G6-F-01"
+      ],
+      "competencyIds": [
+        "NLc"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L16",
+      "ppctNumber": 16,
+      "grade": 6,
+      "topicId": "G6-F",
+      "title": "Bài 16. Các cấu trúc điều khiển",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "PRIMM",
+      "requirementIds": [
+        "G6-F-02"
+      ],
+      "competencyIds": [
+        "NLc"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    },
+    {
+      "lessonId": "G6-L17",
+      "ppctNumber": 17,
+      "grade": 6,
+      "topicId": "G6-F",
+      "title": "Bài 17. Chương trình máy tính",
+      "periods": 2,
+      "durationMinutes": 90,
+      "learningModel": "PRIMM",
+      "requirementIds": [
+        "G6-F-03"
+      ],
+      "competencyIds": [
+        "NLc"
+      ],
+      "nlsCodes": [],
+      "sourceId": "SRC-PPCT-TIN6-2026",
+      "status": "published"
+    }
+  ],
+  "activities": [
+    {
+      "activityId": "G6-L03-A1",
+      "lessonId": "G6-L03",
+      "code": "A1",
+      "type": "opening",
+      "title": "Khởi động: Mật mã nhị phân 0 và 1",
+      "objective": "Khơi gợi tò mò về cách máy tính biểu diễn chữ cái và hình ảnh bằng hai kí hiệu 0 và 1.",
+      "durationMinutes": 10,
+      "requirementIds": [
+        "G6-A-07"
+      ],
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Hoạt động mở đầu dẫn nhập vào khái niệm biểu diễn thông tin bằng dãy bit.",
+      "evidenceIds": [
+        "EVD-G6-L03-01"
+      ],
+      "resourceIds": [
+        "RES-G6-L03-01"
+      ],
+      "status": "published"
+    },
+    {
+      "activityId": "G6-L03-A2",
+      "lessonId": "G6-L03",
+      "code": "A2",
+      "type": "knowledge",
+      "title": "Khám phá: Dãy bit và các đơn vị đo dung lượng thông tin",
+      "objective": "Nhận biết bit là đơn vị nhỏ nhất và nắm được bảng đơn vị Byte, KB, MB, GB, TB.",
+      "durationMinutes": 25,
+      "requirementIds": [
+        "G6-A-07",
+        "G6-A-08",
+        "G6-A-09"
+      ],
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Hình thành kiến thức cốt lõi về bit và đơn vị đo dung lượng.",
+      "evidenceIds": [
+        "EVD-G6-L03-02"
+      ],
+      "resourceIds": [
+        "RES-G6-L03-01"
+      ],
+      "status": "published"
+    },
+    {
+      "activityId": "G6-L03-A3",
+      "lessonId": "G6-L03",
+      "code": "A3",
+      "type": "practice",
+      "title": "Luyện tập: Quy đổi dung lượng dữ liệu",
+      "objective": "Thực hành quy đổi xấp xỉ giữa các đơn vị Byte, KB, MB, GB, TB.",
+      "durationMinutes": 25,
+      "requirementIds": [
+        "G6-A-08",
+        "G6-A-09"
+      ],
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Rèn kĩ năng quy đổi đơn vị đo dung lượng thông tin.",
+      "evidenceIds": [
+        "EVD-G6-L03-03"
+      ],
+      "resourceIds": [
+        "RES-G6-L03-02"
+      ],
+      "status": "published"
+    },
+    {
+      "activityId": "G6-L03-A4",
+      "lessonId": "G6-L03",
+      "code": "A4",
+      "type": "application",
+      "title": "Vận dụng: Lựa chọn thiết bị nhớ phù hợp",
+      "objective": "So sánh khả năng lưu trữ của đĩa cứng, USB, thẻ nhớ, CD và chọn thiết bị phù hợp với nhu cầu lưu trữ.",
+      "durationMinutes": 30,
+      "requirementIds": [
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "educationalPurposeApproved": true,
+      "educationalPurposeNote": "Vận dụng kiến thức dung lượng để chọn thiết bị lưu trữ thực tế.",
+      "evidenceIds": [
+        "EVD-G6-L03-04"
+      ],
+      "resourceIds": [
+        "RES-G6-L03-02"
+      ],
+      "status": "published"
+    },
+    {
+      "activityId": "G6-L03-A-BAD",
+      "lessonId": "G6-L03",
+      "orderIndex": 5,
+      "activityType": "warm_up",
+      "title": "Hoạt động không gắn YCCĐ và chưa được duyệt mục đích sư phạm",
+      "durationMinutes": 5,
+      "requirementIds": [],
+      "educationalPurposeApproved": false,
+      "description": "Hoạt động lỗi.",
+      "status": "published"
+    }
+  ],
+  "questions": [
+    {
+      "questionId": "G6-L03-Q01",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A1",
+      "requirementIds": [
+        "G6-A-07"
+      ],
+      "cognitiveLevel": "thong_hieu",
+      "questionType": "single_choice",
+      "prompt": "Trong máy tính, thông tin (văn bản, hình ảnh, âm thanh) được biểu diễn bằng hai kí hiệu nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Hai chữ cái A và B"
+        },
+        {
+          "id": "B",
+          "text": "Hai kí hiệu 0 và 1"
+        },
+        {
+          "id": "C",
+          "text": "Các chữ số từ 0 đến 9"
+        },
+        {
+          "id": "D",
+          "text": "Các dấu chấm và gạch ngang"
+        }
+      ],
+      "correctAnswer": "B",
+      "explanation": "Mọi dữ liệu trong máy tính đều được chuyển thành các dãy bit chỉ gồm hai kí hiệu 0 và 1.",
+      "maxScore": 1,
+      "required": true,
+      "status": "published"
+    },
+    {
+      "questionId": "G6-L03-Q02",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A2",
+      "requirementIds": [
+        "G6-A-08"
+      ],
+      "cognitiveLevel": "nhan_biet",
+      "questionType": "single_choice",
+      "prompt": "Đơn vị nhỏ nhất dùng để đo dung lượng lưu trữ thông tin trong máy tính là gì và 1 Byte bằng bao nhiêu bit?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Bit là đơn vị nhỏ nhất; 1 Byte = 8 bit"
+        },
+        {
+          "id": "B",
+          "text": "Byte là đơn vị nhỏ nhất; 1 Byte = 10 bit"
+        },
+        {
+          "id": "C",
+          "text": "KB là đơn vị nhỏ nhất; 1 KB = 8 bit"
+        },
+        {
+          "id": "D",
+          "text": "Bit là đơn vị nhỏ nhất; 1 Byte = 1000 bit"
+        }
+      ],
+      "correctAnswer": "A",
+      "explanation": "Bit là đơn vị nhỏ nhất trong lưu trữ thông tin (nhận giá trị 0 hoặc 1), và 1 Byte gồm 8 bit.",
+      "maxScore": 1,
+      "required": true,
+      "status": "published"
+    },
+    {
+      "questionId": "G6-L03-Q03",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A3",
+      "requirementIds": [
+        "G6-A-09"
+      ],
+      "cognitiveLevel": "van_dung",
+      "questionType": "single_choice",
+      "prompt": "Theo quy đổi xấp xỉ hệ thập phân, 1 GB xấp xỉ bằng bao nhiêu MB và một tệp video 2 GB tương đương khoảng bao nhiêu MB?",
+      "options": [
+        {
+          "id": "A",
+          "text": "1 GB ≈ 100 MB; 2 GB ≈ 200 MB"
+        },
+        {
+          "id": "B",
+          "text": "1 GB ≈ 1000 MB; 2 GB ≈ 2000 MB"
+        },
+        {
+          "id": "C",
+          "text": "1 GB ≈ 1000 KB; 2 GB ≈ 2000 KB"
+        },
+        {
+          "id": "D",
+          "text": "1 GB ≈ 10 MB; 2 GB ≈ 20 MB"
+        }
+      ],
+      "correctAnswer": "B",
+      "explanation": "Theo hệ thập phân, các đơn vị KB, MB, GB, TB hơn kém nhau xấp xỉ 1000 lần nên 1 GB ≈ 1000 MB và 2 GB ≈ 2000 MB.",
+      "maxScore": 1,
+      "required": true,
+      "status": "published"
+    },
+    {
+      "questionId": "G6-L03-Q04",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A4",
+      "requirementIds": [
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "cognitiveLevel": "van_dung",
+      "questionType": "single_choice",
+      "prompt": "Em cần sao lưu khoảng 500 bức ảnh kỷ niệm của lớp (mỗi bức ảnh khoảng 4 MB, tổng cộng khoảng 2 GB). Thiết bị nhớ nào sau đây phù hợp và tiện mang theo nhất?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Đĩa CD (dung lượng khoảng 700 MB)"
+        },
+        {
+          "id": "B",
+          "text": "USB hoặc thẻ nhớ dung lượng từ 8 GB đến 32 GB"
+        },
+        {
+          "id": "C",
+          "text": "Một đĩa mềm 1.44 MB"
+        },
+        {
+          "id": "D",
+          "text": "Không có thiết bị nào chứa được 2 GB"
+        }
+      ],
+      "correctAnswer": "B",
+      "explanation": "Tổng dung lượng 500 bức ảnh là 500 × 4 MB = 2000 MB ≈ 2 GB, vượt quá dung lượng đĩa CD (700 MB) nhưng hoàn toàn vừa vặn trên USB hoặc thẻ nhớ 8 GB – 32 GB.",
+      "maxScore": 1,
+      "required": true,
+      "status": "published"
+    }
+  ],
+  "evidences": [
+    {
+      "evidenceId": "EVD-G6-L03-01",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A1",
+      "requirementIds": [
+        "G6-A-07"
+      ],
+      "nlsCodes": [
+        "5.2.TC1a"
+      ],
+      "evidenceType": "quiz_response",
+      "title": "Minh chứng nhận biết biểu diễn nhị phân (0 và 1)",
+      "description": "Câu trả lời của học sinh tại hoạt động A1 giải thích việc biểu diễn thông tin bằng hai kí hiệu 0 và 1.",
+      "status": "published"
+    },
+    {
+      "evidenceId": "EVD-G6-L03-02",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A2",
+      "requirementIds": [
+        "G6-A-08",
+        "G6-A-09"
+      ],
+      "nlsCodes": [
+        "1.3.TC1a"
+      ],
+      "evidenceType": "quiz_response",
+      "title": "Minh chứng nhận biết đơn vị bit và bảng đơn vị dung lượng",
+      "description": "Kết quả trả lời câu hỏi về bit, Byte, KB, MB, GB, TB tại hoạt động A2.",
+      "status": "published"
+    },
+    {
+      "evidenceId": "EVD-G6-L03-03",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A3",
+      "requirementIds": [
+        "G6-A-09"
+      ],
+      "nlsCodes": [
+        "1.3.TC1a"
+      ],
+      "evidenceType": "worksheet_table",
+      "title": "Minh chứng bài tập quy đổi xấp xỉ đơn vị dung lượng",
+      "description": "Kết quả quy đổi giữa Byte, KB, MB, GB, TB tại hoạt động luyện tập A3.",
+      "status": "published"
+    },
+    {
+      "evidenceId": "EVD-G6-L03-04",
+      "lessonId": "G6-L03",
+      "activityId": "G6-L03-A4",
+      "requirementIds": [
+        "G6-A-09",
+        "G6-A-10"
+      ],
+      "nlsCodes": [
+        "1.3.TC1a",
+        "5.2.TC1b"
+      ],
+      "evidenceType": "exit_ticket_reflection",
+      "title": "Minh chứng lựa chọn thiết bị nhớ & phản hồi Exit Ticket",
+      "description": "Câu trả lời tình huống chọn thiết bị nhớ (USB/thẻ nhớ/ổ cứng/CD) và phiếu Exit Ticket cuối bài.",
+      "status": "published"
+    }
+  ],
+  "resources": [
+    {
+      "resourceId": "RES-G6-L03-01",
+      "lessonId": "G6-L03",
+      "title": "Bài học tương tác Bài 3 – Thông tin trong máy tính",
+      "resourceType": "interactive_lesson",
+      "requiresUrl": true,
+      "url": "lessons/grade6/bai3/index.html",
+      "sourceId": "SRC-SGK-KNTT-TIN6",
+      "status": "published"
+    },
+    {
+      "resourceId": "RES-G6-L03-02",
+      "lessonId": "G6-L03",
+      "title": "Bảng tra cứu đơn vị đo dung lượng và thiết bị lưu trữ thông dụng",
+      "resourceType": "reference_doc",
+      "requiresUrl": true,
+      "url": "https://hanhtrangso.nxbgd.vn/sach-dien-tu/tin-hoc-6-10762",
+      "sourceId": "SRC-SGK-KNTT-TIN6",
+      "status": "published"
+    },
+    {
+      "resourceId": "RES-G6-BAD-URL",
+      "title": "Học liệu trực tuyến thiếu URL",
+      "resourceType": "video",
+      "requiresUrl": true,
+      "url": "",
+      "lessonId": "G6-L03",
+      "topicId": "G6-A",
+      "requirementIds": [
+        "G6-A-07"
+      ],
+      "sourceId": "SRC-SGK-KNTT-G6",
+      "status": "published"
+    }
+  ],
+  "masteryRules": [
+    {
+      "masteryRuleId": "MR-G6-L03",
+      "lessonId": "G6-L03",
+      "requiredActivityIds": [
+        "G6-L03-A1",
+        "G6-L03-A2",
+        "G6-L03-A3",
+        "G6-L03-A4"
+      ],
+      "requireExitTicket": true,
+      "minMasteryScorePercent": 75,
+      "requirementThresholdCount": 4,
+      "status": "published"
+    }
+  ]
+}
