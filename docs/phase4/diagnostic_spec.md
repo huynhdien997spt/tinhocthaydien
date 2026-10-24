@@ -1,8 +1,8 @@
 # ĐẶC TẢ CHẨN ĐOÁN HỌC TẬP (DIAGNOSTIC SPECIFICATION)
 ## "KHÁM PHÁ ĐIỂM XUẤT PHÁT" — G6-L03
-### TÀI LIỆU THIẾT KẾ PHASE 4A-R1 (P4.1 REVISION) — DESIGN ONLY / NO ENGINE CODE
+### TÀI LIỆU THIẾT KẾ PHASE 4A-R2 (P4.1 REVISION 2) — DESIGN ONLY / NO ENGINE CODE
 
-> **Mã tài liệu:** `DOC-P4-DIAG-SPEC-01` (Bản sửa đổi R1)  
+> **Mã tài liệu:** `DOC-P4-DIAG-SPEC-01` (Bản sửa đổi R2)  
 > **Trạng thái:** `PROPOSAL_DESIGN` (Chỉ dùng cho đặc tả thiết kế, chưa triển khai mã nguồn Engine)  
 > **Áp dụng cho:** Bài học mẫu `G6-L03` (*Bài 3. Thông tin trong máy tính* — 2 tiết / 90 phút)  
 > **Căn cứ nguồn chuẩn:** [requirements-g6.json](file:///Users/huynhvandien/tinhocthaydien/data/requirements/requirements-g6.json), [G6-L03.golden.json](file:///Users/huynhvandien/tinhocthaydien/data/lessons/G6-L03.golden.json), [PHASE3_TRACEABILITY_REPORT.md](file:///Users/huynhvandien/tinhocthaydien/PHASE3_TRACEABILITY_REPORT.md).
@@ -268,9 +268,13 @@ Nếu thỏa mãn **BẤT KỲ ĐIỀU KIỆN NÀO** sau đây:
 > **Chỉ được xét khi BƯỚC 1 = FALSE** (Tức là học sinh có tối đa 1 YCCĐ non-ready và không có misconception/mâu thuẫn nghiêm trọng).
 
 Nếu thỏa mãn **TOÀN BỘ ĐIỀU KIỆN** sau:
-1. **Đạt trọn vẹn 6/6 YCCĐ tiền đề** ở trạng thái `ready_evidence`; **VÀ**
-2. **Hoàn toàn không có** `conflicting_evidence`; **VÀ**
-3. **Target Readiness Preview** (Probes 6, 7, 8) cho thấy học sinh có sự nhận diện quen thuộc chính xác (`aware` hoặc `partially_aware`).
+1. **Đạt trọn vẹn 6/6 YCCĐ tiền đề** ở trạng thái `ready_evidence` (`readyPrereqCount == 6`); **VÀ**
+2. **Hoàn toàn không có** `conflicting_evidence` (`hasConflictingEvidence == false`); **VÀ**
+3. **Hoàn toàn không có** `critical_misconception` (`hasCriticalMisconception == false`); **VÀ**
+4. **Quy tắc tổng hợp mức độ sẵn sàng đích (Target Readiness Aggregation):**
+   - Có ít nhất **2 trong số 3 probe đích** (Probes 6, 7, 8) đạt mức `aware` (`aware_target_probe_count >= 2`).
+   - Trong số các probe đạt `aware`, **BẮT BUỘC phải có ít nhất 1 probe nhận biết khách quan (Objective Recognition Probe: Probe 7 hoặc Probe 8)**. Một lời tự tường trình quen thuộc ở Probe 6 đơn thuần KHÔNG ĐƯỢC PHÉP tự động đưa học sinh vào Profile C.
+   - Trạng thái `partially_aware` đơn thuần KHÔNG được tính là đạt ngưỡng của Profile C.
 
 **KẾT LUẬN:**
 - **Profile:** **`PROFILE C` (`extension_readiness`)** — *Sẵn sàng mở rộng*.
@@ -283,7 +287,7 @@ Nếu thỏa mãn **TOÀN BỘ ĐIỀU KIỆN** sau:
 ---
 
 ### 8.3. BƯỚC 3 — Default Standard Path (Mặc định - Priority 3)
-Tất cả các trường hợp còn lại không thuộc Bước 1 và Bước 2 (ví dụ: học sinh đạt 5 ready + 1 emerging, hoặc 6 ready nhưng các probe bài mới ở mức `unfamiliar`):
+Tất cả các trường hợp còn lại không thuộc Bước 1 và Bước 2 (ví dụ: học sinh đạt 5 ready + 1 emerging; hoặc 6 ready nhưng các probe bài mới chỉ có 1 probe `aware`, hoặc chỉ ở mức `partially_aware`/`unfamiliar`):
 
 **KẾT LUẬN:**
 - **Profile:** **`PROFILE B` (`standard_readiness`)** — *Sẵn sàng học bài*.
@@ -292,6 +296,19 @@ Tất cả các trường hợp còn lại không thuộc Bước 1 và Bước 
   - Nếu học sinh có 1 YCCĐ emerging: Gợi ý thẻ tóm tắt targeted micro-review nhanh chỉ cho riêng YCCĐ còn thiếu đó, không đẩy học sinh vào Profile A.
   - Support Ladder vận hành theo nhu cầu (on-demand: chỉ kích hoạt khi học sinh làm sai lần đầu hoặc bấm xin gợi ý).
 - **Thông điệp:** *"Em đã có hành trang rất tốt! Chúng mình cùng bắt đầu khám phá xem máy tính lưu trữ thông tin như thế nào nhé."*
+
+---
+
+### 8.4. BỘ VÉC-TƠ KIỂM THỬ THỰC THI (EXECUTABLE TEST VECTORS)
+
+| Mã Vector | Kịch bản đầu vào | Kết quả phân bước | Profile khuyến nghị | Giải thích sư phạm |
+|---|---|:---:|:---:|---|
+| **`VEC-01`** | 4 ready + 2 emerging, không conflict | Bước 1 (Priority 1) | **Profile A** (`foundation_consolidation`) | Có 2 tiền đề chưa vững -> Phải củng cố nền trước. |
+| **`VEC-02`** | 5 ready + 1 emerging, không conflict | Bước 3 (Priority 3) | **Profile B** (`standard_readiness`) | Chỉ có 1 vùng hổng nhẹ -> Học đường chuẩn + micro-review bổ trợ. |
+| **`VEC-03`** | 6 ready + chỉ có 1 tín hiệu đích yếu (Probe 6 `aware`) | Bước 3 (Priority 3) | **Profile B** (`standard_readiness`) | Thiếu probe nhận biết khách quan thứ 2 -> Về đường học chuẩn. |
+| **`VEC-04`** | 6 ready + 2 tín hiệu đích `aware` tin cậy (Probe 6 + Probe 7) | Bước 2 (Priority 2) | **Profile C** (`extension_readiness`) | Đủ 6/6 ready + 2 probe aware (trong đó Probe 7 khách quan) -> Mở rộng. |
+| **`VEC-05`** | 6 ready + Self-report muốn hướng dẫn + chưa đủ tín hiệu đích | Bước 3 (Priority 3) | **Profile B** (`standard_readiness`) | Self-report không quyết định Profile; cấu hình `supportPreference: "guided"`. |
+| **`VEC-06`** | 5 ready + xuất hiện minh chứng mâu thuẫn quan trọng (`conflict`) | Bước 1 (Priority 1) | **Profile A** (`foundation_consolidation`) | Conflicting evidence kích hoạt quy tắc an toàn Bước 1. |
 
 ---
 
@@ -355,7 +372,7 @@ Tất cả các trường hợp còn lại không thuộc Bước 1 và Bước 
 
 ---
 
-## 11. BẢNG TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CHECKLIST P4.1 REVISION)
+## 11. BẢNG TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CHECKLIST P4.1 REVISION 2)
 
 | Tiêu chí | Mô tả yêu cầu | Trạng thái đạt được |
 |---|---|---|
@@ -367,6 +384,7 @@ Tất cả các trường hợp còn lại không thuộc Bước 1 và Bước 
 | **Profile rules deterministic (Fix 2)** | Logic 3 bước phân tầng có priority tuyệt đối: Bước 1 (Critical support), Bước 2 (Extension), Bước 3 (Default). Không chồng lấn A/B. | **ĐẠT (PASS)** |
 | **Probe 4 chuẩn hóa số (Fix 3)** | Tình huống máy tính xử lí ảnh (Camera -> Thu nhận, Lưu file -> Lưu trữ, Chỉnh ảnh -> Xử lí, Gửi mail -> Truyền). | **ĐẠT (PASS)** |
 | **Tách Profile & Support (Fix 4)** | Tách biệt `profileDecision` và `supportConfiguration`. | **ĐẠT (PASS)** |
-| **Profile C không nhầm nhận biết (Fix 7)** | Thăm dò probe 6 chỉ ghi nhận awareness (`aware`), không coi là hiểu vững hay thành thạo YCCĐ. | **ĐẠT (PASS)** |
+| **Profile C target aggregation (R2)** | Profile C đòi hỏi 6/6 ready + $\ge 2$ probe đích đạt `aware` trong đó có ít nhất 1 probe nhận biết khách quan (Probe 7 hoặc 8). Probe 6 đơn độc không đủ điều kiện. | **ĐẠT (PASS)** |
+| **6 Véc-tơ kiểm thử thực thi (R2)** | Định nghĩa và kiểm thử đầy đủ 6 vector: 4 ready+2 emerging -> A; 5+1 -> B; 6+1 weak target -> B; 6+2 target (≥1 objective) -> C; 6+self-report guided -> B; conflict -> A. | **ĐẠT (PASS)** |
 | **Ngôn ngữ tôn trọng HS** | Tuyệt đối không dùng từ tiêu cực ("yếu", "kém", "mất gốc"). | **ĐẠT (PASS)** |
 | **Bảo lưu tính bắt buộc YCCĐ** | Profile C không được bỏ qua bất kỳ hoạt động cốt lõi nào của bài học. | **ĐẠT (PASS)** |

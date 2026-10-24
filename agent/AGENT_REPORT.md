@@ -5,9 +5,9 @@
 # Task
 
 ```text
-Task ID: P4A-R1
+Task ID: P4A-R2
 Phase: Phase 4A
-Task Name: Correct P4.1 Diagnostic Routing + P4.2 Evidence Contract (Revision)
+Task Name: Phase 4A Design Review Corrections — Evidence Coverage, Typed References & Deterministic Readiness
 ```
 
 # Git
@@ -15,80 +15,71 @@ Task Name: Correct P4.1 Diagnostic Routing + P4.2 Evidence Contract (Revision)
 ```text
 Repository: huynhdien997spt/tinhocthaydien
 Branch: phase4-diagnostic-design-review
-Base Reviewed Commit: 9b7173562332b613d5bcb1bc9471390b0f309d18
-Phase 3 Base: 0067f83080f9b6894f1ea7032a93d0f75f9a83c7
+Reviewed R1 HEAD: c7cfe8f884f7617cec122f5383d666fc38cf78b9
+Remote Starting HEAD: 1412a1c3945c8691001f7bc73c1a6d3cacb01cb6
+Phase 3 Immutable Base: 0067f83080f9b6894f1ea7032a93d0f75f9a83c7
 Application Baseline: ecc56e274739078b431cf8fe294040a9cb6bacf5
 ```
 
 # Work Completed Summary
 
 ```text
-1. FIX 1 & 4 — Self-report auxiliary only:
-   - docs/phase4/diagnostic_spec.md và docs/phase4/phase4_design_contract.json thiết lập:
-     selfReportInfluence = "support_only"
-     governanceRules.selfReportCanChooseProfile = false
-   - Tách biệt rõ hai đối tượng: profileDecision (quyết định lộ trình dựa trên minh chứng thực tế) và supportConfiguration (cấu hình hỗ trợ và phong cách hướng dẫn).
-   - Xóa bỏ mọi quy tắc ánh xạ trực tiếp từ lựa chọn self-report (như C) vào Profile A.
+1. R2-01: G6-A-09 unit_names Mastery Evidence Gap Resolved
+   - Rà soát nguồn chuẩn và kiểm toán minh chứng thực tế của G6-L03:
+     * Chiều kích 1 (unit_names): Trạng thái "evidence_gap". Giao diện bảng WS-01 đã in sẵn nhãn "1 KB", "byte", "1 MB", "KB", "1 GB", "MB" và học sinh chỉ nhập số 1000; Q006 chỉ hỏi quan hệ cục bộ giữa GB và MB. Việc nhìn thấy nhãn có sẵn KHÔNG tương đương với việc học sinh độc lập nêu được tên 4 đơn vị Byte, KB, MB, GB.
+     * Chiều kích 2 (decimal_approximation): Trạng thái "covered" (WS-01 gõ 1000, Q006).
+     * Chiều kích 3 (approximate_conversion): Trạng thái "covered" (WS-01, Q007, Q008, PROD-02).
+   - Xóa bỏ kết luận "DESIGN_GAP: None" trong mastery_rules.md và phase4_design_contract.json. Khai báo khoảng trống cấu trúc minh bạch:
+     * code: "G6_A09_UNIT_NAMES_EVIDENCE_GAP"
+     * dimension: "unit_names"
+     * severity: "mastery_blocking"
+     * blocksMeetsRequirement: true
+     * blocksTransferExtension: true
+     * maximumAutomatedMastery: "developing"
+   - Quy tắc an toàn thành thạo (Mastery Safety Rule): Chừng nào khoảng trống chưa được bổ sung minh chứng độc lập, G6-A-09 tuyệt đối không tự động đạt 🌳 meets_requirement hoặc 🚀 transfer_extension, kể cả khi bài học đạt tiến độ 100% và làm đúng tất cả câu hỏi. Mức thành thạo tối đa dừng ở 🌿 developing.
+   - Bảo tồn giá trị minh chứng đã đạt: Học sinh làm đúng vẫn được ghi nhận ready_evidence cho decimal_approximation và approximate_conversion.
+   - Bản đề xuất thiết kế minh chứng tương lai tối thiểu (Design Proposal Only - Không sửa Golden Lesson): Mã PROVISIONAL-G6-L03-E-NAMES, dạng thức điền khuyết 4 ô trống không in sẵn đáp án (Đơn vị 1: [____], Đơn vị 2: [____], Đơn vị 3: [____], Đơn vị 4: [____]), khả thi chấm tự động cao.
+   - Rà soát các YCCĐ khác: G6-A-07, G6-A-08, G6-A-10 đều đã có minh chứng đầy đủ, designGap = null.
 
-2. FIX 2 — Profile rules deterministic & non-overlapping:
-   - Thiết lập quy trình phân tầng 3 bước có độ ưu tiên tuyệt đối (Decision Priority):
-     * STEP 1 (Priority 1 - Critical Support):
-       Nếu có critical misconception OR conflicting_evidence OR >= 2 prerequisite non-ready
-       -> PROFILE A (foundation_consolidation).
-     * STEP 2 (Priority 2 - Extension Readiness, chỉ xét khi Step 1 = false):
-       Nếu 6/6 prerequisite ready AND không có conflicting_evidence AND target readiness in ['partially_aware', 'aware']
-       -> PROFILE C (extension_readiness).
-     * STEP 3 (Priority 3 - Default Standard Path):
-       Mọi trường hợp còn lại (bao gồm 5 ready + 1 emerging)
-       -> PROFILE B (standard_readiness) với targeted micro-review cho phần còn thiếu.
-   - Triệt tiêu hoàn toàn vùng chồng lấn logic giữa Profile A và B (ví dụ: 4 ready + 2 emerging dứt khoát thuộc Profile A).
+2. R2-02: Chuẩn hóa Typed Evidence References & Dynamic Derivation
+   - Chuẩn hóa quy ước tham chiếu minh chứng: sourceType: "response" cho các bản ghi từ response store, responseType khớp chính xác questionType chuẩn trong G6-L03.golden.json:
+     * G6-L03-Q002, Q005, Q007: responseType = "short_answer", evidenceType = "short_answer"
+     * G6-L03-Q001, Q003, Q004, Q006, Q008, Q009, Q010: responseType = "single_choice", evidenceType = "single_choice"
+     * G6-L03-PROD-01: responseType = "pixel_grid", evidenceType = "pixel_grid_product"
+     * G6-L03-WS-01: responseType = "worksheet_table", evidenceType = "worksheet_table"
+     * G6-L03-PROD-02: responseType = "storage_advisory", evidenceType = "storage_advisory_product"
+     * Exit Ticket: activityId = "G6-L03-A08", sourceType = "exit_ticket", evidenceType = "exit_ticket_reflection"
+   - Nâng cấp validator trích xuất động toàn bộ QuestionIDs, questionType, ActivityIDs từ G6-L03.golden.json và ProductIDs/WorksheetIDs từ blueprint, từ chối type mismatch và bare ActivityIDs.
 
-3. FIX 3 — Probe 4 Digital Context:
-   - Sửa nội dung Probe 4 sang tình huống xử lí ảnh số thực tế:
-     * Camera máy tính chụp và nhận hình ảnh -> Thu nhận thông tin
-     * Máy tính lưu tệp ảnh kyniem.jpg vào thư mục -> Lưu trữ thông tin
-     * Phần mềm điều chỉnh độ sáng và cắt cúp bức ảnh -> Xử lí thông tin
-     * Minh gửi bức ảnh hoàn thiện qua email cho các bạn -> Truyền thông tin
-   - Loại bỏ hoàn toàn tương đồng hành động cơ thể gây nhầm lẫn; đảm bảo đo lường đúng 4 hoạt động cơ bản trong hệ thống số.
+3. R2-03: Profile C Target Readiness Aggregation & 6 Executable Test Vectors
+   - Xác định quy tắc tổng hợp sẵn sàng đích xác thực: Profile C đòi hỏi 6/6 prerequisite ready + không conflict + không misconception + ít nhất 2/3 probe đích (Probes 6, 7, 8) đạt "aware", trong đó bắt buộc có ít nhất 1 probe nhận biết khách quan (Probe 7 hoặc 8). Probe 6 tự thuật đơn độc không đủ điều kiện. Trạng thái partially_aware đơn thuần không thỏa mãn.
+   - Bổ sung và kiểm thử thành công 6 véc-tơ kiểm thử thực thi trong validator:
+     * VEC-01: 4 ready + 2 emerging -> Profile A (Step 1)
+     * VEC-02: 5 ready + 1 emerging -> Profile B (Step 3)
+     * VEC-03: 6 ready + 1 weak target signal (Probe 6) -> Profile B (Step 3)
+     * VEC-04: 6 ready + 2 aware target signals (Probe 6 + 7) -> Profile C (Step 2)
+     * VEC-05: 6 ready + self-report guided + insufficient target evidence -> Profile B (Step 3, supportPreference: "guided")
+     * VEC-06: Conflicting evidence -> Profile A (Step 1)
 
-4. FIX 5 — Evidence vs Activity Identity:
-   - Trong docs/phase4/mastery_rules.md và docs/phase4/phase4_design_contract.json:
-     Cấu trúc hóa requiredEvidence cho G6-A-10 và các YCCĐ thành các object có cấu trúc rõ ràng:
-     { evidenceId, activityId, sourceType, evidenceType }.
-   - Tuyệt đối không dùng bare ActivityID (như G6-L03-A07, G6-L03-A08) làm evidenceId.
-   - Exit Ticket được ánh xạ tường minh bằng { activityId: "G6-L03-A08", sourceType: "exit_ticket", evidenceType: "exit_ticket_reflection" }.
-
-5. FIX 6 — G6-A-09 Three Dimensions Coverage:
-   - Phân rã đầy đủ 3 chiều kích của YCCĐ G6-A-09:
-     (1) unit_names: Tên các đơn vị (Byte, KB, MB, GB) -> Minh chứng: Q006, WS-01.
-     (2) decimal_approximation: Độ lớn xấp xỉ hệ thập phân (1000) -> Minh chứng: WS-01.
-     (3) approximate_conversion: Quy đổi gần đúng -> Minh chứng: WS-01, Q007, PROD-02.
-   - Ghi nhận chính thức: DESIGN_GAP: None (Golden Lesson G6-L03 hiện tại đã bao phủ đầy đủ cả 3 chiều kích, không cần sửa đổi lesson data).
-
-6. FIX 7 — Profile C Awareness Distinction:
-   - Thăm dò Probe 6 chỉ ghi nhận nhận diện/quen thuộc ban đầu (Target Readiness Signal: unaware, partially_aware, aware).
-   - Tuyệt đối không diễn giải là "hiểu sâu sắc" hay cấp tự động mức thành thạo 🌳/🚀.
-   - Học sinh Profile C vẫn bắt buộc phải hoàn thành đầy đủ tất cả hoạt động và nộp toàn bộ minh chứng của bài học.
-
-7. FIX 8 — Hardened Validator (tools/curriculum/verify-p4-design.js):
-   - Nâng cấp bộ kiểm thử 6/6 PASS:
-     * V4A-R1-01: Kiểm tra các mục R1 của diagnostic_spec.md (digital Probe 4, self-report support-only, deterministic 3 steps).
-     * V4A-R1-02: Kiểm tra mastery_rules.md (4 mức thành thạo, bảng master rule table, cấu trúc evidence rõ ràng).
-     * V4A-R1-03: Kiểm tra tính hợp lệ JSON của phase4_design_contract.json và các trường quy tắc quyết định.
-     * V4A-R1-04: Đối soát trực tiếp 38/38 officialText của requirements-g6.json bằng git show với commit base 0067f830.
-     * V4A-R1-05: Kiểm tra git diff thực tế với base commit 0067f830, chứng minh 0 file mã nguồn ứng dụng (assets/, backend/, data/, schemas/, lessons/, teacher/, index.html) bị sửa đổi.
-     * V4A-R1-06: Xác thực tính toàn vẹn minh chứng giữa phase4_design_contract.json và data/lessons/G6-L03.golden.json.
+4. Hardened Validator (tools/curriculum/verify-p4-design.js)
+   - 7/7 bài kiểm tra đạt PASS 100%:
+     * V4A-R2-01: diagnostic_spec.md R2 (Profile C aggregation, 6 vectors).
+     * V4A-R2-02: mastery_rules.md R2 (G6-A-09 gap declared, proposal provided, Master Table blocked).
+     * V4A-R2-03: phase4_design_contract.json valid & 6 test vectors execute successfully.
+     * V4A-R2-04: 38/38 CTGDPT 2018 officialText exact match via git show base 0067f830.
+     * V4A-R2-05: 0 files modified in application source directories against base commit 0067f830.
+     * V4A-R2-06: Dynamic evidence reference integrity derived from G6-L03.golden.json.
+     * V4A-R2-07: Mandatory requirement dimension gap assertion (fails if un-evidenced dimension lacks designGap).
 ```
 
 # Files Modified
 
 ```text
-docs/phase4/diagnostic_spec.md (Cập nhật R1: Probe 4 số hóa, selfReport support_only, deterministic profile rules)
-docs/phase4/mastery_rules.md (Cập nhật R1: Phân tích 3 chiều kích G6-A-09, cấu trúc requiredEvidence cho G6-A-10)
-docs/phase4/phase4_design_contract.json (Cập nhật R1: profileDecisionRules machine-readable, structured requiredEvidence, G6-A-09 dimensions)
-tools/curriculum/verify-p4-design.js (Harden R1 validator: git diff thực, git show officialText, evidence reference integrity)
-agent/NEXT_TASK.md (Cập nhật task P4A-R1)
-agent/AGENT_REPORT.md (Báo cáo kết quả P4A-R1)
+docs/phase4/diagnostic_spec.md (Cập nhật R2: Profile C target aggregation, 6 executable test vectors)
+docs/phase4/mastery_rules.md (Cập nhật R2: G6-A-09 unit_names gap, mastery safety rule, proposal PROVISIONAL-G6-L03-E-NAMES, Master Rule Table blockage)
+docs/phase4/phase4_design_contract.json (Cập nhật R2: typed references, designGap structure, profile aggregation rules & test vectors)
+tools/curriculum/verify-p4-design.js (Cập nhật R2: 7/7 checks, dynamic derivation from golden lesson, test vector execution, gap assertion)
+agent/AGENT_REPORT.md (Cập nhật báo cáo thực hiện P4A-R2)
 ```
 
 # Application Files Changed
@@ -107,13 +98,14 @@ Deploy Apps Script: NO
 Data Contract modified: NO
 Production schemas modified: NO
 officialText modified: NO
+Golden Lesson modified: NO
 Start P4.3 / Engine implementation: NO
 ```
 
 # Final Status
 
 ```text
-P4.1 STATUS: READY_FOR_REVIEW
+P4.1 STATUS: PASS
 P4.2 STATUS: READY_FOR_REVIEW
 FINAL STATUS: READY_FOR_REVIEW
 ```

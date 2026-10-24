@@ -3,12 +3,12 @@
   "contractMetadata": {
     "title": "Phase 4A Design Contract Proposal — Diagnostic & Mastery Evidence Model",
     "contractId": "PHASE4-DESIGN-CONTRACT-PROPOSAL",
-    "version": "4.0.0-draft-r1",
-    "phase": "Phase 4A-R1",
+    "version": "4.0.0-draft-r2",
+    "phase": "Phase 4A-R2",
     "proposalOnly": true,
     "productionApproved": false,
     "description": "Proposal design contract defining machine-readable structures for P4.1 Diagnostic Engine and P4.2 Mastery Evaluation Engine. Does NOT modify production schemas or Data Contract.",
-    "createdAt": "2026-10-24T19:48:00.000Z"
+    "createdAt": "2026-10-24T21:50:00.000Z"
   },
   "diagnosticSpec": {
     "studentFacingTitle": "Khám phá điểm xuất phát",
@@ -74,8 +74,28 @@
           "step1_is_false",
           "ready_prerequisite_count == 6",
           "has_conflicting_evidence == false",
-          "target_readiness_signal in ['partially_aware', 'aware']"
+          "aware_target_probe_count >= 2",
+          "has_objective_aware_target_probe == true"
         ],
+        "aggregationRules": {
+          "minimumAwareProbes": 2,
+          "minimumObjectiveAwareProbes": 1,
+          "partiallyAwareCountsAsAware": false,
+          "probeClassification": {
+            "DIAG-PROBE-06": {
+              "type": "subjective_familiarity",
+              "targetRequirements": ["G6-A-07", "G6-A-08"]
+            },
+            "DIAG-PROBE-07": {
+              "type": "objective_recognition",
+              "targetRequirements": ["G6-A-09"]
+            },
+            "DIAG-PROBE-08": {
+              "type": "objective_recognition",
+              "targetRequirements": ["G6-A-10"]
+            }
+          }
+        },
         "resolvedProfile": "extension_readiness"
       },
       "step3Default": {
@@ -84,7 +104,93 @@
         ],
         "resolvedProfile": "standard_readiness"
       },
-      "defaultProfile": "standard_readiness"
+      "defaultProfile": "standard_readiness",
+      "testVectors": [
+        {
+          "vectorId": "VEC-01",
+          "description": "4 ready + 2 emerging -> Profile A (Step 1)",
+          "input": {
+            "readyPrereqCount": 4,
+            "emergingPrereqCount": 2,
+            "hasCriticalMisconception": false,
+            "hasConflictingEvidence": false,
+            "awareTargetProbeIds": [],
+            "selfReportPreference": "guided"
+          },
+          "expectedProfile": "foundation_consolidation",
+          "expectedStep": "step1_critical_support"
+        },
+        {
+          "vectorId": "VEC-02",
+          "description": "5 ready + 1 emerging -> Profile B (Step 3)",
+          "input": {
+            "readyPrereqCount": 5,
+            "emergingPrereqCount": 1,
+            "hasCriticalMisconception": false,
+            "hasConflictingEvidence": false,
+            "awareTargetProbeIds": [],
+            "selfReportPreference": "standard"
+          },
+          "expectedProfile": "standard_readiness",
+          "expectedStep": "step3_default"
+        },
+        {
+          "vectorId": "VEC-03",
+          "description": "6 ready + only one weak target signal -> Profile B (Step 3)",
+          "input": {
+            "readyPrereqCount": 6,
+            "emergingPrereqCount": 0,
+            "hasCriticalMisconception": false,
+            "hasConflictingEvidence": false,
+            "awareTargetProbeIds": ["DIAG-PROBE-06"],
+            "selfReportPreference": "independent"
+          },
+          "expectedProfile": "standard_readiness",
+          "expectedStep": "step3_default"
+        },
+        {
+          "vectorId": "VEC-04",
+          "description": "6 ready + two credible aware target signals (>=1 objective) -> Profile C (Step 2)",
+          "input": {
+            "readyPrereqCount": 6,
+            "emergingPrereqCount": 0,
+            "hasCriticalMisconception": false,
+            "hasConflictingEvidence": false,
+            "awareTargetProbeIds": ["DIAG-PROBE-06", "DIAG-PROBE-07"],
+            "selfReportPreference": "challenge"
+          },
+          "expectedProfile": "extension_readiness",
+          "expectedStep": "step2_extension_readiness"
+        },
+        {
+          "vectorId": "VEC-05",
+          "description": "6 ready + self-report guided + insufficient target evidence -> Profile B (Step 3)",
+          "input": {
+            "readyPrereqCount": 6,
+            "emergingPrereqCount": 0,
+            "hasCriticalMisconception": false,
+            "hasConflictingEvidence": false,
+            "awareTargetProbeIds": [],
+            "selfReportPreference": "guided"
+          },
+          "expectedProfile": "standard_readiness",
+          "expectedStep": "step3_default"
+        },
+        {
+          "vectorId": "VEC-06",
+          "description": "Conflicting evidence -> Profile A (Step 1)",
+          "input": {
+            "readyPrereqCount": 5,
+            "emergingPrereqCount": 0,
+            "hasCriticalMisconception": false,
+            "hasConflictingEvidence": true,
+            "awareTargetProbeIds": ["DIAG-PROBE-07", "DIAG-PROBE-08"],
+            "selfReportPreference": "standard"
+          },
+          "expectedProfile": "foundation_consolidation",
+          "expectedStep": "step1_critical_support"
+        }
+      ]
     },
     "profiles": [
       {
@@ -130,50 +236,45 @@
     }
   },
   "masterySpec": {
-    "evaluationBasis": "per_requirement_id",
-    "prohibitedMetrics": [
-      "lesson_percent_complete",
-      "quiz_total_score",
-      "activity_count"
-    ],
-    "levels": [
+    "framework": "CTGDPT 2018 Tin hoc",
+    "scaleLevels": [
       {
         "levelCode": "insufficient_evidence",
         "symbol": "🌱",
         "labelVi": "Chưa đủ minh chứng",
-        "studentFacingMessage": "Mình cần thêm một vài minh chứng để biết em đã hiểu phần này đến đâu."
+        "description": "Học sinh chưa hoàn thành đầy đủ hoạt động hoặc dữ liệu minh chứng chưa đạt ngưỡng tối thiểu.",
+        "machineValue": 0
       },
       {
         "levelCode": "developing",
         "symbol": "🌿",
         "labelVi": "Đang hình thành",
-        "studentFacingMessage": "Em đang tiến bộ rất tốt! Hãy luyện tập thêm một chút để nắm thật vững nhé."
+        "description": "Học sinh đạt một phần yêu cầu nhưng còn phụ thuộc gợi ý sâu, hoặc có chiều kích minh chứng còn khuyết.",
+        "machineValue": 1
       },
       {
         "levelCode": "meets_requirement",
         "symbol": "🌳",
         "labelVi": "Đạt yêu cầu",
-        "studentFacingMessage": "Chúc mừng em đã làm chủ trọn vẹn mục tiêu học tập này!"
+        "description": "Đạt đầy đủ minh chứng độc lập cho toàn bộ các chiều kích của YCCĐ và được giáo viên thẩm định đạt.",
+        "machineValue": 2
       },
       {
         "levelCode": "transfer_extension",
         "symbol": "🚀",
         "labelVi": "Vận dụng mở rộng",
-        "studentFacingMessage": "Xuất sắc! Em đã biết vận dụng kiến thức linh hoạt vào các tình huống thực tế mới."
+        "description": "Đạt mức 🌳 và có minh chứng chuyển giao kiến thức/kỹ năng trong bối cảnh thực tiễn mới.",
+        "machineValue": 3
       }
-    ],
-    "evidenceTypes": [
-      { "group": "knowledge", "types": ["quiz_response", "short_answer"] },
-      { "group": "performance", "types": ["worksheet_table", "simulation", "device_inspection"] },
-      { "group": "product", "types": ["pixel_grid_product", "storage_advisory_product"] },
-      { "group": "reflection", "types": ["exit_ticket_reflection", "self_explanation"] }
     ],
     "policyRules": {
       "diagnosticAutoMastery": false,
       "openResponseTeacherReviewRequired": true,
       "conflictingEvidenceResolvesTo": "developing",
       "conflictingEvidenceFlag": "REVIEW_REQUIRED",
-      "extensionRequiresTransferEvidence": true
+      "extensionRequiresTransferEvidence": true,
+      "gapBlocksMeetsRequirement": true,
+      "gapBlocksTransferExtension": true
     },
     "lessonRules": {
       "G6-L03": {
@@ -183,90 +284,154 @@
               "evidenceId": "G6-L03-PROD-01",
               "activityId": "G6-L03-A02",
               "sourceType": "response",
+              "responseType": "pixel_grid",
               "evidenceType": "pixel_grid_product"
             },
             {
               "evidenceId": "G6-L03-Q001",
               "activityId": "G6-L03-A01",
-              "sourceType": "quiz_response",
-              "evidenceType": "quiz_response"
+              "sourceType": "response",
+              "responseType": "single_choice",
+              "evidenceType": "single_choice"
             },
             {
               "evidenceId": "G6-L03-Q002",
               "activityId": "G6-L03-A02",
-              "sourceType": "quiz_response",
-              "evidenceType": "quiz_response"
+              "sourceType": "response",
+              "responseType": "short_answer",
+              "evidenceType": "short_answer"
             }
           ],
-          "teacherReviewRequired": true
+          "teacherReviewRequired": true,
+          "designGap": null
         },
         "G6-A-08": {
           "requiredEvidence": [
             {
               "evidenceId": "G6-L03-Q003",
               "activityId": "G6-L03-A03",
-              "sourceType": "quiz_response",
-              "evidenceType": "quiz_response"
+              "sourceType": "response",
+              "responseType": "single_choice",
+              "evidenceType": "single_choice"
             },
             {
               "evidenceId": "G6-L03-Q005",
               "activityId": "G6-L03-A04",
-              "sourceType": "quiz_response",
-              "evidenceType": "quiz_response"
+              "sourceType": "response",
+              "responseType": "short_answer",
+              "evidenceType": "short_answer"
             }
           ],
-          "teacherReviewRequired": false
+          "teacherReviewRequired": false,
+          "designGap": null
         },
         "G6-A-09": {
           "dimensions": {
             "unit_names": {
               "description": "Nêu được tên các đơn vị đo dung lượng thông tin: Byte, KB, MB, GB",
-              "evidence": [
+              "status": "evidence_gap",
+              "coverage": "partial_insufficient_for_mastery",
+              "existingEvidence": [
                 {
                   "evidenceId": "G6-L03-Q006",
                   "activityId": "G6-L03-A05",
-                  "sourceType": "quiz_response"
+                  "sourceType": "response",
+                  "responseType": "single_choice",
+                  "evidenceType": "single_choice",
+                  "limitation": "Chỉ hỏi quan hệ GB <-> MB, không độc lập yêu cầu nêu 4 đơn vị"
                 },
                 {
                   "evidenceId": "G6-L03-WS-01",
                   "activityId": "G6-L03-A05",
-                  "sourceType": "worksheet_table"
+                  "sourceType": "response",
+                  "responseType": "worksheet_table",
+                  "evidenceType": "worksheet_table",
+                  "limitation": "Chỉ nhập số 1000 vào bảng có sẵn nhãn tên đơn vị, không độc lập nêu tên"
                 }
               ]
             },
             "decimal_approximation": {
               "description": "Nêu được độ lớn xấp xỉ theo hệ thập phân (1 KB ≈ 1000 byte, 1 MB ≈ 1000 KB, 1 GB ≈ 1000 MB)",
+              "status": "covered",
+              "coverage": "sufficient",
               "evidence": [
                 {
                   "evidenceId": "G6-L03-WS-01",
                   "activityId": "G6-L03-A05",
-                  "sourceType": "worksheet_table",
+                  "sourceType": "response",
+                  "responseType": "worksheet_table",
+                  "evidenceType": "worksheet_table",
                   "approxValue": 1000
+                },
+                {
+                  "evidenceId": "G6-L03-Q006",
+                  "activityId": "G6-L03-A05",
+                  "sourceType": "response",
+                  "responseType": "single_choice",
+                  "evidenceType": "single_choice"
                 }
               ]
             },
             "approximate_conversion": {
               "description": "Quy đổi được một cách gần đúng giữa các đơn vị đo lường này",
+              "status": "covered",
+              "coverage": "sufficient",
               "evidence": [
                 {
                   "evidenceId": "G6-L03-WS-01",
                   "activityId": "G6-L03-A05",
-                  "sourceType": "worksheet_table"
+                  "sourceType": "response",
+                  "responseType": "worksheet_table",
+                  "evidenceType": "worksheet_table"
                 },
                 {
                   "evidenceId": "G6-L03-Q007",
                   "activityId": "G6-L03-A05",
-                  "sourceType": "quiz_response"
+                  "sourceType": "response",
+                  "responseType": "short_answer",
+                  "evidenceType": "short_answer"
+                },
+                {
+                  "evidenceId": "G6-L03-Q008",
+                  "activityId": "G6-L03-A06",
+                  "sourceType": "response",
+                  "responseType": "single_choice",
+                  "evidenceType": "single_choice"
                 },
                 {
                   "evidenceId": "G6-L03-PROD-02",
                   "activityId": "G6-L03-A06",
-                  "sourceType": "response"
+                  "sourceType": "response",
+                  "responseType": "storage_advisory",
+                  "evidenceType": "storage_advisory_product"
                 }
               ]
             }
           },
-          "designGap": null,
+          "designGap": {
+            "code": "G6_A09_UNIT_NAMES_EVIDENCE_GAP",
+            "dimension": "unit_names",
+            "severity": "mastery_blocking",
+            "description": "Current G6-L03 evidence exposes Byte/KB/MB/GB mainly as provided labels and does not independently require the learner to name all four units.",
+            "blocksMeetsRequirement": true,
+            "blocksTransferExtension": true,
+            "maximumAutomatedMastery": "developing"
+          },
+          "proposedFutureEvidence": {
+            "provisionalId": "PROVISIONAL-G6-L03-E-NAMES",
+            "targetRequirementId": "G6-A-09",
+            "targetDimension": "unit_names",
+            "evidenceType": "short_answer_multi_field",
+            "promptIntent": "Hãy viết tên hoặc kí hiệu của bốn đơn vị cơ bản đo dung lượng thông tin từ nhỏ đến lớn.",
+            "prefilledUnitNames": false,
+            "fields": [
+              { "fieldId": "unit1", "label": "Đơn vị 1 (nhỏ nhất)", "expectedAnswers": ["Byte", "B"] },
+              { "fieldId": "unit2", "label": "Đơn vị 2", "expectedAnswers": ["Kilobyte", "KB"] },
+              { "fieldId": "unit3", "label": "Đơn vị 3", "expectedAnswers": ["Megabyte", "MB"] },
+              { "fieldId": "unit4", "label": "Đơn vị 4", "expectedAnswers": ["Gigabyte", "GB"] }
+            ],
+            "autoGradeFeasible": true
+          },
           "decimalApproximationRequired": 1000,
           "mandatory1024": false,
           "teacherReviewRequired": false
@@ -277,21 +442,25 @@
               "evidenceId": "G6-L03-PROD-02",
               "activityId": "G6-L03-A06",
               "sourceType": "response",
+              "responseType": "storage_advisory",
               "evidenceType": "storage_advisory_product"
             },
             {
               "evidenceId": "G6-L03-Q010",
               "activityId": "G6-L03-A07",
-              "sourceType": "quiz_response",
-              "evidenceType": "quiz_response"
+              "sourceType": "response",
+              "responseType": "single_choice",
+              "evidenceType": "single_choice"
             },
             {
               "activityId": "G6-L03-A08",
-              "evidenceType": "exit_ticket_reflection",
-              "sourceType": "exit_ticket"
+              "sourceType": "exit_ticket",
+              "responseType": "exit_ticket_reflection",
+              "evidenceType": "exit_ticket_reflection"
             }
           ],
-          "teacherReviewRequired": true
+          "teacherReviewRequired": true,
+          "designGap": null
         }
       }
     }
