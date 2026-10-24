@@ -285,7 +285,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-02",
@@ -312,7 +312,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-03",
@@ -339,7 +339,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-04",
@@ -366,7 +366,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-05",
@@ -394,7 +394,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-06",
@@ -422,7 +422,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-07",
@@ -450,7 +450,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-08",
@@ -476,7 +476,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-09",
@@ -508,7 +508,7 @@
       "supplementaryKnowledge": "Mở rộng theo SGK Kết nối tri thức Bài 3: giới thiệu thêm đơn vị Terabyte (1 TB xấp xỉ 1000 GB) khi tìm hiểu ổ cứng dung lượng lớn.",
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-A-10",
@@ -539,7 +539,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-B-01",
@@ -567,7 +567,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-B-02",
@@ -593,7 +593,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-B-03",
@@ -620,7 +620,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-B-04",
@@ -649,7 +649,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-01",
@@ -677,7 +677,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-02",
@@ -704,7 +704,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-03",
@@ -731,7 +731,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-04",
@@ -758,7 +758,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-05",
@@ -785,7 +785,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-06",
@@ -812,7 +812,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-C-07",
@@ -840,7 +840,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-D-01",
@@ -867,7 +867,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-D-02",
@@ -894,7 +894,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-D-03",
@@ -921,7 +921,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-D-04",
@@ -949,7 +949,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-D-05",
@@ -976,7 +976,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-01",
@@ -1005,7 +1005,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-02",
@@ -1033,16 +1033,16 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-03",
       "grade": 6,
       "topicId": "G6-E",
       "subTopic": "Soạn thảo văn bản cơ bản",
-      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
+      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo.",
       "studentFriendlyText": "Em sử dụng được công cụ tìm kiếm (Find) và thay thế (Replace) của phần mềm soạn thảo văn bản.",
-      "officialTextHash": "ab0a6a9d60cbb763e0b6f9b6dfa6f50b8976b335256da50eb7eb0e8f5632c26e",
+      "officialTextHash": "652328dc276b12511bd517f0f8686a5e0756c4cf473adaf444317aa92debeb0e",
       "officialSourceId": "SRC-GDPT-2018-TIN6",
       "cognitiveLevel": "van_dung",
       "competencyIds": [
@@ -1061,7 +1061,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-04",
@@ -1089,7 +1089,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-05",
@@ -1118,7 +1118,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-06",
@@ -1146,7 +1146,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-07",
@@ -1174,7 +1174,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-08",
@@ -1202,7 +1202,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-E-09",
@@ -1231,7 +1231,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-F-01",
@@ -1258,7 +1258,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-F-02",
@@ -1286,7 +1286,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     },
     {
       "requirementId": "G6-F-03",
@@ -1313,7 +1313,7 @@
       "supplementaryKnowledge": null,
       "reviewStatus": "approved_official",
       "status": "published",
-      "version": "2018.4"
+      "version": "2018.5"
     }
   ],
   "nlsMappings": [

@@ -71,7 +71,7 @@ const IMMUTABLE_REQUIREMENT_SIGNATURES = {
   'G6-D-05': /^Nhận diện được một số thông điệp \(chẳng hạn email, yêu cầu kết bạn, lời mời tham gia câu lạc bộ,\.\.\.\) lừa đảo hoặc mang nội dung xấu\.$/,
   'G6-E-01': /^Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản\.$/,
   'G6-E-02': /Thực hiện được việc định dạng văn bản,\s*trình bày trang văn bản và in/i,
-  'G6-E-03': /Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản/i,
+  'G6-E-03': /^Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo\.$/,
   'G6-E-04': /^Trình bày được thông tin ở dạng bảng\.$/,
   'G6-E-05': /Soạn thảo được văn bản phục vụ học tập và sinh hoạt hàng ngày/i,
   'G6-E-06': /Nêu được các chức năng đặc trưng của những phần mềm soạn thảo văn bản/i,
@@ -861,6 +861,9 @@ class CurriculumValidator {
             r.officialText || ''
           )) ||
         (r.requirementId === 'G6-E-01' && /một số công cụ/i.test(r.officialText || '')) ||
+        (r.requirementId === 'G6-E-03' &&
+          (/soạn thảo văn bản/i.test(r.officialText || '') ||
+            !/của phần mềm soạn thảo\.$/.test(r.officialText || ''))) ||
         (r.requirementId === 'G6-E-04' && /bằng phần mềm soạn thảo văn bản/i.test(r.officialText || '')) ||
         (r.requirementId === 'G6-E-07' &&
           (/lôgic/i.test(r.officialText || '') || !/\blogic\b/.test(r.officialText || ''))) ||

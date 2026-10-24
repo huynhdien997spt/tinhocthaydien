@@ -1,5 +1,5 @@
 {
-  "snapshotId": "TRUSTED-CTGDPT2018-TIN6-SNAPSHOT-V4",
+  "snapshotId": "TRUSTED-CTGDPT2018-TIN6-SNAPSHOT-V5",
   "sourceTranscriptId": "SRC-TRANSCRIPT-CTGDPT2018-TIN6-YCCD-V1",
   "sourceTranscriptPath": "tools/curriculum/source-transcripts/ctgdpt2018-tin6-yccd.source.json",
   "sourceId": "SRC-GDPT-2018-TIN6",
@@ -274,10 +274,10 @@
     },
     "G6-E-03": {
       "topicId": "G6-E",
-      "rawSourceText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
-      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
-      "officialTextHash": "ab0a6a9d60cbb763e0b6f9b6dfa6f50b8976b335256da50eb7eb0e8f5632c26e",
-      "normalizationApplied": "Line-break/whitespace normalization only (none needed)",
+      "rawSourceText": "Sử dụng được công cụ tìm kiếm và thay thế\ncủa phần mềm soạn thảo.",
+      "officialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo.",
+      "officialTextHash": "652328dc276b12511bd517f0f8686a5e0756c4cf473adaf444317aa92debeb0e",
+      "normalizationApplied": "PDF line-break normalization only; preserved exact ending 'phần mềm soạn thảo.' without adding 'văn bản'",
       "sourceDocumentDriveId": "13o_7GOH_en10qIrlgLTyqrIlJSgCZxma",
       "sourceSection": "LỚP 6 – Chủ đề A–F"
     },

@@ -288,7 +288,7 @@ function runSuite() {
     return `Total=38 (A=10, B=4, C=7, D=5, E=9, F=3) with immutable IDs verified`;
   });
 
-  test('P25-05', 'Verbatim CTGDPT 2018 officialText (38/38 incl. A09, B03, C07, D01, D05, E01, E04, E07, F03), Source Transcript & REQUIREMENT_TEXT_AUDIT.md', () => {
+  test('P25-05', 'Verbatim CTGDPT 2018 officialText (38/38 incl. A09, B03, C07, D01, D05, E01, E03, E04, E07, F03), Source Transcript & REQUIREMENT_TEXT_AUDIT.md', () => {
     const byId = new Map(baseDataset.requirements.map(r => [r.requirementId, r]));
     const g6a09 = byId.get('G6-A-09');
     assert(!/\bTB\b/.test(g6a09.officialText), 'G6-A-09 officialText must not contain TB');
@@ -326,6 +326,11 @@ function runSuite() {
       byId.get('G6-E-01').officialText ===
         'Trình bày được tác dụng của công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.',
       'G6-E-01 exact text mismatch'
+    );
+    assert(
+      byId.get('G6-E-03').officialText ===
+        'Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo.',
+      'G6-E-03 exact text mismatch (must end with "của phần mềm soạn thảo.")'
     );
     assert(
       byId.get('G6-E-04').officialText === 'Trình bày được thông tin ở dạng bảng.',
@@ -549,10 +554,10 @@ function runSuite() {
     return 'FAIL as expected (Trusted Snapshot caught recomputed hash tampering)';
   });
 
-  test('P25-17', 'Round 1–4 Negative Tests (A09 missing "bằng", D01 missing "về" / "; nêu", D05 missing parenthetical, E07 "lôgic", F03 missing “hiểu”, B03/C07/E01/E04 paraphrased, 5.2.TC1a->G6-A-07, Core Competency != 5, TT02 driveId=PhuLucIII) -> FAIL', () => {
+  test('P25-17', 'Round 1–5 Negative Tests (E03 extra "văn bản", A09 missing "bằng", D01 missing "về" / "; nêu", D05 missing parenthetical, E07 "lôgic", F03 missing “hiểu”, B03/C07/E01/E04 paraphrased, 5.2.TC1a->G6-A-07, Core Competency != 5, TT02 driveId=PhuLucIII) -> FAIL', () => {
     const bad = clone(baseDataset);
 
-    // 1. Round 3 & Round 4 paraphrased / modified officialText negative checks:
+    // 1. Round 3, Round 4 & Round 5 paraphrased / modified officialText negative checks:
     const rA09 = bad.requirements.find(r => r.requirementId === 'G6-A-09');
     rA09.officialText =
       'Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte.';
@@ -570,6 +575,9 @@ function runSuite() {
     const rE01 = bad.requirements.find(r => r.requirementId === 'G6-E-01');
     rE01.officialText =
       'Trình bày được tác dụng của một số công cụ căn lề, định dạng, tìm kiếm, thay thế trong phần mềm soạn thảo văn bản.';
+    const rE03 = bad.requirements.find(r => r.requirementId === 'G6-E-03');
+    rE03.officialText =
+      'Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.';
     const rE04 = bad.requirements.find(r => r.requirementId === 'G6-E-04');
     rE04.officialText = 'Trình bày được thông tin ở dạng bảng bằng phần mềm soạn thảo văn bản.';
     const rE07 = bad.requirements.find(r => r.requirementId === 'G6-E-07');
@@ -648,6 +656,7 @@ function runSuite() {
     assert(paraphrasedIds.includes('G6-D-01'), 'Did not catch G6-D-01 missing "về" / "; nêu"');
     assert(paraphrasedIds.includes('G6-D-05'), 'Did not catch G6-D-05 missing parenthetical example');
     assert(paraphrasedIds.includes('G6-E-01'), 'Did not catch G6-E-01 "một số công cụ"');
+    assert(paraphrasedIds.includes('G6-E-03'), 'Did not catch G6-E-03 extra "văn bản"');
     assert(paraphrasedIds.includes('G6-E-04'), 'Did not catch G6-E-04 "bằng phần mềm soạn thảo văn bản"');
     assert(paraphrasedIds.includes('G6-E-07'), 'Did not catch G6-E-07 "lôgic"');
     assert(paraphrasedIds.includes('G6-F-03'), 'Did not catch G6-F-03 missing “hiểu”');
@@ -664,7 +673,7 @@ function runSuite() {
     assert(codes.includes('FORBIDDEN_INTERMEDIATE_DRIVE_ID'), 'Missing FORBIDDEN_INTERMEDIATE_DRIVE_ID');
     assert(codes.includes('TRUSTED_SNAPSHOT_MISSING_PROVENANCE'), 'Missing TRUSTED_SNAPSHOT_MISSING_PROVENANCE');
     assert(codes.includes('CONTRACT_DRIFT_DETECTED'), 'Missing CONTRACT_DRIFT_DETECTED');
-    return 'Caught all 22 Round 1–4 content, transcription, and governance violations';
+    return 'Caught all 23 Round 1–5 content, transcription, and governance violations';
   });
 
   // ------------------------------------------------------------------------

@@ -48,7 +48,7 @@ function applyAllowedNormalization(rawSourceText) {
 
 function buildTrustedSnapshotFromTranscript(transcript) {
   const snapshot = {
-    snapshotId: 'TRUSTED-CTGDPT2018-TIN6-SNAPSHOT-V4',
+    snapshotId: 'TRUSTED-CTGDPT2018-TIN6-SNAPSHOT-V5',
     sourceTranscriptId: transcript.transcriptId,
     sourceTranscriptPath: 'tools/curriculum/source-transcripts/ctgdpt2018-tin6-yccd.source.json',
     sourceId: transcript.sourceId,
@@ -105,7 +105,7 @@ function syncRequirementsFromTrustedSnapshot(snapshot) {
       ...r,
       officialText: trusted.officialText,
       officialTextHash: trusted.officialTextHash,
-      version: '2018.4'
+      version: '2018.5'
     };
   });
   fs.writeFileSync(REQUIREMENTS_BANK_PATH, JSON.stringify(updated, null, 2) + '\n', 'utf8');
@@ -120,7 +120,7 @@ function generateAuditReport(transcript, requirements) {
   const lines = [
     '# BÁO CÁO ĐỐI CHIẾU NGUYÊN VĂN 38 YÊU CẦU CẦN ĐẠT LỚP 6 (`REQUIREMENT_TEXT_AUDIT.md`)',
     '',
-    '- **Phase / Task:** `PHASE 2 / P2.5 FIX ROUND 4 ONLY`',
+    '- **Phase / Task:** `PHASE 2 / P2.5 FIX ROUND 5 ONLY`',
     '- **Nguồn PDF gốc:** Chương trình giáo dục phổ thông môn Tin học (Thông tư số 32/2018/TT-BGDĐT ngày 26/12/2018)',
     '- **Drive ID tài liệu gốc:** `13o_7GOH_en10qIrlgLTyqrIlJSgCZxma`',
     '- **VBPL URL:** `https://vbpl.vn/bogiaoducdaotao/Pages/vbpq-toanvan.aspx?ItemID=146721`',
@@ -164,12 +164,30 @@ function generateAuditReport(transcript, requirements) {
     '',
     '---',
     '',
-    '## Tóm tắt kết quả Audit (Round 4)',
+    '## Chi tiết đối chiếu `G6-E-03` (Round 5)',
+    '',
+    '```text',
+    'RequirementID: G6-E-03',
+    'SourceText:',
+    'Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo.',
+    '',
+    'StoredOfficialText:',
+    'Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo.',
+    '',
+    'ExactAfterAllowedNormalization:',
+    'TRUE',
+    '```',
+    '',
+    '---',
+    '',
+    '## Tóm tắt kết quả Audit (Round 5)',
     '',
     `- **Tổng số Requirement kiểm định:** \`${transcript.items.length} / 38\``,
     `- **Số Requirement đạt \`ExactAfterAllowedNormalization = TRUE\`:** \`${matchCount} / 38\``,
     `- **Số Requirement sai lệch (\`FALSE\`):** \`${mismatchCount}\``,
-    '- **5 câu `officialText` đã sửa chuẩn xác theo PDF gốc ở Round 4:**',
+    '- **Mục `officialText` đã sửa chuẩn xác theo PDF gốc ở Round 5:**',
+    '  - `G6-E-03`: `"Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo."` *(xóa cụm từ thêm `"văn bản"` ở cuối để khớp 100% PDF CTGDPT gốc)*',
+    '- **5 câu `officialText` đã sửa chuẩn xác theo PDF gốc ở Round 4 (giữ nguyên):**',
     '  1. `G6-A-09`: `"Nêu được tên và độ lớn (xấp xỉ theo hệ thập phân) của các đơn vị cơ bản đo dung lượng thông tin: Byte, KB, MB, GB, quy đổi được một cách gần đúng giữa các đơn vị đo lường này. Ví dụ: 1 KB bằng xấp xỉ 1 ngàn byte, 1 MB xấp xỉ 1 triệu byte, 1 GB xấp xỉ 1 tỉ byte."` *(chuẩn hóa `1KB → 1 KB`, giữ nguyên từ `"bằng"`)*',
     '  2. `G6-D-01`: `"Giới thiệu được sơ lược về một số tác hại và nguy cơ bị hại khi tham gia Internet. Nêu và thực hiện được một số biện pháp phòng ngừa cơ bản với sự hướng dẫn của giáo viên."` *(giữ nguyên từ `"về"` và dấu chấm câu `". Nêu"`)*',
     '  3. `G6-D-05`: `"Nhận diện được một số thông điệp (chẳng hạn email, yêu cầu kết bạn, lời mời tham gia câu lạc bộ,...) lừa đảo hoặc mang nội dung xấu."` *(giữ nguyên phần ví dụ trong ngoặc đơn)*',

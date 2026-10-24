@@ -208,9 +208,9 @@
     {
       "requirementId": "G6-E-03",
       "topicId": "G6-E",
-      "rawSourceText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
-      "normalizedOfficialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo văn bản.",
-      "normalizationApplied": "Line-break/whitespace normalization only (none needed)"
+      "rawSourceText": "Sử dụng được công cụ tìm kiếm và thay thế\ncủa phần mềm soạn thảo.",
+      "normalizedOfficialText": "Sử dụng được công cụ tìm kiếm và thay thế của phần mềm soạn thảo.",
+      "normalizationApplied": "PDF line-break normalization only; preserved exact ending 'phần mềm soạn thảo.' without adding 'văn bản'"
     },
     {
       "requirementId": "G6-E-04",
