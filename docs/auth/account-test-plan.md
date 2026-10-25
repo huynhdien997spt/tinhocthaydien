@@ -29,10 +29,11 @@
    - Nhóm 4: Nhập hàng loạt, Tính Idempotency & Concurrency (Test Vectors 20–22).
    - Nhóm 5: Tương thích ngược, Bảo mật & Thuật toán PBKDF2 (Test Vectors 23–25, 27).
    - Nhóm 6: Tính Nhất quán Danh sách, Kiểm toán Tách biệt & Phòng vệ Nâng cao (Test Vectors 28–35).
+   - Nhóm 7: Bằng chứng Nguồn gốc Lô & Kiểm thử Phục hồi Nâng cao (Test Vectors 36–44).
 
 ---
 
-## 2. Danh mục 35 Bộ Test Vectors Chi tiết (Acceptance Test Suite)
+## 2. Danh mục 44 Bộ Test Vectors Chi tiết (Acceptance Test Suite)
 
 ### Nhóm 1: Thẩm định Cấu trúc & Cú pháp JSON Schema
 
@@ -405,3 +406,90 @@
   - Bảng `EVENT_LOG` (dành cho viễn trắc học tập `V2_HEADERS.EVENT_LOG`) không tăng thêm bất kỳ dòng nào (`rowCount` giữ nguyên).
   - Dòng thời gian học tập trong `timeline_()` của `Teacher.gs` không xuất hiện các nhãn lạ ngoài hoạt động học tập.
   - Toàn bộ nhật ký quản trị được định tuyến độc lập vào bảng đề xuất `AUTH_AUDIT` (`PROPOSED_CHANGE - PENDING_HUMAN_APPROVAL`).
+
+---
+
+### Nhóm 7: Bằng chứng Nguồn gốc Lô & Kiểm thử Phục hồi Nâng cao (Test Vectors 36–44)
+
+#### Test Vector 36: Phát hiện và Từ chối BatchId Giả mạo (Spoofed BatchId Replay Detection)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Ngăn chặn việc client gửi một `batchId` ngẫu nhiên hoặc của giáo viên khác nhằm chiếm đoạt trạng thái lô hoặc bỏ qua quy trình kiểm tra.
+- **Hành động:** Client gửi yêu cầu `importAccountsBatch` với `batchId = "bat_spoofed_random_99"`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ tra cứu bảng `AUTH_IMPORT_BATCHES` và không tìm thấy `batchId` này $\rightarrow$ Xử lý như một lô mới.
+  - Nếu bất kỳ tài khoản nào bên trong payload trùng với tài khoản đã có trong `USERS`, máy chủ lập tức từ chối với mã lỗi `COLLISION_EXISTING_ACCOUNT`.
+  - Nếu client gửi yêu cầu `reissueBatchPasswords` với `batchId = "bat_spoofed_random_99"`, máy chủ từ chối ngay lập tức với mã lỗi `code: "BATCH_PROVENANCE_NOT_FOUND"`.
+
+#### Test Vector 37: Cùng BatchId nhưng Payload bị Thay đổi (Payload Forgery Detection)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Phát hiện và chặn đứng hành vi tái sử dụng `batchId` cũ nhưng gửi kèm payload JSON đã bị chỉnh sửa (thay đổi danh sách học sinh hoặc sửa họ tên).
+- **Điều kiện tiên quyết:** Lô `bat_valid_01` đã commit thành công với 5 tài khoản và có dấu vân tay `storedFingerprint` trong `AUTH_IMPORT_BATCHES`.
+- **Hành động:** Client gửi lại `importAccountsBatch` với cùng `batchId = "bat_valid_01"` nhưng nội dung mảng `accounts` bị sửa đổi hoặc thêm bớt phần tử.
+- **Hành vi kỳ vọng:**
+  - Máy chủ chuẩn hóa canonical JSON của payload mới và tính toán `serverFingerprint`.
+  - Phát hiện `serverFingerprint !== storedFingerprint`.
+  - Máy chủ **lập tức từ chối yêu cầu** với mã lỗi `code: "BATCH_PAYLOAD_MISMATCH"`, ngăn chặn việc giả mạo hoặc ghi đè dưới định danh lô cũ.
+
+#### Test Vector 38: Cùng Payload nhưng BatchId Khác (Identical Payload with New BatchId)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận hệ thống phân định rõ ràng giữa nạp lại một lô cũ và nạp một lô mới có nội dung trùng lặp tài khoản.
+- **Điều kiện tiên quyết:** Lô 1 (`bat_01`) đã tạo thành công tài khoản học sinh `6A1-01`.
+- **Hành động:** Giáo viên gửi một tệp mới mang `batchId = "bat_02"` nhưng nội dung mảng `accounts` vẫn chứa tài khoản `6A1-01`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ nhận diện `bat_02` là một lô mới độc lập (chưa có trong `AUTH_IMPORT_BATCHES`).
+  - Khi kiểm tra trùng lặp trên `USERS`, phát hiện `6A1-01` đã tồn tại trong cơ sở dữ liệu.
+  - Máy chủ **bắt buộc từ chối bản ghi đó** với mã lỗi `code: "COLLISION_EXISTING_ACCOUNT"`, ngăn chặn việc lô mới nhận nhầm tài khoản cũ là vừa tạo.
+
+#### Test Vector 39: Mất Dữ liệu Batch Metadata sau khi Ghi USERS (Unprovenanced Partial Batch Recovery)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Kiểm soát và phục hồi an toàn tình huống gián đoạn: `USERS` và `ENROLLMENTS` đã ghi thành công nhưng kết nối mạng bị đứt trước khi kịp ghi `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
+- **Kịch bản mô phỏng:** Trạng thái `PARTIAL_WRITE_UNPROVENANCED_BATCH`.
+- **Hành động:** Client gửi lại cùng `batchId` và payload chuẩn tắc trong vòng 15 phút.
+- **Hành vi kỳ vọng:**
+  - Máy chủ đối chiếu nếu toàn bộ danh sách học sinh trong payload khớp hoàn toàn với các bản ghi vừa được tạo trong bảng `USERS` trong vòng 15 phút bởi chính phiên làm việc đó.
+  - Máy chủ hoàn tất việc ghi bổ sung metadata vào `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`, gắn nhãn `status: "replayed_and_provenanced"`.
+  - Nếu không thể đối chiếu chứng minh nguồn gốc (ví dụ tài khoản đã tạo từ lâu hoặc khác phiên), hệ thống từ chối với `COLLISION_EXISTING_ACCOUNT`.
+
+#### Test Vector 40: Từ chối Reset khi Không Tồn tại Batch Provenance (Batch Provenance Missing Fallback)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Đảm bảo không thể kích hoạt reset hàng loạt nếu thiếu chứng cứ nguồn gốc máy chủ đáng tin cậy.
+- **Hành động:** Giáo viên gọi `reissueBatchPasswords` với một `batchId` không có bản ghi trong bảng `AUTH_IMPORT_BATCHES`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ từ chối thao tác với mã lỗi `code: "BATCH_PROVENANCE_NOT_FOUND"`.
+  - Hệ thống yêu cầu giáo viên chuyển sang quy trình `resetAccountPassword` cho từng tài khoản có kiểm soát và xác nhận riêng biệt.
+
+#### Test Vector 41: Từ chối Reset khi Học sinh Đã Đổi Mật khẩu hoặc Đã Có Bài Làm (Active Student Protection)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận máy chủ từ chối reset tài khoản của học sinh đang hoạt động dù lô nạp hợp lệ.
+- **Điều kiện tiên quyết:** Lô `bat_01` hợp lệ trong `AUTH_IMPORT_BATCHES`. Học sinh `6A1-01` thuộc lô đã đổi mật khẩu (`MustChangePassword === "FALSE"`).
+- **Hành động:** Giáo viên gọi `reissueBatchPasswords` cho `bat_01`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ kiểm tra `MustChangePassword` và các bảng `PROGRESS`, `RESPONSES`.
+  - Máy chủ **bắt buộc từ chối reset tài khoản `6A1-01`** với mã lỗi `code: "STUDENT_ALREADY_ACTIVE"`.
+  - Mật khẩu hiện tại của học sinh được giữ nguyên vẹn 100%, phiên học không bị gián đoạn.
+
+#### Test Vector 42: Từ chối Reset khi Lô Đã Quá Hạn Phục hồi 24 Giờ (Batch Expiration Safety)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Ngăn chặn việc sử dụng chức năng khôi phục khẩn cấp cho các lô nạp đã quá cũ.
+- **Điều kiện tiên quyết:** Lô `bat_01` trong `AUTH_IMPORT_BATCHES` có `CreatedAt` từ 3 ngày trước (`ExpiresAt < now`).
+- **Hành động:** Giáo viên gọi `reissueBatchPasswords` cho `bat_01`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ kiểm tra `Date.now() > stored.ExpiresAt`.
+  - Máy chủ từ chối với mã lỗi `code: "BATCH_EXPIRED"`.
+  - Khóa chức năng reset hàng loạt, yêu cầu reset từng tài khoản.
+
+#### Test Vector 43: Băm SHA-256 được Tính toán Độc lập tại Máy chủ (Server-Side Canonical Fingerprint Verification)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận máy chủ bỏ qua hoàn toàn băm do client gửi lên và tự chuẩn hóa JSON chuẩn tắc trước khi băm.
+- **Hành động:** Client gửi payload kèm chuỗi băm giả lập `batchFingerprint: "fake_client_hash_12345"`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ bỏ qua chuỗi băm do client gửi.
+  - Máy chủ tự sắp xếp các khóa JSON, sắp xếp mảng `accounts` theo `accountId.toUpperCase()`, tính SHA-256 nội bộ.
+  - Giá trị lưu vào `AUTH_IMPORT_BATCHES.BatchFingerprint` là giá trị băm do chính máy chủ tính toán.
+
+#### Test Vector 44: Xác minh Không Lưu Mật khẩu Thô trong Batch Metadata (Zero Cleartext in Metadata)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Quét kiểm tra toàn bộ cấu trúc và dữ liệu lưu trong 2 bảng `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
+- **Hành vi kỳ vọng:**
+  - Cả 2 bảng metadata hoàn toàn không có bất kỳ cột nào chứa: mật khẩu thô, mật khẩu tạm, password hash, password salt hay session token.
+  - Chỉ lưu vết quan hệ định danh: `BatchID`, `StudentUID`, `AccountId`, `Username`, `Fingerprint`, `Timestamps`.

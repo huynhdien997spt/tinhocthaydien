@@ -87,26 +87,36 @@ Thiết kế AUTH-A1 **thu hồi hoàn toàn tuyên bố về "Bulk Atomic Write
   ```
 - Biện pháp này đảm bảo chỉ có duy nhất một phiên quản trị được phép ghi vào bảng tính tại một thời điểm, loại bỏ hiện tượng ghi đè chéo (Race Condition).
 
-### 3.3. Phân định Tính Bất biến Lô và An toàn Xung đột (True Idempotency & Collision Safety)
-- Trong một lô nhập dữ liệu (`importAccountsBatch`), hệ thống không mặc nhiên xem mọi `Username` đã tồn tại là kết quả của việc nạp lại thành công.
-- **Phân định rõ ràng giữa Replay và Collision:**
-  1. **Nhập lại lô hợp lệ (Genuine Batch Replay):**
-     - Xác định bằng cặp khóa nhận diện: `batchId` (UUID client) và `batchFingerprint` (chuỗi băm SHA-256 của payload chuẩn hóa).
-     - Khi nhận yêu cầu có cùng `batchFingerprint` và `batchId`:
-       + Hệ thống đối chiếu thông tin tài khoản đã có trong `USERS`: nếu `Username`, `StudentUID`, `FullName`, `ClassID` và `SchoolYear` hoàn toàn trùng khớp với thông tin đã lưu, hệ thống xác nhận đây là thao tác nạp lại hợp lệ (`status: "replayed"`).
-       + Tuyệt đối không sinh UID mới, không ghi đè, không đổi mật khẩu của học sinh.
-  2. **Xung đột tài khoản cũ (Existing-Account Collision):**
-     - Nếu `Username` đã có trong `USERS` nhưng thuộc về một lô khác, hoặc họ tên/lớp không khớp:
-       + Hệ thống **TUYỆT ĐỐI KHÔNG ĐƯỢC âm thầm bỏ qua hay ghi nhận là thành công (`skipped_existing`)**.
-       + Phải từ chối bản ghi đó với mã lỗi rõ ràng: **`COLLISION_EXISTING_ACCOUNT`**, ngăn chặn triệt để nguy cơ nhận nhầm tài khoản cũ là vừa được tạo mới.
-- **Thẩm định lại trong phạm vi khóa ghi (`withLock_`):**
-  - Mọi thao tác kiểm tra xung đột tài khoản và kiểm tra phân công lớp của giáo viên (`assignedSet_`) bắt buộc phải được thực hiện lại bên trong khối `withLock_`, triệt tiêu rủi ro tranh chấp tương tranh TOCTOU khi hai giáo viên cùng nhập hoặc phân công bị thu hồi giữa chừng.
+### 3.3. Cơ chế Lưu trữ Bền vững Nguồn gốc Lô & An toàn Xung đột (Durable Batch Provenance & Collision Safety)
+- **Hạn chế của Bảng Hiện hữu:** Bảng `USERS` và `ENROLLMENTS` hiện không lưu thông tin `batchId` hay `batchFingerprint`. Do đó, nếu chỉ dựa vào dữ liệu do client gửi lên mà không có bằng chứng đối chiếu bền vững trên máy chủ, hệ thống không thể xác minh một tài khoản có thực sự thuộc về lô nạp trước đó hay không.
+- **Đề xuất Cơ chế Lưu trữ Nguồn gốc Bền vững (Durable Provenance Persistence):**
+  Hệ thống đề xuất cơ chế lưu vết bền vững mối quan hệ giữa lô nạp, người thực hiện, dấu vân tay dữ liệu và danh sách định danh học sinh thông qua 2 bảng độc lập (`PROPOSED_CHANGE — PENDING_HUMAN_APPROVAL`):
+  1. `AUTH_IMPORT_BATCHES`: `["BatchID", "BatchFingerprint", "OperatorUID", "OperatorRole", "SchoolYear", "ClassID", "TotalAccounts", "CreatedCount", "ReplayedCount", "Status", "CreatedAt", "ExpiresAt"]`.
+  2. `AUTH_IMPORT_ITEMS`: `["ItemID", "BatchID", "StudentUID", "AccountId", "Username", "ItemStatus", "CreatedAt"]`.
+  - *Ràng buộc an ninh:* Tuyệt đối không lưu mật khẩu thô, mật khẩu tạm, password hash, salt hay token trong các bảng này.
+- **Quy tắc Chuẩn hóa Chuẩn tắc (Canonical JSON Normalization) & Tính Băm Độc quyền tại Máy chủ:**
+  - Máy chủ **không tin cậy giá trị hash do client gửi lên**. Giá trị băm SHA-256 bắt buộc do chính máy chủ tự tính toán từ payload sau khi chuẩn hóa:
+    + Sắp xếp khóa cấp root và khóa từng object tài khoản theo thứ tự chữ cái.
+    + Sắp xếp danh sách `accounts` theo thứ tự `accountId.toUpperCase()`.
+    + Trim khoảng trắng thừa, chuyển thành chuỗi JSON thu gọn (compact, không khoảng trắng dư).
+    + Tính toán SHA-256 trên chuỗi byte UTF-8 $\rightarrow$ chuỗi hex 64 ký tự chữ thường (`serverFingerprint`).
+- **Phân định Replay Hợp lệ vs Giả mạo BatchId (Anti-Spoofing):**
+  1. **Genuine Batch Replay:** Cung cấp `batchId` đã tồn tại trong `AUTH_IMPORT_BATCHES` với `OperatorUID === session.uid` và `serverFingerprint === stored.BatchFingerprint`. Hệ thống tra cứu `AUTH_IMPORT_ITEMS` để lấy danh sách `StudentUID` thực tế đã tạo, đánh dấu `status: "replayed"` (hoặc `status: "replayed_and_healed"` nếu hàn gắn `ENROLLMENTS`).
+  2. **Existing-Account Collision:** Nếu `Username` đã tồn tại trong `USERS` nhưng không thuộc lô nạp hợp lệ: Bắt buộc từ chối bản ghi đó với lỗi **`COLLISION_EXISTING_ACCOUNT`**. Tuyệt đối không cho phép tệp mới nhận nhầm tài khoản cũ là vừa tạo.
+  3. **Batch ID Spoofing / Hijacking:** Nếu client gửi `batchId` đã thuộc về một giáo viên khác $\rightarrow$ Bị từ chối ngay với **`BATCH_ID_TAKEN`**.
+  4. **Payload Forgery:** Nếu client gửi `batchId` cũ nhưng sửa đổi nội dung JSON $\rightarrow$ Bị từ chối ngay với **`BATCH_PAYLOAD_MISMATCH`**.
 
-### 3.4. Cơ chế Phục hồi khi Tác vụ bị Gián đoạn & Tự Hàn gắn (Interrupted Batch Recovery & Self-Healing)
-- Do Google Sheets không có giao dịch ACID đa bảng, tác vụ ghi có thể bị ngắt sau khi đã ghi `USERS` nhưng chưa kịp ghi `ENROLLMENTS`:
-  - Trạng thái này được định danh là **`PARTIAL_WRITE_ORPHAN`**.
-  - Học sinh có tài khoản trong `USERS` nhưng không có trong `ENROLLMENTS` sẽ bị vô hình trên danh sách lớp của giáo viên (`Teacher.gs:buildRosters_`).
-  - **Cơ chế tự hàn gắn (Self-Healing):** Khi giáo viên gửi lại cùng lô dữ liệu (Replay) với cùng `batchFingerprint`, hệ thống phát hiện các tài khoản đã có trong `USERS` nhưng thiếu bản ghi trong `ENROLLMENTS`. Hệ thống tự động ghi bổ sung các dòng `ENROLLMENTS` bị thiếu theo đúng cấu trúc chuẩn `V2_HEADERS.ENROLLMENTS`, đưa cơ sở dữ liệu về trạng thái nhất quán hoàn toàn mà không làm thay đổi UID hay mật khẩu của học sinh.
+### 3.4. Ma trận Tính Nhất quán Phục hồi Sự cố (Recovery Consistency Matrix)
+Do Google Sheets không có cơ chế giao dịch đa bảng (multi-table transaction rollback), hệ thống xác lập phương thức ứng phó cho từng tình huống gián đoạn:
+
+| Tình huống Gián đoạn | Trạng thái Dữ liệu | Cơ chế Phục hồi & Phòng vệ |
+|---|---|---|
+| **Sự cố 1: USERS đã ghi, ENROLLMENTS chưa ghi** | `PARTIAL_WRITE_ORPHAN` | Khi gửi lại cùng batch (Replay), hệ thống phát hiện các học sinh trong `USERS` chưa có dòng trong `ENROLLMENTS` cho năm học đó, tự động chèn bổ sung vào `ENROLLMENTS` (`replayed_and_healed`). |
+| **Sự cố 2: USERS và ENROLLMENTS đã ghi, nhưng batch metadata chưa hoàn tất** | `PARTIAL_WRITE_UNPROVENANCED_BATCH` | Khi gửi lại cùng `batchId` và payload, máy chủ đối chiếu nếu các tài khoản trong payload trùng khớp hoàn toàn với bản ghi vừa tạo trong 15 phút bởi chính phiên đó, máy chủ hoàn tất việc ghi metadata vào `AUTH_IMPORT_BATCHES` / `AUTH_IMPORT_ITEMS` (`replayed_and_provenanced`). Nếu không chứng minh được, từ chối với `COLLISION_EXISTING_ACCOUNT`. |
+| **Sự cố 3: Mạng ngắt sau khi commit hoàn tất** | `COMMITTED_RESPONSE_LOST` | Khi gửi lại cùng `batchId`, máy chủ nhận diện Genuine Replay, trả về danh sách tài khoản kèm `temporaryPassword: null` và `passwordReissueAvailable: true` (tuân thủ Zero Cleartext). Giáo viên có thể dùng `reissueBatchPasswords` trong vòng 24 giờ. |
+| **Sự cố 4: Client gửi lại batchId với payload khác** | `FORGERY_ATTEMPT` | Máy chủ phát hiện `serverFingerprint !== stored.BatchFingerprint`, từ chối ngay lập tức với `BATCH_PAYLOAD_MISMATCH`. |
+| **Sự cố 5: Hai giáo viên sử dụng trùng batchId** | `LOCK_CONTENTION_COLLISION` | Giáo viên thứ hai chiếm lock sau sẽ bị từ chối với mã lỗi `BATCH_ID_TAKEN` do `OperatorUID` không trùng khớp. |
+| **Sự cố 6: Tài khoản trong batch đã đổi mật khẩu hoặc đã học** | `ACTIVE_STUDENT_INTERFERENCE` | Khi giáo viên gọi `reissueBatchPasswords`, hệ thống kiểm tra `MustChangePassword === "FALSE"` hoặc có bài làm trong `RESPONSES` $\rightarrow$ Từ chối reset với `STUDENT_ALREADY_ACTIVE`. |
 
 ---
 
@@ -123,7 +133,12 @@ Khi giáo viên nhận thấy lô tài khoản đã tồn tại nhưng chưa nh�
 1. **Tuyệt đối không tìm cách đọc lại mật khẩu cũ.**
 2. **Quy tắc an toàn nghiêm ngặt cho `reissueBatchPasswords`:**
    - **Không reset theo ClassID:** Không cho phép gọi API chỉ với tham số `classId` để quét toàn lớp, tránh xóa nhầm mật khẩu của học sinh đã học ổn định.
-   - **Xác minh nguồn gốc lô nạp (Batch Provenance):** Bắt buộc cung cấp `batchId`, `batchFingerprint` và danh sách `accountIds` khớp với lô nạp vừa tạo. Nếu không chứng minh được tài khoản thuộc lô nạp, hệ thống từ chối với lỗi `BATCH_PROVENANCE_UNVERIFIED` và yêu cầu chuyển sang quy trình reset từng tài khoản.
+   - **Xác minh nguồn gốc lô nạp dựa trên Bằng chứng Máy chủ (Server-Verified Batch Provenance):**
+     + Bắt buộc cung cấp `batchId`. Máy chủ tra cứu `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
+     + Kiểm tra `OperatorUID === session.uid` (hoặc admin).
+     + Kiểm tra `ExpiresAt` (trong vòng 24 giờ kể từ thời điểm tạo). Nếu hết hạn $\rightarrow$ Từ chối với **`BATCH_EXPIRED`**.
+     + Kiểm tra danh sách `accountIds`: Mọi tài khoản yêu cầu reset bắt buộc phải nằm trong danh sách `AUTH_IMPORT_ITEMS` của lô. Nếu có tài khoản ngoài lô $\rightarrow$ Từ chối với **`ACCOUNT_NOT_IN_BATCH`**.
+     + Nếu không tìm thấy thông tin lô trên máy chủ $\rightarrow$ Từ chối với **`BATCH_PROVENANCE_NOT_FOUND`**.
    - **Bảo vệ tài khoản học sinh đang học (Active Student Protection):** Với từng tài khoản, hệ thống kiểm tra cờ `MustChangePassword` và dữ liệu học tập trong `PROGRESS`, `RESPONSES`, `LEARNING_SESSIONS`. Nếu học sinh đã đổi mật khẩu (`MustChangePassword === "FALSE"`) hoặc đã có dữ liệu học tập, hệ thống **LẬP TỨC TỪ CHỐI RESET TÀI KHOẢN NÀY** với mã lỗi `STUDENT_ALREADY_ACTIVE`.
    - **Yêu cầu xác nhận rõ ràng:** Bắt buộc có cờ `confirmBatchReset: true` và lý do `reason: "LOST_RESPONSE_RECOVERY"`.
    - **Cấp lại Mật khẩu Mới Hoàn toàn:**
@@ -133,7 +148,9 @@ Khi giáo viên nhận thấy lô tài khoản đã tồn tại nhưng chưa nh�
      4. Cập nhật `MustChangePassword = "TRUE"`, `FailedAttempts = 0`, `LockedUntil = ""`.
      5. Thu hồi toàn bộ các phiên làm việc cũ nếu có (`revokeAll_`).
      6. Trả về mật khẩu tạm mới qua kết nối HTTPS có bảo vệ.
-3. **Kết quả bảo mật:** Mật khẩu tạm cũ bị thất lạc trước đó lập tức trở nên vô hiệu vì mã băm đã bị thay thế hoàn toàn. Quy trình này bảo đảm an toàn 100% cho học sinh và không vi phạm chính sách Zero Cleartext.
+3. **Kết quả bảo mật:** Mật khẩu tạm cũ bị thất lạc trước đó lập tức trở nên vô hiệu vì mã băm đã bị thay thế hoàn toàn. Quy trình này thiết lập các lớp bảo vệ có thể kiểm chứng được, giảm thiểu rủi ro vận hành và tuân thủ chính sách Zero Cleartext.
+4. **Quy trình Chuyển hướng khi Mất Nguồn gốc (Provenance Fallback):**
+   - Nếu không chứng minh được nguồn gốc lô (do mất metadata, quá hạn 24 giờ, hoặc sai lệch dữ liệu), hệ thống từ chối chức năng `reissueBatchPasswords` và yêu cầu giáo viên sử dụng quy trình `resetAccountPassword` cho từng tài khoản có kiểm soát và xác nhận riêng biệt.
 
 ---
 
@@ -141,10 +158,10 @@ Khi giáo viên nhận thấy lô tài khoản đã tồn tại nhưng chưa nh�
 
 | Mã đe dọa | Danh mục STRIDE | Kịch bản tấn công tiềm ẩn | Biện pháp Phòng vệ trong Thiết kế AUTH-A1 |
 |---|---|---|---|
-| **T-01** | **Spoofing (Giả mạo)** | Kẻ tấn công gửi yêu cầu tạo/reset tài khoản với `token` giả hoặc tự định danh UID | Yêu cầu kiểm tra token qua `requireSession_()` tại backend; băm HMAC-SHA256 với secret `TOKEN_PEPPER` lưu trong Script Properties; toàn bộ UID do máy chủ tự sinh bằng UUID v4. |
-| **T-02** | **Tampering (Can thiệp dữ liệu)** | Kẻ tấn công chèn công thức Google Sheets vào trường `fullName` hoặc `accountId` (`=IMPORTXML(...)`, `=IMAGE(...)`) | Thực thi bộ lọc Formula Injection: từ chối mọi trường dữ liệu bắt đầu bằng các ký tự công thức (`=`, `+`, `-`, `@`, `\t`, `\r`). Toàn bộ ô lưu trữ trong sheet được định dạng văn bản thô `@` (`setNumberFormat("@")`). |
-| **T-03** | **Repudiation (Chối bỏ trách nhiệm)** | Người dùng chối bỏ việc thực hiện batch import hoặc reset mật khẩu | **Tách biệt khỏi EVENT_LOG:** Tuyệt đối không ghi sự kiện quản trị vào bảng `EVENT_LOG` học tập. Đề xuất ghi nhật ký có cấu trúc vào bảng độc lập `AUTH_AUDIT` (`PROPOSED_CHANGE - PENDING_HUMAN_APPROVAL`), lưu vết: `Timestamp`, `OperatorUID`, `OperatorRole`, `Action`, `TargetUID`, `TargetUsername`, `TargetRole`, `ClassID`, `SchoolYear`, `Status`, `ErrorCode`, `DetailsJSON`, `ClientIP_MD5`. Tuyệt đối không lưu mật khẩu thô, hash, salt, hoặc token. |
-| **T-04** | **Information Disclosure (Lộ lọt thông tin)** | Lộ mật khẩu tạm thời, chuỗi muối hoặc hash băm mật khẩu qua API `listManagedAccounts` hoặc qua file log | Mật khẩu tạm chỉ xuất hiện **duy nhất một lần** trong phản hồi HTTPS. Không lưu trữ mật khẩu rõ trên Google Sheets hay trả về trong các API truy vấn. Không in mật khẩu ra Logger. |
+| **T-01** | **Spoofing (Giả mạo)** | Kẻ tấn công gửi yêu cầu tạo/reset tài khoản với `token` giả, tự định danh UID, hoặc giả mạo `batchId` của giáo viên khác | Yêu cầu kiểm tra token qua `requireSession_()` tại backend; băm HMAC-SHA256 với secret `TOKEN_PEPPER` lưu trong Script Properties; toàn bộ UID do máy chủ tự sinh bằng UUID v4; xác minh quyền sở hữu `OperatorUID` đối với `batchId` trong `AUTH_IMPORT_BATCHES`. |
+| **T-02** | **Tampering (Can thiệp dữ liệu)** | Kẻ tấn công chèn công thức Google Sheets vào trường `fullName` hoặc `accountId` (`=IMPORTXML(...)`, `=IMAGE(...)`), hoặc sửa đổi payload của một `batchId` cũ | Thực thi bộ lọc Formula Injection: từ chối mọi trường dữ liệu bắt đầu bằng các ký tự công thức (`=`, `+`, `-`, `@`, `\t`, `\r`). Toàn bộ ô lưu trữ trong sheet được định dạng văn bản thô `@` (`setNumberFormat("@")`). Máy chủ tự tính toán SHA-256 payload và đối chiếu `BatchFingerprint` để phát hiện sửa đổi payload (`BATCH_PAYLOAD_MISMATCH`). |
+| **T-03** | **Repudiation (Chối bỏ trách nhiệm)** | Người dùng chối bỏ việc thực hiện batch import hoặc reset mật khẩu | **Tách biệt khỏi EVENT_LOG:** Tuyệt đối không ghi sự kiện quản trị vào bảng `EVENT_LOG` học tập. Đề xuất ghi nhật ký có cấu trúc vào bảng độc lập `AUTH_AUDIT` (`PROPOSED_CHANGE - PENDING_HUMAN_APPROVAL`), lưu vết: `Timestamp`, `OperatorUID`, `OperatorRole`, `Action`, `TargetUID`, `TargetUsername`, `TargetRole`, `ClassID`, `SchoolYear`, `Status`, `ErrorCode`, `DetailsJSON`. (Loại bỏ trường IP do hạn chế môi trường Google Apps Script và rủi ro tra cứu Rainbow Table). Tuyệt đối không lưu mật khẩu thô, hash, salt, hoặc token. |
+| **T-04** | **Information Disclosure (Lộ lọt thông tin)** | Lộ mật khẩu tạm thời, chuỗi muối hoặc hash băm mật khẩu qua API `listManagedAccounts`, bảng batch metadata, hoặc qua file log | Mật khẩu tạm chỉ xuất hiện **duy nhất một lần** trong phản hồi HTTPS. Không lưu trữ mật khẩu rõ trên Google Sheets (`USERS`, `AUTH_IMPORT_BATCHES`, `AUTH_IMPORT_ITEMS`) hay trả về trong các API truy vấn. Không in mật khẩu ra Logger. |
 | **T-05** | **Denial of Service (Từ chối dịch vụ)** | Tấn công gửi tệp JSON chứa hàng nghìn tài khoản làm cạn kiệt hạn mức thực thi 6 phút của Apps Script hoặc khóa ScriptLock quá lâu | Giới hạn kích thước lô: tối đa **100 tài khoản / batch**. Áp dụng tiền thẩm định Fail-Fast trong RAM trước khi chạm vào Sheet. Thiết lập thời gian chờ khóa đồng thời `LockService.waitLock(15000)` an toàn. |
 | **T-06** | **Elevation of Privilege (Leo thang đặc quyền)** | Giáo viên gửi payload JSON chứa tài khoản có `role = "admin"` hoặc `role = "teacher"` để tự cấp quyền quản trị | Backend kiểm tra vai trò người gọi: Giáo viên **chỉ được phép tạo tài khoản có `role = "student"`**. Nếu payload chứa vai trò khác, hệ thống lập tức từ chối với lỗi `FORBIDDEN`. |
 

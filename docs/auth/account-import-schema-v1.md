@@ -376,25 +376,54 @@ role                         ───►     Role
 - `Username` và `StudentID` hoàn toàn có thể được điều chỉnh hiển thị trong tương lai mà không gây mồ côi hay phá vỡ tính liên tục của dữ liệu học tập.
 - Tuyệt đối không cho phép client tự sinh hoặc tái sử dụng bất kỳ chuỗi `StudentUID` nào.
 
-### 7.2. Phân định Tính Bất biến Lô và Xử lý Xung đột Trùng lặp (True Idempotency & Collision Safety)
-- Không được mặc nhiên xem mọi `Username` đã tồn tại trong bảng `USERS` là kết quả của việc nhập lại (replay) thành công một lô dữ liệu.
-- Hệ thống phân biệt rõ rệt hai trạng thái hoàn toàn khác nhau:
-  1. **Nhập lại lô dữ liệu hợp lệ (Genuine Batch Replay):**
-     - Mỗi yêu cầu nhập theo lô phải mang định danh `batchId` (UUID client sinh) và `batchFingerprint` (chuỗi băm SHA-256 của toàn bộ payload chuẩn hóa gồm `schoolYear`, `importMode` và mảng `accounts`).
-     - Khi nhận một yêu cầu có cùng `batchFingerprint` và `batchId`:
-       + Hệ thống đối chiếu dữ liệu của các tài khoản đã tồn tại: nếu `Username`, `StudentUID`, `FullName`, `ClassID` và `SchoolYear` hoàn toàn trùng khớp với thông tin đã được ghi nhận trong lần thử trước đó của chính lô này, bản ghi được xác định là **Nhập lại hợp lệ (Replay)** với trạng thái `status: "replayed"`.
-       + Nếu phát hiện tài khoản đã có trong `USERS` nhưng thiếu bản ghi trong `ENROLLMENTS` (do sự cố đứt quãng trước đó), hệ thống sẽ kích hoạt cơ chế tự hàn gắn (**Self-Healing**) để bổ sung `ENROLLMENTS` mà không tạo mới người dùng.
-  2. **Xung đột tài khoản đã tồn tại (Existing-Account Collision):**
-     - Nếu một `accountId` / `Username` đã tồn tại trong cơ sở dữ liệu nhưng:
-       + Thuộc về một `batchId` hoặc `batchFingerprint` khác; HOẶC
-       + Có thông tin họ tên, lớp, hoặc năm học khác biệt; HOẶC
-       + Là tài khoản đã được khởi tạo từ trước phiên làm việc hiện tại.
-     - **Quy tắc an toàn tuyệt đối:**
-       + Hệ thống **TUYỆT ĐỐI KHÔNG ĐƯỢC gán nhãn thành công hay âm thầm bỏ qua (`skipped_existing`)** khiến giáo viên lầm tưởng tài khoản mới đã được tạo.
-       + Hệ thống phải từ chối bản ghi đó với mã lỗi rõ ràng: **`COLLISION_EXISTING_ACCOUNT`** (hoặc `ACCOUNT_ALREADY_EXISTS`), chỉ rõ xung đột với tài khoản cũ.
-       + Không bao giờ gộp tài khoản hay ghi đè lên tài khoản cũ dù có trùng `fullName`.
+### 7.2. Lưu trữ Bền vững Nguồn gốc Lô và Xử lý Xung đột Trùng lặp (Durable Batch Provenance & Collision Safety)
+- **Vấn đề cốt lõi:** Bảng `USERS` (18 cột) và `ENROLLMENTS` (11 cột) hiện hữu **không lưu trữ `batchId` hay `batchFingerprint`**. Do đó, nếu chỉ dựa vào tham số do client gửi lên mà không có dữ liệu đối chiếu bền vững trên máy chủ, hệ thống không thể xác minh một tài khoản có thực sự thuộc về lô nạp trước đó hay không.
+- **Cơ chế Lưu trữ Bền vững Nguồn gốc Lô (Durable Batch Provenance):**
+  Hệ thống đề xuất cơ chế lưu trữ mối quan hệ giữa phiên nạp, người thực hiện, dấu vân tay dữ liệu và danh sách định danh học sinh đã tạo thông qua 2 bảng độc lập (`PROPOSED_CHANGE — PENDING_HUMAN_APPROVAL`):
+  1. **Bảng `AUTH_IMPORT_BATCHES` (Metadata cấp lô):**
+     `["BatchID", "BatchFingerprint", "OperatorUID", "OperatorRole", "SchoolYear", "ClassID", "TotalAccounts", "CreatedCount", "ReplayedCount", "Status", "CreatedAt", "ExpiresAt"]`
+     - `BatchID`: Chuỗi định danh lô do client sinh (`"bat_" + uuid_v4`).
+     - `BatchFingerprint`: Chuỗi băm 64 ký tự hex SHA-256 được **tính toán độc quyền tại máy chủ**.
+     - `OperatorUID`: Định danh nội bộ của giáo viên hoặc quản trị viên thực hiện lệnh nạp.
+     - `OperatorRole`: Vai trò của người thực hiện (`"teacher"` hoặc `"admin"`).
+     - `SchoolYear`: Năm học áp dụng.
+     - `ClassID`: Lớp học liên quan (hoặc chuỗi rỗng nếu nạp đa lớp).
+     - `TotalAccounts`, `CreatedCount`, `ReplayedCount`: Các chỉ số đếm số lượng tài khoản.
+     - `Status`: Trạng thái lô (`"COMMITTED"`, `"PARTIAL"`).
+     - `CreatedAt`: Dấu thời gian khởi tạo ISO 8601 UTC.
+     - `ExpiresAt`: Thời điểm hết hạn phục hồi khẩn cấp (mặc định: `CreatedAt + 24 hours`).
+  2. **Bảng `AUTH_IMPORT_ITEMS` (Chi tiết từng tài khoản trong lô):**
+     `["ItemID", "BatchID", "StudentUID", "AccountId", "Username", "ItemStatus", "CreatedAt"]`
+     - `ItemID`: Chuỗi định danh mục (`"itm_" + uuid_()`).
+     - `BatchID`: Khóa ngoại liên kết với `AUTH_IMPORT_BATCHES.BatchID`.
+     - `StudentUID`: Khóa chính bất biến của học sinh đã được tạo trong bảng `USERS`.
+     - `AccountId` & `Username`: Mã định danh học sinh trong tệp.
+     - `ItemStatus`: Trạng thái xử lý (`"CREATED"`, `"REPLAYED"`).
+     - `CreatedAt`: Dấu thời gian tạo ISO 8601 UTC.
+  3. **Chính sách Zero Secret Persistence trong Metadata:**
+     - Tuyệt đối **KHÔNG lưu trữ mật khẩu rõ, mật khẩu tạm, password hash, password salt hay token phiên** trong `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
+
+- **Chuẩn hóa JSON Chuẩn tắc (Canonical JSON Normalization) và Tính Băm SHA-256:**
+  - Máy chủ **tuyệt đối không tin cậy hay sử dụng giá trị hash do client gửi lên**. Giá trị băm SHA-256 bắt buộc phải do chính máy chủ tự tính toán từ payload sau khi chuẩn hóa chuẩn tắc:
+    1. *Sắp xếp khóa cấp gốc (Root Keys):* Sắp xếp theo thứ tự bảng chữ cái: `["accounts", "importMode", "schoolYear", "schemaVersion"]`.
+    2. *Sắp xếp khóa đối tượng tài khoản (Account Object Keys):* Sắp xếp theo thứ tự: `["accountId", "classId", "fullName", "grade", "role", "schoolLevel"]`.
+    3. *Sắp xếp danh sách tài khoản (Deterministic Sorting):* Các phần tử trong mảng `accounts` được sắp xếp theo thứ tự chữ hoa tăng dần của `accountId.toUpperCase()` để bảo đảm tính tất định (không phụ thuộc thứ tự dòng trong file).
+    4. *Làm sạch chuỗi (String Trimming):* Mọi giá trị chuỗi văn bản được trim bỏ khoảng trắng thừa đầu và cuối.
+    5. *Tuần tự hóa thu gọn (Compact Serialization):* Chuyển đổi thành chuỗi JSON không chứa khoảng trắng thừa, không xuống dòng, dấu `:` và `,` không kèm dấu cách.
+    6. *Tính toán băm SHA-256:* Chuỗi byte UTF-8 của JSON chuẩn hóa được nạp vào hàm băm SHA-256 của máy chủ $\rightarrow$ Cho ra chuỗi hex 64 ký tự chữ thường (`serverFingerprint`).
+
+- **Phân định Replay Hợp lệ vs Giả mạo BatchId (Anti-Spoofing & True Idempotency):**
+  1. Khi nhận một yêu cầu nạp lô với `batchId`:
+     - Máy chủ tra cứu `AUTH_IMPORT_BATCHES` theo `batchId`:
+       + **Nếu `batchId` đã tồn tại:**
+         * *Kiểm tra chủ sở hữu:* Nếu `OperatorUID !== session.uid` (và không phải admin), hệ thống **từ chối ngay lập tức** với mã lỗi **`BATCH_ID_TAKEN`**, ngăn chặn kẻ xấu giả mạo hoặc chiếm đoạt `batchId` của giáo viên khác.
+         * *Kiểm tra tính toàn vẹn payload:* Nếu `serverFingerprint !== stored.BatchFingerprint`, hệ thống **từ chối ngay lập tức** với mã lỗi **`BATCH_PAYLOAD_MISMATCH`**, phát hiện hành vi thay đổi payload dưới một `batchId` cũ.
+         * *Xác nhận Genuine Batch Replay:* Nếu cả `OperatorUID` và `BatchFingerprint` đều trùng khớp: Hệ thống tra cứu `AUTH_IMPORT_ITEMS` để lấy danh sách `StudentUID` thực tế đã tạo từ lô này, trả về trạng thái `replayed`. Nếu phát hiện bản ghi `ENROLLMENTS` bị thiếu ở bước trước, kích hoạt cơ chế tự hàn gắn (`status: "replayed_and_healed"`).
+       + **Nếu `batchId` chưa tồn tại:**
+         * Đây là một lô nạp mới. Máy chủ kiểm tra xung đột từng tài khoản đối với toàn bộ cơ sở dữ liệu `USERS`.
+         * Nếu `Username` đã tồn tại trong `USERS` nhưng không thuộc lô nạp hợp lệ: **Bắt buộc từ chối bản ghi đó** với mã lỗi **`COLLISION_EXISTING_ACCOUNT`**. Tuyệt đối không cho phép tệp mới nhận nhầm tài khoản cũ là vừa tạo.
 - **Thực thi trong phạm vi khóa ghi (`withLock_`):**
-  - Mọi thao tác kiểm tra trùng lặp và phân quyền (`assignedSet_`) phải được thực hiện lại **bên trong khối khóa ghi `withLock_`**, loại bỏ hoàn toàn lỗ hổng tương tranh TOCTOU (Time-of-Check to Time-of-Use) khi có hai giáo viên cùng thao tác hoặc phân công lớp bị thay đổi giữa bước thẩm định và bước ghi.
+  - Mọi thao tác kiểm tra nguồn gốc lô, kiểm tra xung đột tài khoản, và phân quyền (`assignedSet_`) phải được thực hiện lại **bên trong khối khóa ghi `withLock_`**, loại bỏ rủi ro tương tranh TOCTOU khi có nhiều tiến trình chạy song song.
 
 ---
 
