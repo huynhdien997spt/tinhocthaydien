@@ -113,6 +113,43 @@
   }
 
   /**
+   * Làm sạch văn bản giải thích phản hồi khi hiển thị cho học sinh, loại bỏ các mã kĩ thuật nội bộ (G6-A-xx, G6-L03-Qxx).
+   */
+  function formatStudentExplanation(raw) {
+    if (!raw) return "";
+    let text = String(raw);
+    text = text.replace(/Theo YCCĐ\s+G6-A-\d+(?:\s*\([^)]*\))?,\s*/gi, "");
+    text = text.replace(/\s*\([^)]*G6-A-\d+[^)]*\)/gi, "");
+    text = text.replace(/\b(?:G6-A-\d+|G6-L03-Q\d+|G6-L03-A\d+)\b/gi, "");
+    text = text.trim();
+    if (text.length > 0) {
+      text = text.charAt(0).toUpperCase() + text.slice(1);
+    }
+    return text;
+  }
+
+  /**
+   * Làm sạch hướng dẫn hoặc mục tiêu hoạt động khi hiển thị cho học sinh.
+   */
+  function formatStudentText(str) {
+    if (!str) return "";
+    let text = String(str);
+    text = text.replace(/\s*\([^)]*G6-A-\d+[^)]*\)/gi, "");
+    text = text.replace(/\s*(?:không phải\s+)?tiêu chí bắt buộc của\s*G6-A-\d+/gi, "");
+    text = text.replace(/\s*(?:yêu cầu cần đạt của Tiết 1|yêu cầu cần đạt|YCCĐ:?)\s*G6-A-\d+/gi, "");
+    text = text.replace(/\bG6-A-\d+\b/gi, "");
+    text = text.replace(/câu hỏi\s+khởi động\s+G6-L03-Q\d+/gi, "câu hỏi khởi động");
+    text = text.replace(/câu hỏi\s+G6-L03-Q\d+\s*,\s*G6-L03-Q\d+/gi, "các câu hỏi");
+    text = text.replace(/câu hỏi\s+G6-L03-Q\d+\s+và\s+câu hỏi\s+G6-L03-Q\d+/gi, "các câu hỏi");
+    text = text.replace(/câu hỏi\s+G6-L03-Q\d+\s+và\s+G6-L03-Q\d+/gi, "các câu hỏi");
+    text = text.replace(/câu hỏi\s+G6-L03-Q\d+/gi, "câu hỏi");
+    text = text.replace(/\s*\(G6-L03-Q\d+\)/gi, "");
+    text = text.replace(/G6-L03-Q\d+\s*/gi, "");
+    text = text.replace(/\s{2,}/g, " ").trim();
+    return text;
+  }
+
+  /**
    * Chấm câu trả lời của một Question đóng (single_choice / short_answer) trong G6-L03.
    * Không tiết lộ đáp án đúng trước lần nộp đầu tiên.
    */
@@ -1037,12 +1074,12 @@
               fb.isCorrect ? "#ecfdf5" : "#fff7ed"
             };">
               <strong>${fb.isCorrect ? "✓ Chính xác" : "✗ Chưa đúng – Em hãy đọc giải thích và thử lại"} (Lần ${fb.attemptNumber}):</strong>
-              <p style="margin:4px 0 0;">${escHtml(fb.explanation)}</p>
+              <p style="margin:4px 0 0;">${escHtml(formatStudentExplanation(fb.explanation))}</p>
             </div>`
           : "";
 
-        return `<div class="question-box" data-qid="${escHtml(q.questionId)}" style="margin:12px 0;padding:12px;border:1px solid #e2e8f0;border-radius:8px;">
-          <p><strong>Câu hỏi ${escHtml(q.questionId)} (${escHtml(q.requirementId)}):</strong> ${escHtml(q.questionText)}</p>
+        return `<div class="question-box" data-qid="${escHtml(q.questionId)}" data-requirement-id="${escHtml(q.requirementId || "")}" style="margin:12px 0;padding:12px;border:1px solid #e2e8f0;border-radius:8px;">
+          <p><strong>Câu hỏi:</strong> ${escHtml(q.questionText)}</p>
           ${inputHtml}
           <p style="margin-top:8px;">
             <button type="button" class="btn small" data-action="submit-question" data-qid="${escHtml(q.questionId)}">
@@ -1233,7 +1270,7 @@
               <option value="unclear" ${ex.selfAssessment === "unclear" ? "selected" : ""}>Chưa rõ</option>
               <option value="need_support" ${ex.selfAssessment === "need_support" ? "selected" : ""}>Cần hỗ trợ</option>
             </select>
-            <p style="margin-top:8px;"><button type="button" class="btn small" data-action="submit-exit-ticket">Nộp Exit Ticket & Hoàn thành A08</button></p>
+            <p style="margin-top:8px;"><button type="button" class="btn small" data-action="submit-exit-ticket">Nộp Exit Ticket & Hoàn thành hoạt động</button></p>
           </div>`;
         }
 
@@ -1241,11 +1278,11 @@
           isDone ? "#10b981" : "#cbd5e1"
         };border-radius:10px;">
           <header style="display:flex;justify-content:space-between;align-items:center;">
-            <h3>${escHtml(act.title)} (${act.estimatedMinutes} phút · YCCĐ: ${escHtml(act.requirementIds.join(", "))})</h3>
+            <h3>${escHtml(act.title)} (${act.estimatedMinutes} phút)</h3>
             <span>${isDone ? "✓ Đã hoàn thành" : "Đang thực hiện"}</span>
           </header>
-          <p><strong>Mục tiêu:</strong> ${escHtml(act.objective)}</p>
-          <p>${escHtml(act.instruction)}</p>
+          <p><strong>Mục tiêu:</strong> ${escHtml(formatStudentText(act.objective))}</p>
+          <p>${escHtml(formatStudentText(act.instruction))}</p>
           ${preQHtml}
           ${specialHtml}
           ${postQHtml}
@@ -1261,7 +1298,7 @@
             act.activityId !== "G6-L03-A08"
               ? `<p style="margin-top:10px;">
                   <button type="button" class="btn small" data-action="complete-activity" data-act="${escHtml(act.activityId)}">
-                    ${isDone ? "Đã hoàn thành " + escHtml(act.activityId) : "Đánh dấu hoàn thành " + escHtml(act.activityId)}
+                    ${isDone ? "✓ Đã hoàn thành" : "Hoàn thành hoạt động"}
                   </button>
                 </p>`
               : ""
@@ -1273,13 +1310,15 @@
         const p2Unlocked = ctrl.isPeriod2Unlocked();
         const visibleIds = ctrl.state.activePeriod === 2 && p2Unlocked ? PERIOD2_ACTIVITIES : PERIOD1_ACTIVITIES;
         const visibleActs = (goldenData.activities || []).filter(a => visibleIds.includes(a.activityId));
+        const nextAct = (goldenData.activities || []).find(a => a.activityId === ctrl.state.currentActivityId);
+        const nextLabel = nextAct ? nextAct.title : ctrl.state.currentActivityId;
 
         hostEl.innerHTML = `
           <header>
-            <h1>${escHtml(goldenData.lesson.title)} <small>(${escHtml(goldenData.lesson.lessonId)})</small></h1>
+            <h1 data-lesson-id="${escHtml(goldenData.lesson.lessonId)}">${escHtml(goldenData.lesson.title)}</h1>
             <p><strong>${escHtml(ctrl.state.student.fullName)}</strong> · Lớp ${escHtml(ctrl.state.student.classId)} · <span id="sync-status" class="sync" role="status"></span></p>
             <div class="bar" aria-hidden="true"><div class="bar-fill" style="width:${ctrl.state.percentComplete}%"></div></div>
-            <p>Tiến độ: <strong>${ctrl.state.percentComplete}%</strong> · Trạng thái: <strong>${escHtml(ctrl.state.status)}</strong> · Nhiệm vụ tiếp theo: <strong>${escHtml(ctrl.state.currentActivityId)}</strong></p>
+            <p>Tiến độ: <strong>${ctrl.state.percentComplete}%</strong> · Trạng thái: <strong>${escHtml(ctrl.state.status)}</strong> · Nhiệm vụ tiếp theo: <strong data-act-id="${escHtml(ctrl.state.currentActivityId)}">${escHtml(nextLabel)}</strong></p>
           </header>
           ${
             ctrl.state.resumeBannerText
@@ -1312,7 +1351,7 @@
             ${visibleActs.map(renderActivityCard).join("")}
           </section>
           <footer style="margin-top:20px;padding-top:12px;border-top:1px solid #cbd5e1;">
-            <button type="button" class="btn" data-action="finish-lesson">Hoàn thành bài học (G6-L03)</button>
+            <button type="button" class="btn" data-action="finish-lesson" data-lesson-id="${escHtml(goldenData.lesson.lessonId)}">Hoàn thành bài học</button>
             <span id="finish-status-note" class="muted" style="margin-left:10px;"></span>
           </footer>
         `;
@@ -1399,7 +1438,7 @@
           const noteEl = document.getElementById("finish-status-note");
           if (noteEl) {
             noteEl.textContent = r.completed
-              ? "Chúc mừng, em đã hoàn thành toàn bộ Bài 3 (G6-L03)!"
+              ? "Chúc mừng, em đã hoàn thành toàn bộ bài học!"
               : "Chưa đủ điều kiện hoàn thành. Còn thiếu: " + ((r && r.missing) || []).join(", ");
           }
         }
@@ -1410,7 +1449,7 @@
       if (loadingEl) loadingEl.hidden = true;
       if (errorEl) {
         errorEl.hidden = false;
-        errorEl.textContent = "Lỗi tải bài học G6-L03: " + (err && err.message ? err.message : String(err));
+        errorEl.textContent = "Lỗi tải bài học: " + (err && err.message ? err.message : String(err));
       }
     }
   }
@@ -1421,6 +1460,8 @@
     ALL_REQUIRED_ACTIVITIES,
     PERIOD2_LOCK_NOTICE,
     WORKSHEET_WRONG_FEEDBACK,
+    formatStudentExplanation,
+    formatStudentText,
     resolveResumeState,
     evaluateQuestionSubmission,
     evaluateUnitNamesSequence,

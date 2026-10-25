@@ -358,6 +358,178 @@ function makeMockBridge(studentUid, sharedStore = {}) {
     return 'Teacher evidence contract verified';
   });
 
+  // TEST 8: Student UI Question Presentation & Feedback Cleanup (P4.2-E1-R2)
+  await test('P4.2E1-08: Student UI question presentation hides technical QuestionID & RequirementID, keeps machine attributes & raw data', async () => {
+    const mockHost = {
+      innerHTML: '',
+      listeners: {},
+      addEventListener(event, fn) { this.listeners[event] = fn; },
+      querySelector() { return null; },
+      querySelectorAll() { return []; }
+    };
+    global.window = {
+      LessonBridge: {
+        getStudent: () => ({ studentUid: 'STD-UICLEAN-01', fullName: 'Học sinh UI', classId: '6A1' }),
+        getProgress: async () => ({
+          lessonId: 'G6-L03',
+          status: 'in_progress',
+          currentActivityId: 'G6-L03-A05',
+          percentComplete: 50,
+          completedActivityIds: ['G6-L03-A01', 'G6-L03-A02', 'G6-L03-A03', 'G6-L03-A04'],
+          responses: {},
+          exitTicket: null
+        }),
+        startLesson: () => {},
+        startLearningSession: () => {},
+        mountSyncStatus: () => {}
+      },
+      GOLDEN_LESSON_DATA: { 'G6-L03': goldenData }
+    };
+    global.document = {
+      getElementById: (id) => (id === 'lesson-host' ? mockHost : null),
+      addEventListener: () => {}
+    };
+
+    await GoldenRenderer.mountBrowserUI();
+    const html = mockHost.innerHTML;
+
+    // 1. Question header does not expose internal IDs in visible text
+    assert(html.includes('<p><strong>Câu hỏi:</strong>'), 'Must render friendly question header <p><strong>Câu hỏi:</strong>');
+    assert(!html.includes('Câu hỏi G6-L03-Q011'), 'Must not render Câu hỏi G6-L03-Q011');
+    assert(!/<strong>Câu hỏi[^<]*G6-A-09/i.test(html), 'Must not expose (G6-A-09) in visible question header');
+    assert(!/<strong>Câu hỏi G6-L03-Q/i.test(html), 'Must not render any Câu hỏi G6-L03-Qxx label');
+
+    // 2. Machine data attributes remain in DOM
+    assert(html.includes('data-qid="G6-L03-Q011"'), 'Must preserve data-qid="G6-L03-Q011" on question-box');
+    assert(html.includes('data-requirement-id="G6-A-09"'), 'Must preserve data-requirement-id="G6-A-09" on question-box');
+
+    // 3. Underlying data intact
+    const q11 = goldenData.questions.find(x => x.questionId === 'G6-L03-Q011');
+    assert.strictEqual(q11.questionId, 'G6-L03-Q011');
+    assert.strictEqual(q11.requirementId, 'G6-A-09');
+
+    // 4. Feedback explanation cleaning
+    assert(typeof GoldenRenderer.formatStudentExplanation === 'function', 'formatStudentExplanation must be exported');
+    const cleanedFb1 = GoldenRenderer.formatStudentExplanation(
+      'Theo YCCĐ G6-A-09 (CTGDPT 2018), mỗi đơn vị liền kề hơn kém nhau xấp xỉ 1000 lần (G6-A-09).'
+    );
+    assert(!cleanedFb1.includes('G6-A-09'), 'Feedback must not contain G6-A-09');
+    assert(!cleanedFb1.includes('Theo YCCĐ'), 'Feedback must not contain Theo YCCĐ');
+    assert(!cleanedFb1.includes('G6-L03-Q'), 'Feedback must not contain question IDs');
+
+    return 'Question visible text clean; DOM attributes and data structures retain machine IDs';
+  });
+
+  // TEST 9: Student UI Activity Headers & Text Cleanup (P4.2-E1-R2)
+  await test('P4.2E1-09: Student UI activity headers, objectives & instructions hide RequirementIDs and QuestionIDs', async () => {
+    const mockHost = {
+      innerHTML: '',
+      listeners: {},
+      addEventListener(event, fn) { this.listeners[event] = fn; },
+      querySelector() { return null; },
+      querySelectorAll() { return []; }
+    };
+    global.window = {
+      LessonBridge: {
+        getStudent: () => ({ studentUid: 'STD-UICLEAN-02', fullName: 'Học sinh UI 2', classId: '6A1' }),
+        getProgress: async () => ({
+          lessonId: 'G6-L03',
+          status: 'in_progress',
+          currentActivityId: 'G6-L03-A05',
+          percentComplete: 50,
+          completedActivityIds: ['G6-L03-A01', 'G6-L03-A02', 'G6-L03-A03', 'G6-L03-A04'],
+          responses: {},
+          exitTicket: null
+        }),
+        startLesson: () => {},
+        startLearningSession: () => {},
+        mountSyncStatus: () => {}
+      },
+      GOLDEN_LESSON_DATA: { 'G6-L03': goldenData }
+    };
+    global.document = {
+      getElementById: (id) => (id === 'lesson-host' ? mockHost : null),
+      addEventListener: () => {}
+    };
+
+    await GoldenRenderer.mountBrowserUI();
+    const html = mockHost.innerHTML;
+
+    // 1. Activity headers must NOT expose YCCĐ codes
+    assert(!/<h3>.*YCCĐ.*<\/h3>/i.test(html), 'Activity card <h3> must not contain YCCĐ');
+    assert(!/<h3>.*G6-A-\d+.*<\/h3>/i.test(html), 'Activity card <h3> must not contain G6-A-xx');
+    assert(html.includes('<h3>A05 – Thang dung lượng (15 phút)</h3>'), 'A05 header must be clean');
+
+    // 2. Underlying activity requirementIds remain intact
+    const act5 = goldenData.activities.find(a => a.activityId === 'G6-L03-A05');
+    assert(Array.isArray(act5.requirementIds) && act5.requirementIds.includes('G6-A-09'));
+
+    // 3. Instruction and objective cleaning
+    assert(typeof GoldenRenderer.formatStudentText === 'function', 'formatStudentText must be exported');
+    for (const a of goldenData.activities) {
+      const cleanObj = GoldenRenderer.formatStudentText(a.objective);
+      const cleanIns = GoldenRenderer.formatStudentText(a.instruction);
+      assert(!cleanObj.includes('G6-A-'), `Clean objective of ${a.activityId} must not contain G6-A-`);
+      assert(!cleanIns.includes('G6-A-'), `Clean instruction of ${a.activityId} must not contain G6-A-`);
+      assert(!cleanIns.includes('G6-L03-Q'), `Clean instruction of ${a.activityId} must not contain G6-L03-Q`);
+    }
+
+    return 'Activity headers and instructions clean; act.requirementIds intact';
+  });
+
+  // TEST 10: Completion Buttons Friendly Copy & Preserved Attributes (P4.2-E1-R2)
+  await test('P4.2E1-10: Activity completion buttons use friendly student copy while retaining data-act attribute', async () => {
+    const mockHost = {
+      innerHTML: '',
+      listeners: {},
+      addEventListener(event, fn) { this.listeners[event] = fn; },
+      querySelector() { return null; },
+      querySelectorAll() { return []; }
+    };
+    global.window = {
+      LessonBridge: {
+        getStudent: () => ({ studentUid: 'STD-UICLEAN-03', fullName: 'Học sinh UI 3', classId: '6A1' }),
+        getProgress: async () => ({
+          lessonId: 'G6-L03',
+          status: 'in_progress',
+          currentActivityId: 'G6-L03-A05',
+          percentComplete: 50,
+          completedActivityIds: ['G6-L03-A01', 'G6-L03-A02', 'G6-L03-A03', 'G6-L03-A04'],
+          responses: {},
+          exitTicket: null
+        }),
+        startLesson: () => {},
+        startLearningSession: () => {},
+        mountSyncStatus: () => {}
+      },
+      GOLDEN_LESSON_DATA: { 'G6-L03': goldenData }
+    };
+    global.document = {
+      getElementById: (id) => (id === 'lesson-host' ? mockHost : null),
+      addEventListener: () => {}
+    };
+
+    await GoldenRenderer.mountBrowserUI();
+    const html = mockHost.innerHTML;
+
+    // 1. Incomplete activity button
+    assert(html.includes('Hoàn thành hoạt động'), 'Incomplete button must render Hoàn thành hoạt động');
+    assert(!html.includes('Đánh dấu hoàn thành G6-L03-A05'), 'Button text must not include Đánh dấu hoàn thành G6-L03-A05');
+    assert(html.includes('data-act="G6-L03-A05"'), 'data-act="G6-L03-A05" must be preserved on button');
+
+    // 2. Lesson finish button
+    assert(html.includes('data-action="finish-lesson"'), 'Finish lesson button must exist');
+    assert(html.includes('Hoàn thành bài học</button>'), 'Finish lesson button must say Hoàn thành bài học');
+    assert(!html.includes('Hoàn thành bài học (G6-L03)'), 'Finish lesson button must not show (G6-L03)');
+    assert(html.includes('data-lesson-id="G6-L03"'), 'Finish button retains data-lesson-id="G6-L03"');
+
+    // 3. Lesson header clean
+    assert(!html.includes('<small>(G6-L03)</small>'), 'Lesson header <h1> must not expose <small>(G6-L03)</small>');
+    assert(html.includes('data-lesson-id="G6-L03"'), 'Lesson header retains data-lesson-id="G6-L03"');
+
+    return 'Buttons and headers present friendly Vietnamese copy and retain machine attributes';
+  });
+
   console.log('\n================================================================');
   console.log(`PHASE 4 / P4.2-E1 SUMMARY: ${passed}/${passed + failed} PASSED, ${failed} FAILED`);
   console.log('================================================================\n');
