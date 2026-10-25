@@ -2,19 +2,20 @@
 ## Interface Specifications for Web-Based Account Administration
 
 - **API Version:** `1.0`
-- **Specification Status:** `PROPOSED_DESIGN / DESIGN_REVIEW`
+- **Specification Status:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED (Pre-Implementation Review)`
 - **Protocol:** HTTPS POST (Google Apps Script Web App `doPost(e)` endpoint)
 - **Content-Type:** `text/plain;charset=UTF-8` (tránh Preflight CORS trong browser)
 - **Response Format:** `application/json`
 - **Target Subsystem:** Google Apps Script (`backend/Code.gs`, `backend/Teacher.gs`)
 - **Repository:** `huynhdien997spt/tinhocthaydien`
 - **Working Branch:** `account-management-json-review`
+- **Baseline Commit:** `ecc56e274739078b431cf8fe294040a9cb6bacf5`
 
 ---
 
-## 1. Kiến trúc Tổng quan và Ranh giới Thực thi
+## 1. Kiến trúc Tổng quan và Ranh giới Thiết kế (Design Proposal)
 
-Hệ thống quản lý tài khoản web-based mở rộng kiến trúc xác thực hiện có của nền tảng mà **không làm thay đổi bất kỳ cơ chế cốt lõi nào**:
+Hệ thống quản lý tài khoản web-based là một **đề xuất thiết kế (DESIGN_PROPOSAL)** nhằm mở rộng kiến trúc xác thực hiện có của nền tảng mà **không làm thay đổi bất kỳ cơ chế cốt lõi nào**:
 1. **Xác thực phiên (Session-Driven):** Mọi yêu cầu quản trị phải kèm theo `token` hợp lệ của phiên làm việc đang hoạt động.
 2. **Kiểm soát vai trò nghiêm ngặt (Strict RBAC):** Quyền hạn được xác định tại backend từ thông tin phiên đã băm HMAC; không tin cậy dữ liệu vai trò do frontend gửi lên.
 3. **Phạm vi phân công (Class Assignment Scoping):** Giáo viên chỉ được phép quản lý học sinh thuộc danh sách lớp được phân công trong bảng `TEACHER_ASSIGNMENTS` với cờ `Active = "TRUE"`.
@@ -62,7 +63,8 @@ Hệ thống quản lý tài khoản web-based mở rộng kiến trúc xác th�
 | `FORMULA_INJECTION_DETECTED` | Trường dữ liệu bắt đầu bằng ký tự điều khiển/công thức (`=`, `+`, `-`, `@`) | Từ chối để chống tấn công CSV/Sheets injection |
 | `BATCH_SIZE_EXCEEDED` | Lô vượt quá 100 tài khoản | Yêu cầu chia nhỏ tệp để tránh timeout 6 phút của GAS |
 | `LOCK_ACQUISITION_TIMEOUT` | Bảng đang bị khóa bởi tiến trình khác sau 15–30 giây | Trả về `BUSY`, yêu cầu thử lại sau ít giây |
-| `TARGET_NOT_FOUND` | Không tìm thấy học sinh mục tiêu khi reset mật khẩu | Báo không tìm thấy tài khoản học sinh |
+| `TARGET_NOT_FOUND` | Không tìm thấy tài khoản mục tiêu khi reset mật khẩu | Báo không tìm thấy tài khoản |
+| `CANNOT_DISABLE_LAST_ADMIN` | Thao tác sẽ vô hiệu hóa quản trị viên hoạt động duy nhất | Chặn thao tác để bảo vệ quyền quản trị hệ thống |
 
 ---
 
@@ -197,13 +199,20 @@ Hệ thống quản lý tài khoản web-based mở rộng kiến trúc xác th�
 ### 3.3. `importAccountsBatch`
 - **Mục đích:** Nhập hàng loạt tài khoản từ dữ liệu JSON đã qua thẩm định.
 - **Quyền truy cập:** `teacher` (trong phạm vi phân công), `admin` (toàn hệ thống).
-- **Quy tắc an toàn và Phòng chống lỗi gián đoạn (Fault Tolerance):**
-  1. Giới hạn tối đa **100 tài khoản / 1 lần gọi batch** để đảm bảo thời gian chạy nằm an toàn trong giới hạn quota của Google Apps Script.
-  2. Bắt buộc tiền thẩm định toàn bộ lô (Full Pre-validation). Nếu có bất kỳ lỗi cú pháp, vi phạm phân quyền, trường cấm, hoặc lỗi dữ liệu nghiêm trọng, hệ thống từ chối toàn bộ lô ngay từ đầu (Fail-Fast).
-  3. Sử dụng `withLock_` để cô lập các phiên ghi đồng thời.
-  4. Thực hiện cơ chế **Idempotency**: Đối với từng bản ghi, kiểm tra lại trạng thái trong `USERS`. Nếu tài khoản đã tồn tại (do người dùng click lặp lại hoặc do lô bị retry sau sự cố mạng), hệ thống đánh dấu bản ghi là `"skipped_existing"`, bảo lưu toàn bộ thông tin cũ và không tạo thêm dữ liệu trùng.
-  5. Tối ưu hóa ghi Google Sheets: Chuẩn bị mảng các dòng dữ liệu trong bộ nhớ RAM, sau đó thực hiện ghi tập trung bằng `getRange().setValues()` thay vì gọi `appendRow` theo từng dòng, giảm thiểu nguy cơ bị timeout giữa chừng.
-  6. Trả về báo cáo chi tiết trạng thái từng tài khoản (`created`, `skipped_existing`) kèm danh sách mật khẩu tạm thời tương ứng.
+- **Rà soát Giới hạn Google Sheets & Cơ chế Phục hồi Sự cố (Fault Recovery Semantics):**
+  > [!IMPORTANT]
+  > **Thực tế kỹ thuật của Google Sheets:** Google Sheets là kho lưu trữ dạng bảng tính trên Google Drive, **KHÔNG hỗ trợ giao dịch ACID đa dòng và KHÔNG hỗ trợ rollback tự động**. Nếu tác vụ ghi bị ngắt quãng giữa chừng (do timeout 6 phút của Google Apps Script, lỗi mạng hoặc đứt kết nối phía client), các dòng đã ghi sẽ tồn tại vĩnh viễn trên Sheet mà không bị thu hồi.
+  
+  Do đó, thiết kế AUTH-A1 **KHÔNG tuyên bố tính nguyên tử toàn lô (Batch Atomicity) hay rollback**, mà bắt buộc áp dụng **Cơ chế Idempotency theo từng bản ghi (Per-Record Idempotency)** và **Quy trình Phục hồi gián đoạn (Interrupted Batch Recovery)**:
+  1. **Giới hạn kích thước:** Tối đa **100 tài khoản / 1 lần gọi batch** để đảm bảo thời gian chạy nằm an toàn trong quota (< 20 giây CPU).
+  2. **Tiền thẩm định toàn lô trong RAM (Full Pre-validation):** Thẩm định cú pháp, cấp học, lớp học và phân quyền của 100% bản ghi trước khi thực hiện bất kỳ lệnh ghi nào vào Sheet.
+  3. **Khóa đồng thời:** Bắt buộc bọc trong `withLock_` để tuần tự hóa các yêu cầu ghi từ các giáo viên khác nhau.
+  4. **Idempotency theo từng bản ghi:**
+     - Trước khi tạo mỗi tài khoản, hệ thống kiểm tra sự tồn tại của `Username` trong bảng `USERS`.
+     - Nếu tài khoản đã tồn tại (do người dùng click lặp lại, hoặc do lô bị retry sau sự cố mạng): hệ thống đánh dấu bản ghi là `status = "skipped_existing"`, **tuyệt đối không ghi đè, không sinh UID mới, không đổi hash và không tạo dữ liệu trùng**.
+     - Nếu tài khoản chưa tồn tại: hệ thống sinh UID, tạo mật khẩu tạm, tính toán băm PBKDF2 và ghi vào danh sách tạo mới (`status = "created"`).
+  5. **Tối ưu hóa ghi theo dải (Bulk Range Write):** Tính toán toàn bộ hàng dữ liệu trong RAM, sau đó gọi `sheet.getRange(nextRow, 1, newRowsCount, 18).setValues(newRows)` trong một thao tác duy nhất để giảm thiểu tối đa cửa sổ thời gian có thể xảy ra lỗi.
+  6. **Phản hồi chi tiết:** Trả về kết quả phân định rõ số lượng `createdCount` và `skippedCount`.
 
 #### Request Payload
 ```json
@@ -276,7 +285,80 @@ Hệ thống quản lý tài khoản web-based mở rộng kiến trúc xác th�
 
 ---
 
-### 3.4. `resetAccountPassword`
+### 3.4. Tình huống Phản hồi Thất lạc và Quy trình Cấp lại Mật khẩu An toàn (Lost Response Recovery)
+
+> [!CAUTION]
+> **Tình huống sự cố:** Máy chủ Google Apps Script đã ghi thành công tài khoản vào bảng `USERS`, nhưng do kết nối mạng giữa client và máy chủ bị đứt, phản hồi HTTP chứa `temporaryPassword` bị thất lạc. Client không nhận được mật khẩu tạm.
+
+Theo chính sách **Zero Cleartext Persistence**, máy chủ **tuyệt đối không lưu trữ mật khẩu tạm dạng rõ** ở bất kỳ đâu (không lưu trong `USERS`, không lưu trong cache, không ghi log). Vì vậy:
+- Máy chủ **KHÔNG THỂ VÀ KHÔNG ĐƯỢC PHÉP trả lại mật khẩu tạm cũ** khi client gửi lại yêu cầu.
+- Khi người dùng gửi lại batch hoặc kiểm tra tài khoản, hệ thống sẽ trả về:
+  ```json
+  {
+    "accountId": "6A1-01",
+    "status": "skipped_existing",
+    "studentUid": "stu_11112222333344445555666677778888",
+    "temporaryPassword": null,
+    "passwordReissueAvailable": true
+  }
+  ```
+
+#### Quy trình Cấp lại Mật khẩu Mới An toàn (Fresh Re-Issuance Protocol):
+Để giải quyết tình huống học sinh không có mật khẩu đăng nhập, hệ thống cung cấp 2 giải pháp hợp lệ:
+1. **Giải pháp 1: Gọi `resetAccountPassword` cho từng tài khoản cụ thể.** Giáo viên chọn học sinh bị thất lạc mật khẩu trên giao diện và bấm "Cấp lại mật khẩu".
+2. **Giải pháp 2: Gọi hành động hàng loạt `reissueBatchPasswords` (DESIGN_PROPOSAL):**
+   - Cho phép giáo viên cấp lại mật khẩu mới cho danh sách các tài khoản vừa tạo nhưng chưa nhận được mật khẩu.
+   - **Quy tắc an toàn:**
+     - Máy chủ sinh **MẬT KHẨU TẠM HOÀN TOÀN MỚI** cho từng tài khoản.
+     - Sinh chuỗi muối mới, tính toán băm PBKDF2 mới và cập nhật đè lên `PasswordHash` / `PasswordSalt` trong bảng `USERS`.
+     - Cập nhật `MustChangePassword = "TRUE"`, `FailedAttempts = 0`, `LockedUntil = ""`.
+     - Thu hồi toàn bộ các phiên làm việc cũ nếu có (`revokeAll_`).
+     - Trả về mật khẩu tạm mới qua HTTPS.
+     - Mật khẩu cũ bị thất lạc trước đó sẽ vĩnh viễn bị vô hiệu hóa vì băm đã bị thay thế.
+
+#### Request Payload: `reissueBatchPasswords`
+```json
+{
+  "action": "reissueBatchPasswords",
+  "token": "usr_sec_token_string_here",
+  "accountIds": ["6A1-01", "6A1-02"],
+  "schoolYear": "2026-2027"
+}
+```
+
+#### Response Payload: `reissueBatchPasswords`
+```json
+{
+  "success": true,
+  "data": {
+    "schoolYear": "2026-2027",
+    "reissuedCount": 2,
+    "results": [
+      {
+        "accountId": "6A1-01",
+        "studentUid": "stu_11112222333344445555666677778888",
+        "username": "6A1-01",
+        "fullName": "Nguyễn Văn An",
+        "temporaryPassword": "FreshPassword1",
+        "status": "reissued"
+      },
+      {
+        "accountId": "6A1-02",
+        "studentUid": "stu_99998888777766665555444433332222",
+        "username": "6A1-02",
+        "fullName": "Trần Thị Bình",
+        "temporaryPassword": "FreshPassword2",
+        "status": "reissued"
+      }
+    ]
+  },
+  "error": null
+}
+```
+
+---
+
+### 3.5. `resetAccountPassword`
 - **Mục đích:** Đặt lại mật khẩu tạm thời cho một tài khoản người dùng, đồng thời **thu hồi lập tức toàn bộ các phiên làm việc đang mở (session revocation)**.
 - **Quy tắc phân quyền:**
   - `teacher`: Chỉ được reset tài khoản học sinh (`role = "student"`) thuộc lớp mình được phân công (`assignedSet_`). Tuyệt đối không được reset tài khoản giáo viên khác hoặc tài khoản admin.
@@ -319,7 +401,7 @@ Hệ thống quản lý tài khoản web-based mở rộng kiến trúc xác th�
 
 ---
 
-### 3.5. `listManagedAccounts`
+### 3.6. `listManagedAccounts`
 - **Mục đích:** Lấy danh sách tài khoản thuộc phạm vi quản lý của giáo viên hoặc quản trị viên để hiển thị bảng điều khiển.
 - **Quy tắc bảo mật:**
   - **Tuyệt đối không bao giờ trả về:** `PasswordHash`, `PasswordSalt`, `temporaryPassword`, `SessionTokenHash`.
@@ -387,7 +469,7 @@ Hệ thống quản lý tài khoản web-based mở rộng kiến trúc xác th�
 
 1. **Khả năng tương thích hoàn toàn với API hiện tại:**
    - Hành động `teacherListUsers`, `teacherResetPassword`, `teacherLockUser` hiện tại trong `Code.gs:186-224` tiếp tục hoạt động độc lập mà không bị sửa đổi.
-   - Các hành động mới (`validateAccountImport`, `createAccount`, `importAccountsBatch`, `resetAccountPassword`, `listManagedAccounts`) đóng vai trò là lớp API chuẩn hóa v1.0, tái sử dụng các hàm nền tảng (`withLock_`, `generatePassword_`, `hashPassword_`, `revokeAll_`, `assertCanManage_`, `assignedSet_`).
+   - Các hành động mới (`validateAccountImport`, `createAccount`, `importAccountsBatch`, `reissueBatchPasswords`, `resetAccountPassword`, `listManagedAccounts`) đóng vai trò là lớp API chuẩn hóa v1.0, tái sử dụng các hàm nền tảng (`withLock_`, `generatePassword_`, `hashPassword_`, `revokeAll_`, `assertCanManage_`, `assignedSet_`).
 2. **Xử lý bảng `NEW_ACCOUNTS`:**
    - Trong luồng nhập mới qua JSON API, mật khẩu tạm thời được trả về qua giao thức HTTPS có mã hóa đường truyền trực tiếp cho phiên làm việc của người quản trị đã xác thực.
    - Hệ thống **không tự động ghi mật khẩu thô vào bảng `NEW_ACCOUNTS`** nhằm loại trừ rủi ro lưu trữ thông tin nhạy cảm dạng cleartext trên Google Drive. Tuy nhiên, hàm `clearNewAccounts()` và cấu trúc bảng `NEW_ACCOUNTS` cũ vẫn được giữ nguyên vẹn để phục vụ giáo viên nếu còn dùng quy trình nhập thủ công từ Sheet `IMPORT`.

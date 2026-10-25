@@ -3,21 +3,25 @@
 
 - **Schema Identifier:** `https://tinhocthaydien.edu.vn/schemas/account-import-v1.schema.json`
 - **Schema Version:** `1.0`
-- **Specification Status:** `PROPOSED_DESIGN / DESIGN_REVIEW`
+- **Specification Status:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED (Pre-Implementation Review)`
 - **Target Subsystem:** Google Apps Script Authentication & Account Management Backend
 - **Repository:** `huynhdien997spt/tinhocthaydien`
 - **Working Branch:** `account-management-json-review`
+- **Baseline Commit:** `ecc56e274739078b431cf8fe294040a9cb6bacf5`
 
 ---
 
-## 1. Mục đích và Phạm vi
+## 1. Mục đích và Ranh giới Thiết kế (Design Proposal)
 
 Tài liệu này xác lập đặc tả định dạng dữ liệu JSON chuẩn hóa (`Account Import Schema v1.0`) dùng để nhập và khởi tạo tài khoản học sinh, giáo viên và quản trị viên cho nền tảng học tập **Tin học cùng Thầy Diễn**. 
+
+> [!NOTE]
+> Tài liệu này là **đề xuất thiết kế (DESIGN_PROPOSAL)** cho quy trình quản lý tài khoản web-based, **chưa được triển khai vào mã nguồn production**. Mọi quy tắc và hành vi mô tả dưới đây đều ở trạng thái **NOT_YET_VERIFIED** trên môi trường thực thi Google Apps Script.
 
 Mục tiêu chính:
 1. Cung cấp một hợp đồng dữ liệu phi tập trung (decoupled contract), cho phép nhập liệu có cấu trúc từ tệp JSON thay vì giáo viên phải trực tiếp can thiệp thủ công vào Google Sheets.
 2. Thiết lập ranh giới dữ liệu nghiêm ngặt giữa thuộc tính do người dùng/giáo viên khai báo (`Client-Supplied Fields`) và thuộc tính bảo mật do máy chủ sở hữu (`Server-Owned Fields`).
-3. Chuẩn hóa quy tắc thẩm định (validation) độc lập trước khi thực hiện bất kỳ thao tác ghi cơ sở dữ liệu nào.
+3. Chuẩn hóa quy tắc thẩm định (validation) độc lập trong bộ nhớ trước khi thực hiện bất kỳ thao tác ghi cơ sở dữ liệu nào.
 
 ---
 
@@ -143,7 +147,7 @@ Dưới đây là định nghĩa JSON Schema chính thức cho `Account Import S
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tinhocthaydien.edu.vn/schemas/account-import-v1.schema.json",
   "title": "AccountImportSchemaV1",
-  "description": "JSON Schema chuẩn hóa cho tác vụ nhập tài khoản học sinh, giáo viên và quản trị viên",
+  "description": "JSON Schema chuẩn hóa cho tác vụ nhập tài khoản học sinh, giáo viên và quản trị viên (DESIGN_PROPOSAL)",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -358,7 +362,7 @@ role                         ───►     Role
 
 [Máy chủ tự sinh độc lập]     ───►     StudentUID ("stu_" + UUID không gạch nối)
 [Máy chủ tự sinh độc lập]     ───►     TeacherUID ("tch_" + UUID, nếu role != student; ngược lại rỗng "")
-[Máy chủ tự sinh độc lập]     ───►     PasswordHash (PBKDF2-HMAC-SHA256, 1000 vòng)
+[Máy chủ tự sinh độc lập]     ───►     PasswordHash (PBKDF2-HMAC-SHA256, 1000 vòng theo Code.gs)
 [Máy chủ tự sinh độc lập]     ───►     PasswordSalt (16 bytes random base64)
 [Cố định khi tạo mới]        ───►     Active ("TRUE")
 [Cố định khi tạo mới]        ───►     FailedAttempts (0)
@@ -373,9 +377,9 @@ role                         ───►     Role
 - `Username` và `StudentID` hoàn toàn có thể được điều chỉnh hiển thị trong tương lai mà không gây mồ côi hay phá vỡ tính liên tục của dữ liệu học tập.
 - Tuyệt đối không cho phép client tự sinh hoặc tái sử dụng bất kỳ chuỗi `StudentUID` nào.
 
-### 7.2. Kiểm tra trùng lặp tài khoản (Collision Policy)
+### 7.2. Kiểm tra trùng lặp tài khoản (Per-Record Idempotency & Collision Policy)
 - So khớp trường `Username` trên bảng `USERS` theo phương pháp so sánh chữ hoa: `String(existing.Username).toUpperCase() === String(candidate.accountId).toUpperCase()`.
 - Nếu phát hiện trùng lặp:
-  - Báo lỗi `ACCOUNT_ALREADY_EXISTS`.
+  - Báo trạng thái `ACCOUNT_ALREADY_EXISTS` (hoặc `skipped_existing` trong batch).
   - Giữ nguyên toàn bộ bản ghi cũ trong cơ sở dữ liệu (không xóa, không sửa, không đổi mật khẩu của bản ghi cũ).
   - Không cho phép gộp tài khoản dù có cùng `fullName`.
