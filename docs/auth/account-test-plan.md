@@ -28,10 +28,11 @@
    - Nhóm 3: Vòng đời Mật khẩu Tạm & Quản lý Phiên (Test Vectors 16–19, 26).
    - Nhóm 4: Nhập hàng loạt, Tính Idempotency & Concurrency (Test Vectors 20–22).
    - Nhóm 5: Tương thích ngược, Bảo mật & Thuật toán PBKDF2 (Test Vectors 23–25, 27).
+   - Nhóm 6: Tính Nhất quán Danh sách, Kiểm toán Tách biệt & Phòng vệ Nâng cao (Test Vectors 28–35).
 
 ---
 
-## 2. Danh mục 27 Bộ Test Vectors Chi tiết (Acceptance Test Suite)
+## 2. Danh mục 35 Bộ Test Vectors Chi tiết (Acceptance Test Suite)
 
 ### Nhóm 1: Thẩm định Cấu trúc & Cú pháp JSON Schema
 
@@ -305,11 +306,102 @@
 - **Hành vi kỳ vọng:**
   - Không có bất kỳ trường nào chứa: chuỗi băm `PasswordHash`, chuỗi muối `PasswordSalt`, token phiên `SessionTokenHash`, hoặc khóa bí mật `TOKEN_PEPPER`.
 
-#### Test Vector 27: Rà soát Baseline Thuật toán PBKDF2 (Algorithm Integrity & Quota Safety)
+#### Test Vector 27: Rà soát Baseline Thuật toán PBKDF2 (Legacy Baseline & Security Risk Status)
 - **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
-- **Mục tiêu:** Đảm bảo thuật toán băm mật khẩu tuân thủ đúng baseline của hệ thống mà không làm vượt hạn mức thời gian CPU của Google Apps Script.
+- **Mục tiêu:** Xác nhận thuật toán băm mật khẩu tuân thủ đúng baseline kế thừa từ mã nguồn ban đầu của hệ thống, đồng thời ghi nhận trạng thái chờ phê duyệt rủi ro bảo mật.
 - **Kiểm tra kỹ thuật:**
-  - Kiểm tra `AUTH_CONFIG.pbkdf2Iterations`: Bắt buộc là `1000`.
+  - Kiểm tra `AUTH_CONFIG.pbkdf2Iterations`: Bắt buộc là `1000` (xác định rõ đây là **`LEGACY BASELINE`**, không phải tiêu chuẩn an ninh mới).
   - Kiểm tra cấu trúc hash: Bắt buộc định dạng `"pbkdf2-sha256$1000$" + base64(digest)`.
-  - Đo lường thời gian thực thi: 1 lần băm trên môi trường Apps Script nằm trong khoảng `50–150 ms`.
-  - Không tự ý tăng vòng lặp lên mức 600.000 (gây lỗi timeout 6 phút).
+  - Benchmark thời gian thực thi: Cần đo lường benchmark thực tế trên môi trường live Google Apps Script (loại bỏ khẳng định 50–150ms khi chưa có số liệu đo đạc chính thức).
+  - Không tự ý tăng vòng lặp lên mức 600.000 để tránh làm sập quota 6 phút của Apps Script.
+  - Ghi nhận trạng thái quyết định an ninh: **`SECURITY_RISK_ACCEPTED: PENDING_HUMAN_APPROVAL`**.
+
+---
+
+### Nhóm 6: Tính Nhất quán Danh sách, Kiểm toán Tách biệt & Phòng vệ Nâng cao (Test Vectors 28–35)
+
+#### Test Vector 28: Phát hiện Người dùng Mồ côi & Tự Hàn gắn Danh sách (Orphan User & Enrollment Self-Healing)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Phát hiện tài khoản học sinh có trong `USERS` nhưng thiếu bản ghi trong `ENROLLMENTS` (`PARTIAL_WRITE_ORPHAN`), tự động hàn gắn để hiển thị đúng trên danh sách lớp của giáo viên.
+- **Điều kiện tiên quyết:** Mô phỏng sự cố ghi gián đoạn, tài khoản học sinh `TEST-6A1-99` tồn tại trong `USERS` (`Role = "student"`, `ClassID = "6A1"`, `SchoolYear = "2026-2027"`) nhưng không có bản ghi tương ứng trong `ENROLLMENTS`.
+- **Kiểm tra tiền đề:** Khi gọi `buildRosters_()` trong `Teacher.gs`, học sinh `TEST-6A1-99` **không xuất hiện** trên danh sách lớp của giáo viên do bảng `ENROLLMENTS` có dữ liệu nhưng thiếu UID này.
+- **Hành động:** Người dùng kích hoạt lại tác vụ nạp lô (Replay) hoặc gọi chức năng đối chiếu đồng bộ danh sách.
+- **Hành vi kỳ vọng:**
+  - Hệ thống phát hiện tài khoản `student` thiếu bản ghi lớp học.
+  - Tự động tạo bản ghi mới vào sheet `ENROLLMENTS`: `EnrollmentID = "enr_" + UUID`, `StudentUID = u.StudentUID`, `SchoolYear = "2026-2027"`, `SchoolLevel = "THCS"`, `Grade = 6`, `ClassID = "6A1"`, `Active = "TRUE"`.
+  - Gọi lại `buildRosters_()`: Học sinh `TEST-6A1-99` lập tức hiển thị chính xác trong danh sách lớp 6A1 mà không cần cấp lại UID hay đổi mật khẩu.
+
+#### Test Vector 29: Nhập lại cùng Lô Hợp lệ (Genuine Batch Replay Verification)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận hệ thống nhận diện chính xác việc nạp lại một lô dữ liệu hợp lệ mà không tạo trùng dữ liệu hay báo lỗi xung đột giả.
+- **Dữ liệu đầu vào:** Lô gồm 5 tài khoản học sinh mang `batchId = "bat_test_01"` và `batchFingerprint = "fp_test_hash_01"`.
+- **Hành động:**
+  1. Gửi `importAccountsBatch` lần 1 -> Tạo thành công 5 tài khoản (`createdCount = 5`).
+  2. Gửi lại chính xác yêu cầu `importAccountsBatch` với cùng `batchId` và `batchFingerprint`.
+- **Hành vi kỳ vọng:**
+  - Phản hồi: `success = true`, `createdCount = 0`, `replayedCount = 5`, `collisionCount = 0`.
+  - Trạng thái từng dòng: `status: "replayed"`.
+  - Sheet `USERS` và `ENROLLMENTS` không tăng số lượng dòng; không sinh UID mới; toàn bộ mật khẩu và hash cũ được giữ nguyên vẹn 100%.
+
+#### Test Vector 30: Xung đột Tài khoản đã Tồn tại (Existing-Account Collision Rejection)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Ngăn chặn việc một tệp mới nhận nhầm tài khoản cũ là tài khoản vừa tạo hoặc ghi đè danh tính học sinh khác.
+- **Điều kiện tiên quyết:** Tài khoản `6A1-01` đã tồn tại trong `USERS` từ trước phiên làm việc hiện tại hoặc thuộc về một học sinh khác.
+- **Hành động:** Giáo viên gửi yêu cầu nạp một lô mới mang `batchId = "bat_new_99"` chứa `accountId: "6A1-01"`.
+- **Hành vi kỳ vọng:**
+  - Hệ thống đối chiếu và xác định đây không phải là Genuine Batch Replay của cùng một lô.
+  - **TUYỆT ĐỐI KHÔNG gán nhãn `skipped_existing` rồi báo thành công ngầm.**
+  - Báo lỗi rõ ràng cho bản ghi đó: `status: "rejected_collision"`, `code: "COLLISION_EXISTING_ACCOUNT"`.
+  - Tài khoản cũ được giữ nguyên vẹn 100%, không bị sửa đổi, không bị cấp lại mật khẩu.
+
+#### Test Vector 31: Hai Giáo viên Nhập Đồng thời với ScriptLock (Lock Contention)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Kiểm tra cơ chế khóa phân tán `withLock_` tuần tự hóa an toàn các thao tác ghi đồng thời.
+- **Hành động:** Kích hoạt đồng thời 2 yêu cầu `importAccountsBatch` từ 2 phiên giáo viên khác nhau (Giáo viên 1 nhập lớp `6A1`, Giáo viên 2 nhập lớp `6A2`).
+- **Hành vi kỳ vọng:**
+  - Giáo viên 1 chiếm được khóa `LockService.getScriptLock()`, ghi tuần tự vào `USERS` và `ENROLLMENTS`.
+  - Giáo viên 2 chờ trong hàng đợi khóa (`waitLock(15000)`). Khi Giáo viên 1 hoàn tất và giải phóng khóa, Giáo viên 2 đọc lại vị trí dòng mới nhất và thực hiện ghi an toàn.
+  - Cả hai lớp đều được nhập đủ số lượng tài khoản, không có dòng nào bị ghi đè chéo (No Race Condition).
+
+#### Test Vector 32: Thu hồi Phân công Lớp giữa Bước Thẩm định và Bước Ghi (TOCTOU Assignment Revocation Race)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Kiểm tra cơ chế phòng vệ lỗ hổng Time-of-Check to Time-of-Use trong phân quyền giáo viên.
+- **Hành động:**
+  1. Giáo viên gọi `validateAccountImport` cho lớp `6A1` -> Kết quả thẩm định RAM báo `validCount = 10`, `readyToImport = true`.
+  2. Ngay trước khi gửi lệnh ghi, Quản trị viên thu hồi phân công lớp `6A1` của giáo viên đó trong bảng `TEACHER_ASSIGNMENTS` (`Active = "FALSE"`).
+  3. Giáo viên gửi yêu cầu `importAccountsBatch` cho lớp `6A1`.
+- **Hành vi kỳ vọng:**
+  - Bên trong khối `withLock_`, máy chủ đọc lại danh sách phân công `assignedSet_` của giáo viên.
+  - Phát hiện giáo viên không còn quyền đối với lớp `6A1`.
+  - Lập tức hủy bỏ tác vụ ghi với mã lỗi `code: "ASSIGNMENT_REVOKED"`.
+  - Không có bất kỳ tài khoản nào được ghi vào `USERS` hay `ENROLLMENTS`.
+
+#### Test Vector 33: Bảo vệ Học sinh Đang Hoạt động khi Reset Hàng loạt (Active Student Protection in Batch Reset)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Ngăn chặn việc thao tác `reissueBatchPasswords` xóa nhầm mật khẩu của học sinh đã đăng nhập và đang học tập.
+- **Điều kiện tiên quyết:** Học sinh `6A1-05` đã đổi mật khẩu (`MustChangePassword = "FALSE"`), và đã có 2 bản ghi bài làm trong bảng `RESPONSES`.
+- **Hành động:** Giáo viên gửi yêu cầu `reissueBatchPasswords` cho danh sách tài khoản trong đó có `6A1-05`.
+- **Hành vi kỳ vọng:**
+  - Máy chủ kiểm tra trạng thái tài khoản và lịch sử học tập.
+  - Phát hiện `6A1-05` là học sinh đang hoạt động (`MustChangePassword === "FALSE"` hoặc đã có bản ghi trong `RESPONSES`).
+  - **MÁY CHỦ BẮT BUỘC TỪ CHỐI RESET TÀI KHOẢN NÀY** với mã lỗi `code: "STUDENT_ALREADY_ACTIVE"`, `status: "skipped_active"`.
+  - Mật khẩu cá nhân của học sinh `6A1-05` được giữ nguyên vẹn 100%, phiên học không bị gián đoạn.
+
+#### Test Vector 34: Tự Thẩm định Schema đối với Ví dụ JSON trong Tài liệu (Schema Self-Validation)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận ví dụ JSON chuẩn cung cấp trong tài liệu đặc tả hoàn toàn tuân thủ chặt chẽ `AccountImportSchemaV1`.
+- **Hành động:** Nạp định nghĩa JSON Schema v1.0 (với `additionalProperties: false`) và thẩm định đối tượng Canonical JSON Example tại Mục 2 của `account-import-schema-v1.md`.
+- **Hành vi kỳ vọng:**
+  - Ví dụ không chứa thuộc tính lạ (như `$schema` ở cấp payload).
+  - Đầy đủ các trường bắt buộc cấp root: `schemaVersion`, `schoolYear`, `importMode`, `accounts`.
+  - Quan hệ giữa `grade` và `schoolLevel` tương thích 100% với ma trận cấp học.
+  - Bộ kiểm định JSON Schema đánh giá kết quả là `VALID` (Không có lỗi).
+
+#### Test Vector 35: Cách ly Tuyệt đối Kiểm toán Quản trị khỏi EVENT_LOG Học tập (Audit Isolation from Learning Telemetry)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Đảm bảo toàn bộ các sự kiện quản trị tài khoản không làm sai lệch bảng dữ liệu học tập `EVENT_LOG`.
+- **Hành động:** Thực hiện lần lượt các thao tác quản trị: `createAccount`, `importAccountsBatch`, `resetAccountPassword`, `reissueBatchPasswords`.
+- **Hành vi kỳ vọng:**
+  - Bảng `EVENT_LOG` (dành cho viễn trắc học tập `V2_HEADERS.EVENT_LOG`) không tăng thêm bất kỳ dòng nào (`rowCount` giữ nguyên).
+  - Dòng thời gian học tập trong `timeline_()` của `Teacher.gs` không xuất hiện các nhãn lạ ngoài hoạt động học tập.
+  - Toàn bộ nhật ký quản trị được định tuyến độc lập vào bảng đề xuất `AUTH_AUDIT` (`PROPOSED_CHANGE - PENDING_HUMAN_APPROVAL`).

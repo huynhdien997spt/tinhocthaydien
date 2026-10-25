@@ -24,27 +24,39 @@ Mục tiêu cốt lõi:
 
 ---
 
-## 2. Rà soát Cơ chế Băm Mật khẩu PBKDF2: Thực tế Triển khai vs Tiêu chuẩn Hiện đại
+## 2. Rà soát Cơ chế Băm Mật khẩu PBKDF2: Baseline Di sản vs Tiêu chuẩn Hiện đại
 
 ### 2.1. Hiện trạng triển khai trong mã nguồn hiện có (`backend/Code.gs:283-294`)
 - **Thuật toán xác thực:** `PBKDF2-HMAC-SHA256` (chuẩn RFC 8018), 1 khối 32 byte.
 - **Số vòng lặp (`pbkdf2Iterations`):** Cố định ở mức **`1000` vòng** (theo cấu hình `AUTH_CONFIG.pbkdf2Iterations`).
+- **Phân loại bản chất:** Mức 1.000 vòng lặp là **`LEGACY BASELINE`** từ mã nguồn ban đầu của dự án, **KHÔNG PHẢI là một tiêu chuẩn an ninh mới được phê duyệt**.
 - **Muối (`salt`):** 16 byte ngẫu nhiên được sinh từ `randomBytes_(16)` (dựa trên `Utilities.getUuid()` và SHA-256).
-- **Hạ tầng thực thi:** Mã JavaScript thuần (pure JS) chạy trong môi trường máy chủ Google Apps Script.
-- **Thời gian thực thi đo đạc thực tế:** Mỗi phép băm PBKDF2 với 1000 vòng mất khoảng **`50 – 150 ms`** thời gian CPU của Google Apps Script (ghi nhận trong tài liệu `README.md` qua hàm `benchmarkHash()`).
+- **Hạ tầng thực thi:** Mã JavaScript thuần (pure JS) chạy trong môi trường máy chủ Google Apps Script (không có thư viện crypto native).
+- **Thời gian thực thi:** Con số ước tính lý thuyết chưa qua benchmark chính thức trên production Apps Script với tải đồng thời. Mọi khẳng định về thời gian băm 50–150ms trước đây chỉ là giả định lý thuyết, cần được kiểm chứng qua benchmark thực tế (`NOT_YET_VERIFIED`).
 
 ### 2.2. Đối chiếu với Tiêu chuẩn Bảo mật Hiện đại (NIST / OWASP)
 - **Tiêu chuẩn bên ngoài (OWASP Password Storage Cheat Sheet):** Khuyến nghị từ 600.000 vòng lặp trở lên cho PBKDF2-HMAC-SHA256 khi chạy trên phần cứng máy chủ chuyên dụng (sử dụng thư viện C-native như OpenSSL, crypto native của Node.js/Go).
 - **Phân tích Rào cản Kỹ thuật trên Google Apps Script:**
   - Google Apps Script áp dụng giới hạn cứng thời gian thực thi: tối đa **6 phút (360 giây)** cho một lần chạy web app.
   - Apps Script không cung cấp API native cho PBKDF2 mà phải tự thực hiện vòng lặp HMAC trong JavaScript (`Code.gs:288`).
-  - Nếu tăng số vòng lặp lên mức 600.000, thời gian tính toán băm cho 1 tài khoản sẽ mất xấp xỉ **`60 – 90 giây`**. Điều này sẽ lập tức làm sập các yêu cầu đăng nhập web thông thường, cạn kiệt tài nguyên CPU và gây lỗi Timeout hệ thống.
+  - Nếu tăng số vòng lặp lên mức 600.000, thời gian tính toán băm cho 1 tài khoản ước tính sẽ mất hàng chục giây đến hơn một phút trong môi trường pure JS của Apps Script. Điều này sẽ làm cạn kiệt CPU quota và gây lỗi Timeout hệ thống ngay trong luồng đăng nhập thông thường.
 
-### 2.3. Quyết định Thiết kế & Biện pháp Phòng ngự Chiều sâu (Defense-in-Depth)
-1. **Bảo toàn thuật toán xác thực hiện tại:** Giữ nguyên chính xác cấu hình `AUTH_CONFIG.pbkdf2Iterations: 1000` của hệ thống. **Không tự ý thay đổi thuật toán hay số vòng lặp** để không phá vỡ tính tương thích của các tài khoản đang hoạt động và không gây lỗi DoS trên Apps Script.
-2. **Cơ chế Khóa tài khoản (Account Lockout Policy):** Nhằm bù đắp rủi ro tấn công dò mật khẩu trực tuyến (Online Brute-force), hệ thống áp dụng cơ chế tự động khóa tài khoản sau **`5 lần nhập sai liên tiếp`**, khóa trong vòng **`10 phút`** (`AUTH_CONFIG.maxFailedAttempts = 5`, `AUTH_CONFIG.lockMinutes = 10` tại `Code.gs:121-125`).
-3. **Mã băm mã phiên (Session Token Pepper Hashing):** Các token phiên lưu trong Google Sheets đều được băm HMAC-SHA256 với `TOKEN_PEPPER` bí mật nằm trong Script Properties (`Code.gs:301-306`), ngăn ngừa kẻ xấu đọc lén token từ Google Sheets.
-4. **Chống dò tài khoản bằng timing:** Trong hàm `login_()`, nếu tài khoản không tồn tại, máy chủ vẫn thực hiện một phép tính băm giả lập (`hashPassword_(password, randomBytes_(16))`) để duy trì thời gian phản hồi tương đương, ngăn chặn kỹ thuật trinh sát thời gian (Timing Attacks).
+### 2.3. Đánh giá Rủi ro và Ranh giới Phòng vệ
+> [!WARNING]
+> **Ranh giới Bảo mật:** Cơ chế Khóa tài khoản (Account Lockout) và mã băm token phiên (Token Pepper) chỉ có tác dụng phòng vệ đối với **tấn công dò quét trực tuyến (Online Brute-force)** và **chiếm đoạt phiên (Session Hijacking)**. Chúng **TUYỆT ĐỐI KHÔNG THỂ thay thế độ mạnh của thuật toán password hashing** trong trường hợp cơ sở dữ liệu Google Sheets bị rò rỉ hoặc bị trích xuất trái phép (Offline Cracking).
+
+### 2.4. Đề xuất Phương án Nâng cấp Bảo mật Tương thích Ngược (PROPOSED_UPGRADE_PATH)
+Hệ thống đề xuất các phương án nâng cấp trong tương lai (chưa triển khai trong AUTH-A1):
+1. **Phương án Nâng cấp Tuần tự khi Đăng nhập (Lazy Migration on Login):**
+   - Bổ sung trường phiên bản băm hoặc tiền tố định dạng (ví dụ `$pbkdf2$v2$iters$salt$hash`).
+   - Khi người dùng đăng nhập thành công bằng mật khẩu đúng với hash cũ (1000 vòng), máy chủ tự động băm lại mật khẩu với số vòng lặp tối ưu cao hơn và ghi đè lại vào `USERS`.
+2. **Phương án Chuyển giao Tính toán (Offloaded Crypto Microservice):**
+   - Chuyển tác vụ tính toán băm mật khẩu sang Cloud Functions có hỗ trợ WebCrypto/OpenSSL native nếu trường học có hạ tầng GCP chuyên dụng.
+3. **Cam kết hiện tại:** Không tự ý thay đổi thuật toán xác thực trên codebase hiện tại khi chưa có quyết định kiến trúc chính thức.
+
+### 2.5. Trạng thái Quyết định Chấp nhận Rủi ro
+- Việc duy trì cấu hình `pbkdf2Iterations: 1000` trong giai đoạn này được ghi nhận chính thức là: **`SECURITY_RISK_ACCEPTED: PENDING_HUMAN_APPROVAL`**.
+- Cần có sự phê duyệt bằng văn bản từ Project Controller và Chủ nhiệm Đề tài trước khi đưa vào sản xuất.
 
 ---
 
@@ -75,22 +87,26 @@ Thiết kế AUTH-A1 **thu hồi hoàn toàn tuyên bố về "Bulk Atomic Write
   ```
 - Biện pháp này đảm bảo chỉ có duy nhất một phiên quản trị được phép ghi vào bảng tính tại một thời điểm, loại bỏ hiện tượng ghi đè chéo (Race Condition).
 
-### 3.3. Cơ chế Idempotency theo Từng Bản ghi (Per-Record Idempotency)
-- Trong một lô nhập dữ liệu (`importAccountsBatch`), hệ thống không phụ thuộc vào trạng thái toàn vẹn của cả lô mà kiểm tra tính duy nhất theo **từng bản ghi riêng biệt**:
-  1. Mỗi bản ghi được xác định bằng `Username = accountId.toUpperCase()`.
-  2. Trước khi ghi, hệ thống quét bảng `USERS`. Nếu `Username` đã tồn tại:
-     - Gắn nhãn trạng thái bản ghi là `status: "skipped_existing"`.
-     - Giữ nguyên toàn bộ dữ liệu của tài khoản cũ (không ghi đè, không sinh lại UID, không thay đổi mật khẩu).
-  3. Nếu `Username` chưa tồn tại:
-     - Gắn nhãn `status: "created"`.
-     - Sinh `StudentUID`, mật khẩu tạm, băm PBKDF2 và đưa vào danh sách cần ghi.
-  4. Ghi các dòng mới vào Sheet trong một lệnh duy nhất: `sheet.getRange(nextRow, 1, newRowsCount, 18).setValues(bulkRows)`.
+### 3.3. Phân định Tính Bất biến Lô và An toàn Xung đột (True Idempotency & Collision Safety)
+- Trong một lô nhập dữ liệu (`importAccountsBatch`), hệ thống không mặc nhiên xem mọi `Username` đã tồn tại là kết quả của việc nạp lại thành công.
+- **Phân định rõ ràng giữa Replay và Collision:**
+  1. **Nhập lại lô hợp lệ (Genuine Batch Replay):**
+     - Xác định bằng cặp khóa nhận diện: `batchId` (UUID client) và `batchFingerprint` (chuỗi băm SHA-256 của payload chuẩn hóa).
+     - Khi nhận yêu cầu có cùng `batchFingerprint` và `batchId`:
+       + Hệ thống đối chiếu thông tin tài khoản đã có trong `USERS`: nếu `Username`, `StudentUID`, `FullName`, `ClassID` và `SchoolYear` hoàn toàn trùng khớp với thông tin đã lưu, hệ thống xác nhận đây là thao tác nạp lại hợp lệ (`status: "replayed"`).
+       + Tuyệt đối không sinh UID mới, không ghi đè, không đổi mật khẩu của học sinh.
+  2. **Xung đột tài khoản cũ (Existing-Account Collision):**
+     - Nếu `Username` đã có trong `USERS` nhưng thuộc về một lô khác, hoặc họ tên/lớp không khớp:
+       + Hệ thống **TUYỆT ĐỐI KHÔNG ĐƯỢC âm thầm bỏ qua hay ghi nhận là thành công (`skipped_existing`)**.
+       + Phải từ chối bản ghi đó với mã lỗi rõ ràng: **`COLLISION_EXISTING_ACCOUNT`**, ngăn chặn triệt để nguy cơ nhận nhầm tài khoản cũ là vừa được tạo mới.
+- **Thẩm định lại trong phạm vi khóa ghi (`withLock_`):**
+  - Mọi thao tác kiểm tra xung đột tài khoản và kiểm tra phân công lớp của giáo viên (`assignedSet_`) bắt buộc phải được thực hiện lại bên trong khối `withLock_`, triệt tiêu rủi ro tranh chấp tương tranh TOCTOU khi hai giáo viên cùng nhập hoặc phân công bị thu hồi giữa chừng.
 
-### 3.4. Cơ chế Phục hồi khi Tác vụ bị Gián đoạn (Interrupted Batch Recovery)
-- Nếu tác vụ nhập hàng loạt bị ngắt giữa chừng (do đứt cáp mạng, timeout kết nối phía client hoặc lỗi máy chủ):
-  - Người dùng có thể an toàn tải lại cùng một tệp JSON với cùng `batchId`.
-  - Nhờ cơ chế **Idempotency theo từng bản ghi**, những tài khoản đã được ghi nhận trước khi gián đoạn sẽ được nhận diện là đã có (`skipped_existing`), trong khi các tài khoản còn lại sẽ tiếp tục được tạo mới bình thường (`created`).
-  - Dữ liệu hoàn toàn không bị trùng lặp, không bị xáo trộn UID.
+### 3.4. Cơ chế Phục hồi khi Tác vụ bị Gián đoạn & Tự Hàn gắn (Interrupted Batch Recovery & Self-Healing)
+- Do Google Sheets không có giao dịch ACID đa bảng, tác vụ ghi có thể bị ngắt sau khi đã ghi `USERS` nhưng chưa kịp ghi `ENROLLMENTS`:
+  - Trạng thái này được định danh là **`PARTIAL_WRITE_ORPHAN`**.
+  - Học sinh có tài khoản trong `USERS` nhưng không có trong `ENROLLMENTS` sẽ bị vô hình trên danh sách lớp của giáo viên (`Teacher.gs:buildRosters_`).
+  - **Cơ chế tự hàn gắn (Self-Healing):** Khi giáo viên gửi lại cùng lô dữ liệu (Replay) với cùng `batchFingerprint`, hệ thống phát hiện các tài khoản đã có trong `USERS` nhưng thiếu bản ghi trong `ENROLLMENTS`. Hệ thống tự động ghi bổ sung các dòng `ENROLLMENTS` bị thiếu theo đúng cấu trúc chuẩn `V2_HEADERS.ENROLLMENTS`, đưa cơ sở dữ liệu về trạng thái nhất quán hoàn toàn mà không làm thay đổi UID hay mật khẩu của học sinh.
 
 ---
 
@@ -103,18 +119,20 @@ Nếu xảy ra sự cố: Máy chủ đã tạo tài khoản thành công và gh
 - **Ràng buộc bảo mật:** Máy chủ **KHÔNG THỂ và TUYỆT ĐỐI KHÔNG ĐƯỢC PHÉP lưu mật khẩu tạm cũ để gửi lại**. Việc lưu trữ mật khẩu rõ trên Google Sheets hay cache phía máy chủ sẽ tạo ra lỗ hổng rò rỉ thông tin cực kỳ nguy hiểm.
 
 ### 4.2. Quy trình Cấp lại Mật khẩu Mới An toàn (Fresh Password Re-Issuance Protocol)
-Khi giáo viên nhận thấy lô tài khoản đã tồn tại nhưng chưa có mật khẩu tạm:
+Khi giáo viên nhận thấy lô tài khoản đã tồn tại nhưng chưa nhận được mật khẩu tạm:
 1. **Tuyệt đối không tìm cách đọc lại mật khẩu cũ.**
-2. **Khởi tạo quy trình cấp lại mật khẩu mới:**
-   - Giáo viên có thể sử dụng API `resetAccountPassword` cho từng tài khoản, hoặc gọi API hàng loạt `reissueBatchPasswords`.
-   - **Cơ chế tại Backend:**
-     1. Xác minh quyền quản trị của giáo viên đối với lớp học tương ứng.
-     2. Sinh ra một **MẬT KHẨU TẠM HOÀN TOÀN MỚI** (8 ký tự ngẫu nhiên).
-     3. Sinh chuỗi muối mới và tính toán lại băm PBKDF2 mới.
-     4. Cập nhật đè lên `PasswordHash` và `PasswordSalt` trong bảng `USERS`.
-     5. Cập nhật `MustChangePassword = "TRUE"`, `FailedAttempts = 0`, `LockedUntil = ""`.
-     6. Thu hồi toàn bộ các phiên làm việc cũ nếu có (`revokeAll_`).
-     7. Trả về mật khẩu tạm mới qua kết nối HTTPS có bảo vệ.
+2. **Quy tắc an toàn nghiêm ngặt cho `reissueBatchPasswords`:**
+   - **Không reset theo ClassID:** Không cho phép gọi API chỉ với tham số `classId` để quét toàn lớp, tránh xóa nhầm mật khẩu của học sinh đã học ổn định.
+   - **Xác minh nguồn gốc lô nạp (Batch Provenance):** Bắt buộc cung cấp `batchId`, `batchFingerprint` và danh sách `accountIds` khớp với lô nạp vừa tạo. Nếu không chứng minh được tài khoản thuộc lô nạp, hệ thống từ chối với lỗi `BATCH_PROVENANCE_UNVERIFIED` và yêu cầu chuyển sang quy trình reset từng tài khoản.
+   - **Bảo vệ tài khoản học sinh đang học (Active Student Protection):** Với từng tài khoản, hệ thống kiểm tra cờ `MustChangePassword` và dữ liệu học tập trong `PROGRESS`, `RESPONSES`, `LEARNING_SESSIONS`. Nếu học sinh đã đổi mật khẩu (`MustChangePassword === "FALSE"`) hoặc đã có dữ liệu học tập, hệ thống **LẬP TỨC TỪ CHỐI RESET TÀI KHOẢN NÀY** với mã lỗi `STUDENT_ALREADY_ACTIVE`.
+   - **Yêu cầu xác nhận rõ ràng:** Bắt buộc có cờ `confirmBatchReset: true` và lý do `reason: "LOST_RESPONSE_RECOVERY"`.
+   - **Cấp lại Mật khẩu Mới Hoàn toàn:**
+     1. Sinh ra một **MẬT KHẨU TẠM HOÀN TOÀN MỚI** (8 ký tự ngẫu nhiên).
+     2. Sinh chuỗi muối mới và tính toán lại băm PBKDF2 mới.
+     3. Cập nhật đè lên `PasswordHash` và `PasswordSalt` trong bảng `USERS`.
+     4. Cập nhật `MustChangePassword = "TRUE"`, `FailedAttempts = 0`, `LockedUntil = ""`.
+     5. Thu hồi toàn bộ các phiên làm việc cũ nếu có (`revokeAll_`).
+     6. Trả về mật khẩu tạm mới qua kết nối HTTPS có bảo vệ.
 3. **Kết quả bảo mật:** Mật khẩu tạm cũ bị thất lạc trước đó lập tức trở nên vô hiệu vì mã băm đã bị thay thế hoàn toàn. Quy trình này bảo đảm an toàn 100% cho học sinh và không vi phạm chính sách Zero Cleartext.
 
 ---
@@ -125,7 +143,7 @@ Khi giáo viên nhận thấy lô tài khoản đã tồn tại nhưng chưa có
 |---|---|---|---|
 | **T-01** | **Spoofing (Giả mạo)** | Kẻ tấn công gửi yêu cầu tạo/reset tài khoản với `token` giả hoặc tự định danh UID | Yêu cầu kiểm tra token qua `requireSession_()` tại backend; băm HMAC-SHA256 với secret `TOKEN_PEPPER` lưu trong Script Properties; toàn bộ UID do máy chủ tự sinh bằng UUID v4. |
 | **T-02** | **Tampering (Can thiệp dữ liệu)** | Kẻ tấn công chèn công thức Google Sheets vào trường `fullName` hoặc `accountId` (`=IMPORTXML(...)`, `=IMAGE(...)`) | Thực thi bộ lọc Formula Injection: từ chối mọi trường dữ liệu bắt đầu bằng các ký tự công thức (`=`, `+`, `-`, `@`, `\t`, `\r`). Toàn bộ ô lưu trữ trong sheet được định dạng văn bản thô `@` (`setNumberFormat("@")`). |
-| **T-03** | **Repudiation (Chối bỏ trách nhiệm)** | Người dùng chối bỏ việc thực hiện batch import hoặc reset mật khẩu | Ghi nhật ký có cấu trúc vào bảng `EVENT_LOG` (ghi nhận `timestamp`, `actorUid`, `actorRole`, `action`, `targetUid`, `status`), không ghi lại mật khẩu thô. |
+| **T-03** | **Repudiation (Chối bỏ trách nhiệm)** | Người dùng chối bỏ việc thực hiện batch import hoặc reset mật khẩu | **Tách biệt khỏi EVENT_LOG:** Tuyệt đối không ghi sự kiện quản trị vào bảng `EVENT_LOG` học tập. Đề xuất ghi nhật ký có cấu trúc vào bảng độc lập `AUTH_AUDIT` (`PROPOSED_CHANGE - PENDING_HUMAN_APPROVAL`), lưu vết: `Timestamp`, `OperatorUID`, `OperatorRole`, `Action`, `TargetUID`, `TargetUsername`, `TargetRole`, `ClassID`, `SchoolYear`, `Status`, `ErrorCode`, `DetailsJSON`, `ClientIP_MD5`. Tuyệt đối không lưu mật khẩu thô, hash, salt, hoặc token. |
 | **T-04** | **Information Disclosure (Lộ lọt thông tin)** | Lộ mật khẩu tạm thời, chuỗi muối hoặc hash băm mật khẩu qua API `listManagedAccounts` hoặc qua file log | Mật khẩu tạm chỉ xuất hiện **duy nhất một lần** trong phản hồi HTTPS. Không lưu trữ mật khẩu rõ trên Google Sheets hay trả về trong các API truy vấn. Không in mật khẩu ra Logger. |
 | **T-05** | **Denial of Service (Từ chối dịch vụ)** | Tấn công gửi tệp JSON chứa hàng nghìn tài khoản làm cạn kiệt hạn mức thực thi 6 phút của Apps Script hoặc khóa ScriptLock quá lâu | Giới hạn kích thước lô: tối đa **100 tài khoản / batch**. Áp dụng tiền thẩm định Fail-Fast trong RAM trước khi chạm vào Sheet. Thiết lập thời gian chờ khóa đồng thời `LockService.waitLock(15000)` an toàn. |
 | **T-06** | **Elevation of Privilege (Leo thang đặc quyền)** | Giáo viên gửi payload JSON chứa tài khoản có `role = "admin"` hoặc `role = "teacher"` để tự cấp quyền quản trị | Backend kiểm tra vai trò người gọi: Giáo viên **chỉ được phép tạo tài khoản có `role = "student"`**. Nếu payload chứa vai trò khác, hệ thống lập tức từ chối với lỗi `FORBIDDEN`. |

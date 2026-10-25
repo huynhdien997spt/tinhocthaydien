@@ -13,7 +13,7 @@
 
 ## 1. Mục đích và Ranh giới Thiết kế (Design Proposal)
 
-Tài liệu này xác lập đặc tả định dạng dữ liệu JSON chuẩn hóa (`Account Import Schema v1.0`) dùng để nhập và khởi tạo tài khoản học sinh, giáo viên và quản trị viên cho nền tảng học tập **Tin học cùng Thầy Diễn**. 
+Tài liệu này xác lập đặc tả định dạng dữ liệu JSON chuẩn hóa (`Account Import Schema v1.0`) dùng để nhập và khởi tạo tài khoản học sinh, giáo viên và quản trị viên cho nền tảng học tập **Tin học Thầy Diễn**. 
 
 > [!NOTE]
 > Tài liệu này là **đề xuất thiết kế (DESIGN_PROPOSAL)** cho quy trình quản lý tài khoản web-based, **chưa được triển khai vào mã nguồn production**. Mọi quy tắc và hành vi mô tả dưới đây đều ở trạng thái **NOT_YET_VERIFIED** trên môi trường thực thi Google Apps Script.
@@ -29,7 +29,6 @@ Mục tiêu chính:
 
 ```json
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": "1.0",
   "schoolYear": "2026-2027",
   "importMode": "create_only",
@@ -377,9 +376,65 @@ role                         ───►     Role
 - `Username` và `StudentID` hoàn toàn có thể được điều chỉnh hiển thị trong tương lai mà không gây mồ côi hay phá vỡ tính liên tục của dữ liệu học tập.
 - Tuyệt đối không cho phép client tự sinh hoặc tái sử dụng bất kỳ chuỗi `StudentUID` nào.
 
-### 7.2. Kiểm tra trùng lặp tài khoản (Per-Record Idempotency & Collision Policy)
-- So khớp trường `Username` trên bảng `USERS` theo phương pháp so sánh chữ hoa: `String(existing.Username).toUpperCase() === String(candidate.accountId).toUpperCase()`.
-- Nếu phát hiện trùng lặp:
-  - Báo trạng thái `ACCOUNT_ALREADY_EXISTS` (hoặc `skipped_existing` trong batch).
-  - Giữ nguyên toàn bộ bản ghi cũ trong cơ sở dữ liệu (không xóa, không sửa, không đổi mật khẩu của bản ghi cũ).
-  - Không cho phép gộp tài khoản dù có cùng `fullName`.
+### 7.2. Phân định Tính Bất biến Lô và Xử lý Xung đột Trùng lặp (True Idempotency & Collision Safety)
+- Không được mặc nhiên xem mọi `Username` đã tồn tại trong bảng `USERS` là kết quả của việc nhập lại (replay) thành công một lô dữ liệu.
+- Hệ thống phân biệt rõ rệt hai trạng thái hoàn toàn khác nhau:
+  1. **Nhập lại lô dữ liệu hợp lệ (Genuine Batch Replay):**
+     - Mỗi yêu cầu nhập theo lô phải mang định danh `batchId` (UUID client sinh) và `batchFingerprint` (chuỗi băm SHA-256 của toàn bộ payload chuẩn hóa gồm `schoolYear`, `importMode` và mảng `accounts`).
+     - Khi nhận một yêu cầu có cùng `batchFingerprint` và `batchId`:
+       + Hệ thống đối chiếu dữ liệu của các tài khoản đã tồn tại: nếu `Username`, `StudentUID`, `FullName`, `ClassID` và `SchoolYear` hoàn toàn trùng khớp với thông tin đã được ghi nhận trong lần thử trước đó của chính lô này, bản ghi được xác định là **Nhập lại hợp lệ (Replay)** với trạng thái `status: "replayed"`.
+       + Nếu phát hiện tài khoản đã có trong `USERS` nhưng thiếu bản ghi trong `ENROLLMENTS` (do sự cố đứt quãng trước đó), hệ thống sẽ kích hoạt cơ chế tự hàn gắn (**Self-Healing**) để bổ sung `ENROLLMENTS` mà không tạo mới người dùng.
+  2. **Xung đột tài khoản đã tồn tại (Existing-Account Collision):**
+     - Nếu một `accountId` / `Username` đã tồn tại trong cơ sở dữ liệu nhưng:
+       + Thuộc về một `batchId` hoặc `batchFingerprint` khác; HOẶC
+       + Có thông tin họ tên, lớp, hoặc năm học khác biệt; HOẶC
+       + Là tài khoản đã được khởi tạo từ trước phiên làm việc hiện tại.
+     - **Quy tắc an toàn tuyệt đối:**
+       + Hệ thống **TUYỆT ĐỐI KHÔNG ĐƯỢC gán nhãn thành công hay âm thầm bỏ qua (`skipped_existing`)** khiến giáo viên lầm tưởng tài khoản mới đã được tạo.
+       + Hệ thống phải từ chối bản ghi đó với mã lỗi rõ ràng: **`COLLISION_EXISTING_ACCOUNT`** (hoặc `ACCOUNT_ALREADY_EXISTS`), chỉ rõ xung đột với tài khoản cũ.
+       + Không bao giờ gộp tài khoản hay ghi đè lên tài khoản cũ dù có trùng `fullName`.
+- **Thực thi trong phạm vi khóa ghi (`withLock_`):**
+  - Mọi thao tác kiểm tra trùng lặp và phân quyền (`assignedSet_`) phải được thực hiện lại **bên trong khối khóa ghi `withLock_`**, loại bỏ hoàn toàn lỗ hổng tương tranh TOCTOU (Time-of-Check to Time-of-Use) khi có hai giáo viên cùng thao tác hoặc phân công lớp bị thay đổi giữa bước thẩm định và bước ghi.
+
+---
+
+### 7.3. Ánh xạ Đồng bộ vào Bảng ENROLLMENTS (Enrollment Consistency Guarantee)
+Hệ thống học tập V3 và V2 Cloud Data (`backend/StudentV2.gs` và `backend/Teacher.gs`) sử dụng bảng `ENROLLMENTS` để xác định danh sách học sinh thuộc lớp.
+
+> [!IMPORTANT]
+> **Ràng buộc Kiến trúc Roster (`Teacher.gs:buildRosters_`):**
+> Trong `Teacher.gs`, hàm `buildRosters_()` kiểm tra bảng `ENROLLMENTS`. Khi bảng `ENROLLMENTS` tồn tại và có dữ liệu, danh sách học sinh trong lớp được xây dựng **độc quyền từ các bản ghi có `Active = "TRUE"` trong `ENROLLMENTS`**, sau đó mới liên kết sang `USERS` qua `StudentUID`.
+> Nếu một tài khoản học sinh chỉ được ghi vào bảng `USERS` mà **không có bản ghi tương ứng trong `ENROLLMENTS`**, học sinh đó sẽ trở thành **Người dùng mồ côi (Orphan User)**: không bao giờ xuất hiện trên Bảng điều khiển Giáo viên (Teacher Dashboard), không thể nhận bài tập hay theo dõi tiến độ theo lớp!
+
+Do đó, đối với mọi tài khoản có `role = "student"`, quá trình khởi tạo tài khoản qua JSON phải tạo đồng thời bản ghi trong cả 2 bảng theo cấu trúc hiện hành:
+
+```text
+JSON Payload / USERS Record           ENROLLMENTS Sheet (V2_HEADERS.ENROLLMENTS)
+───────────────────────────           ─────────────────────────────────────────
+[Máy chủ tự sinh độc lập]      ───►   EnrollmentID ("enr_" + UUID không gạch nối)
+StudentUID (từ USERS)          ───►   StudentUID
+schoolYear (từ cấp root)       ───►   SchoolYear
+schoolLevel (từ account)       ───►   SchoolLevel ("TIEUHOC", "THCS", "THPT")
+grade (từ account)             ───►   Grade (1..12)
+classId (từ account)           ───►   ClassID ("6A1",...)
+[Cố định khi tạo mới]         ───►   Active ("TRUE")
+[Ngày máy chủ YYYY-MM-DD]     ───►   StartDate
+[Để trống ban đầu]            ───►   EndDate ("")
+[Thời gian máy chủ UTC]        ───►   CreatedAt (ISO 8601 string)
+[Thời gian máy chủ UTC]        ───►   UpdatedAt (ISO 8601 string)
+```
+
+- **Tính nhất quán đa trường:** `StudentUID`, `SchoolYear`, `ClassID`, `Grade`, và `SchoolLevel` giữa bảng `USERS` và `ENROLLMENTS` phải hoàn toàn đồng nhất.
+- **Bảo tồn cấu trúc bảng:** Tuyệt đối không thay đổi cấu trúc 11 cột hiện có của bảng `ENROLLMENTS` (`V2_HEADERS.ENROLLMENTS` tại `StudentV2.gs:45`).
+- **Phục hồi sự cố gián đoạn ghi (`PARTIAL_WRITE_ORPHAN`):**
+  - Do Google Sheets không có cơ chế giao dịch đa bảng (multi-table transaction rollback), nếu quá trình ghi bảng `USERS` thành công nhưng bước ghi `ENROLLMENTS` gặp sự cố (timeout, mạng ngắt):
+    + Trạng thái hệ thống tạm thời là `PARTIAL_WRITE_ORPHAN`.
+    + Khi giáo viên thực hiện nạp lại cùng lô (Replay) hoặc qua hành động đồng bộ/kiểm tra dữ liệu, hệ thống tự động phát hiện các tài khoản `student` trong `USERS` chưa có dòng tương ứng trong `ENROLLMENTS` cho `SchoolYear` đó.
+    + Hệ thống tự động tạo bản ghi `ENROLLMENTS` bổ sung từ dữ liệu chuẩn đã có trong `USERS`, khôi phục tính toàn vẹn mà không cần cấp lại UID hay đổi mật khẩu của học sinh.
+
+---
+
+### 7.4. Tách biệt Tuyệt đối Nhật ký Xác thực khỏi EVENT_LOG (Audit Logging Isolation)
+- Bảng `EVENT_LOG` hiện hành (`V2_HEADERS.EVENT_LOG` tại `StudentV2.gs:50`) là bảng dữ liệu dành riêng cho sự kiện học tập của học sinh (`StudentUID`, `LessonID`, `ActivityID`, `EventType`, `ProcessedAt`). Hàm `timeline_()` trong `Teacher.gs` dựa trực tiếp vào `EVENT_LOG` để dựng dòng thời gian học tập (nộp bài, hoàn thành hoạt động, nộp Exit Ticket).
+- **Quy tắc cách ly:** Tuyệt đối **KHÔNG ghi các sự kiện quản trị tài khoản** (tạo tài khoản, import hàng loạt, reset mật khẩu, khóa tài khoản) vào bảng `EVENT_LOG`. Việc ghi lẫn sẽ làm sai lệch cấu trúc dữ liệu học tập, gây lỗi parse `LessonID` / `ActivityID` và làm hỏng biểu đồ học tập của học sinh.
+- Các sự kiện quản trị tài khoản được đề xuất ghi nhận vào một cơ chế riêng biệt mang tên `AUTH_AUDIT` (`PROPOSED_CHANGE - PENDING_HUMAN_APPROVAL`), được đặc tả chi tiết tại [account-security-review.md](file:///Users/huynhvandien/tinhocthaydien/docs/auth/account-security-review.md).
