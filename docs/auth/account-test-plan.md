@@ -30,10 +30,11 @@
    - Nhóm 5: Tương thích ngược, Bảo mật & Thuật toán PBKDF2 (Test Vectors 23–25, 27).
    - Nhóm 6: Tính Nhất quán Danh sách, Kiểm toán Tách biệt & Phòng vệ Nâng cao (Test Vectors 28–35).
    - Nhóm 7: Bằng chứng Nguồn gốc Lô & Kiểm thử Phục hồi Nâng cao (Test Vectors 36–44).
+   - Nhóm 8: Kiểm thử Phục hồi Write-Ahead Provenance (WAL) tại các Điểm Gián đoạn A–F (Test Vectors 45–50).
 
 ---
 
-## 2. Danh mục 44 Bộ Test Vectors Chi tiết (Acceptance Test Suite)
+## 2. Danh mục 50 Bộ Test Vectors Chi tiết (Acceptance Test Suite)
 
 ### Nhóm 1: Thẩm định Cấu trúc & Cú pháp JSON Schema
 
@@ -334,15 +335,16 @@
 
 #### Test Vector 29: Nhập lại cùng Lô Hợp lệ (Genuine Batch Replay Verification)
 - **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
-- **Mục tiêu:** Xác nhận hệ thống nhận diện chính xác việc nạp lại một lô dữ liệu hợp lệ mà không tạo trùng dữ liệu hay báo lỗi xung đột giả.
-- **Dữ liệu đầu vào:** Lô gồm 5 tài khoản học sinh mang `batchId = "bat_test_01"` và `batchFingerprint = "fp_test_hash_01"`.
+- **Mục tiêu:** Xác nhận hệ thống nhận diện chính xác việc nạp lại một lô dữ liệu hợp lệ mà không tạo trùng dữ liệu hay báo lỗi xung đột giả; đồng thời xác minh máy chủ tự tính toán độc lập `batchFingerprint` và bỏ qua giá trị băm do client khai báo.
+- **Dữ liệu đầu vào:** Lô gồm 2 tài khoản học sinh mang định dạng chuẩn `batchId = "bat_c0a80101e5f67890123456789abcdef0"`.
 - **Hành động:**
-  1. Gửi `importAccountsBatch` lần 1 -> Tạo thành công 5 tài khoản (`createdCount = 5`).
-  2. Gửi lại chính xác yêu cầu `importAccountsBatch` với cùng `batchId` và `batchFingerprint`.
+  1. Gửi `importAccountsBatch` lần 1 $\rightarrow$ Tạo thành công 2 tài khoản (`createdCount = 2`). Máy chủ tự chuẩn hóa JSON và lưu `serverFingerprint` (`0d2ffbcbde865ffc67c2a815f6d2aeb7b1efffd4082918e5cdb6c6f1072086af`) vào `AUTH_IMPORT_BATCHES`.
+  2. Gửi lại yêu cầu `importAccountsBatch` với cùng `batchId`, cùng payload nhưng cố tình gắn `batchFingerprint` giả do client tự sinh (`"client_custom_hash_999"`).
 - **Hành vi kỳ vọng:**
-  - Phản hồi: `success = true`, `createdCount = 0`, `replayedCount = 5`, `collisionCount = 0`.
-  - Trạng thái từng dòng: `status: "replayed"`.
-  - Sheet `USERS` và `ENROLLMENTS` không tăng số lượng dòng; không sinh UID mới; toàn bộ mật khẩu và hash cũ được giữ nguyên vẹn 100%.
+  - Máy chủ bỏ qua hash do client gửi, tự tính lại `serverFingerprint` trên payload và đối chiếu khớp 100% với `AUTH_IMPORT_BATCHES.BatchFingerprint`.
+  - Nhận diện Genuine Batch Replay: `success = true`, `createdCount = 0`, `replayedCount = 2`, `collisionCount = 0`.
+  - Trạng thái từng dòng: `status: "replayed"`, `temporaryPassword: null`, `passwordReissueAvailable: true` (tuân thủ Zero Cleartext).
+  - Sheet `USERS` và `ENROLLMENTS` không tăng số lượng dòng; không sinh lại UID; toàn bộ mật khẩu và hash cũ được giữ nguyên vẹn 100%.
 
 #### Test Vector 30: Xung đột Tài khoản đã Tồn tại (Existing-Account Collision Rejection)
 - **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
@@ -440,15 +442,16 @@
   - Khi kiểm tra trùng lặp trên `USERS`, phát hiện `6A1-01` đã tồn tại trong cơ sở dữ liệu.
   - Máy chủ **bắt buộc từ chối bản ghi đó** với mã lỗi `code: "COLLISION_EXISTING_ACCOUNT"`, ngăn chặn việc lô mới nhận nhầm tài khoản cũ là vừa tạo.
 
-#### Test Vector 39: Mất Dữ liệu Batch Metadata sau khi Ghi USERS (Unprovenanced Partial Batch Recovery)
+#### Test Vector 39: Loại bỏ Heuristic Phỏng đoán & Bắt buộc Từ chối Xung đột Không có Bằng chứng (Strict Provenance vs Heuristic Abolition)
 - **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
-- **Mục tiêu:** Kiểm soát và phục hồi an toàn tình huống gián đoạn: `USERS` và `ENROLLMENTS` đã ghi thành công nhưng kết nối mạng bị đứt trước khi kịp ghi `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
-- **Kịch bản mô phỏng:** Trạng thái `PARTIAL_WRITE_UNPROVENANCED_BATCH`.
-- **Hành động:** Client gửi lại cùng `batchId` và payload chuẩn tắc trong vòng 15 phút.
+- **Mục tiêu:** Xác nhận hệ thống bãi bỏ hoàn toàn logic suy đoán (heuristic) kiểu "tài khoản tạo trong 15 phút bởi cùng session" (do bảng `USERS` không lưu vết đó) và bắt buộc từ chối khi không có chứng cứ nguồn gốc trước (Write-Ahead Provenance).
+- **Kịch bản mô phỏng:** Client gửi yêu cầu nạp lô với danh sách tài khoản đã xuất hiện trong bảng `USERS` nhưng không hề có bản ghi tương ứng trong `AUTH_IMPORT_ITEMS` của lô này.
+- **Hành động:** Client gửi yêu cầu `importAccountsBatch` với payload chứa tài khoản đã có sẵn trong `USERS`.
 - **Hành vi kỳ vọng:**
-  - Máy chủ đối chiếu nếu toàn bộ danh sách học sinh trong payload khớp hoàn toàn với các bản ghi vừa được tạo trong bảng `USERS` trong vòng 15 phút bởi chính phiên làm việc đó.
-  - Máy chủ hoàn tất việc ghi bổ sung metadata vào `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`, gắn nhãn `status: "replayed_and_provenanced"`.
-  - Nếu không thể đối chiếu chứng minh nguồn gốc (ví dụ tài khoản đã tạo từ lâu hoặc khác phiên), hệ thống từ chối với `COLLISION_EXISTING_ACCOUNT`.
+  - Máy chủ tra cứu bảng `AUTH_IMPORT_ITEMS`: không tìm thấy bằng chứng liên kết trước đó giữa `batchId` và danh sách tài khoản này.
+  - Tuyệt đối không phỏng đoán theo thời gian gần hay phiên làm việc để tự động gán metadata.
+  - Máy chủ **bắt buộc từ chối bản ghi đó** với mã lỗi `code: "COLLISION_EXISTING_ACCOUNT"`.
+  - Nếu phát hiện cấu trúc manifest của lô bị mâu thuẫn không thể tự phục hồi, máy chủ đánh dấu lô là `"FAILED"` và trả mã lỗi `code: "BATCH_CORRUPTED_MANUAL_REVIEW"` để đối chiếu thủ công.
 
 #### Test Vector 40: Từ chối Reset khi Không Tồn tại Batch Provenance (Batch Provenance Missing Fallback)
 - **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
@@ -493,3 +496,73 @@
 - **Hành vi kỳ vọng:**
   - Cả 2 bảng metadata hoàn toàn không có bất kỳ cột nào chứa: mật khẩu thô, mật khẩu tạm, password hash, password salt hay session token.
   - Chỉ lưu vết quan hệ định danh: `BatchID`, `StudentUID`, `AccountId`, `Username`, `Fingerprint`, `Timestamps`.
+
+---
+
+### Nhóm 8: Kiểm thử Phục hồi Write-Ahead Provenance (WAL) tại các Điểm Gián đoạn A–F (Test Vectors 45–50)
+
+#### Test Vector 45: Mô phỏng Gián đoạn tại Điểm A (Header PREPARING Đã Tạo nhưng Thiếu Manifest)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận máy chủ không bao giờ chuyển sang `COMMITTED` non khi manifest chưa hoàn tất, và có khả năng dọn dẹp để tiếp tục quy trình Write-Ahead khi client gửi lại yêu cầu.
+- **Kịch bản mô phỏng:** Tác vụ ghi bị ngắt sau Bước 2 (Header `AUTH_IMPORT_BATCHES` đã ghi với `Status = "PREPARING"`), nhưng `AUTH_IMPORT_ITEMS` mới chỉ ghi được 1/2 số tài khoản và `USERS` chưa có dòng nào.
+- **Hành động:** Client gửi lại chính xác cùng `batchId` và payload.
+- **Hành vi kỳ vọng:**
+  - Máy chủ phát hiện `batchId` đang ở trạng thái `"PREPARING"` và số dòng trong `AUTH_IMPORT_ITEMS` nhỏ hơn `TotalAccounts`.
+  - Tuyệt đối không đánh dấu `"COMMITTED"` hay tạo tài khoản dở dang.
+  - Máy chủ dọn dẹp các dòng manifest dở dang, ghi lại đủ $N$ bản ghi vào `AUTH_IMPORT_ITEMS` với `ItemStatus = "PLANNED"` cùng các `StudentUID` sinh trước, sau đó tiếp tục ghi `USERS`, `ENROLLMENTS`, cập nhật `"CREATED"` và chuyển lô sang `"COMMITTED"`.
+
+#### Test Vector 46: Mô phỏng Gián đoạn tại Điểm B (Manifest PLANNED Đầy đủ nhưng Chưa Ghi USERS)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Đảm bảo khi gửi lại yêu cầu, máy chủ tái sử dụng chính xác các `StudentUID` đã lưu trong manifest `AUTH_IMPORT_ITEMS`, không sinh UID mới gây sai lệch định danh.
+- **Kịch bản mô phỏng:** Tác vụ ghi bị ngắt sau Bước 3 (`AUTH_IMPORT_BATCHES` là `"PREPARING"`, `AUTH_IMPORT_ITEMS` đã đủ 2 tài khoản ở trạng thái `"PLANNED"` với `StudentUID` là `"stu_1111..."` và `"stu_2222..."`), nhưng `USERS` chưa được ghi.
+- **Hành động:** Client gửi lại cùng `batchId` và payload.
+- **Hành vi kỳ vọng:**
+  - Máy chủ nhận diện manifest đã tồn tại ở trạng thái `"PLANNED"`.
+  - Máy chủ đọc danh sách `StudentUID` từ `AUTH_IMPORT_ITEMS` và thực hiện Bước 4: ghi vào `USERS` bằng đúng `"stu_1111..."` và `"stu_2222..."`.
+  - Tiếp tục ghi `ENROLLMENTS`, cập nhật `AUTH_IMPORT_ITEMS` sang `"CREATED"` và chuyển batch sang `"COMMITTED"`.
+  - Không sinh ra bất kỳ UID ngẫu nhiên mới nào; bảo toàn tính ổn định của khóa chính.
+
+#### Test Vector 47: Mô phỏng Gián đoạn tại Điểm C (Đã Ghi USERS nhưng Thiếu ENROLLMENTS)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận máy chủ không ghi lặp `USERS` và tự động hàn gắn bảng `ENROLLMENTS` bị thiếu.
+- **Kịch bản mô phỏng:** Tác vụ ghi bị ngắt sau Bước 4 (Header `"PREPARING"`, items `"PLANNED"`, `USERS` đã có đủ 2 tài khoản), nhưng `ENROLLMENTS` chưa được ghi (học sinh mồ côi danh sách).
+- **Hành động:** Client gửi lại cùng `batchId` và payload.
+- **Hành vi kỳ vọng:**
+  - Máy chủ kiểm tra `USERS`: phát hiện 2 tài khoản đã tồn tại với đúng `StudentUID` từ manifest.
+  - Máy chủ **không ghi lặp dòng vào `USERS`** (không tạo bản sao duplicate).
+  - Máy chủ ghi bổ sung 2 dòng tương ứng vào `ENROLLMENTS` (Bước 5), cập nhật items sang `"CREATED"` (Bước 6) và chốt batch sang `"COMMITTED"` (Bước 7).
+  - Toàn bộ 2 học sinh xuất hiện đầy đủ trong danh sách lớp của giáo viên.
+
+#### Test Vector 48: Mô phỏng Gián đoạn tại Điểm D (Đã Ghi USERS và ENROLLMENTS nhưng Items Vẫn PLANNED)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận máy chủ đối chiếu nhất quán 3 bảng và cập nhật trạng thái các mục trong `AUTH_IMPORT_ITEMS` sang `CREATED`.
+- **Kịch bản mô phỏng:** `USERS` và `ENROLLMENTS` đã được ghi đầy đủ và chính xác, nhưng tiến trình bị ngắt trước Bước 6 khiến `AUTH_IMPORT_ITEMS` vẫn giữ trạng thái `"PLANNED"`.
+- **Hành động:** Client gửi lại cùng `batchId` và payload.
+- **Hành vi kỳ vọng:**
+  - Máy chủ quét đối chiếu: xác nhận cả `USERS` và `ENROLLMENTS` đã khớp 100% với manifest.
+  - Không ghi thêm dòng nào vào `USERS` hay `ENROLLMENTS`.
+  - Máy chủ cập nhật các mục trong `AUTH_IMPORT_ITEMS` từ `"PLANNED"` sang `"CREATED"`.
+  - Chuyển `AUTH_IMPORT_BATCHES` sang `"COMMITTED"`.
+
+#### Test Vector 49: Mô phỏng Gián đoạn tại Điểm E (Items Đã CREATED nhưng Batch Vẫn PREPARING)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Đảm bảo batch chỉ chuyển sang `COMMITTED` khi toàn bộ mục đã được đối chiếu đầy đủ, và hoàn tất chuyển trạng thái an toàn.
+- **Kịch bản mô phỏng:** 100% mục trong `AUTH_IMPORT_ITEMS` đã mang trạng thái `"CREATED"`, `USERS` và `ENROLLMENTS` đã đầy đủ, nhưng kết nối bị đứt ngay trước Bước 7 khiến `AUTH_IMPORT_BATCHES` vẫn là `"PREPARING"`.
+- **Hành động:** Client gửi lại cùng `batchId` và payload.
+- **Hành vi kỳ vọng:**
+  - Máy chủ xác nhận toàn bộ $N$ mục trong `AUTH_IMPORT_ITEMS` đã là `"CREATED"`.
+  - Máy chủ thực hiện Bước 7: cập nhật `AUTH_IMPORT_BATCHES.Status = "COMMITTED"`, `CreatedCount = N`.
+  - Không thay đổi bất kỳ bản ghi nào trong `USERS` hay `ENROLLMENTS`.
+
+#### Test Vector 50: Mô phỏng Gián đoạn tại Điểm F (COMMITTED Hoàn tất nhưng Mất Phản hồi Mạng HTTP)
+- **Trạng thái:** `DESIGN_PROPOSAL / NOT_YET_VERIFIED`
+- **Mục tiêu:** Xác nhận máy chủ xử lý Replay chuẩn mực tuân thủ Zero Cleartext khi lô đã hoàn tất `COMMITTED` nhưng phía client không nhận được phản hồi.
+- **Kịch bản mô phỏng:** Lô nạp đã thực thi trọn vẹn 7 bước, `AUTH_IMPORT_BATCHES.Status === "COMMITTED"`. Tuy nhiên, kết nối mạng Internet bị đứt đúng lúc máy chủ gửi gói phản hồi HTTP chứa mật khẩu tạm, khiến client không nhận được kết quả.
+- **Hành động:** Client gửi lại yêu cầu nạp với cùng `batchId` và payload.
+- **Hành vi kỳ vọng:**
+  - Máy chủ kiểm tra `AUTH_IMPORT_BATCHES`: phát hiện `Status === "COMMITTED"`, `OperatorUID === session.uid`, và `serverFingerprint` trùng khớp.
+  - Máy chủ xác nhận đây là Genuine Batch Replay.
+  - **Tuân thủ Zero Cleartext Persistence:** Máy chủ **tuyệt đối không gửi lại mật khẩu tạm cũ** (do không lưu mật khẩu thô và không được phép sinh lại).
+  - Phản hồi HTTP trả về: `success: true`, `replayedCount: N`, các phần tử mang `temporaryPassword: null`, `passwordReissueAvailable: true`.
+  - Bảng tính Google Sheets không tăng thêm bất kỳ dòng nào.
+  - Nếu giáo viên cần mật khẩu, giáo viên được hướng dẫn kích hoạt quy trình `reissueBatchPasswords` có kiểm soát trong vòng 24 giờ.

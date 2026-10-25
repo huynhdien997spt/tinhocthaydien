@@ -87,36 +87,56 @@ Thiết kế AUTH-A1 **thu hồi hoàn toàn tuyên bố về "Bulk Atomic Write
   ```
 - Biện pháp này đảm bảo chỉ có duy nhất một phiên quản trị được phép ghi vào bảng tính tại một thời điểm, loại bỏ hiện tượng ghi đè chéo (Race Condition).
 
-### 3.3. Cơ chế Lưu trữ Bền vững Nguồn gốc Lô & An toàn Xung đột (Durable Batch Provenance & Collision Safety)
-- **Hạn chế của Bảng Hiện hữu:** Bảng `USERS` và `ENROLLMENTS` hiện không lưu thông tin `batchId` hay `batchFingerprint`. Do đó, nếu chỉ dựa vào dữ liệu do client gửi lên mà không có bằng chứng đối chiếu bền vững trên máy chủ, hệ thống không thể xác minh một tài khoản có thực sự thuộc về lô nạp trước đó hay không.
-- **Đề xuất Cơ chế Lưu trữ Nguồn gốc Bền vững (Durable Provenance Persistence):**
-  Hệ thống đề xuất cơ chế lưu vết bền vững mối quan hệ giữa lô nạp, người thực hiện, dấu vân tay dữ liệu và danh sách định danh học sinh thông qua 2 bảng độc lập (`PROPOSED_CHANGE — PENDING_HUMAN_APPROVAL`):
+### 3.3. Cơ chế Write-Ahead Provenance & Lưu trữ Bền vững Nguồn gốc Lô (Write-Ahead Provenance & Collision Safety)
+- **Hạn chế của Bảng Hiện hữu:** Bảng `USERS` và `ENROLLMENTS` hiện không lưu thông tin `batchId` hay `batchFingerprint`. Nếu máy chủ ghi trực tiếp vào `USERS` trước khi có chứng cứ nguồn gốc bền vững, một sự cố gián đoạn giữa chừng sẽ tạo ra các tài khoản mồ côi mà máy chủ không thể chứng minh thuộc về lô nào. Quy trình cũ (`USERS → ENROLLMENTS → AUTH_IMPORT_BATCHES → AUTH_IMPORT_ITEMS`) bị bãi bỏ hoàn toàn.
+- **Quy trình Write-Ahead Provenance (WAL) 7 bước nghiêm ngặt bên trong `withLock_`:**
+  1. **Bước 1 (Thẩm định & Cấp phát Trước UID trong RAM):** Thẩm định cú pháp, kiểm tra phân quyền (`assignedSet_`), kiểm tra xung đột với `USERS`. Sinh trước danh sách `StudentUID` bất biến (`"stu_" + uuid_()`) cho 100% tài khoản trong RAM.
+  2. **Bước 2 (Ghi Trước Header Lô - PREPARING):** Ghi bản ghi vào `AUTH_IMPORT_BATCHES` (`Status = "PREPARING"`, `CreatedCount = 0`, `ReplayedCount = 0`, `ExpiresAt = now + 24h`).
+  3. **Bước 3 (Ghi Trước Danh mục Từng Mục - PLANNED):** Ghi toàn bộ danh sách tài khoản dự kiến tạo vào `AUTH_IMPORT_ITEMS` với `ItemStatus = "PLANNED"`, gắn chặt với `StudentUID` đã cấp phát trước.
+  4. **Bước 4 (Ghi Bảng USERS):** Chỉ sau khi chứng cứ nguồn gốc đã tồn tại bền vững trong `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`, máy chủ mới ghi các dòng mới vào `USERS` sử dụng đúng các `StudentUID` đã sinh trước.
+  5. **Bước 5 (Ghi Bảng ENROLLMENTS):** Ghi các dòng tương ứng vào `ENROLLMENTS` (đối với học sinh) bằng đúng các `StudentUID` đó.
+  6. **Bước 6 (Đối chiếu & Cập nhật Trạng thái Mục - CREATED):** Quét đối chiếu lại `USERS`, `ENROLLMENTS` và `AUTH_IMPORT_ITEMS`. Khi xác nhận các dòng đã tồn tại nhất quán, cập nhật các mục trong `AUTH_IMPORT_ITEMS` từ `"PLANNED"` sang `"CREATED"`.
+  7. **Bước 7 (Chốt Hoàn tất Lô - COMMITTED):** Chỉ chuyển trạng thái của lô trong `AUTH_IMPORT_BATCHES` từ `"PREPARING"` sang `"COMMITTED"` khi 100% tài khoản được xác minh nhất quán.
+
+- **Định dạng Chuẩn hóa Toàn hệ thống:**
+  - `batchId`: Định dạng chuỗi duy nhất: **`^bat_[0-9a-f]{32}$`** (ví dụ: `"bat_c0a80101e5f67890123456789abcdef0"`).
+  - `batchFingerprint`: Chuỗi băm SHA-256 gồm 64 ký tự hex chữ thường do **máy chủ tự tính toán độc quyền**, tuyệt đối không dùng hash rỗng `e3b0c442...`.
+
+- **Cấu trúc 2 Bảng Lưu vết Nguồn gốc Độc lập (`PROPOSED_CHANGE — PENDING_HUMAN_APPROVAL`):**
   1. `AUTH_IMPORT_BATCHES`: `["BatchID", "BatchFingerprint", "OperatorUID", "OperatorRole", "SchoolYear", "ClassID", "TotalAccounts", "CreatedCount", "ReplayedCount", "Status", "CreatedAt", "ExpiresAt"]`.
+     - `Status` lifecycle: `"PREPARING"` $\rightarrow$ `"COMMITTED"` (hoặc `"FAILED"` / `"EXPIRED"`).
   2. `AUTH_IMPORT_ITEMS`: `["ItemID", "BatchID", "StudentUID", "AccountId", "Username", "ItemStatus", "CreatedAt"]`.
+     - `ItemStatus` lifecycle: `"PLANNED"` $\rightarrow$ `"CREATED"` (hoặc `"REPLAYED"`).
   - *Ràng buộc an ninh:* Tuyệt đối không lưu mật khẩu thô, mật khẩu tạm, password hash, salt hay token trong các bảng này.
+
 - **Quy tắc Chuẩn hóa Chuẩn tắc (Canonical JSON Normalization) & Tính Băm Độc quyền tại Máy chủ:**
   - Máy chủ **không tin cậy giá trị hash do client gửi lên**. Giá trị băm SHA-256 bắt buộc do chính máy chủ tự tính toán từ payload sau khi chuẩn hóa:
     + Sắp xếp khóa cấp root và khóa từng object tài khoản theo thứ tự chữ cái.
     + Sắp xếp danh sách `accounts` theo thứ tự `accountId.toUpperCase()`.
     + Trim khoảng trắng thừa, chuyển thành chuỗi JSON thu gọn (compact, không khoảng trắng dư).
     + Tính toán SHA-256 trên chuỗi byte UTF-8 $\rightarrow$ chuỗi hex 64 ký tự chữ thường (`serverFingerprint`).
+
 - **Phân định Replay Hợp lệ vs Giả mạo BatchId (Anti-Spoofing):**
   1. **Genuine Batch Replay:** Cung cấp `batchId` đã tồn tại trong `AUTH_IMPORT_BATCHES` với `OperatorUID === session.uid` và `serverFingerprint === stored.BatchFingerprint`. Hệ thống tra cứu `AUTH_IMPORT_ITEMS` để lấy danh sách `StudentUID` thực tế đã tạo, đánh dấu `status: "replayed"` (hoặc `status: "replayed_and_healed"` nếu hàn gắn `ENROLLMENTS`).
-  2. **Existing-Account Collision:** Nếu `Username` đã tồn tại trong `USERS` nhưng không thuộc lô nạp hợp lệ: Bắt buộc từ chối bản ghi đó với lỗi **`COLLISION_EXISTING_ACCOUNT`**. Tuyệt đối không cho phép tệp mới nhận nhầm tài khoản cũ là vừa tạo.
+  2. **Existing-Account Collision:** Nếu `Username` đã tồn tại trong `USERS` nhưng không nằm trong manifest `AUTH_IMPORT_ITEMS` của chính lô này: Bắt buộc từ chối bản ghi đó với lỗi **`COLLISION_EXISTING_ACCOUNT`**. Tuyệt đối không cho phép tệp mới nhận nhầm tài khoản cũ là vừa tạo.
   3. **Batch ID Spoofing / Hijacking:** Nếu client gửi `batchId` đã thuộc về một giáo viên khác $\rightarrow$ Bị từ chối ngay với **`BATCH_ID_TAKEN`**.
   4. **Payload Forgery:** Nếu client gửi `batchId` cũ nhưng sửa đổi nội dung JSON $\rightarrow$ Bị từ chối ngay với **`BATCH_PAYLOAD_MISMATCH`**.
 
-### 3.4. Ma trận Tính Nhất quán Phục hồi Sự cố (Recovery Consistency Matrix)
-Do Google Sheets không có cơ chế giao dịch đa bảng (multi-table transaction rollback), hệ thống xác lập phương thức ứng phó cho từng tình huống gián đoạn:
+### 3.4. Ma trận Tính Nhất quán Phục hồi Sự cố (Recovery Consistency Matrix - Failure States A–F)
+Do Google Sheets không có cơ chế giao dịch đa bảng (multi-table transaction rollback), hệ thống xác lập phương thức ứng phó cho từng tình huống gián đoạn dựa trên bằng chứng máy chủ rõ ràng (tuyệt đối không dùng logic suy đoán heuristic kiểu "tạo trong 15 phút"):
 
-| Tình huống Gián đoạn | Trạng thái Dữ liệu | Cơ chế Phục hồi & Phòng vệ |
+| Tình huống Gián đoạn | Điểm Sự cố / Trạng thái Bằng chứng | Cơ chế Phục hồi & Phòng vệ Bằng chứng Máy chủ |
 |---|---|---|
-| **Sự cố 1: USERS đã ghi, ENROLLMENTS chưa ghi** | `PARTIAL_WRITE_ORPHAN` | Khi gửi lại cùng batch (Replay), hệ thống phát hiện các học sinh trong `USERS` chưa có dòng trong `ENROLLMENTS` cho năm học đó, tự động chèn bổ sung vào `ENROLLMENTS` (`replayed_and_healed`). |
-| **Sự cố 2: USERS và ENROLLMENTS đã ghi, nhưng batch metadata chưa hoàn tất** | `PARTIAL_WRITE_UNPROVENANCED_BATCH` | Khi gửi lại cùng `batchId` và payload, máy chủ đối chiếu nếu các tài khoản trong payload trùng khớp hoàn toàn với bản ghi vừa tạo trong 15 phút bởi chính phiên đó, máy chủ hoàn tất việc ghi metadata vào `AUTH_IMPORT_BATCHES` / `AUTH_IMPORT_ITEMS` (`replayed_and_provenanced`). Nếu không chứng minh được, từ chối với `COLLISION_EXISTING_ACCOUNT`. |
-| **Sự cố 3: Mạng ngắt sau khi commit hoàn tất** | `COMMITTED_RESPONSE_LOST` | Khi gửi lại cùng `batchId`, máy chủ nhận diện Genuine Replay, trả về danh sách tài khoản kèm `temporaryPassword: null` và `passwordReissueAvailable: true` (tuân thủ Zero Cleartext). Giáo viên có thể dùng `reissueBatchPasswords` trong vòng 24 giờ. |
-| **Sự cố 4: Client gửi lại batchId với payload khác** | `FORGERY_ATTEMPT` | Máy chủ phát hiện `serverFingerprint !== stored.BatchFingerprint`, từ chối ngay lập tức với `BATCH_PAYLOAD_MISMATCH`. |
-| **Sự cố 5: Hai giáo viên sử dụng trùng batchId** | `LOCK_CONTENTION_COLLISION` | Giáo viên thứ hai chiếm lock sau sẽ bị từ chối với mã lỗi `BATCH_ID_TAKEN` do `OperatorUID` không trùng khớp. |
-| **Sự cố 6: Tài khoản trong batch đã đổi mật khẩu hoặc đã học** | `ACTIVE_STUDENT_INTERFERENCE` | Khi giáo viên gọi `reissueBatchPasswords`, hệ thống kiểm tra `MustChangePassword === "FALSE"` hoặc có bài làm trong `RESPONSES` $\rightarrow$ Từ chối reset với `STUDENT_ALREADY_ACTIVE`. |
+| **Trường hợp A: Đã tạo batch PREPARING nhưng chưa ghi đủ manifest** | `AUTH_IMPORT_BATCHES` là `"PREPARING"`, `AUTH_IMPORT_ITEMS` < `TotalAccounts`, `USERS` chưa có dữ liệu | Máy chủ làm sạch items dở dang, ghi lại đầy đủ manifest với trạng thái `"PLANNED"` cùng các `StudentUID` đã cấp phát, sau đó tiếp tục quy trình Write-Ahead. |
+| **Trường hợp B: Đã ghi manifest PLANNED nhưng chưa ghi USERS** | `AUTH_IMPORT_ITEMS` đủ $N$ mục `"PLANNED"`, `USERS` chưa có dữ liệu | Sử dụng chính xác các `StudentUID` đã lưu trong `AUTH_IMPORT_ITEMS` để ghi vào `USERS`, ghi `ENROLLMENTS`, cập nhật `"CREATED"` và chốt `"COMMITTED"`. Tuyệt đối không sinh lại UID. |
+| **Trường hợp C: Đã ghi USERS nhưng thiếu ENROLLMENTS** | `AUTH_IMPORT_ITEMS` là `"PLANNED"`, `USERS` đã có dữ liệu, `ENROLLMENTS` chưa có dòng | Không ghi lại `USERS`. Máy chủ thực hiện ghi bổ sung vào `ENROLLMENTS` từ dữ liệu chuẩn của `USERS`, cập nhật items sang `"CREATED"` và chốt batch `"COMMITTED"`. |
+| **Trường hợp D: Đã ghi USERS và ENROLLMENTS nhưng chưa cập nhật trạng thái mục** | `USERS` và `ENROLLMENTS` đã đầy đủ, nhưng `AUTH_IMPORT_ITEMS` vẫn đang `"PLANNED"` | Máy chủ cập nhật các mục trong `AUTH_IMPORT_ITEMS` sang `"CREATED"`, sau đó chuyển batch sang `"COMMITTED"`. |
+| **Trường hợp E: Đã hoàn tất CREATED nhưng chưa đánh dấu batch COMMITTED** | 100% mục trong `AUTH_IMPORT_ITEMS` đã là `"CREATED"`, `AUTH_IMPORT_BATCHES` vẫn là `"PREPARING"` | Máy chủ cập nhật `AUTH_IMPORT_BATCHES.Status = "COMMITTED"`. |
+| **Trường hợp F: Đã COMMITTED nhưng phản hồi HTTP bị thất lạc** | `AUTH_IMPORT_BATCHES.Status === "COMMITTED"` | Máy chủ trả về kết quả Replay hợp lệ với `temporaryPassword: null` và `passwordReissueAvailable: true` (tuân thủ Zero Cleartext). Giáo viên dùng `reissueBatchPasswords` nếu cần cấp lại mật khẩu. |
+| **Phát hiện mâu thuẫn dữ liệu không thể tự hàn gắn** | Dữ liệu sheet xung đột bất thường (ví dụ `StudentUID` trùng với học sinh khác đã tồn tại trước đó) | Đánh dấu batch là `"FAILED"`, từ chối ngay với mã lỗi **`BATCH_CORRUPTED_MANUAL_REVIEW`** để quản trị viên đối chiếu thủ công. |
+| **Client gửi lại batchId với payload khác** | `serverFingerprint !== stored.BatchFingerprint` | Từ chối ngay với **`BATCH_PAYLOAD_MISMATCH`**. |
+| **Hai giáo viên sử dụng cùng batchId** | `OperatorUID !== session.uid` | Giáo viên thứ hai bị từ chối ngay với **`BATCH_ID_TAKEN`**. |
+| **Tài khoản trong batch đã đổi mật khẩu hoặc đã học** | `MustChangePassword === "FALSE"` hoặc đã có bài làm | Khi có yêu cầu `reissueBatchPasswords`, từ chối reset tài khoản đó với **`STUDENT_ALREADY_ACTIVE`**. |
 
 ---
 

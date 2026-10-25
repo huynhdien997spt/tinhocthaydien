@@ -64,6 +64,7 @@ Hệ thống quản lý tài khoản web-based là một **đề xuất thiết 
 | `BATCH_PROVENANCE_NOT_FOUND` | Không tìm thấy bằng chứng máy chủ chứng minh nguồn gốc của lô nạp | Từ chối reset hàng loạt; chuyển sang reset từng tài khoản |
 | `BATCH_EXPIRED` | Lô nạp đã quá thời hạn phục hồi khẩn cấp (24 giờ) | Khóa chức năng reset hàng loạt; yêu cầu reset có kiểm soát |
 | `ACCOUNT_NOT_IN_BATCH` | Tài khoản yêu cầu reset không nằm trong danh sách được tạo bởi lô nạp này | Chặn thao tác do không thuộc phạm vi lô |
+| `BATCH_CORRUPTED_MANUAL_REVIEW` | Lô nạp có dữ liệu mâu thuẫn không thể tự phục hồi | Yêu cầu đối chiếu thủ công và làm sạch dữ liệu |
 | `STUDENT_ALREADY_ACTIVE` | Học sinh đã đổi mật khẩu hoặc đã bắt đầu học tập | Từ chối reset hàng loạt để bảo vệ tài khoản đang học |
 | `BATCH_PROVENANCE_UNVERIFIED` | Không chứng minh được tài khoản thuộc lô nạp vừa tạo | Chặn reset hàng loạt; yêu cầu reset từng tài khoản có kiểm soát |
 | `ASSIGNMENT_REVOKED` | Phân công lớp của giáo viên bị thay đổi giữa lúc thẩm định và ghi | Hủy bỏ tác vụ để bảo đảm an toàn phân quyền (chống TOCTOU) |
@@ -212,46 +213,46 @@ Hệ thống quản lý tài khoản web-based là một **đề xuất thiết 
 ### 3.3. `importAccountsBatch`
 - **Mục đích:** Nhập hàng loạt tài khoản từ dữ liệu JSON đã qua thẩm định, bảo đảm tính nhất quán dữ liệu cả hai bảng `USERS` và `ENROLLMENTS`, đồng thời lưu trữ bền vững chứng cứ nguồn gốc lô (Batch Provenance).
 - **Quyền truy cập:** `teacher` (trong phạm vi phân công), `admin` (toàn hệ thống).
-- **Rà soát Giới hạn Google Sheets & Cơ chế Lưu trữ Bền vững Nguồn gốc Lô (Durable Provenance & Recovery):**
+- **Rà soát Giới hạn Google Sheets & Cơ chế Write-Ahead Provenance (Durable Provenance & Recovery):**
   > [!IMPORTANT]
-  > **Thực tế kỹ thuật của Google Sheets:** Google Sheets là kho lưu trữ dạng bảng tính trên Google Drive, **KHÔNG hỗ trợ giao dịch ACID đa dòng và KHÔNG hỗ trợ rollback tự động**. Nếu tác vụ ghi bị ngắt quãng giữa chừng (do timeout 6 phút của Google Apps Script, lỗi mạng hoặc đứt kết nối phía client), các dòng đã ghi sẽ tồn tại trên Sheet mà không tự động hoàn tác.
+  > **Thực tế kỹ thuật của Google Sheets:** Google Sheets là kho lưu trữ dạng bảng tính trên Google Drive, **KHÔNG hỗ trợ giao dịch ACID đa dòng và KHÔNG hỗ trợ rollback tự động**. Nếu tác vụ ghi bị ngắt quãng giữa chừng (do timeout 6 phút của Google Apps Script, lỗi mạng hoặc đứt kết nối phía client), các dòng đã ghi sẽ tồn tại trên Sheet mà không tự động hoàn tác. Quy trình cũ (`USERS → ENROLLMENTS → AUTH_IMPORT_BATCHES → AUTH_IMPORT_ITEMS`) bị bãi bỏ vì có nguy cơ tạo ra tài khoản mồ côi không thể chứng minh nguồn gốc khi gặp sự cố.
   
   Do đó, hệ thống áp dụng nghiêm ngặt các quy tắc an toàn sau:
-  1. **Giới hạn kích thước:** Tối đa **100 tài khoản / 1 lần gọi batch** để đảm bảo thời gian chạy nằm an toàn trong quota (< 20 giây CPU).
+  1. **Giới hạn kích thước:** Tối đa **100 tài khoản / 1 lần gọi batch** để đảm bảo thời gian chạy nằm an toàn trong giới hạn quota thực thi của Google Apps Script.
   2. **Tiền thẩm định toàn lô trong RAM (Full Pre-validation):** Thẩm định cú pháp, cấp học, lớp học và phân quyền của 100% bản ghi trước khi thực hiện bất kỳ lệnh ghi nào vào Sheet.
   3. **Chuẩn hóa Chuẩn tắc & Tính Băm Độc lập tại Máy chủ:**
      - Máy chủ **tuyệt đối không tin cậy hash do client gửi lên**. Máy chủ tự thực hiện chuẩn hóa chuẩn tắc payload (Canonical JSON) và tính toán chuỗi băm SHA-256 `serverFingerprint` độc quyền tại backend.
   4. **Khóa đồng thời & Thẩm định lại bên trong Lock (Inside `withLock_`):**
      - Bắt buộc bọc trong `withLock_` (`LockService.getScriptLock()`).
      - **Tái kiểm tra phân quyền (Re-check RBAC):** Đọc lại bảng `TEACHER_ASSIGNMENTS` ngay trong lock. Nếu phân công của giáo viên bị thay đổi hoặc thu hồi sau bước pre-validation, lập tức hủy tác vụ với lỗi `ASSIGNMENT_REVOKED` (chống lỗ hổng TOCTOU).
-  5. **Xác minh Nguồn gốc Lô & Phân định Replay vs Xung đột (Durable Provenance Verification):**
-     - Tra cứu bảng `AUTH_IMPORT_BATCHES` (`PROPOSED_CHANGE`) theo `batchId`:
-       + **Trường hợp A (BatchID đã tồn tại trong `AUTH_IMPORT_BATCHES`):**
-         * *Kiểm tra chủ sở hữu:* Nếu `stored.OperatorUID !== session.uid` (và không phải admin) $\rightarrow$ Từ chối với lỗi **`BATCH_ID_TAKEN`** (chặn chiếm đoạt/trùng mã lô giữa hai giáo viên).
-         * *Kiểm tra tính toàn vẹn payload:* Nếu `stored.BatchFingerprint !== serverFingerprint` $\rightarrow$ Từ chối với lỗi **`BATCH_PAYLOAD_MISMATCH`** (chặn thay đổi payload dưới mã lô cũ).
-         * *Xác nhận Genuine Batch Replay:* Nếu cả chủ sở hữu và fingerprint trùng khớp: Tra cứu bảng `AUTH_IMPORT_ITEMS` để lấy danh sách tài khoản đã tạo. Kiểm tra bảng `ENROLLMENTS`: nếu có tài khoản học sinh bị thiếu `ENROLLMENTS` do sự cố trước đó, tự động chèn bổ sung (`status: "replayed_and_healed"`). Ngược lại trả về `status: "replayed"`.
-       + **Trường hợp B (BatchID chưa tồn tại trong `AUTH_IMPORT_BATCHES`):**
-         * Đây là một lô mới. Quét bảng `USERS`: nếu bất kỳ `Username` nào đã tồn tại trong hệ thống từ trước $\rightarrow$ Từ chối bản ghi đó với mã lỗi **`COLLISION_EXISTING_ACCOUNT`** (tuyệt đối không âm thầm gán thành công hay ghi đè).
-         * Chuẩn bị dữ liệu tạo mới: sinh `StudentUID`, mật khẩu tạm, băm PBKDF2; chuẩn bị dòng ghi cho `USERS`, `ENROLLMENTS` (cho học sinh), `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
-  6. **Tối ưu hóa ghi theo dải (Bulk Range Write Order):**
-     - Bước 1: Ghi các dòng `USERS` mới.
-     - Bước 2: Ghi các dòng `ENROLLMENTS` mới/hàn gắn.
-     - Bước 3: Ghi bản ghi lô vào `AUTH_IMPORT_BATCHES` (`Status = "COMMITTED"`, `ExpiresAt = now + 24h`).
-     - Bước 4: Ghi danh sách tài khoản tương ứng vào `AUTH_IMPORT_ITEMS`.
-  7. **Ma trận Xử lý Sự cố & Tính Nhất quán Phục hồi (Recovery Consistency Matrix):**
-     - *Sự cố 1: USERS đã ghi nhưng ENROLLMENTS chưa ghi (`PARTIAL_WRITE_ORPHAN`):* Khi gửi lại cùng batch, hệ thống phát hiện tài khoản mồ côi và tự hàn gắn `ENROLLMENTS`.
-     - *Sự cố 2: USERS và ENROLLMENTS đã ghi nhưng metadata batch chưa hoàn tất (`PARTIAL_WRITE_UNPROVENANCED_BATCH`):* Khi gửi lại cùng `batchId` và payload, máy chủ đối chiếu nếu các tài khoản trong payload trùng khớp hoàn toàn với bản ghi vừa tạo trong 15 phút bởi chính phiên đó, máy chủ hoàn tất việc ghi metadata vào `AUTH_IMPORT_BATCHES` / `AUTH_IMPORT_ITEMS`. Nếu không chứng minh được, từ chối với `COLLISION_EXISTING_ACCOUNT`.
-     - *Sự cố 3: Mạng ngắt sau khi commit thành công:* Khi gửi lại, máy chủ nhận diện Genuine Replay, trả về danh sách tài khoản kèm `temporaryPassword: null` và `passwordReissueAvailable: true` (tuân thủ Zero Cleartext).
-     - *Sự cố 4: Client gửi lại batchId với payload khác:* Bị từ chối ngay với `BATCH_PAYLOAD_MISMATCH`.
-     - *Sự cố 5: Hai giáo viên sử dụng cùng batchId:* Giáo viên thứ hai bị từ chối ngay với `BATCH_ID_TAKEN`.
-     - *Sự cố 6: Tài khoản trong batch đã đổi mật khẩu hoặc đã học:* Khi có yêu cầu reset hàng loạt, hệ thống từ chối reset tài khoản đó với `STUDENT_ALREADY_ACTIVE`.
+  5. **Quy trình Write-Ahead Provenance (WAL) 7 bước nghiêm ngặt:**
+     - **Bước 1 (Thẩm định & Cấp phát Trước UID trong RAM):** Kiểm tra xung đột với `USERS`. Sinh trước danh sách `StudentUID` bất biến (`"stu_" + uuid_()`) cho 100% tài khoản trong RAM.
+     - **Bước 2 (Ghi Trước Header Lô - PREPARING):** Ghi bản ghi vào `AUTH_IMPORT_BATCHES` với trạng thái `Status = "PREPARING"`, `CreatedCount = 0`, `ReplayedCount = 0`, `ExpiresAt = now + 24h`.
+     - **Bước 3 (Ghi Trước Danh mục Từng Mục - PLANNED):** Ghi toàn bộ danh sách tài khoản vào `AUTH_IMPORT_ITEMS` với `ItemStatus = "PLANNED"`, gắn với `StudentUID` đã sinh trước.
+     - **Bước 4 (Ghi Bảng USERS):** Chỉ sau khi chứng cứ nguồn gốc đã tồn tại bền vững trong `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`, máy chủ mới ghi các dòng mới vào `USERS` sử dụng đúng các `StudentUID` đã cấp phát trước.
+     - **Bước 5 (Ghi Bảng ENROLLMENTS):** Ghi các dòng tương ứng vào `ENROLLMENTS` (đối với học sinh) bằng đúng các `StudentUID` đó.
+     - **Bước 6 (Đối chiếu & Cập nhật Trạng thái Mục - CREATED):** Quét đối chiếu lại `USERS`, `ENROLLMENTS` và `AUTH_IMPORT_ITEMS`. Khi xác nhận các dòng đã tồn tại nhất quán, cập nhật các mục trong `AUTH_IMPORT_ITEMS` từ `"PLANNED"` sang `"CREATED"`.
+     - **Bước 7 (Chốt Hoàn tất Lô - COMMITTED):** Chỉ chuyển trạng thái của lô trong `AUTH_IMPORT_BATCHES` từ `"PREPARING"` sang `"COMMITTED"` khi 100% tài khoản được xác minh nhất quán.
+  6. **Ma trận Xử lý Sự cố & Tính Nhất quán Phục hồi (Failure States A–F):**
+     - Tuyệt đối không dùng logic suy đoán (heuristic) kiểu "tạo trong vòng 15 phút bởi cùng session" vì bảng `USERS` không hề có bằng chứng đó. Phục hồi phải dựa hoàn toàn trên bằng chứng đối chiếu rõ ràng:
+     - *Trường hợp A (Đã tạo batch PREPARING nhưng chưa ghi đủ manifest):* Bảng `USERS` chưa có tài khoản nào. Máy chủ làm sạch items dở dang, ghi lại đầy đủ manifest với trạng thái `"PLANNED"` và tiếp tục quy trình Write-Ahead.
+     - *Trường hợp B (Đã ghi manifest PLANNED nhưng chưa ghi USERS):* Máy chủ sử dụng chính xác các `StudentUID` đã lưu trong `AUTH_IMPORT_ITEMS` để ghi vào `USERS`, sau đó tiếp tục ghi `ENROLLMENTS`, cập nhật `"CREATED"` và chốt `"COMMITTED"`.
+     - *Trường hợp C (Đã ghi USERS nhưng thiếu ENROLLMENTS):* Không ghi lại `USERS`. Máy chủ ghi bổ sung vào `ENROLLMENTS`, cập nhật `"CREATED"` và chốt `"COMMITTED"`.
+     - *Trường hợp D (Đã ghi USERS và ENROLLMENTS nhưng chưa cập nhật trạng thái mục):* Máy chủ cập nhật các mục trong `AUTH_IMPORT_ITEMS` sang `"CREATED"` và chốt batch sang `"COMMITTED"`.
+     - *Trường hợp E (Đã hoàn tất CREATED nhưng chưa đánh dấu batch COMMITTED):* Máy chủ cập nhật `AUTH_IMPORT_BATCHES.Status = "COMMITTED"`.
+     - *Trường hợp F (Đã COMMITTED nhưng phản hồi HTTP bị thất lạc):* Máy chủ xác nhận Replay hợp lệ, trả về kết quả với `temporaryPassword: null` và `passwordReissueAvailable: true` (tuân thủ Zero Cleartext).
+  7. **Điều kiện Từ chối Tự động & Chống xung đột:**
+     - Nếu `OperatorUID !== session.uid` $\rightarrow$ Từ chối ngay với **`BATCH_ID_TAKEN`**.
+     - Nếu `serverFingerprint !== stored.BatchFingerprint` $\rightarrow$ Từ chối ngay với **`BATCH_PAYLOAD_MISMATCH`**.
+     - Nếu tài khoản đã tồn tại trong `USERS` nhưng không nằm trong manifest `AUTH_IMPORT_ITEMS` của lô $\rightarrow$ Từ chối với **`COLLISION_EXISTING_ACCOUNT`**.
+     - Nếu phát hiện mâu thuẫn dữ liệu không thể tự hàn gắn $\rightarrow$ Đánh dấu batch `"FAILED"`, từ chối với **`BATCH_CORRUPTED_MANUAL_REVIEW`** để đối chiếu thủ công.
 
 #### Request Payload
 ```json
 {
   "action": "importAccountsBatch",
   "token": "usr_sec_token_string_here",
-  "batchId": "batch_20261025_6A1_001",
+  "batchId": "bat_c0a80101e5f67890123456789abcdef0",
   "importData": {
     "schemaVersion": "1.0",
     "schoolYear": "2026-2027",
@@ -283,8 +284,8 @@ Hệ thống quản lý tài khoản web-based là một **đề xuất thiết 
 {
   "success": true,
   "data": {
-    "batchId": "batch_20261025_6A1_001",
-    "batchFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batchId": "bat_c0a80101e5f67890123456789abcdef0",
+    "batchFingerprint": "0d2ffbcbde865ffc67c2a815f6d2aeb7b1efffd4082918e5cdb6c6f1072086af",
     "schoolYear": "2026-2027",
     "totalRequested": 2,
     "createdCount": 2,
@@ -365,7 +366,7 @@ Theo chính sách **Zero Cleartext Persistence**:
 {
   "action": "reissueBatchPasswords",
   "token": "usr_sec_token_string_here",
-  "batchId": "batch_20261025_6A1_001",
+  "batchId": "bat_c0a80101e5f67890123456789abcdef0",
   "confirmBatchReset": true,
   "reason": "LOST_RESPONSE_RECOVERY",
   "accountIds": ["6A1-01", "6A1-02"],
@@ -378,7 +379,7 @@ Theo chính sách **Zero Cleartext Persistence**:
 {
   "success": true,
   "data": {
-    "batchId": "batch_20261025_6A1_001",
+    "batchId": "bat_c0a80101e5f67890123456789abcdef0",
     "schoolYear": "2026-2027",
     "reissuedCount": 2,
     "skippedActiveCount": 0,

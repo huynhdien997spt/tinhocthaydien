@@ -376,54 +376,66 @@ role                         ───►     Role
 - `Username` và `StudentID` hoàn toàn có thể được điều chỉnh hiển thị trong tương lai mà không gây mồ côi hay phá vỡ tính liên tục của dữ liệu học tập.
 - Tuyệt đối không cho phép client tự sinh hoặc tái sử dụng bất kỳ chuỗi `StudentUID` nào.
 
-### 7.2. Lưu trữ Bền vững Nguồn gốc Lô và Xử lý Xung đột Trùng lặp (Durable Batch Provenance & Collision Safety)
-- **Vấn đề cốt lõi:** Bảng `USERS` (18 cột) và `ENROLLMENTS` (11 cột) hiện hữu **không lưu trữ `batchId` hay `batchFingerprint`**. Do đó, nếu chỉ dựa vào tham số do client gửi lên mà không có dữ liệu đối chiếu bền vững trên máy chủ, hệ thống không thể xác minh một tài khoản có thực sự thuộc về lô nạp trước đó hay không.
-- **Cơ chế Lưu trữ Bền vững Nguồn gốc Lô (Durable Batch Provenance):**
-  Hệ thống đề xuất cơ chế lưu trữ mối quan hệ giữa phiên nạp, người thực hiện, dấu vân tay dữ liệu và danh sách định danh học sinh đã tạo thông qua 2 bảng độc lập (`PROPOSED_CHANGE — PENDING_HUMAN_APPROVAL`):
-  1. **Bảng `AUTH_IMPORT_BATCHES` (Metadata cấp lô):**
+### 7.2. Cơ chế Write-Ahead Provenance & Lưu trữ Bền vững Nguồn gốc Lô (Write-Ahead Provenance & Collision Safety)
+- **Vấn đề cốt lõi:** Bảng `USERS` (18 cột) và `ENROLLMENTS` (11 cột) hiện hữu **không lưu trữ `batchId` hay `batchFingerprint`**. Do đó, nếu máy chủ ghi trực tiếp vào `USERS` trước khi có chứng cứ nguồn gốc bền vững, một sự cố gián đoạn giữa chừng sẽ tạo ra các tài khoản mồ côi mà máy chủ không thể chứng minh thuộc về lô nào. Quy trình cũ (`USERS → ENROLLMENTS → AUTH_IMPORT_BATCHES → AUTH_IMPORT_ITEMS`) bị bãi bỏ hoàn toàn.
+- **Quy trình Write-Ahead Provenance (WAL):**
+  Nhằm đảm bảo dữ liệu luôn có chứng cứ nguồn gốc trước khi chạm vào bảng nghiệp vụ, hệ thống bắt buộc thực hiện theo trình tự 7 bước nghiêm ngặt bên trong khóa ghi `withLock_`:
+  1. **Bước 1 (Thẩm định & Cấp phát Trước UID):** Thẩm định cú pháp, kiểm tra phân quyền (`assignedSet_`), kiểm tra xung đột với `USERS`. Sinh trước danh sách `StudentUID` bất biến (`"stu_" + uuid_()`) cho 100% tài khoản trong RAM.
+  2. **Bước 2 (Ghi Trước Header Lô - Trạng thái PREPARING):** Ghi một bản ghi vào bảng `AUTH_IMPORT_BATCHES` với trạng thái `Status = "PREPARING"`, `CreatedCount = 0`, `ReplayedCount = 0`, `ExpiresAt = now + 24h`.
+  3. **Bước 3 (Ghi Trước Danh mục Từng Mục - Trạng thái PLANNED):** Ghi toàn bộ danh sách tài khoản dự kiến tạo vào bảng `AUTH_IMPORT_ITEMS` với `ItemStatus = "PLANNED"`, gắn chặt với `StudentUID` đã sinh trước.
+  4. **Bước 4 (Ghi Bảng USERS):** Chỉ sau khi chứng cứ nguồn gốc đã tồn tại bền vững trong `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`, máy chủ mới ghi các dòng mới vào `USERS` sử dụng đúng các `StudentUID` đã cấp phát trước.
+  5. **Bước 5 (Ghi Bảng ENROLLMENTS):** Ghi các dòng tương ứng vào `ENROLLMENTS` (đối với học sinh) bằng đúng các `StudentUID` đó.
+  6. **Bước 6 (Đối chiếu & Cập nhật Trạng thái Mục - CREATED):** Quét đối chiếu lại `USERS`, `ENROLLMENTS` và `AUTH_IMPORT_ITEMS`. Khi xác nhận các dòng đã tồn tại nhất quán, cập nhật các mục trong `AUTH_IMPORT_ITEMS` từ `"PLANNED"` sang `"CREATED"`.
+  7. **Bước 7 (Chốt Hoàn tất Lô - COMMITTED):** Chỉ chuyển trạng thái của lô trong `AUTH_IMPORT_BATCHES` từ `"PREPARING"` sang `"COMMITTED"` khi 100% tài khoản được xác minh nhất quán.
+
+- **Định dạng Chuẩn hóa Toàn hệ thống:**
+  - `batchId`: Định dạng chuỗi duy nhất: **`^bat_[0-9a-f]{32}$`** (tiền tố `bat_` kết hợp 32 ký tự hex UUID v4 không gạch nối, ví dụ: `"bat_c0a80101e5f67890123456789abcdef0"`).
+  - `batchFingerprint`: Chuỗi băm SHA-256 gồm 64 ký tự hex chữ thường, được **tính toán độc quyền tại máy chủ** từ payload chuẩn hóa (ví dụ payload mẫu 4 tài khoản có băm thực tế là `"c1daae96748a1c2af1858a9db84ef2e43197839ac51e71d13198db450346992b"`). Tuyệt đối không dùng chuỗi băm rỗng `e3b0c442...`.
+
+- **Cấu trúc 2 Bảng Metadata Nguồn gốc (`PROPOSED_CHANGE — PENDING_HUMAN_APPROVAL`):**
+  1. **Bảng `AUTH_IMPORT_BATCHES` (12 cột):**
      `["BatchID", "BatchFingerprint", "OperatorUID", "OperatorRole", "SchoolYear", "ClassID", "TotalAccounts", "CreatedCount", "ReplayedCount", "Status", "CreatedAt", "ExpiresAt"]`
-     - `BatchID`: Chuỗi định danh lô do client sinh (`"bat_" + uuid_v4`).
-     - `BatchFingerprint`: Chuỗi băm 64 ký tự hex SHA-256 được **tính toán độc quyền tại máy chủ**.
-     - `OperatorUID`: Định danh nội bộ của giáo viên hoặc quản trị viên thực hiện lệnh nạp.
-     - `OperatorRole`: Vai trò của người thực hiện (`"teacher"` hoặc `"admin"`).
-     - `SchoolYear`: Năm học áp dụng.
-     - `ClassID`: Lớp học liên quan (hoặc chuỗi rỗng nếu nạp đa lớp).
-     - `TotalAccounts`, `CreatedCount`, `ReplayedCount`: Các chỉ số đếm số lượng tài khoản.
-     - `Status`: Trạng thái lô (`"COMMITTED"`, `"PARTIAL"`).
-     - `CreatedAt`: Dấu thời gian khởi tạo ISO 8601 UTC.
-     - `ExpiresAt`: Thời điểm hết hạn phục hồi khẩn cấp (mặc định: `CreatedAt + 24 hours`).
-  2. **Bảng `AUTH_IMPORT_ITEMS` (Chi tiết từng tài khoản trong lô):**
+     - `Status`: Vòng đời trạng thái lô gồm `["PREPARING", "COMMITTED", "FAILED", "EXPIRED"]`.
+  2. **Bảng `AUTH_IMPORT_ITEMS` (7 cột):**
      `["ItemID", "BatchID", "StudentUID", "AccountId", "Username", "ItemStatus", "CreatedAt"]`
-     - `ItemID`: Chuỗi định danh mục (`"itm_" + uuid_()`).
-     - `BatchID`: Khóa ngoại liên kết với `AUTH_IMPORT_BATCHES.BatchID`.
-     - `StudentUID`: Khóa chính bất biến của học sinh đã được tạo trong bảng `USERS`.
-     - `AccountId` & `Username`: Mã định danh học sinh trong tệp.
-     - `ItemStatus`: Trạng thái xử lý (`"CREATED"`, `"REPLAYED"`).
-     - `CreatedAt`: Dấu thời gian tạo ISO 8601 UTC.
+     - `ItemStatus`: Vòng đời trạng thái mục gồm `["PLANNED", "CREATED", "REPLAYED"]`.
   3. **Chính sách Zero Secret Persistence trong Metadata:**
      - Tuyệt đối **KHÔNG lưu trữ mật khẩu rõ, mật khẩu tạm, password hash, password salt hay token phiên** trong `AUTH_IMPORT_BATCHES` và `AUTH_IMPORT_ITEMS`.
 
-- **Chuẩn hóa JSON Chuẩn tắc (Canonical JSON Normalization) và Tính Băm SHA-256:**
-  - Máy chủ **tuyệt đối không tin cậy hay sử dụng giá trị hash do client gửi lên**. Giá trị băm SHA-256 bắt buộc phải do chính máy chủ tự tính toán từ payload sau khi chuẩn hóa chuẩn tắc:
-    1. *Sắp xếp khóa cấp gốc (Root Keys):* Sắp xếp theo thứ tự bảng chữ cái: `["accounts", "importMode", "schoolYear", "schemaVersion"]`.
-    2. *Sắp xếp khóa đối tượng tài khoản (Account Object Keys):* Sắp xếp theo thứ tự: `["accountId", "classId", "fullName", "grade", "role", "schoolLevel"]`.
-    3. *Sắp xếp danh sách tài khoản (Deterministic Sorting):* Các phần tử trong mảng `accounts` được sắp xếp theo thứ tự chữ hoa tăng dần của `accountId.toUpperCase()` để bảo đảm tính tất định (không phụ thuộc thứ tự dòng trong file).
-    4. *Làm sạch chuỗi (String Trimming):* Mọi giá trị chuỗi văn bản được trim bỏ khoảng trắng thừa đầu và cuối.
-    5. *Tuần tự hóa thu gọn (Compact Serialization):* Chuyển đổi thành chuỗi JSON không chứa khoảng trắng thừa, không xuống dòng, dấu `:` và `,` không kèm dấu cách.
-    6. *Tính toán băm SHA-256:* Chuỗi byte UTF-8 của JSON chuẩn hóa được nạp vào hàm băm SHA-256 của máy chủ $\rightarrow$ Cho ra chuỗi hex 64 ký tự chữ thường (`serverFingerprint`).
+- **Chuẩn hóa JSON Chuẩn tắc (Canonical JSON Normalization):**
+  - Máy chủ **bỏ qua hoàn toàn và không tin cậy giá trị hash do client gửi lên**. Giá trị băm SHA-256 bắt buộc do chính máy chủ tự tính toán:
+    1. *Khóa cấp gốc:* Sắp xếp theo thứ tự bảng chữ cái: `["accounts", "importMode", "schoolYear", "schemaVersion"]`.
+    2. *Khóa đối tượng tài khoản:* Sắp xếp theo thứ tự: `["accountId", "classId", "fullName", "grade", "role", "schoolLevel"]`.
+    3. *Sắp xếp mảng accounts:* Các phần tử được sắp xếp theo thứ tự chữ hoa tăng dần của `accountId.toUpperCase()`.
+    4. *Làm sạch chuỗi:* Mọi giá trị chuỗi văn bản được trim bỏ khoảng trắng thừa đầu và cuối.
+    5. *Tuần tự hóa thu gọn:* Chuyển đổi thành chuỗi JSON không chứa khoảng trắng thừa, không xuống dòng, dấu `:` và `,` không kèm dấu cách.
+    6. *Tính toán băm:* Nạp chuỗi byte UTF-8 của JSON chuẩn hóa vào SHA-256 $\rightarrow$ sinh ra chuỗi hex 64 ký tự chữ thường (`serverFingerprint`).
 
-- **Phân định Replay Hợp lệ vs Giả mạo BatchId (Anti-Spoofing & True Idempotency):**
-  1. Khi nhận một yêu cầu nạp lô với `batchId`:
-     - Máy chủ tra cứu `AUTH_IMPORT_BATCHES` theo `batchId`:
-       + **Nếu `batchId` đã tồn tại:**
-         * *Kiểm tra chủ sở hữu:* Nếu `OperatorUID !== session.uid` (và không phải admin), hệ thống **từ chối ngay lập tức** với mã lỗi **`BATCH_ID_TAKEN`**, ngăn chặn kẻ xấu giả mạo hoặc chiếm đoạt `batchId` của giáo viên khác.
-         * *Kiểm tra tính toàn vẹn payload:* Nếu `serverFingerprint !== stored.BatchFingerprint`, hệ thống **từ chối ngay lập tức** với mã lỗi **`BATCH_PAYLOAD_MISMATCH`**, phát hiện hành vi thay đổi payload dưới một `batchId` cũ.
-         * *Xác nhận Genuine Batch Replay:* Nếu cả `OperatorUID` và `BatchFingerprint` đều trùng khớp: Hệ thống tra cứu `AUTH_IMPORT_ITEMS` để lấy danh sách `StudentUID` thực tế đã tạo từ lô này, trả về trạng thái `replayed`. Nếu phát hiện bản ghi `ENROLLMENTS` bị thiếu ở bước trước, kích hoạt cơ chế tự hàn gắn (`status: "replayed_and_healed"`).
-       + **Nếu `batchId` chưa tồn tại:**
-         * Đây là một lô nạp mới. Máy chủ kiểm tra xung đột từng tài khoản đối với toàn bộ cơ sở dữ liệu `USERS`.
-         * Nếu `Username` đã tồn tại trong `USERS` nhưng không thuộc lô nạp hợp lệ: **Bắt buộc từ chối bản ghi đó** với mã lỗi **`COLLISION_EXISTING_ACCOUNT`**. Tuyệt đối không cho phép tệp mới nhận nhầm tài khoản cũ là vừa tạo.
-- **Thực thi trong phạm vi khóa ghi (`withLock_`):**
-  - Mọi thao tác kiểm tra nguồn gốc lô, kiểm tra xung đột tài khoản, và phân quyền (`assignedSet_`) phải được thực hiện lại **bên trong khối khóa ghi `withLock_`**, loại bỏ rủi ro tương tranh TOCTOU khi có nhiều tiến trình chạy song song.
+- **Quy tắc Phục hồi An toàn theo Từng Điểm Gián đoạn (Failure States A–F):**
+  Khi client gửi lại yêu cầu nạp lô với cùng `batchId`:
+  - **Trường hợp A (Đã tạo batch PREPARING nhưng chưa ghi đủ manifest):**
+    + *Bằng chứng máy chủ:* `AUTH_IMPORT_BATCHES` có `batchId` ở trạng thái `"PREPARING"`, nhưng số dòng trong `AUTH_IMPORT_ITEMS` nhỏ hơn `TotalAccounts`. Bảng `USERS` chưa có tài khoản nào của lô này.
+    + *Xử lý phục hồi:* Máy chủ làm sạch các dòng dở dang trong `AUTH_IMPORT_ITEMS`, ghi lại đầy đủ manifest với trạng thái `"PLANNED"` cùng các `StudentUID` sinh mới, sau đó tiếp tục quy trình Write-Ahead.
+  - **Trường hợp B (Đã ghi manifest PLANNED nhưng chưa ghi USERS):**
+    + *Bằng chứng máy chủ:* `AUTH_IMPORT_ITEMS` có đủ $N$ mục ở trạng thái `"PLANNED"` với các `StudentUID` đã cấp phát trước. Bảng `USERS` chưa có các tài khoản này.
+    + *Xử lý phục hồi:* Sử dụng chính xác các `StudentUID` đã lưu trong `AUTH_IMPORT_ITEMS` để ghi vào `USERS` (Bước 4), sau đó tiếp tục ghi `ENROLLMENTS` (Bước 5), cập nhật items thành `"CREATED"` (Bước 6) và chốt batch `"COMMITTED"` (Bước 7). Tránh hoàn toàn việc sinh trùng `StudentUID`.
+  - **Trường hợp C (Đã ghi USERS nhưng thiếu ENROLLMENTS):**
+    + *Bằng chứng máy chủ:* `AUTH_IMPORT_ITEMS` ở trạng thái `"PLANNED"`, bảng `USERS` đã có tài khoản với đúng `StudentUID` từ manifest, nhưng `ENROLLMENTS` chưa có dòng tương ứng.
+    + *Xử lý phục hồi:* Không ghi lại `USERS`. Máy chủ thực hiện ghi bổ sung vào `ENROLLMENTS` từ dữ liệu chuẩn của `USERS`, cập nhật items thành `"CREATED"` và chốt batch `"COMMITTED"`.
+  - **Trường hợp D (Đã ghi USERS và ENROLLMENTS nhưng chưa cập nhật trạng thái mục):**
+    + *Bằng chứng máy chủ:* Cả `USERS` và `ENROLLMENTS` đều đã có dữ liệu hoàn chỉnh khớp với `AUTH_IMPORT_ITEMS`, nhưng các mục trong `AUTH_IMPORT_ITEMS` vẫn đang ở trạng thái `"PLANNED"`.
+    + *Xử lý phục hồi:* Máy chủ cập nhật các mục sang `"CREATED"`, sau đó chuyển batch sang `"COMMITTED"`.
+  - **Trường hợp E (Đã hoàn tất các mục CREATED nhưng chưa đánh dấu batch COMMITTED):**
+    + *Bằng chứng máy chủ:* 100% mục trong `AUTH_IMPORT_ITEMS` đã là `"CREATED"`, `USERS` và `ENROLLMENTS` đầy đủ, nhưng `AUTH_IMPORT_BATCHES` vẫn là `"PREPARING"`.
+    + *Xử lý phục hồi:* Máy chủ cập nhật `AUTH_IMPORT_BATCHES.Status = "COMMITTED"`.
+  - **Trường hợp F (Đã COMMITTED nhưng phản hồi HTTP bị thất lạc):**
+    + *Bằng chứng máy chủ:* `AUTH_IMPORT_BATCHES.Status === "COMMITTED"`.
+    + *Xử lý phục hồi:* Trả về kết quả Replay hợp lệ với `temporaryPassword: null` và `passwordReissueAvailable: true`. Tuyệt đối không sinh lại UID hay gửi lại mật khẩu cũ.
+  - **Điều kiện Từ chối Tự động & Yêu cầu Đối chiếu Thủ công:**
+    + Nếu `batchId` đã tồn tại nhưng `OperatorUID !== session.uid` $\rightarrow$ Từ chối ngay với **`BATCH_ID_TAKEN`**.
+    + Nếu `serverFingerprint !== stored.BatchFingerprint` $\rightarrow$ Từ chối ngay với **`BATCH_PAYLOAD_MISMATCH`**.
+    + Nếu tài khoản trong payload đã tồn tại trong `USERS` nhưng không nằm trong manifest `AUTH_IMPORT_ITEMS` của chính lô này $\rightarrow$ Từ chối ngay với **`COLLISION_EXISTING_ACCOUNT`**. Tuyệt đối không tự nhận tài khoản cũ là tài khoản thuộc lô.
+    + Nếu phát hiện mâu thuẫn dữ liệu không thể tự hàn gắn (ví dụ `StudentUID` trong manifest trùng với một học sinh khác đã tồn tại từ trước) $\rightarrow$ Đánh dấu batch là `"FAILED"` và trả mã lỗi **`BATCH_CORRUPTED_MANUAL_REVIEW`**, yêu cầu quản trị viên đối chiếu thủ công.
 
 ---
 
