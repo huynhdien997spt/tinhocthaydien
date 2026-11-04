@@ -2068,6 +2068,13 @@ html.vdlock,html.vdlock body{overflow:hidden}
 @media (max-width:1000px){.vdgame{grid-template-columns:1fr}.vdmain{order:1}.vdside{order:2;max-height:none}.vdpl{order:3}.vdlog{max-height:220px}.vdcvw{width:100%}}
 @media (max-width:700px){.vdcvw.tall{aspect-ratio:auto;min-height:240px}.vdcvw.tall .vdcv{position:absolute;inset:0}.vdcvw.tall .vdover{position:relative;inset:auto}}
 @media (max-width:560px){.vdlogo{font-size:1rem}.vdgame{padding:8px}.vdbox{padding:12px 14px}}
+.tkxoa{margin-top:6px;border-top:1px dashed var(--line,#CBD5E1);padding-top:10px}
+.tkxoa summary{cursor:pointer;font-weight:600;color:#B91C1C;list-style-position:inside}
+.tkxlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:4px 12px;max-height:280px;overflow:auto;padding:6px 2px;margin:6px 0}
+.tkxi{display:flex;gap:6px;align-items:center;font-family:var(--f-mono);font-size:.92em;min-width:0}
+.tkxi span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn.tkxbtn{background:#DC2626;border-color:#DC2626;color:#fff}.btn.tkxbtn:disabled{opacity:.45}
+.tkxwarn{color:#B91C1C;flex-basis:100%;margin:0}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -17110,7 +17117,12 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
  async doiMatKhau(moi){await this.load();const {error}=await this.sb.auth.updateUser({password:moi});if(error)throw new Error(error.message);},
  async taoTaiKhoan(lop,khoi,soLuong){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{lop,khoi,so_luong:soLuong}});
   if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
-  return data.tai_khoan;}};
+  return data.tai_khoan;},
+ /* xoá tài khoản học sinh (chỉ lớp Thầy phụ trách; máy chủ kiểm tra lại) */
+ async xoaTaiKhoan(mas){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{xoa:mas}});
+  if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
+  if(!data||!Array.isArray(data.da_xoa))throw new Error("Hàm trên Supabase chưa được cập nhật để xoá tài khoản");
+  return data;}};
 /* mọi lần lưu vào bộ nhớ trình duyệt: bản chạy thật thì xếp hàng gửi lên Supabase */
 if(CLOUD){const _set=LS.set;LS.set=(k,v)=>{if(/:__xem$/.test(k))return;_set(k,v);if(CL.uid)CL.push(k);};
  window.addEventListener("pagehide",()=>{if(CL.uid){CL.fireAll();CL.flush();}});
@@ -22795,8 +22807,31 @@ function cloudTkHTML(k){const ten=LS.get("thtd:ten",{}),nTen=Object.keys(ten).le
   <p class="small muted">Mỗi em một mã ngẫu nhiên và mật khẩu tạm. Họ tên không gửi lên mạng: muốn trang hiện tên, Thầy nạp file CSV hai cột <code>mã, họ tên</code>; tên chỉ lưu trên trình duyệt máy này và tự xoá khi Thầy đăng xuất.</p>
   <div class="row" style="align-items:flex-end"><div class="field" style="max-width:150px"><label for="tkN">Số tài khoản</label><input id="tkN" type="number" min="1" max="60" value="5"></div>
   <button class="btn sm" id="tkGo">Cấp tài khoản lớp ${esc(gvCls)}</button><label class="btn ghost sm" for="tenFile">Nạp tên từ file CSV</label><input type="file" id="tenFile" accept=".csv,text/csv,text/plain" hidden>
-  <span class="small muted">${nTen?`Đang hiện tên của ${nTen} em`:""}</span></div>${out}</div>`;}
-function cloudTkBind(box,k){const go_=$("#tkGo");if(!go_)return;
+  <span class="small muted">${nTen?`Đang hiện tên của ${nTen} em`:""}</span></div>${out}${cloudXoaHTML()}</div>`;}
+/* xoá tài khoản học sinh của lớp đang chọn */
+function cloudXoaHTML(){const all=LS.get("thtd:users",{}),ds=Object.keys(all).filter(m=>all[m]&&all[m].role==="hs"&&all[m].cls===gvCls).sort((a,b)=>tenHS(a).localeCompare(tenHS(b),"vi"));
+ return `<details class="tkxoa"${tkXoaOpen?" open":""}><summary>🗑 Xoá tài khoản học sinh lớp ${esc(gvCls)}</summary>
+  ${ds.length?`<p class="small muted">Dùng khi em chuyển lớp, nghỉ học hoặc tạo dư. Xoá là xoá vĩnh viễn cả tài khoản và tiến độ học của em đó, không khôi phục được.</p>
+  <div class="row" style="gap:8px"><label class="small"><input type="checkbox" id="tkxAll"> Chọn tất cả (${ds.length})</label></div>
+  <div class="tkxlist">${ds.map(m=>`<label class="tkxi"><input type="checkbox" class="tkxc" value="${esc(m)}"> <span>${esc(tenHS(m))}</span></label>`).join("")}</div>
+  <div class="row" id="tkxRow"><button class="btn sm tkxbtn" id="tkxGo" disabled>Xoá tài khoản đã chọn</button><span class="small muted" id="tkxN">Chưa chọn em nào</span></div>`
+  :`<p class="small muted">Lớp ${esc(gvCls)} chưa có tài khoản học sinh nào.</p>`}</details>`;}
+let tkXoaOpen=false;
+function cloudXoaBind(box){const d=document.querySelector(".tkxoa");if(!d)return;d.addEventListener("toggle",()=>{tkXoaOpen=d.open;});
+ const go_=$("#tkxGo");if(!go_)return;const cs=()=>[...document.querySelectorAll(".tkxc")],sel=()=>cs().filter(c=>c.checked).map(c=>c.value);
+ const upd=()=>{const n=sel().length;go_.disabled=!n;$("#tkxN").textContent=n?"Đã chọn "+n+" em":"Chưa chọn em nào";$("#tkxAll").checked=n&&n===cs().length;};
+ cs().forEach(c=>c.addEventListener("change",upd));$("#tkxAll").addEventListener("change",e=>{cs().forEach(c=>c.checked=e.target.checked);upd();});
+ go_.addEventListener("click",()=>{const mas=sel();if(!mas.length)return;const row=$("#tkxRow");
+  row.innerHTML=`<p class="small tkxwarn" role="alert"><b>Xoá vĩnh viễn ${mas.length} tài khoản?</b> Các em này sẽ không đăng nhập được nữa và toàn bộ tiến độ học bị xoá.</p><button class="btn sm tkxbtn" id="tkxYes">Xoá vĩnh viễn</button><button class="btn ghost sm" id="tkxNo">Huỷ</button>`;
+  $("#tkxNo").addEventListener("click",()=>gvLop(box));
+  $("#tkxYes").addEventListener("click",async e=>{e.target.disabled=true;e.target.textContent="Đang xoá…";
+   try{const r=await CL.xoaTaiKhoan(mas);const all=LS.get("thtd:users",{}),ten=LS.get("thtd:ten",{});
+    r.da_xoa.forEach(m=>{delete all[m];delete ten[m];["u","mon","cmd"].forEach(p=>{try{localStorage.removeItem("thtd:"+p+":"+m);}catch(_){}});});
+    LS.set("thtd:users",all);LS.set("thtd:ten",ten);if(tkLast)tkLast.ds=tkLast.ds.filter(x=>!r.da_xoa.includes(x.ma));
+    toast("Đã xoá "+r.da_xoa.length+" tài khoản"+(r.bo_qua&&r.bo_qua.length?" · "+r.bo_qua.length+" tài khoản không xoá được":""),M.chip);}
+   catch(err){toast(err.message,M.chip);}
+   finally{gvLop(box);}});});}
+function cloudTkBind(box,k){cloudXoaBind(box);const go_=$("#tkGo");if(!go_)return;
  go_.addEventListener("click",async()=>{const n=Math.max(1,Math.min(60,+$("#tkN").value||0));go_.disabled=true;go_.textContent="Đang tạo…";
   try{const ds=await CL.taoTaiKhoan(gvCls,k,n);tkLast={lop:gvCls,ds};toast("Đã tạo "+ds.length+" tài khoản",M.chip);CL.lops=null;await CL.pullGV(null);}
   catch(e){toast(e.message,M.chip);}
