@@ -2075,6 +2075,15 @@ html.vdlock,html.vdlock body{overflow:hidden}
 .tkxi span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .btn.tkxbtn{background:#DC2626;border-color:#DC2626;color:#fff}.btn.tkxbtn:disabled{opacity:.45}
 .tkxwarn{color:#B91C1C;flex-basis:100%;margin:0}
+.tkds{margin-top:6px;border-top:1px dashed var(--line,#CBD5E1);padding-top:10px}
+.tkds summary{cursor:pointer;font-weight:600;list-style-position:inside}
+.tkds textarea{width:100%;min-height:120px;font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line,#CBD5E1);box-sizing:border-box}
+.tkdsprev input.tkdsma{font-family:var(--f-mono);width:100%;max-width:180px;padding:4px 6px;border:1px solid var(--line,#CBD5E1);border-radius:6px}
+.tkdsprev tr.bad td{background:#FEF2F2}
+.tkdsprev .tkxwarn{display:block}
+#pwForce{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+#pwForce .pwfbox{max-width:440px;width:100%;margin:auto}
+#pwForce ul{margin:0;padding-left:18px}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -17072,8 +17081,9 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
  async login(user,pw){await this.load();const s=String(user).trim().toLowerCase();const email=s.includes("@")?s:s+"@"+SB_CFG.duoi;
   const {data,error}=await this.sb.auth.signInWithPassword({email,password:pw});
   if(error)throw new Error(/invalid login|invalid credentials/i.test(error.message)?"Sai mã hoặc mật khẩu":error.message);
+  this.doiMk=!!((data.user.user_metadata||{}).doi_mk);this.tmpPw=this.doiMk?pw:null;
   return this.start(data.user.id);},
- async restore(){await this.load();const {data}=await this.sb.auth.getSession();return data&&data.session?this.start(data.session.user.id):null;},
+ async restore(){await this.load();const {data}=await this.sb.auth.getSession();if(data&&data.session)this.doiMk=!!((data.session.user.user_metadata||{}).doi_mk);return data&&data.session?this.start(data.session.user.id):null;},
  async start(uid){this.uid=uid;let p=null;
   try{const r=await this.sb.from("profiles").select("*").eq("id",uid).single();if(r.error)throw r.error;p=r.data;try{localStorage.setItem("thtd:prof:"+uid,JSON.stringify(p));}catch(e){}}
   catch(e){p=LS.get("thtd:prof:"+uid,null);if(!p)throw new Error("Không đọc được hồ sơ tài khoản. Thầy kiểm tra bảng profiles hoặc kết nối mạng.");}
@@ -17114,7 +17124,7 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
   try{if(role==="hs"&&!left){localStorage.removeItem("thtd:u:"+ma);localStorage.removeItem("thtd:mon:"+ma);}
    if(role==="gv")Object.keys(localStorage).filter(k=>/^thtd:(u:|mon:|cmd:|users$|myq$|mt3$|gvtodo:|ten$|prof:)/.test(k)).forEach(k=>localStorage.removeItem(k));}catch(e){}
   this.uid=this.role=this.ma=this.prof=this.lops=null;this.status("ok");},
- async doiMatKhau(moi){await this.load();const {error}=await this.sb.auth.updateUser({password:moi});if(error)throw new Error(error.message);},
+ async doiMatKhau(moi){await this.load();const {error}=await this.sb.auth.updateUser({password:moi,data:{doi_mk:false}});if(error)throw new Error(/different from the old/i.test(error.message)?"Mật khẩu mới phải khác mật khẩu cũ.":/weak|at least/i.test(error.message)?"Mật khẩu chưa đủ mạnh, em đặt dài hơn.":error.message);this.doiMk=false;},
  async taoTaiKhoan(lop,khoi,soLuong){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{lop,khoi,so_luong:soLuong}});
   if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
   return data.tai_khoan;},
@@ -17122,6 +17132,10 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
  async xoaTaiKhoan(mas){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{xoa:mas}});
   if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
   if(!data||!Array.isArray(data.da_xoa))throw new Error("Hàm trên Supabase chưa được cập nhật để xoá tài khoản");
+  return data;},
+ async taoTheoDanhSach(lop,khoi,mas,matkhau){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{lop,khoi,ds:mas,matkhau:matkhau||""}});
+  if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
+  if(!data||!Array.isArray(data.tai_khoan)||!("loi" in data))throw new Error("Hàm trên Supabase chưa được cập nhật để cấp theo danh sách");
   return data;}};
 /* mọi lần lưu vào bộ nhớ trình duyệt: bản chạy thật thì xếp hàng gửi lên Supabase */
 if(CLOUD){const _set=LS.set;LS.set=(k,v)=>{if(/:__xem$/.test(k))return;_set(k,v);if(CL.uid)CL.push(k);};
@@ -22775,7 +22789,7 @@ function gvNganhang(box){
 /* ---------- giao diện cho bản chạy thật (Supabase) ---------- */
 function cloudSetupLogin(){if(!CLOUD)return;document.querySelectorAll(".pill.beta").forEach(e=>e.hidden=true);lgRole="hs";$("#roleSeg").hidden=true;$("#lgHS").hidden=true;
  const u=$("#lgUser"),p=$("#lgPass");if(!u.dataset.cloud){u.value="";p.value="";u.dataset.cloud="1";}
- u.placeholder="Ví dụ hs7f3k2m";u.setAttribute("autocomplete","username");p.setAttribute("autocomplete","current-password");
+ u.placeholder="Mã Thầy phát, ví dụ tmkhoa8a2";u.setAttribute("autocomplete","username");p.setAttribute("autocomplete","current-password");
  document.querySelector('label[for="lgUser"]').textContent="Mã đăng nhập (giáo viên nhập email)";
  $("#lgTitle").textContent="Chào em, mình cùng học nhé!";$("#lgSub").textContent="Đăng nhập bằng mã và mật khẩu Thầy phát.";
  $("#lgNote").textContent="Không đưa mật khẩu cho bạn khác. Quên mật khẩu thì em báo Thầy cấp lại.";$("#lgBtn").textContent="Đăng nhập";}
@@ -22787,7 +22801,7 @@ async function cloudLoginSubmit(){const b=$("#lgBtn"),u=$("#lgUser").value,p=$("
  finally{b.disabled=false;b.textContent="Đăng nhập";}}
 function cloudEnter(pr,route){login(pr.ma,pr.role,pr.khoi||0,pr.lop||"");if(pr.role==="gv"&&pr.ten){me.ten=String(pr.ten).slice(0,60);SS.set("thtd:cur",JSON.stringify(me));}CL.status("ok");
  const ok=route&&!["dangnhap","gioithieu",""].includes(route)&&(pr.role==="gv"?/^gv/.test(route):!/^gv/.test(route));
- const r=ok?route:(pr.role==="gv"?"gv":"trangchu");setHash(r);go(r);}
+ const r=ok?route:(pr.role==="gv"?"gv":"trangchu");setHash(r);go(r);if(pr.role==="hs"&&CL.doiMk)cloudForcePw();}
 function cloudAfterGvPull(){MYQ=LS.get("thtd:myq",{});myqApply();const s=LS.get("thtd:mt3",null);if(s&&s.v===4)Object.assign(MT,s);
  if(CL.lops&&CL.lops.length&&!CL.lops.includes(gvCls))gvCls=CL.lops[0];}
 function cloudPwCard(){if(!CLOUD||!me||me.role!=="hs")return;const v=$("#v-progress");if(!v||v.querySelector("#pwCard"))return;
@@ -22801,14 +22815,72 @@ function cloudPwCard(){if(!CLOUD||!me||me.role!=="hs")return;const v=$("#v-progr
 /* cấp tài khoản học sinh và nạp tên (tên chỉ lưu trên máy Thầy) */
 let tkLast=null;
 function cloudTkHTML(k){const ten=LS.get("thtd:ten",{}),nTen=Object.keys(ten).length;
- const out=tkLast&&tkLast.lop===gvCls?`<div class="tbl"><table class="dtable tkout"><thead><tr><th>STT</th><th>Mã đăng nhập</th><th>Mật khẩu tạm</th></tr></thead><tbody>${tkLast.ds.map(x=>`<tr><td class="c">${x.stt}</td><td>${esc(x.ma)}</td><td>${esc(x.matkhau)}</td></tr>`).join("")}</tbody></table></div>
+ const out=tkLast&&tkLast.lop===gvCls?`<div class="tbl"><table class="dtable tkout"><thead><tr><th>STT</th><th>Họ tên</th><th>Mã đăng nhập</th><th>Mật khẩu tạm</th></tr></thead><tbody>${tkLast.ds.map(x=>`<tr><td class="c">${x.stt}</td><td>${esc(LS.get("thtd:ten",{})[x.ma]||"")}</td><td>${esc(x.ma)}</td><td>${esc(x.matkhau)}</td></tr>`).join("")}</tbody></table></div>
   <div class="row"><button class="btn sm gold" id="tkCsv">Tải danh sách (.csv)</button><span class="small muted">Mật khẩu tạm chỉ hiện lần này. Thầy tải về, ghép tên trong Excel trên máy Thầy rồi in phiếu phát cho từng em.</span></div>`:"";
  return `<div class="card stack"><h3>Tài khoản học sinh lớp ${esc(gvCls)}</h3>
   <p class="small muted">Mỗi em một mã ngẫu nhiên và mật khẩu tạm. Họ tên không gửi lên mạng: muốn trang hiện tên, Thầy nạp file CSV hai cột <code>mã, họ tên</code>; tên chỉ lưu trên trình duyệt máy này và tự xoá khi Thầy đăng xuất.</p>
   <div class="row" style="align-items:flex-end"><div class="field" style="max-width:150px"><label for="tkN">Số tài khoản</label><input id="tkN" type="number" min="1" max="60" value="5"></div>
   <button class="btn sm" id="tkGo">Cấp tài khoản lớp ${esc(gvCls)}</button><label class="btn ghost sm" for="tenFile">Nạp tên từ file CSV</label><input type="file" id="tenFile" accept=".csv,text/csv,text/plain" hidden>
-  <span class="small muted">${nTen?`Đang hiện tên của ${nTen} em`:""}</span></div>${out}${cloudXoaHTML()}</div>`;}
+  <span class="small muted">${nTen?`Đang hiện tên của ${nTen} em`:""}</span></div>${cloudDsHTML()}${out}${cloudXoaHTML()}</div>`;}
 /* xoá tài khoản học sinh của lớp đang chọn */
+/* ---------- cấp tài khoản theo danh sách họ tên (tên chỉ lưu trên máy Thầy, máy chủ chỉ nhận mã) ---------- */
+let tkDsText="",tkDsPw="abc@1234",tkDsOpen=false,tkDsEdit={};
+function tkBoDau(t){return String(t).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[đĐ]/g,"d").toLowerCase();}
+function tkMa(ten,lop){const w=tkBoDau(ten.replace(/\([^)]*\)?/g," ")).replace(/[^a-z\s]/g," ").trim().split(/\s+/).filter(Boolean);
+ if(!w.length)return "";const ten_=w.pop();return (w.map(x=>x[0]).join("")+ten_+String(lop).toLowerCase()).slice(0,24);}
+function tkDsParse(txt){return String(txt).split(/\r?\n/).map(l=>l.replace(/\t+/g," ").replace(/^\s*\d+\s*[.)\-:]?\s+/,"").replace(/\s+/g," ").trim())
+ .filter(l=>l&&!/^(stt|họ\s*(và)?\s*tên|ho ten)\b/i.test(l)&&/[A-Za-zÀ-ỹ]/.test(l));}
+function tkDsRows(){const names=tkDsParse(tkDsText),all=LS.get("thtd:users",{}),seen={};
+ return names.map((n,i)=>{let m=(tkDsEdit[i+"|"+n]||tkMa(n,gvCls)).toLowerCase().replace(/[^a-z0-9-]/g,"");
+  if(!tkDsEdit[i+"|"+n]){const base=m;let k=2;while(seen[m]||all[m])m=base+"-"+(k++);}
+  const bad=!/^[a-z0-9][a-z0-9-]{2,23}$/.test(m)?"Mã cần 3–24 kí tự a–z, 0–9":seen[m]?"Trùng mã trong danh sách":all[m]?"Mã đã có trên máy chủ":"";seen[m]=1;
+  return {stt:i+1,ten:n,ma:m,bad};});}
+function cloudDsHTML(){const rows=tkDsRows(),nBad=rows.filter(r=>r.bad).length;
+ return `<details class="tkds"${tkDsOpen?" open":""}><summary>📋 Cấp tài khoản theo danh sách họ tên lớp ${esc(gvCls)}</summary>
+  <p class="small muted">Dán danh sách từ Excel, mỗi em một dòng. Mã đăng nhập ghép từ chữ cái đầu của họ, tên đệm và cả tên, thêm tên lớp (ví dụ Trần Minh Khoa → <code>tmkhoa${esc(gvCls.toLowerCase())}</code>). <b>Máy chủ chỉ nhận mã</b>, họ tên đầy đủ chỉ lưu trên máy này.</p>
+  <div class="field"><label for="tkdsTen">Danh sách họ tên</label><textarea id="tkdsTen" rows="6" placeholder="Trần Minh Khoa&#10;Lê Thị Bảo Ngọc&#10;…">${esc(tkDsText)}</textarea></div>
+  <div class="row" style="align-items:flex-end"><div class="field" style="max-width:230px"><label for="tkdsPw">Mật khẩu tạm chung</label><input id="tkdsPw" value="${esc(tkDsPw)}" autocomplete="off"></div>
+  <span class="small muted" style="flex:1;min-width:200px">Để trống thì mỗi em một mật khẩu ngẫu nhiên. Lần đầu đăng nhập, trang <b>bắt buộc</b> em đặt mật khẩu mới.</span></div>
+  ${rows.length?`<div class="tbl"><table class="dtable tkdsprev"><thead><tr><th>STT</th><th>Họ tên</th><th>Mã đăng nhập</th></tr></thead><tbody>${rows.map((r,i)=>`<tr${r.bad?' class="bad"':""}><td class="c">${r.stt}</td><td>${esc(r.ten)}</td><td><input class="tkdsma" data-k="${esc(i+"|"+r.ten)}" value="${esc(r.ma)}" aria-label="Mã của ${esc(r.ten)}">${r.bad?`<span class="small tkxwarn">${r.bad}</span>`:""}</td></tr>`).join("")}</tbody></table></div>`:""}
+  <div class="row"><button class="btn sm" id="tkdsGo"${!rows.length||nBad?" disabled":""}>Cấp ${rows.length||""} tài khoản lớp ${esc(gvCls)}</button><span class="small muted" id="tkdsMsg">${rows.length?(nBad?nBad+" dòng cần sửa mã":"Kiểm tra mã rồi bấm cấp"):"Chưa có tên nào"}</span></div></details>`;}
+function cloudDsBind(box,k){const d=document.querySelector(".tkds");if(!d)return;d.addEventListener("toggle",()=>{tkDsOpen=d.open;});
+ const ta=$("#tkdsTen"),pw=$("#tkdsPw");let t=null;
+ const redraw=()=>{const pos=document.activeElement&&document.activeElement.id==="tkdsTen"?ta.selectionStart:null;gvLop(box);
+  if(pos!=null){const n=$("#tkdsTen");if(n){n.focus();n.setSelectionRange(pos,pos);}}};
+ ta.addEventListener("input",()=>{tkDsText=ta.value;clearTimeout(t);t=setTimeout(redraw,600);});
+ pw.addEventListener("input",()=>{tkDsPw=pw.value;});
+ document.querySelectorAll(".tkdsma").forEach(i=>i.addEventListener("change",()=>{tkDsEdit[i.dataset.k]=i.value.trim().toLowerCase();redraw();}));
+ const go_=$("#tkdsGo");if(!go_)return;
+ go_.addEventListener("click",async()=>{const rows=tkDsRows();if(!rows.length||rows.some(r=>r.bad))return;const mk=pw.value.trim();
+  if(mk&&mk.length<8){toast("Mật khẩu tạm cần ít nhất 8 kí tự",M.chip);return;}
+  go_.disabled=true;go_.textContent="Đang tạo…";
+  try{const r=await CL.taoTheoDanhSach(gvCls,k,rows.map(x=>x.ma),mk);const ten=LS.get("thtd:ten",{});
+   r.tai_khoan.forEach(x=>{const row=rows.find(y=>y.ma===x.ma);if(row){ten[x.ma]=row.ten;x.stt=row.stt;}});LS.set("thtd:ten",ten);
+   tkLast={lop:gvCls,ds:r.tai_khoan};const ok=new Set(r.tai_khoan.map(x=>x.ma));
+   tkDsText=rows.filter(x=>!ok.has(x.ma)).map(x=>x.ten).join("\n");tkDsEdit={};
+   toast("Đã tạo "+r.tai_khoan.length+" tài khoản"+(r.loi&&r.loi.length?" · "+r.loi.length+" em chưa tạo được (còn lại trong ô danh sách)":""),M.chip);
+   CL.lops=null;await CL.pullGV(null);}
+  catch(e){toast(e.message,M.chip);}
+  finally{gvLop(box);}});}
+/* học sinh đăng nhập lần đầu bằng mật khẩu tạm: bắt buộc đặt mật khẩu mới */
+function cloudForcePw(){if(document.getElementById("pwForce"))return;const d=document.createElement("div");d.id="pwForce";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");d.setAttribute("aria-labelledby","pwfT");
+ d.innerHTML=`<div class="card stack pwfbox"><h3 id="pwfT">🔐 Em đặt mật khẩu mới nhé</h3>
+  <p class="small">Đây là lần đầu em đăng nhập bằng mật khẩu tạm Thầy phát. Em đặt mật khẩu riêng để không bạn nào vào được tài khoản của em.</p>
+  <ul class="small muted"><li>Ít nhất 8 kí tự, nên có cả chữ và số</li><li>Không dùng lại mật khẩu tạm, không dùng ngày sinh</li><li>Không cho bạn khác biết</li></ul>
+  <div class="field"><label for="pwf1">Mật khẩu mới</label><input id="pwf1" type="password" autocomplete="new-password" minlength="8"></div>
+  <div class="field"><label for="pwf2">Nhập lại mật khẩu mới</label><input id="pwf2" type="password" autocomplete="new-password"></div>
+  <p class="small tkxwarn" id="pwfMsg" role="status"></p>
+  <div class="row"><button class="btn" id="pwfGo">Lưu mật khẩu và vào học</button><button class="btn ghost sm" id="pwfOut">Đăng xuất</button></div></div>`;
+ document.body.appendChild(d);setTimeout(()=>$("#pwf1").focus(),50);
+ const go_=async()=>{const a=$("#pwf1").value,b=$("#pwf2").value,m=$("#pwfMsg");
+  if(a.length<8){m.textContent="Mật khẩu cần ít nhất 8 kí tự.";return;}if(a!==b){m.textContent="Hai lần nhập chưa giống nhau.";return;}
+  if(CL.tmpPw&&a===CL.tmpPw){m.textContent="Em cần đặt mật khẩu khác mật khẩu tạm.";return;}
+  const bt=$("#pwfGo");bt.disabled=true;bt.textContent="Đang lưu…";
+  try{await CL.doiMatKhau(a);CL.tmpPw=null;d.remove();toast("Đã đặt mật khẩu mới. Lần sau em đăng nhập bằng mật khẩu này.",M.chip);}
+  catch(e){m.textContent=e.message;bt.disabled=false;bt.textContent="Lưu mật khẩu và vào học";}};
+ $("#pwfGo").addEventListener("click",go_);$("#pwf2").addEventListener("keydown",e=>{if(e.key==="Enter")go_();});
+ $("#pwfOut").addEventListener("click",()=>{d.remove();$("#logoutBtn").click();});}
+
 function cloudXoaHTML(){const all=LS.get("thtd:users",{}),ds=Object.keys(all).filter(m=>all[m]&&all[m].role==="hs"&&all[m].cls===gvCls).sort((a,b)=>tenHS(a).localeCompare(tenHS(b),"vi"));
  return `<details class="tkxoa"${tkXoaOpen?" open":""}><summary>🗑 Xoá tài khoản học sinh lớp ${esc(gvCls)}</summary>
   ${ds.length?`<p class="small muted">Dùng khi em chuyển lớp, nghỉ học hoặc tạo dư. Xoá là xoá vĩnh viễn cả tài khoản và tiến độ học của em đó, không khôi phục được.</p>
@@ -22831,20 +22903,20 @@ function cloudXoaBind(box){const d=document.querySelector(".tkxoa");if(!d)return
     toast("Đã xoá "+r.da_xoa.length+" tài khoản"+(r.bo_qua&&r.bo_qua.length?" · "+r.bo_qua.length+" tài khoản không xoá được":""),M.chip);}
    catch(err){toast(err.message,M.chip);}
    finally{gvLop(box);}});});}
-function cloudTkBind(box,k){cloudXoaBind(box);const go_=$("#tkGo");if(!go_)return;
+function cloudTkBind(box,k){cloudXoaBind(box);cloudDsBind(box,k);const go_=$("#tkGo");if(!go_)return;
  go_.addEventListener("click",async()=>{const n=Math.max(1,Math.min(60,+$("#tkN").value||0));go_.disabled=true;go_.textContent="Đang tạo…";
   try{const ds=await CL.taoTaiKhoan(gvCls,k,n);tkLast={lop:gvCls,ds};toast("Đã tạo "+ds.length+" tài khoản",M.chip);CL.lops=null;await CL.pullGV(null);}
   catch(e){toast(e.message,M.chip);}
   finally{gvLop(box);}});
- const csv=$("#tkCsv");if(csv)csv.addEventListener("click",()=>{const rows=[["STT","Mã đăng nhập","Mật khẩu tạm","Họ tên"]].concat(tkLast.ds.map(x=>[x.stt,x.ma,x.matkhau,""]));
+ const csv=$("#tkCsv");if(csv)csv.addEventListener("click",()=>{const rows=[["STT","Mã đăng nhập","Mật khẩu tạm","Họ tên"]].concat(tkLast.ds.map(x=>{const t=LS.get("thtd:ten",{})[x.ma]||"";return [x.stt,x.ma,x.matkhau,/[,"]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t];}));
   const blob=new Blob(["﻿"+rows.map(r=>r.join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");
   a.href=URL.createObjectURL(blob);a.download="tai-khoan-"+tkLast.lop+".csv";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);});
- $("#tenFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;const txt=await f.text(),map=LS.get("thtd:ten",{});let c=0;
-  txt.split(/\r?\n/).forEach(line=>{const p=line.split(/[,;\t]/).map(x=>x.trim().replace(/^"|"$/g,""));const ma=(p.find(x=>/^hs[a-z0-9]{6}$/i.test(x))||"").toLowerCase();
-   const cand=p.filter(x=>x&&!/^hs[a-z0-9]{6}$/i.test(x)&&!/^\d+$/.test(x)&&x.length>2&&!/mật khẩu|mã đăng nhập|họ tên|stt/i.test(x));
+ $("#tenFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;const txt=await f.text(),map=LS.get("thtd:ten",{}),UU=LS.get("thtd:users",{}),isMa=x=>/^hs[a-z0-9]{6}$/i.test(x)||!!(UU[x.toLowerCase()]&&UU[x.toLowerCase()].role==="hs");let c=0;
+  txt.split(/\r?\n/).forEach(line=>{const p=line.split(/[,;\t]/).map(x=>x.trim().replace(/^"|"$/g,""));const ma=(p.find(isMa)||"").toLowerCase();
+   const cand=p.filter(x=>x&&!isMa(x)&&!/^\d+$/.test(x)&&x.length>2&&!/mật khẩu|mã đăng nhập|họ tên|stt/i.test(x));
    const ten=cand.find(x=>/\s/.test(x))||cand.find(x=>!/^[a-z0-9]{8}$/.test(x));
    if(ma&&ten){map[ma]=ten;c++;}});
-  LS.set("thtd:ten",map);toast(c?"Đã nạp tên "+c+" em":"Không tìm thấy dòng nào có mã dạng hsxxxxxx và họ tên",M.chip);gvLop(box);});}
+  LS.set("thtd:ten",map);toast(c?"Đã nạp tên "+c+" em":"Không tìm thấy dòng nào có mã đăng nhập và họ tên",M.chip);gvLop(box);});}
 
 
 /* ---------- ⚙️ cài đặt ---------- */
