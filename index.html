@@ -2069,7 +2069,7 @@ html.vdlock,html.vdlock body{overflow:hidden}
 @media (max-width:700px){.vdcvw.tall{aspect-ratio:auto;min-height:240px}.vdcvw.tall .vdcv{position:absolute;inset:0}.vdcvw.tall .vdover{position:relative;inset:auto}}
 @media (max-width:560px){.vdlogo{font-size:1rem}.vdgame{padding:8px}.vdbox{padding:12px 14px}}
 .tkxoa{margin-top:6px;border-top:1px dashed var(--line,#CBD5E1);padding-top:10px}
-.tkxoa summary{cursor:pointer;font-weight:600;color:#B91C1C;list-style-position:inside}
+.tkxoa summary{cursor:pointer;font-weight:600;list-style-position:inside}
 .tkxlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:4px 12px;max-height:280px;overflow:auto;padding:6px 2px;margin:6px 0}
 .tkxi{display:flex;gap:6px;align-items:center;font-family:var(--f-mono);font-size:.92em;min-width:0}
 .tkxi span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2084,6 +2084,8 @@ html.vdlock,html.vdlock body{overflow:hidden}
 #pwForce{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
 #pwForce .pwfbox{max-width:440px;width:100%;margin:auto}
 #pwForce ul{margin:0;padding-left:18px}
+.tkrwarn{color:#1E40AF;flex-basis:100%;margin:0}
+#lgQuen{margin-top:6px}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -17044,7 +17046,7 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
  load(){if(this.ready)return this.ready;
   this.ready=new Promise((res,rej)=>{if(window.supabase&&window.supabase.createClient){res();return;}
    const s=document.createElement("script");s.src=SB_CFG.lib;s.onload=()=>res();s.onerror=()=>{this.ready=null;rej(new Error("Không tải được thư viện kết nối, em kiểm tra mạng rồi thử lại"));};document.head.appendChild(s);})
-   .then(()=>{this.sb=window.supabase.createClient(SB_CFG.url,SB_CFG.key);return this.sb;});
+   .then(()=>{this.sb=window.supabase.createClient(SB_CFG.url,SB_CFG.key,{auth:{flowType:"pkce"}});return this.sb;});
   return this.ready;},
  /* ghi thẳng vào bộ nhớ trình duyệt, không gửi ngược lên máy chủ */
  raw(k,v,ch){const s=JSON.stringify(v);if(localStorage.getItem(k)!==s){try{localStorage.setItem(k,s);}catch(e){}if(ch)ch.push(k);}},
@@ -17083,7 +17085,7 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
   if(error)throw new Error(/invalid login|invalid credentials/i.test(error.message)?"Sai mã hoặc mật khẩu":error.message);
   this.doiMk=!!((data.user.user_metadata||{}).doi_mk);this.tmpPw=this.doiMk?pw:null;
   return this.start(data.user.id);},
- async restore(){await this.load();const {data}=await this.sb.auth.getSession();if(data&&data.session)this.doiMk=!!((data.session.user.user_metadata||{}).doi_mk);return data&&data.session?this.start(data.session.user.id):null;},
+ async restore(){const q=new URLSearchParams(location.search),rec=q.has("khoiphuc")||q.has("code")||q.has("error_description");await this.load();const {data}=await this.sb.auth.getSession();if(rec){try{history.replaceState(null,"",location.pathname+location.hash);}catch(e){}if(!(data&&data.session))setTimeout(()=>toast(q.get("error_description")?"Liên kết đặt lại mật khẩu đã hết hạn hoặc đã dùng. Thầy gửi lại yêu cầu.":"Liên kết cần mở trên đúng trình duyệt đã bấm Quên mật khẩu. Thầy gửi lại yêu cầu từ trình duyệt này.",M.chip),300);}if(data&&data.session)this.doiMk=rec||!!((data.session.user.user_metadata||{}).doi_mk);return data&&data.session?this.start(data.session.user.id):null;},
  async start(uid){this.uid=uid;let p=null;
   try{const r=await this.sb.from("profiles").select("*").eq("id",uid).single();if(r.error)throw r.error;p=r.data;try{localStorage.setItem("thtd:prof:"+uid,JSON.stringify(p));}catch(e){}}
   catch(e){p=LS.get("thtd:prof:"+uid,null);if(!p)throw new Error("Không đọc được hồ sơ tài khoản. Thầy kiểm tra bảng profiles hoặc kết nối mạng.");}
@@ -17136,7 +17138,13 @@ const CL={sb:null,uid:null,role:null,ma:null,prof:null,lops:null,timers:{},sendi
  async taoTheoDanhSach(lop,khoi,mas,matkhau){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{lop,khoi,ds:mas,matkhau:matkhau||""}});
   if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
   if(!data||!Array.isArray(data.tai_khoan)||!("loi" in data))throw new Error("Hàm trên Supabase chưa được cập nhật để cấp theo danh sách");
-  return data;}};
+  return data;},
+ async capLaiMatKhau(mas,matkhau){await this.load();const {data,error}=await this.sb.functions.invoke("tao-tai-khoan",{body:{datlai:mas,matkhau:matkhau||""}});
+  if(error){let m=error.message;try{const j=await error.context.json();m=j.error||m;}catch(e){}throw new Error(m);}
+  if(!data||!Array.isArray(data.tai_khoan)||!("bo_qua" in data))throw new Error("Hàm trên Supabase chưa được cập nhật để cấp lại mật khẩu");
+  return data;},
+ async quenMatKhau(email){await this.load();const {error}=await this.sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname+"?khoiphuc=1"});
+  if(error)throw new Error(/rate|seconds|too many/i.test(error.message)?"Gửi quá nhiều lần. Thầy đợi một lúc rồi thử lại.":error.message);}};
 /* mọi lần lưu vào bộ nhớ trình duyệt: bản chạy thật thì xếp hàng gửi lên Supabase */
 if(CLOUD){const _set=LS.set;LS.set=(k,v)=>{if(/:__xem$/.test(k))return;_set(k,v);if(CL.uid)CL.push(k);};
  window.addEventListener("pagehide",()=>{if(CL.uid){CL.fireAll();CL.flush();}});
@@ -22792,7 +22800,8 @@ function cloudSetupLogin(){if(!CLOUD)return;document.querySelectorAll(".pill.bet
  u.placeholder="Mã Thầy phát, ví dụ tmkhoa8a2";u.setAttribute("autocomplete","username");p.setAttribute("autocomplete","current-password");
  document.querySelector('label[for="lgUser"]').textContent="Mã đăng nhập (giáo viên nhập email)";
  $("#lgTitle").textContent="Chào em, mình cùng học nhé!";$("#lgSub").textContent="Đăng nhập bằng mã và mật khẩu Thầy phát.";
- $("#lgNote").textContent="Không đưa mật khẩu cho bạn khác. Quên mật khẩu thì em báo Thầy cấp lại.";$("#lgBtn").textContent="Đăng nhập";}
+ $("#lgNote").textContent="Không đưa mật khẩu cho bạn khác. Quên mật khẩu thì em báo Thầy cấp lại.";$("#lgBtn").textContent="Đăng nhập";if(!$("#lgQuen")){const q=document.createElement("button");q.type="button";q.id="lgQuen";q.className="btn ghost sm";q.textContent="Quên mật khẩu?";$("#lgBtn").insertAdjacentElement("afterend",q);q.addEventListener("click",cloudQuenMk);}}
+async function cloudQuenMk(){const u=$("#lgUser").value.trim().toLowerCase(),n=$("#lgNote");if(!u.includes("@")||u.endsWith("@"+SB_CFG.duoi)){n.textContent="Học sinh quên mật khẩu thì báo Thầy cấp lại. Giáo viên nhập email vào ô phía trên rồi bấm Quên mật khẩu.";return;}if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(u)){n.textContent="Email chưa đúng.";return;}const b=$("#lgQuen");b.disabled=true;b.textContent="Đang gửi…";try{await CL.quenMatKhau(u);n.textContent="Nếu đây là email tài khoản giáo viên, hộp thư sẽ nhận thư đặt lại mật khẩu trong vài phút (xem cả mục Spam). Thầy mở liên kết trong thư bằng chính trình duyệt này.";}catch(e){n.textContent=e.message;}finally{b.disabled=false;b.textContent="Quên mật khẩu?";}}
 async function cloudLoginSubmit(){const b=$("#lgBtn"),u=$("#lgUser").value,p=$("#lgPass").value;
  if(!u.trim()||!p){toast("Em nhập mã và mật khẩu",M.chip);return;}
  b.disabled=true;b.textContent="Đang đăng nhập…";
@@ -22801,7 +22810,7 @@ async function cloudLoginSubmit(){const b=$("#lgBtn"),u=$("#lgUser").value,p=$("
  finally{b.disabled=false;b.textContent="Đăng nhập";}}
 function cloudEnter(pr,route){login(pr.ma,pr.role,pr.khoi||0,pr.lop||"");if(pr.role==="gv"&&pr.ten){me.ten=String(pr.ten).slice(0,60);SS.set("thtd:cur",JSON.stringify(me));}CL.status("ok");
  const ok=route&&!["dangnhap","gioithieu",""].includes(route)&&(pr.role==="gv"?/^gv/.test(route):!/^gv/.test(route));
- const r=ok?route:(pr.role==="gv"?"gv":"trangchu");setHash(r);go(r);if(pr.role==="hs"&&CL.doiMk)cloudForcePw();}
+ const r=ok?route:(pr.role==="gv"?"gv":"trangchu");setHash(r);go(r);if(CL.doiMk)cloudForcePw(pr.role);}
 function cloudAfterGvPull(){MYQ=LS.get("thtd:myq",{});myqApply();const s=LS.get("thtd:mt3",null);if(s&&s.v===4)Object.assign(MT,s);
  if(CL.lops&&CL.lops.length&&!CL.lops.includes(gvCls))gvCls=CL.lops[0];}
 function cloudPwCard(){if(!CLOUD||!me||me.role!=="hs")return;const v=$("#v-progress");if(!v||v.querySelector("#pwCard"))return;
@@ -22822,7 +22831,8 @@ function cloudTkHTML(k){const ten=LS.get("thtd:ten",{}),nTen=Object.keys(ten).le
   <div class="row" style="align-items:flex-end"><div class="field" style="max-width:150px"><label for="tkN">Số tài khoản</label><input id="tkN" type="number" min="1" max="60" value="5"></div>
   <button class="btn sm" id="tkGo">Cấp tài khoản lớp ${esc(gvCls)}</button><label class="btn ghost sm" for="tenFile">Nạp tên từ file CSV</label><input type="file" id="tenFile" accept=".csv,text/csv,text/plain" hidden>
   <span class="small muted">${nTen?`Đang hiện tên của ${nTen} em`:""}</span></div>${cloudDsHTML()}${out}${cloudXoaHTML()}</div>`;}
-/* xoá tài khoản học sinh của lớp đang chọn */
+/* quản lý tài khoản học sinh của lớp đang chọn: cấp lại mật khẩu, xoá */
+let tkRePw="abc@1234";
 /* ---------- cấp tài khoản theo danh sách họ tên (tên chỉ lưu trên máy Thầy, máy chủ chỉ nhận mã) ---------- */
 let tkDsText="",tkDsPw="abc@1234",tkDsOpen=false,tkDsEdit={};
 function tkBoDau(t){return String(t).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[đĐ]/g,"d").toLowerCase();}
@@ -22886,36 +22896,48 @@ function cloudDsBind(box,k){const d=document.querySelector(".tkds");if(!d)return
   catch(e){toast(e.message,M.chip);}
   finally{gvLop(box);}});}
 /* học sinh đăng nhập lần đầu bằng mật khẩu tạm: bắt buộc đặt mật khẩu mới */
-function cloudForcePw(){if(document.getElementById("pwForce"))return;const d=document.createElement("div");d.id="pwForce";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");d.setAttribute("aria-labelledby","pwfT");
- d.innerHTML=`<div class="card stack pwfbox"><h3 id="pwfT">🔐 Em đặt mật khẩu mới nhé</h3>
-  <p class="small">Đây là lần đầu em đăng nhập bằng mật khẩu tạm Thầy phát. Em đặt mật khẩu riêng để không bạn nào vào được tài khoản của em.</p>
+function cloudForcePw(role){const gv=role==="gv";if(document.getElementById("pwForce"))return;const d=document.createElement("div");d.id="pwForce";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");d.setAttribute("aria-labelledby","pwfT");
+ d.innerHTML=`<div class="card stack pwfbox"><h3 id="pwfT">${gv?"🔐 Đặt mật khẩu mới cho tài khoản giáo viên":"🔐 Em đặt mật khẩu mới nhé"}</h3>
+  <p class="small">${gv?"Thầy vừa mở liên kết đặt lại mật khẩu. Thầy đặt mật khẩu mới để tiếp tục.":"Em đang đăng nhập bằng mật khẩu tạm Thầy phát. Em đặt mật khẩu riêng để không bạn nào vào được tài khoản của em."}</p>
   <ul class="small muted"><li>Ít nhất 8 kí tự, nên có cả chữ và số</li><li>Không dùng lại mật khẩu tạm, không dùng ngày sinh</li><li>Không cho bạn khác biết</li></ul>
   <div class="field"><label for="pwf1">Mật khẩu mới</label><input id="pwf1" type="password" autocomplete="new-password" minlength="8"></div>
   <div class="field"><label for="pwf2">Nhập lại mật khẩu mới</label><input id="pwf2" type="password" autocomplete="new-password"></div>
   <p class="small tkxwarn" id="pwfMsg" role="status"></p>
-  <div class="row"><button class="btn" id="pwfGo">Lưu mật khẩu và vào học</button><button class="btn ghost sm" id="pwfOut">Đăng xuất</button></div></div>`;
+  <div class="row"><button class="btn" id="pwfGo">${gv?"Lưu mật khẩu":"Lưu mật khẩu và vào học"}</button><button class="btn ghost sm" id="pwfOut">Đăng xuất</button></div></div>`;
  document.body.appendChild(d);setTimeout(()=>$("#pwf1").focus(),50);
  const go_=async()=>{const a=$("#pwf1").value,b=$("#pwf2").value,m=$("#pwfMsg");
   if(a.length<8){m.textContent="Mật khẩu cần ít nhất 8 kí tự.";return;}if(a!==b){m.textContent="Hai lần nhập chưa giống nhau.";return;}
   if(CL.tmpPw&&a===CL.tmpPw){m.textContent="Em cần đặt mật khẩu khác mật khẩu tạm.";return;}
   const bt=$("#pwfGo");bt.disabled=true;bt.textContent="Đang lưu…";
-  try{await CL.doiMatKhau(a);CL.tmpPw=null;d.remove();toast("Đã đặt mật khẩu mới. Lần sau em đăng nhập bằng mật khẩu này.",M.chip);}
+  try{await CL.doiMatKhau(a);CL.tmpPw=null;d.remove();toast(gv?"Đã đổi mật khẩu giáo viên.":"Đã đặt mật khẩu mới. Lần sau em đăng nhập bằng mật khẩu này.",M.chip);}
   catch(e){m.textContent=e.message;bt.disabled=false;bt.textContent="Lưu mật khẩu và vào học";}};
  $("#pwfGo").addEventListener("click",go_);$("#pwf2").addEventListener("keydown",e=>{if(e.key==="Enter")go_();});
  $("#pwfOut").addEventListener("click",()=>{d.remove();$("#logoutBtn").click();});}
 
 function cloudXoaHTML(){const all=LS.get("thtd:users",{}),ds=Object.keys(all).filter(m=>all[m]&&all[m].role==="hs"&&all[m].cls===gvCls).sort((a,b)=>tenHS(a).localeCompare(tenHS(b),"vi"));
- return `<details class="tkxoa"${tkXoaOpen?" open":""}><summary>🗑 Xoá tài khoản học sinh lớp ${esc(gvCls)}</summary>
-  ${ds.length?`<p class="small muted">Dùng khi em chuyển lớp, nghỉ học hoặc tạo dư. Xoá là xoá vĩnh viễn cả tài khoản và tiến độ học của em đó, không khôi phục được.</p>
+ return `<details class="tkxoa"${tkXoaOpen?" open":""}><summary>👥 Quản lý tài khoản học sinh lớp ${esc(gvCls)} (cấp lại mật khẩu, xoá)</summary>
+  ${ds.length?`<p class="small muted">Chọn các em cần xử lí. <b>🔑 Cấp lại mật khẩu</b> dùng khi em quên mật khẩu: tiến độ học giữ nguyên, lần đăng nhập sau em phải đặt mật khẩu mới. <b>🗑 Xoá</b> dùng khi em chuyển lớp, nghỉ học hoặc tạo dư: xoá vĩnh viễn cả tài khoản và tiến độ.</p>
   <div class="row" style="gap:8px"><label class="small"><input type="checkbox" id="tkxAll"> Chọn tất cả (${ds.length})</label></div>
   <div class="tkxlist">${ds.map(m=>`<label class="tkxi"><input type="checkbox" class="tkxc" value="${esc(m)}"> <span>${esc(tenHS(m))}</span></label>`).join("")}</div>
-  <div class="row" id="tkxRow"><button class="btn sm tkxbtn" id="tkxGo" disabled>Xoá tài khoản đã chọn</button><span class="small muted" id="tkxN">Chưa chọn em nào</span></div>`
+  <div class="row" style="align-items:flex-end"><div class="field" style="max-width:230px"><label for="tkrPw">Mật khẩu tạm khi cấp lại</label><input id="tkrPw" value="${esc(tkRePw)}" autocomplete="off"></div><span class="small muted" style="flex:1;min-width:180px">Để trống thì mỗi em một mật khẩu ngẫu nhiên.</span></div>
+  <div class="row" id="tkxRow"><button class="btn sm" id="tkrGo" disabled>🔑 Cấp lại mật khẩu</button><button class="btn sm tkxbtn" id="tkxGo" disabled>🗑 Xoá tài khoản đã chọn</button><span class="small muted" id="tkxN">Chưa chọn em nào</span></div>`
   :`<p class="small muted">Lớp ${esc(gvCls)} chưa có tài khoản học sinh nào.</p>`}</details>`;}
 let tkXoaOpen=false;
 function cloudXoaBind(box){const d=document.querySelector(".tkxoa");if(!d)return;d.addEventListener("toggle",()=>{tkXoaOpen=d.open;});
- const go_=$("#tkxGo");if(!go_)return;const cs=()=>[...document.querySelectorAll(".tkxc")],sel=()=>cs().filter(c=>c.checked).map(c=>c.value);
- const upd=()=>{const n=sel().length;go_.disabled=!n;$("#tkxN").textContent=n?"Đã chọn "+n+" em":"Chưa chọn em nào";$("#tkxAll").checked=n&&n===cs().length;};
+ const go_=$("#tkxGo"),re_=$("#tkrGo");if(!go_)return;const cs=()=>[...document.querySelectorAll(".tkxc")],sel=()=>cs().filter(c=>c.checked).map(c=>c.value);
+ const upd=()=>{const n=sel().length;go_.disabled=re_.disabled=!n;$("#tkxN").textContent=n?"Đã chọn "+n+" em":"Chưa chọn em nào";$("#tkxAll").checked=n&&n===cs().length;};
  cs().forEach(c=>c.addEventListener("change",upd));$("#tkxAll").addEventListener("change",e=>{cs().forEach(c=>c.checked=e.target.checked);upd();});
+ $("#tkrPw").addEventListener("input",e=>{tkRePw=e.target.value;});
+ re_.addEventListener("click",()=>{const mas=sel();if(!mas.length)return;const mk=$("#tkrPw").value.trim();
+  if(mk&&mk.length<8){toast("Mật khẩu tạm cần ít nhất 8 kí tự",M.chip);return;}
+  const row=$("#tkxRow");
+  row.innerHTML=`<p class="small tkrwarn" role="alert"><b>Cấp lại mật khẩu cho ${mas.length} em?</b> Mật khẩu cũ hết dùng được, mật khẩu tạm mới là ${mk?`<code>${esc(mk)}</code>`:"ngẫu nhiên cho từng em"}. Lần đăng nhập sau các em phải đặt mật khẩu mới. Tiến độ học giữ nguyên.</p><button class="btn sm" id="tkrYes">Cấp lại mật khẩu</button><button class="btn ghost sm" id="tkxNo">Huỷ</button>`;
+  $("#tkxNo").addEventListener("click",()=>gvLop(box));
+  $("#tkrYes").addEventListener("click",async e=>{e.target.disabled=true;e.target.textContent="Đang cấp lại…";
+   try{const r=await CL.capLaiMatKhau(mas,mk);tkLast={lop:gvCls,ds:r.tai_khoan.map((x,i)=>({stt:i+1,ma:x.ma,matkhau:x.matkhau}))};
+    toast("Đã cấp lại mật khẩu cho "+r.tai_khoan.length+" em"+(r.bo_qua&&r.bo_qua.length?" · "+r.bo_qua.length+" em không cấp lại được":"")+". Bảng mật khẩu ở phía trên.",M.chip);}
+   catch(err){toast(err.message,M.chip);}
+   finally{gvLop(box);}});});
  go_.addEventListener("click",()=>{const mas=sel();if(!mas.length)return;const row=$("#tkxRow");
   row.innerHTML=`<p class="small tkxwarn" role="alert"><b>Xoá vĩnh viễn ${mas.length} tài khoản?</b> Các em này sẽ không đăng nhập được nữa và toàn bộ tiến độ học bị xoá.</p><button class="btn sm tkxbtn" id="tkxYes">Xoá vĩnh viễn</button><button class="btn ghost sm" id="tkxNo">Huỷ</button>`;
   $("#tkxNo").addEventListener("click",()=>gvLop(box));
@@ -22926,6 +22948,7 @@ function cloudXoaBind(box){const d=document.querySelector(".tkxoa");if(!d)return
     toast("Đã xoá "+r.da_xoa.length+" tài khoản"+(r.bo_qua&&r.bo_qua.length?" · "+r.bo_qua.length+" tài khoản không xoá được":""),M.chip);}
    catch(err){toast(err.message,M.chip);}
    finally{gvLop(box);}});});}
+
 function cloudTkBind(box,k){cloudXoaBind(box);cloudDsBind(box,k);const go_=$("#tkGo");if(!go_)return;
  go_.addEventListener("click",async()=>{const n=Math.max(1,Math.min(60,+$("#tkN").value||0));go_.disabled=true;go_.textContent="Đang tạo…";
   try{const ds=await CL.taoTaiKhoan(gvCls,k,n);tkLast={lop:gvCls,ds};toast("Đã tạo "+ds.length+" tài khoản",M.chip);CL.lops=null;await CL.pullGV(null);}
