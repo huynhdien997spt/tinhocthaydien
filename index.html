@@ -22920,6 +22920,7 @@ function cloudXoaHTML(){const all=LS.get("thtd:users",{}),ds=Object.keys(all).fi
   <div class="row" style="gap:8px"><label class="small"><input type="checkbox" id="tkxAll"> Chọn tất cả (${ds.length})</label></div>
   <div class="tkxlist">${ds.map(m=>`<label class="tkxi"><input type="checkbox" class="tkxc" value="${esc(m)}"> <span>${esc(tenHS(m))}</span></label>`).join("")}</div>
   <div class="row" style="align-items:flex-end"><div class="field" style="max-width:230px"><label for="tkrPw">Mật khẩu tạm khi cấp lại</label><input id="tkrPw" value="${esc(tkRePw)}" autocomplete="off"></div><span class="small muted" style="flex:1;min-width:180px">Để trống thì mỗi em một mật khẩu ngẫu nhiên.</span></div>
+  <div class="row tkexp"><button class="btn ghost sm" id="tkeCsv">⬇ Xuất danh sách (.csv)</button><button class="btn ghost sm" id="tkePrint">🖨 In phiếu tài khoản</button><span class="small muted">Có chọn em nào thì chỉ xuất các em đó, không chọn thì xuất cả lớp. Cột mật khẩu lấy theo ô “Mật khẩu tạm” bên dưới.</span></div>
   <div class="row" id="tkxRow"><button class="btn sm" id="tkrGo" disabled>🔑 Cấp lại mật khẩu</button><button class="btn sm tkxbtn" id="tkxGo" disabled>🗑 Xoá tài khoản đã chọn</button><span class="small muted" id="tkxN">Chưa chọn em nào</span></div>`
   :`<p class="small muted">Lớp ${esc(gvCls)} chưa có tài khoản học sinh nào.</p>`}</details>`;}
 let tkXoaOpen=false;
@@ -22928,6 +22929,25 @@ function cloudXoaBind(box){const d=document.querySelector(".tkxoa");if(!d)return
  const upd=()=>{const n=sel().length;go_.disabled=re_.disabled=!n;$("#tkxN").textContent=n?"Đã chọn "+n+" em":"Chưa chọn em nào";$("#tkxAll").checked=n&&n===cs().length;};
  cs().forEach(c=>c.addEventListener("change",upd));$("#tkxAll").addEventListener("change",e=>{cs().forEach(c=>c.checked=e.target.checked);upd();});
  $("#tkrPw").addEventListener("input",e=>{tkRePw=e.target.value;});
+ const pick=()=>{const s_=sel();return (s_.length?s_:cs().map(c=>c.value)).map((m,i)=>({stt:i+1,ma:m,ten:LS.get("thtd:ten",{})[m]||"",mk:$("#tkrPw").value.trim()}));};
+ $("#tkeCsv").addEventListener("click",()=>{const q=v=>/[,"\n]/.test(v)?'"'+String(v).replace(/"/g,'""')+'"':v;
+  const rows=[["STT","Họ tên","Mã đăng nhập","Mật khẩu tạm","Địa chỉ trang"]].concat(pick().map(x=>[x.stt,q(x.ten),x.ma,q(x.mk),location.origin+location.pathname]));
+  const blob=new Blob(["\uFEFF"+rows.map(r=>r.join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="danh-sach-tai-khoan-"+gvCls+".csv";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+  toast("Đã xuất "+(rows.length-1)+" tài khoản lớp "+gvCls,M.chip);});
+ $("#tkePrint").addEventListener("click",()=>{const ds=pick(),url=location.origin+location.pathname;
+  const card=x=>`<div class="c"><div class="h">TIN HỌC THẦY DIỄN · Lớp ${esc(gvCls)}</div><div class="n">${esc(x.ten||"………………………………")}</div>
+   <table><tr><td>Trang học</td><td>${esc(url)}</td></tr><tr><td>Mã đăng nhập</td><td class="m">${esc(x.ma)}</td></tr><tr><td>Mật khẩu tạm</td><td class="m">${esc(x.mk||"……………")}</td></tr></table>
+   <div class="f">Lần đầu đăng nhập, em đặt mật khẩu mới của riêng mình. Không cho bạn khác biết mật khẩu.</div></div>`;
+  const html=`<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Phiếu tài khoản lớp ${esc(gvCls)}</title><style>
+   body{font-family:Arial,Helvetica,sans-serif;margin:12mm;color:#111}.top{display:flex;gap:12px;align-items:center;margin-bottom:10px}.top button{font-size:15px;padding:6px 14px}
+   .g{display:grid;grid-template-columns:1fr 1fr;gap:6mm}.c{border:1.5px dashed #555;border-radius:6px;padding:4mm 5mm;break-inside:avoid;page-break-inside:avoid}
+   .h{font-size:10pt;font-weight:bold;color:#1D4ED8;letter-spacing:.5px}.n{font-size:13pt;font-weight:bold;margin:2mm 0}
+   table{border-collapse:collapse;width:100%;font-size:10.5pt}td{padding:1mm 0;vertical-align:top}td:first-child{width:30mm;color:#444}.m{font-family:"Courier New",monospace;font-size:13pt;font-weight:bold}
+   .f{font-size:9pt;color:#444;margin-top:2mm}@media print{.top{display:none}body{margin:8mm}}</style></head><body>
+   <div class="top"><button onclick="print()">🖨 In</button><span>${ds.length} phiếu · cắt theo đường gạch</span></div><div class="g">${ds.map(card).join("")}</div></body></html>`;
+  const w=window.open("","_blank");if(w){w.document.open();w.document.write(html);w.document.close();setTimeout(()=>{try{w.focus();w.print();}catch(e){}},400);}
+  else{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));a.download="phieu-tai-khoan-"+gvCls+".html";document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),500);toast("Trình duyệt chặn cửa sổ mới, em đã tải phiếu về máy để Thầy mở ra in",M.chip);}});
  re_.addEventListener("click",()=>{const mas=sel();if(!mas.length)return;const mk=$("#tkrPw").value.trim();
   if(mk&&mk.length<8){toast("Mật khẩu tạm cần ít nhất 8 kí tự",M.chip);return;}
   const row=$("#tkxRow");
