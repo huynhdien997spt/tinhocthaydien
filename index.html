@@ -1627,6 +1627,8 @@ body.dkopen{overflow:hidden}
 .wqmmh:hover,.wqmmh:focus-visible{filter:brightness(.95);outline:2px solid #1c2333;outline-offset:-2px}
 .wqmmb ul{margin:0;padding:8px 12px 10px 26px;display:grid;gap:4px;font-size:13px;line-height:1.45}
 @media (max-width:860px){.wqmm{grid-template-columns:1fr}.wqmmroot{order:-1}.wqmmcol:first-child{order:2;display:flex;flex-direction:column-reverse}}
+.wqmore{margin:2px 0 6px}.wqmore summary{cursor:pointer;color:var(--brand);font-weight:700}.wqmore p{margin:6px 0 0;line-height:1.55}
+.wqroled summary{cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.wqroled .wqroles{margin-top:8px}
 .wqmeth{padding:10px 12px;font-size:14px;line-height:1.5}
 .wqres{display:grid;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
 .wqgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
@@ -17206,95 +17208,83 @@ function toast(text,img){$("#toastText").textContent=text;$("#toastImg").src=img
 const VIEWS=["public","login","home","lesson","progress","why","practice","area","gv","onthi"];
 let whyBackTo="trangchu",curRoute="trangchu";
 /* ---------- WebQuest theo chủ đề: 6 nhánh (Giới thiệu, Nhiệm vụ, Tiến trình, Đánh giá, Kết luận, Sản phẩm mở) ---------- */
+/* nội dung gọn cho học sinh; hướng dẫn chi tiết nằm trong “Xem hướng dẫn chi tiết” và trang Dành cho thầy cô */
 const WQS={
  k10c4:{t:"Hoạ sĩ số: Poster cổ động vì cộng đồng",sub:"WebQuest dự án cuối Chủ đề 4 · Tin học 10 · Inkscape",short:"Tin học 10 Chủ đề 4",lop:10,
- method:"Tư duy thiết kế: thấu cảm với người xem → phác thảo → dựng hình → hoàn thiện → góp ý và chỉnh sửa.",
+ method:"Tư duy thiết kế: hiểu người xem → phác thảo → làm → góp ý, sửa.",
  themes:[["🌱","Sống xanh, giảm rác thải nhựa"],["⚡","Tiết kiệm điện, nước"],["🛵","An toàn giao thông tuổi học trò"],["🔐","An toàn trên không gian mạng"],["📚","Văn hoá đọc"],["🏞","Quê hương em: điểm đến đáng yêu"],["🤝","Nói không với bắt nạt học đường"],["🧠","Dùng AI có trách nhiệm"]],
- roles:[["bt","Biên tập – trưởng nhóm","Giữ thông điệp, viết chữ trên tranh, chia việc, theo dõi tiến độ."],["hs","Hoạ sĩ hình","Vẽ hình minh hoạ: hình cơ bản, phép hợp/hiệu/giao, đường Bezier."],["mc","Màu & chữ","Lập bảng màu 60 – 30 – 10, chọn phông, kiểm tra tương phản."],["kt","Kĩ thuật viên","Đặt lớp, căn chỉnh, kiểm tra kích thước, lưu SVG, xuất PNG, nộp bài."]],
- lessons:["bai12","bai13","bai14","bai15"],dkit:true,
+ roles:[["bt","Trưởng nhóm","Giữ thông điệp, chia việc, viết chữ trên poster."],["hs","Hoạ sĩ hình","Vẽ hình minh hoạ trong Inkscape."],["mc","Màu & chữ","Chọn màu, phông chữ, kiểm tra chữ dễ đọc."],["kt","Kĩ thuật viên","Đặt lớp, căn chỉnh, xuất PNG, nộp bài."]],
+ lessons:["bai12","bai13","bai14","bai15"],dkit:true,lv:["Tốt (đủ điểm)", "Đạt (nửa số điểm)", "Chưa đạt (0 điểm)"],
  stages:[
-  {k:"g1",t:"Giai đoạn 1 · Thấu cảm và chọn chủ đề",time:"Sau Bài 12 · 1 tiết + ở nhà",lesson:"bai12",dk:"tuduy",
-   do:"Chọn một chủ đề trong danh sách (hoặc chủ đề nhóm đề xuất, được thầy cô đồng ý). Tìm 3 thông tin, số liệu đáng tin về chủ đề từ nguồn chính thức, ghi nguồn. Điền bản yêu cầu thiết kế: ai xem, xem ở đâu, thông điệp một câu, mong người xem làm gì.",
-   chk:["Nhóm đã chọn chủ đề và phân vai","Có 3 thông tin đáng tin, ghi rõ nguồn","Viết được thông điệp chính trong một câu","Điền bản yêu cầu thiết kế (brief) trong Sổ tay"]},
-  {k:"g2",t:"Giai đoạn 2 · Phác thảo ý tưởng",time:"1 tiết",lesson:"bai12",dk:"bocuc",
-   do:"Mỗi bạn phác nhanh 1–2 bản nháp nhỏ trên giấy (bố cục, vị trí tiêu đề, hình chính, lời kêu gọi). Cả nhóm chọn một bản, có thể ghép ý từ nhiều bản. Chụp ảnh bản phác thảo lưu lại (không chụp khuôn mặt).",
-   chk:["Có ít nhất 3 bản phác thảo của nhóm","Đã chọn một bố cục, nêu được lí do chọn","Xác định hình chính đặt gần điểm giao của lưới 3×3"]},
-  {k:"g3",t:"Giai đoạn 3 · Dựng hình trong Inkscape",time:"Cùng Bài 13 và Bài 14",lesson:"bai13",lesson2:"bai14",dk:"lop",
-   do:"Tạo trang A4 dọc (File → Document Properties). Tạo 4 lớp: Nền, Hoạ tiết, Hình, Chữ. Vẽ hình bằng hình cơ bản, phép hợp, hiệu, giao; vẽ chi tiết bằng bút Bezier; đặt tiêu đề, có thể cho chữ chạy theo đường. Lưu tệp .svg thường xuyên.",
-   chk:["Trang A4 dọc, có 4 lớp đặt tên rõ","Dùng ít nhất 2 phép kết hợp hình (hợp, hiệu, giao…)","Có ít nhất 1 chi tiết vẽ bằng bút Bezier","Đã lưu tệp .svg có tên rõ nghĩa"],
-   res:[["Inkscape – trang chính thức, tải phần mềm miễn phí, nguồn mở","https://inkscape.org/"],["Inkscape – hướng dẫn học (tiếng Anh, có hình minh hoạ)","https://inkscape.org/learn/tutorials/"],["Openclipart – hình vectơ miễn phí, dùng tự do (CC0)","https://openclipart.org/"],["Wikimedia Commons – ảnh, hình có ghi giấy phép (đọc kĩ giấy phép trước khi dùng)","https://commons.wikimedia.org/"]]},
-  {k:"g4",t:"Giai đoạn 4 · Phối màu, chữ và hoàn thiện",time:"Cùng Bài 15",lesson:"bai15",dk:"mau",
-   do:"Lập bảng 4–5 màu theo một kiểu phối, dùng tỉ lệ 60 – 30 – 10. Tối đa 2 phông, đủ dấu tiếng Việt. Kiểm tra tương phản chữ/nền, xem thử đen trắng. Căn chỉnh bằng Align and Distribute, chừa lề an toàn. Xuất PNG khổ A4 (1240 × 1754 điểm ảnh).",
-   chk:["Bảng màu 4–5 màu, có một màu nhấn","Tương phản chữ/nền đạt từ 4,5 : 1","Các đối tượng thẳng hàng, có lề an toàn","Đã xuất PNG và kiểm tra lại ảnh"],
-   res:[["Google Fonts – lọc bộ chữ “Vietnamese” để có đủ dấu tiếng Việt","https://fonts.google.com/?subset=vietnamese"],["WebAIM – kiểm tra độ tương phản màu","https://webaim.org/resources/contrastchecker/"],["Adobe Color – vòng màu, gợi ý phối màu","https://color.adobe.com/"]]},
-  {k:"g5",t:"Giai đoạn 5 · Góp ý, chỉnh sửa và trình bày",time:"1 tiết trình bày",lesson:"bai15",dk:"ai",
-   do:"Đổi poster với một nhóm khác, làm kiểm tra 5 giây: họ nhớ được gì? Có thể nhờ AI góp ý bằng câu lệnh trong Sổ tay (chỉ gửi ảnh poster). Sửa ít nhất 2 điểm, ghi nhật kí góp ý. Nộp sản phẩm ở phần Vận dụng của Bài 15 và đưa ảnh poster lên nhánh Sản phẩm mở, trình bày 2 phút trước lớp.",
-   chk:["Đã làm kiểm tra 5 giây với nhóm khác","Đã sửa ít nhất 2 điểm, ghi nhật kí góp ý","Đã đánh dấu danh sách kiểm tra trước khi nộp","Đã nộp ở Vận dụng Bài 15 và chuẩn bị trình bày 2 phút"]}],
- rub:[["Thông điệp và chủ đề",2,["Thông điệp rõ trong 5 giây, đúng chủ đề, có số liệu đáng tin và lời kêu gọi hành động hấp dẫn","Thông điệp rõ, đúng chủ đề, có lời kêu gọi","Đúng chủ đề nhưng thông điệp chưa nổi bật","Lạc chủ đề hoặc không rõ muốn nói gì"]],
-  ["Bố cục",2,["Cấp bậc thị giác rõ, căn lề chuẩn, khoảng trắng hợp lí, dẫn mắt tốt","Có tiêu đề nổi bật, căn lề khá, thông tin chia nhóm","Bố cục chưa cân, vài chỗ lệch hoặc chật","Rối, khó biết nhìn vào đâu"]],
-  ["Màu sắc và chữ",2,["Bảng màu hài hoà, đúng cảm xúc; tương phản đạt; tối đa 2 phông, chữ đẹp, không lỗi chính tả","Màu hài hoà, tương phản đạt, chữ dễ đọc","Màu hơi nhiều hoặc chữ khó đọc ở vài chỗ","Màu rối, chữ khó đọc, lỗi chính tả"]],
-  ["Kĩ thuật Inkscape",2,["Dùng thành thạo lớp, phép kết hợp hình, Bezier, chữ theo đường; xuất PNG đúng khổ","Dùng đúng lớp, kết hợp hình, Bezier; xuất PNG","Dùng được hình cơ bản, xuất PNG, còn lỗi nhỏ","Chưa hoàn thành tệp hoặc chưa xuất được ảnh"]],
-  ["Quy trình và hợp tác",1,["Đủ brief, phác thảo, nhật kí góp ý; mọi bạn làm đúng vai","Đủ brief, phác thảo, nhật kí góp ý","Thiếu một trong các minh chứng quy trình","Không có minh chứng quy trình"]],
-  ["Trình bày và trung thực",1,["Trình bày tự tin 2 phút; ghi đủ nguồn, nêu rõ phần có AI hỗ trợ","Trình bày rõ; ghi nguồn","Trình bày còn lúng túng; thiếu một số nguồn","Không trình bày được hoặc sử dụng hình, phông không rõ nguồn"]]],
- rubNote:"Điểm từng tiêu chí = điểm tối đa × tỉ lệ mức đạt. Poster dùng hình, phông vi phạm bản quyền phải sửa trước khi chấm. Các nhóm chấm chéo theo bảng này trong buổi triển lãm; thầy cô chấm điểm chính thức.",
- gt:()=>`<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Đoàn trường cần 8 poster cổ động</h3>
-   <p>Đoàn trường (giả định) tổ chức triển lãm <b>“Poster cổ động vì cộng đồng”</b>. Mỗi poster sẽ được in khổ A4 dán ở bảng tin và đăng trên trang tin nội bộ của trường.</p>
-   <p>Nhóm em là một <b>studio thiết kế nhỏ</b> được mời tham gia. Khách hàng là các bạn học sinh, thầy cô, phụ huynh đi ngang bảng tin, họ chỉ dừng mắt <b>vài giây</b>. Làm sao để poster của nhóm khiến họ dừng lại, hiểu ngay và muốn làm theo?</p>
-   <p>Trong 4 tuần học Chủ đề 4, nhóm sẽ dùng Inkscape và những gì học ở Bài 12–15 để trả lời câu hỏi đó.</p></div><div class="wqbig" aria-hidden="true">🎨</div></div>`,
- nv:`<li><b>Một poster (tranh cổ động) vectơ</b> khổ A4 dọc làm bằng Inkscape: tệp <code>.svg</code> và ảnh <code>.png</code> 1240 × 1754 điểm ảnh.</li>
-   <li><b>Bản thuyết minh</b> 3–5 câu: người xem là ai, ý tưởng, vì sao chọn màu sắc và bố cục như vậy.</li>
-   <li><b>Minh chứng quy trình:</b> bản yêu cầu thiết kế (brief), ảnh 3 bản phác thảo, nhật kí góp ý (góp ý nhận được và điều đã sửa).</li>
-   <li><b>Trình bày 2 phút</b> trước lớp trong buổi triển lãm.</li>`,
- nvNote:"Nhóm 3–4 bạn. Nộp ở phần <b>Vận dụng của Bài 15</b>; ảnh poster đưa lên nhánh <b>Sản phẩm mở</b>. Poster không có ảnh khuôn mặt, họ tên, số điện thoại của học sinh.",
- roleNote:"Nhóm 3 bạn: gộp vai Kĩ thuật viên vào Biên tập. Mọi bạn đều cùng vẽ, vai chỉ là người chịu trách nhiệm chính.",
+  {k:"g1",t:"Bước 1 · Chọn chủ đề và phác thảo",time:"Bài 12",lesson:"bai12",dk:"tuduy",
+   do:"Chọn chủ đề, tìm 3 thông tin có nguồn, viết thông điệp trong một câu. Mỗi bạn phác nhanh 1–2 bố cục trên giấy rồi cả nhóm chọn một bản.",
+   chk:["Có thông điệp một câu","Có 3 thông tin ghi rõ nguồn","Nhóm đã chọn một bản phác thảo"],more:"Chọn một chủ đề trong danh sách (hoặc chủ đề nhóm đề xuất, được thầy cô đồng ý). Tìm 3 thông tin, số liệu đáng tin về chủ đề từ nguồn chính thức, ghi nguồn. Điền bản yêu cầu thiết kế: ai xem, xem ở đâu, thông điệp một câu, mong người xem làm gì. Mỗi bạn phác nhanh 1–2 bản nháp nhỏ trên giấy (bố cục, vị trí tiêu đề, hình chính, lời kêu gọi). Cả nhóm chọn một bản, có thể ghép ý từ nhiều bản. Chụp ảnh bản phác thảo lưu lại (không chụp khuôn mặt)."},
+  {k:"g2",t:"Bước 2 · Dựng hình trong Inkscape",time:"Bài 13 và Bài 14",lesson:"bai13",lesson2:"bai14",dk:"lop",
+   do:"Tạo trang A4 dọc, chia lớp, vẽ hình bằng phép kết hợp hình và bút Bezier, đặt tiêu đề. Nhớ lưu tệp thường xuyên.",
+   chk:["Trang A4, các lớp đặt tên rõ","Dùng phép kết hợp hình và bút Bezier","Đã lưu tệp .svg"],more:"Tạo trang A4 dọc (File → Document Properties). Tạo 4 lớp: Nền, Hoạ tiết, Hình, Chữ. Vẽ hình bằng hình cơ bản, phép hợp, hiệu, giao; vẽ chi tiết bằng bút Bezier; đặt tiêu đề, có thể cho chữ chạy theo đường. Lưu tệp .svg thường xuyên.",
+   res:[["Inkscape – tải phần mềm miễn phí","https://inkscape.org/"],["Openclipart – hình vectơ dùng tự do","https://openclipart.org/"]]},
+  {k:"g3",t:"Bước 3 · Màu, chữ và hoàn thiện",time:"Bài 15",lesson:"bai15",dk:"mau",
+   do:"Chọn 4–5 màu theo tỉ lệ 60 – 30 – 10, dùng tối đa 2 phông chữ, kiểm tra chữ đọc rõ trên nền, rồi xuất ảnh PNG.",
+   chk:["Màu hài hoà, có một màu nhấn","Chữ đọc rõ trên nền","Đã xuất ảnh PNG"],more:"Lập bảng 4–5 màu theo một kiểu phối, dùng tỉ lệ 60 – 30 – 10. Tối đa 2 phông, đủ dấu tiếng Việt. Kiểm tra tương phản chữ/nền, xem thử đen trắng. Căn chỉnh bằng Align and Distribute, chừa lề an toàn. Xuất PNG khổ A4 (1240 × 1754 điểm ảnh).",
+   res:[["Google Fonts – chọn phông có dấu tiếng Việt","https://fonts.google.com/?subset=vietnamese"],["WebAIM – kiểm tra chữ và nền có đủ tương phản","https://webaim.org/resources/contrastchecker/"]]},
+  {k:"g4",t:"Bước 4 · Góp ý, sửa và trình bày",time:"1 tiết",lesson:"bai15",dk:"ai",
+   do:"Nhờ nhóm khác nhìn poster 5 giây rồi nói lại điều họ nhớ. Sửa ít nhất 2 điểm, nộp bài và trình bày 2 phút.",
+   chk:["Đã sửa ít nhất 2 điểm theo góp ý","Đã nộp ở Vận dụng Bài 15","Đã đưa ảnh lên Sản phẩm mở"],more:"Đổi poster với một nhóm khác, làm kiểm tra 5 giây: họ nhớ được gì? Có thể nhờ AI góp ý bằng câu lệnh trong Sổ tay (chỉ gửi ảnh poster). Sửa ít nhất 2 điểm, ghi nhật kí góp ý. Nộp sản phẩm ở phần Vận dụng của Bài 15 và đưa ảnh poster lên nhánh Sản phẩm mở, trình bày 2 phút trước lớp."}],
+ rub:[["Thông điệp",3,["Hiểu ngay trong 5 giây, đúng chủ đề, có lời kêu gọi","Đúng chủ đề nhưng chưa nổi bật","Không rõ muốn nói gì"]],
+  ["Bố cục, màu và chữ",3,["Rõ chỗ nhìn đầu tiên, màu hài hoà, chữ dễ đọc","Khá rõ, còn vài chỗ rối hoặc khó đọc","Rối, khó đọc"]],
+  ["Kĩ thuật Inkscape",2,["Dùng đúng lớp, kết hợp hình, Bezier; xuất được PNG","Làm được hình cơ bản, xuất được PNG","Chưa xuất được ảnh"]],
+  ["Quy trình và trình bày",2,["Có phác thảo, góp ý, ghi nguồn; trình bày tự tin","Thiếu một minh chứng hoặc trình bày còn lúng túng","Không có minh chứng, không trình bày"]]],
+ rubNote:"Nhóm tự chấm trước khi nộp; các nhóm chấm chéo khi triển lãm; thầy cô chấm điểm chính thức.",
+ gt:()=>`<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Poster nào khiến người xem dừng lại?</h3>
+   <p>Đoàn trường (giả định) mở triển lãm <b>“Poster cổ động vì cộng đồng”</b>. Nhóm em là một studio thiết kế nhỏ, dùng Inkscape làm một poster khổ A4. Người đi ngang bảng tin chỉ nhìn vài giây.</p>
+   <p><b>Câu hỏi lớn:</b> Làm sao để chỉ trong 5 giây, người xem hiểu và muốn làm theo?</p></div><div class="wqbig" aria-hidden="true">🎨</div></div>`,
+ nv:`<li><b>Poster vectơ khổ A4</b> làm bằng Inkscape: tệp <code>.svg</code> và ảnh <code>.png</code>.</li>
+   <li><b>3–5 câu thuyết minh:</b> người xem là ai, vì sao chọn màu và bố cục như vậy.</li>
+   <li><b>Minh chứng:</b> bản phác thảo, góp ý đã nhận; trình bày 2 phút.</li>`,
+ nvNote:"Nhóm 3–4 bạn · 4 tuần (Bài 12–15) · poster không có khuôn mặt, họ tên học sinh.",
+ roleNote:"Nhóm 3 bạn thì gộp Kĩ thuật viên vào Trưởng nhóm.",
  submit:{lesson:"bai15",step:"vandung",label:"Nộp sản phẩm ở Vận dụng Bài 15 →"},
- kl:`<p>Sau dự án, nhóm em biết thiết kế phải bắt đầu từ người xem và thông điệp chứ không bắt đầu từ công cụ: hiểu ai sẽ nhìn poster, họ có vài giây, mình muốn họ làm gì. Từ đó em biến ý tưởng thành sản phẩm vectơ bằng lớp, hình, đường, chữ và màu; biết nhận góp ý để sửa; biết tôn trọng bản quyền và dùng AI có trách nhiệm. Đó cũng là công việc hằng ngày của người làm thiết kế đồ hoạ, truyền thông (xem thêm Bài 33 “Nghề thiết kế đồ hoạ máy tính”).</p>`,
- klQ:"Nếu làm lại, nhóm em sẽ đổi điều gì đầu tiên? Vì sao?",
+ kl:`<p>Thiết kế tốt bắt đầu từ người xem, không phải từ công cụ. Nhận góp ý rồi sửa giúp sản phẩm tốt hơn. Dùng hình, phông có nguồn rõ ràng là tôn trọng người khác.</p>`,
+ klQ:"Nếu làm lại, nhóm em đổi điều gì đầu tiên?",
  thay:`<div class="card stack" style="gap:6px"><b>Mục tiêu (Chương trình GDPT 2018, Tin học 10, Chủ đề 4)</b><ul class="wqul"><li>Sử dụng được phần mềm thiết kế đồ hoạ tạo sản phẩm số đơn giản: hình, đường, chữ, màu, lớp; xuất ảnh.</li><li>Phát triển năng lực hợp tác, giải quyết vấn đề và sáng tạo; ý thức tôn trọng bản quyền.</li></ul></div>
    <div class="card stack" style="gap:6px"><b>Thời lượng gợi ý</b><div class="tbl"><table class="dtable"><thead><tr><th>Tuần</th><th>Bài trên lớp</th><th>Dự án</th></tr></thead><tbody><tr><td>9</td><td>Bài 12</td><td>Giao nhiệm vụ, chia nhóm, giai đoạn 1–2</td></tr><tr><td>10</td><td>Bài 13</td><td>Giai đoạn 3: dựng hình</td></tr><tr><td>11</td><td>Bài 14</td><td>Giai đoạn 3: đường, chữ</td></tr><tr><td>12</td><td>Bài 15</td><td>Giai đoạn 4–5, nộp bài</td></tr><tr><td>13</td><td>1 tiết</td><td>Triển lãm, trình bày, chấm chéo</td></tr></tbody></table></div></div>
    <div class="card stack" style="gap:6px"><b>Lưu ý tổ chức</b><ul class="wqul"><li>Chia nhóm 3–4 em, trộn trình độ; mỗi nhóm một chủ đề khác nhau để triển lãm phong phú.</li><li>Phòng máy cần cài Inkscape 1.x; nhóm không có máy ở nhà làm giai đoạn 1–2 trên giấy.</li><li>Sản phẩm nộp ở Vận dụng Bài 15; Thầy xem ảnh poster, thuyết minh, nhật kí góp ý ở trang Lớp học, mục “Sản phẩm vận dụng”. Ảnh đưa lên Sản phẩm mở chỉ hiện công khai sau khi Thầy duyệt.</li><li>Quyền riêng tư: poster không có khuôn mặt, họ tên, thông tin liên lạc của học sinh. Đăng ra ngoài lớp cần sự đồng ý của phụ huynh.</li><li>AI chỉ dùng để góp ý theo câu lệnh trong Sổ tay; học sinh ghi rõ phần có AI hỗ trợ.</li><li>Đây là bản soạn mẫu, Thầy chỉnh chủ đề, thời lượng theo kế hoạch tổ chuyên môn.</li></ul></div>`},
  k8c4:{t:"Nhà phân tích nhí: Dữ liệu kể chuyện lớp em",sub:"WebQuest dự án Chủ đề 4 · Tin học 8 · Bảng tính",short:"Tin học 8 Chủ đề 4",lop:8,
- method:"PRIMM cho phần công thức: Dự đoán → Chạy thử → Tìm hiểu → Sửa → Tự tạo. Các phần còn lại làm theo: Quan sát mẫu → Làm theo → Tự làm.",
+ method:"PRIMM khi làm công thức: Đoán → Chạy thử → Tìm hiểu → Sửa → Tự tạo.",
  themes:[["🧴","Rác nhựa dùng một lần ở lớp em"],["🚲","Em đến trường bằng gì?"],["📱","Thời gian dùng điện thoại mỗi ngày"],["💡","Điện, nước nhà em dùng mỗi tháng"],["📚","Sách cả lớp đọc trong tháng"],["🥭","Giá trái cây ở chợ gần nhà theo tuần"],["🥤","Tiền ăn sáng, ăn vặt mỗi tuần"],["⏰","Giờ ngủ và giờ tự học"]],
- roles:[["tn","Trưởng nhóm – điều phối","Chia việc, giữ tiến độ, viết phần kết luận và đề xuất."],["tt","Thu thập dữ liệu","Soạn câu hỏi khảo sát, thu thập, nhập dữ liệu, kiểm tra dữ liệu thiếu hoặc sai."],["ct","Công thức","Viết công thức tính tổng, trung bình, tỉ lệ; dùng đúng địa chỉ tương đối, tuyệt đối."],["bd","Biểu đồ – trình bày","Sắp xếp, lọc, vẽ biểu đồ, chuẩn bị 3 phút trình bày."]],
- lessons:["k8b5","k8b6","k8b7"],
+ roles:[["tn","Trưởng nhóm","Chia việc, giữ tiến độ, viết kết luận."],["tt","Thu dữ liệu","Soạn câu hỏi, thu và nhập dữ liệu."],["ct","Công thức","Viết công thức, kiểm tra dấu $."],["bd","Biểu đồ","Lọc, vẽ biểu đồ, chuẩn bị trình bày."]],
+ lessons:["k8b5","k8b6","k8b7"],lv:["Tốt (đủ điểm)", "Đạt (nửa số điểm)", "Chưa đạt (0 điểm)"],
  stages:[
-  {k:"g1",t:"Giai đoạn 1 · Chọn câu hỏi và thu thập dữ liệu",time:"Sau Bài 5 · ở nhà 1 tuần",lesson:"k8b5",
-   do:"Chọn một chủ đề, đặt một câu hỏi mà dữ liệu trả lời được (ví dụ: “Lớp em dùng bao nhiêu chai nhựa mỗi tuần, ai dùng nhiều nhất?”). Thu thập ít nhất 20 dòng dữ liệu bằng khảo sát ẩn danh hoặc tự ghi chép. Không hỏi họ tên, số điện thoại, địa chỉ. Nhập vào bảng tính, mỗi cột một loại thông tin, dòng đầu là tên cột.",
-   chk:["Nhóm đã chọn chủ đề, viết câu hỏi trong một câu","Có từ 20 dòng dữ liệu, không có họ tên hay thông tin riêng","Bảng có dòng tên cột, mỗi cột một loại dữ liệu","Ghi rõ dữ liệu thu thập thế nào, ngày nào"],
-   res:[["Google Biểu mẫu – tạo phiếu khảo sát (bỏ câu hỏi tên, email)","https://docs.google.com/forms/"],["Trợ giúp Google Trang tính","https://support.google.com/docs/"]]},
-  {k:"g2",t:"Giai đoạn 2 · Công thức theo PRIMM",time:"Cùng Bài 5 · 1 tiết",lesson:"k8b5",
-   do:"Dự đoán: trước khi sao chép công thức =C2/C$22 xuống các ô bên dưới, em đoán kết quả từng ô. Chạy: sao chép thật và so với dự đoán. Tìm hiểu: vì sao C2 đổi thành C3, C4 mà C$22 không đổi? Sửa: bỏ dấu $ rồi sao chép lại, xem điều gì sai. Tự tạo: viết thêm ít nhất 2 cột tính mới cho dữ liệu của nhóm (tổng, trung bình, tỉ lệ phần trăm so với cả lớp).",
-   chk:["Đã ghi dự đoán trước khi chạy thử","Giải thích được vì sao cần dấu $ ở một địa chỉ","Có ít nhất 2 cột tính bằng công thức, không gõ tay kết quả","Có ít nhất 1 công thức dùng địa chỉ tuyệt đối"],
+  {k:"g1",t:"Bước 1 · Đặt câu hỏi, thu dữ liệu",time:"Sau Bài 5 · ở nhà",lesson:"k8b5",
+   do:"Chọn chủ đề, viết một câu hỏi, thu ít nhất 20 dòng dữ liệu không ghi tên ai, rồi nhập vào bảng tính.",
+   chk:["Có câu hỏi rõ ràng","Có từ 20 dòng, không có họ tên","Mỗi cột một loại dữ liệu, dòng đầu là tên cột"],more:"Chọn một chủ đề, đặt một câu hỏi mà dữ liệu trả lời được (ví dụ: “Lớp em dùng bao nhiêu chai nhựa mỗi tuần, ai dùng nhiều nhất?”). Thu thập ít nhất 20 dòng dữ liệu bằng khảo sát ẩn danh hoặc tự ghi chép. Không hỏi họ tên, số điện thoại, địa chỉ. Nhập vào bảng tính, mỗi cột một loại thông tin, dòng đầu là tên cột.",
+   res:[["Google Biểu mẫu – tạo phiếu khảo sát (bỏ câu hỏi tên, email)","https://docs.google.com/forms/"]]},
+  {k:"g2",t:"Bước 2 · Tính bằng công thức (PRIMM)",time:"Cùng Bài 5",lesson:"k8b5",
+   do:"Đoán kết quả trước khi sao chép công thức, chạy thử để kiểm tra, rồi tự viết 2 cột tính mới cho dữ liệu của nhóm.",
+   chk:["Ghi dự đoán trước khi chạy thử","Có 2 cột tính bằng công thức","Có 1 công thức dùng dấu $"],more:"Dự đoán: trước khi sao chép công thức =C2/C$22 xuống các ô bên dưới, em đoán kết quả từng ô. Chạy: sao chép thật và so với dự đoán. Tìm hiểu: vì sao C2 đổi thành C3, C4 mà C$22 không đổi? Sửa: bỏ dấu $ rồi sao chép lại, xem điều gì sai. Tự tạo: viết thêm ít nhất 2 cột tính mới cho dữ liệu của nhóm (tổng, trung bình, tỉ lệ phần trăm so với cả lớp).",
    res:[["Microsoft Excel – trợ giúp tiếng Việt","https://support.microsoft.com/vi-vn/excel"]]},
-  {k:"g3",t:"Giai đoạn 3 · Sắp xếp, lọc tìm điều đáng chú ý",time:"Cùng Bài 6",lesson:"k8b6",
-   do:"Sắp xếp dữ liệu theo cột quan trọng nhất (giảm dần để thấy nhóm cao nhất). Lọc ra những dòng thoả một điều kiện (ví dụ: dùng trên 5 chai mỗi tuần). Ghi lại 3 điều nhóm phát hiện được, kèm con số. Nhớ bỏ lọc trước khi vẽ biểu đồ cả bảng.",
-   chk:["Đã sắp xếp theo ít nhất một cột","Đã lọc theo một điều kiện và bỏ lọc đúng cách","Ghi được 3 phát hiện có con số kèm theo"]},
-  {k:"g4",t:"Giai đoạn 4 · Biểu đồ kể chuyện dữ liệu",time:"Cùng Bài 7",lesson:"k8b7",
-   do:"Vẽ ít nhất 2 biểu đồ, chọn đúng dạng: cột để so sánh, đường để xem thay đổi theo thời gian, tròn để xem tỉ lệ các phần của một tổng. Mỗi biểu đồ có tiêu đề nói được điều muốn kể, tiêu đề trục, chú giải hoặc nhãn dữ liệu.",
-   chk:["Có ít nhất 2 biểu đồ, đúng dạng với dữ liệu","Mỗi biểu đồ có tiêu đề nói rõ điều phát hiện","Có tiêu đề trục, chú giải hoặc nhãn dữ liệu"]},
-  {k:"g5",t:"Giai đoạn 5 · Kết luận, góp ý và trình bày",time:"1 tiết trình bày",lesson:"k8b7",
-   do:"Viết 3–5 câu trả lời câu hỏi ban đầu dựa trên số liệu, kèm một đề xuất hành động cho lớp (ví dụ: mang bình nước riêng). Đổi bài với nhóm khác để góp ý, sửa ít nhất 1 điểm. Chụp ảnh bảng và biểu đồ, đưa lên nhánh Sản phẩm mở, trình bày 3 phút trước lớp.",
-   chk:["Có 3–5 câu kết luận dựa trên số liệu","Có một đề xuất hành động cụ thể","Đã nhận góp ý và sửa ít nhất 1 điểm","Đã đưa sản phẩm lên Sản phẩm mở"]}],
- rub:[["Câu hỏi và dữ liệu",2,["Câu hỏi rõ, trả lời được bằng dữ liệu; từ 20 dòng, ẩn danh, ghi rõ cách thu thập","Câu hỏi rõ; đủ 20 dòng, ẩn danh","Câu hỏi chưa rõ hoặc dưới 20 dòng","Không có câu hỏi hoặc dữ liệu có thông tin riêng"]],
-  ["Công thức và địa chỉ ô",2,["Mọi cột tính dùng công thức đúng; dùng đúng địa chỉ tương đối và tuyệt đối, giải thích được","Công thức đúng, có dùng địa chỉ tuyệt đối","Công thức đúng một phần hoặc còn gõ tay kết quả","Chưa dùng được công thức"]],
-  ["Sắp xếp và lọc",1.5,["Sắp xếp, lọc đúng và rút ra được 3 phát hiện có số liệu","Sắp xếp, lọc đúng, có phát hiện","Làm được sắp xếp hoặc lọc","Chưa làm được"]],
-  ["Biểu đồ",2,["Từ 2 biểu đồ đúng dạng; tiêu đề kể được điều phát hiện; đủ tiêu đề trục, chú giải, nhãn","Từ 2 biểu đồ đúng dạng, có tiêu đề và chú giải","Có biểu đồ nhưng chọn dạng chưa hợp hoặc thiếu tiêu đề","Không có biểu đồ"]],
-  ["Kết luận và đề xuất",1.5,["Kết luận trả lời đúng câu hỏi, dựa trên số liệu; đề xuất cụ thể, làm được","Kết luận dựa trên số liệu, có đề xuất","Kết luận chung chung","Không có kết luận"]],
-  ["Hợp tác và trình bày",1,["Mọi bạn làm đúng vai; trình bày 3 phút rõ ràng, trả lời được câu hỏi","Trình bày rõ, chia việc hợp lí","Trình bày còn lúng túng","Không trình bày được"]]],
- rubNote:"Điểm từng tiêu chí = điểm tối đa × tỉ lệ mức đạt. Nhóm tự chấm theo bảng này trước khi nộp; các nhóm chấm chéo trong buổi trình bày; Thầy chấm điểm chính thức.",
- gt:()=>`<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Cô Tổng phụ trách cần số liệu thật của lớp em</h3>
-   <p>Liên đội (giả định) chuẩn bị phát động phong trào <b>“Lớp em sống xanh, sống khoẻ”</b>. Cô Tổng phụ trách muốn biết thói quen thật của học sinh để chọn việc làm phù hợp, không đoán mò.</p>
-   <p>Nhóm em được mời làm <b>“nhà phân tích nhí”</b>: tự thu thập số liệu của lớp, dùng bảng tính để tính toán, sắp xếp, lọc và vẽ biểu đồ, rồi báo cáo điều số liệu nói lên. Làm sao để chỉ nhìn một biểu đồ, cả lớp hiểu ngay vấn đề và muốn thay đổi?</p>
-   <p>Trong 3 tuần học Bài 5, 6, 7, nhóm sẽ dùng những gì học được để trả lời câu hỏi đó.</p></div><div class="wqbig" aria-hidden="true">📊</div></div>`,
- nv:`<li><b>Một tệp bảng tính</b> (Excel hoặc Google Trang tính): bảng dữ liệu từ 20 dòng, ít nhất 2 cột tính bằng công thức, có dùng địa chỉ tuyệt đối.</li>
-   <li><b>Ít nhất 2 biểu đồ</b> đúng dạng, có tiêu đề kể được điều nhóm phát hiện.</li>
-   <li><b>Bản kết luận</b> 3–5 câu dựa trên số liệu và một đề xuất hành động cho lớp.</li>
-   <li><b>Trình bày 3 phút</b> trước lớp.</li>`,
- nvNote:"Nhóm 3–4 bạn. Ảnh chụp bảng và biểu đồ đưa lên nhánh <b>Sản phẩm mở</b>; tệp bảng tính nộp theo cách Thầy hướng dẫn trên lớp. Dữ liệu không có họ tên, số điện thoại, địa chỉ của ai.",
- roleNote:"Nhóm 3 bạn: gộp vai Biểu đồ – trình bày vào Trưởng nhóm. Cả nhóm cùng làm, vai chỉ là người chịu trách nhiệm chính.",
- kl:`<p>Qua dự án, nhóm em thấy bảng tính không chỉ để tính toán mà còn giúp trả lời câu hỏi về cuộc sống quanh mình: số liệu thật thuyết phục hơn lời đoán, công thức đúng giúp tính một lần dùng cho cả bảng, sắp xếp và lọc giúp thấy điều nổi bật, còn biểu đồ giúp người khác hiểu ngay. Biết dùng số liệu một cách trung thực, không thu thông tin riêng của người khác, là việc mà người làm kế toán, thống kê, phân tích dữ liệu làm mỗi ngày.</p>`,
- klQ:"Số liệu của nhóm em có điều gì bất ngờ không? Nếu thu thập lại, nhóm em sẽ hỏi thêm câu gì?",
+  {k:"g3",t:"Bước 3 · Sắp xếp, lọc, vẽ biểu đồ",time:"Cùng Bài 6 và Bài 7",lesson:"k8b6",lesson2:"k8b7",
+   do:"Sắp xếp, lọc để tìm điều nổi bật, rồi vẽ 2 biểu đồ đúng dạng: cột để so sánh, đường để xem thay đổi, tròn để xem tỉ lệ.",
+   chk:["Ghi được 3 phát hiện có con số","Có 2 biểu đồ đúng dạng","Biểu đồ có tiêu đề, chú giải"],more:"Sắp xếp dữ liệu theo cột quan trọng nhất (giảm dần để thấy nhóm cao nhất). Lọc ra những dòng thoả một điều kiện (ví dụ: dùng trên 5 chai mỗi tuần). Ghi lại 3 điều nhóm phát hiện được, kèm con số. Nhớ bỏ lọc trước khi vẽ biểu đồ cả bảng. Vẽ ít nhất 2 biểu đồ, chọn đúng dạng: cột để so sánh, đường để xem thay đổi theo thời gian, tròn để xem tỉ lệ các phần của một tổng. Mỗi biểu đồ có tiêu đề nói được điều muốn kể, tiêu đề trục, chú giải hoặc nhãn dữ liệu.",
+   res:[["Trợ giúp Google Trang tính","https://support.google.com/docs/"]]},
+  {k:"g4",t:"Bước 4 · Kết luận và trình bày",time:"1 tiết",lesson:"k8b7",
+   do:"Viết 3–5 câu kết luận và một đề xuất cho lớp, nhờ nhóm bạn góp ý, rồi đưa ảnh sản phẩm lên Sản phẩm mở.",
+   chk:["Kết luận dựa trên số liệu","Đã sửa theo góp ý","Đã đưa lên Sản phẩm mở"],more:"Viết 3–5 câu trả lời câu hỏi ban đầu dựa trên số liệu, kèm một đề xuất hành động cho lớp (ví dụ: mang bình nước riêng). Đổi bài với nhóm khác để góp ý, sửa ít nhất 1 điểm. Chụp ảnh bảng và biểu đồ, đưa lên nhánh Sản phẩm mở, trình bày 3 phút trước lớp."}],
+ rub:[["Dữ liệu",2,["Câu hỏi rõ, từ 20 dòng, không ghi tên ai","Dưới 20 dòng hoặc câu hỏi chưa rõ","Không có dữ liệu hoặc có họ tên"]],
+  ["Công thức",3,["Công thức đúng, dùng đúng dấu $","Công thức đúng một phần","Còn gõ tay kết quả"]],
+  ["Biểu đồ",3,["2 biểu đồ đúng dạng, tiêu đề rõ","Thiếu tiêu đề hoặc chọn sai dạng","Không có biểu đồ"]],
+  ["Kết luận và trình bày",2,["Kết luận dựa trên số liệu, trình bày rõ","Kết luận chung chung","Không có kết luận"]]],
+ rubNote:"Nhóm tự chấm trước khi nộp; các nhóm chấm chéo khi trình bày; Thầy chấm điểm chính thức.",
+ gt:()=>`<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Lớp em có thói quen gì?</h3>
+   <p>Liên đội (giả định) phát động phong trào <b>“Lớp em sống xanh, sống khoẻ”</b> và cần số liệu thật. Nhóm em là <b>nhà phân tích nhí</b>: thu số liệu, dùng bảng tính để tính, lọc, vẽ biểu đồ, rồi cho cả lớp thấy điều số liệu nói lên.</p>
+   <p><b>Câu hỏi lớn:</b> Chỉ nhìn một biểu đồ, làm sao cả lớp hiểu ngay và muốn thay đổi?</p></div><div class="wqbig" aria-hidden="true">📊</div></div>`,
+ nv:`<li><b>Tệp bảng tính:</b> từ 20 dòng dữ liệu, có công thức (ít nhất một công thức dùng dấu $).</li>
+   <li><b>2 biểu đồ</b> đúng dạng, tiêu đề nói rõ điều phát hiện.</li>
+   <li><b>3–5 câu kết luận</b> và một đề xuất cho lớp; trình bày 3 phút.</li>`,
+ nvNote:"Nhóm 3–4 bạn · 3 tuần (Bài 5–7) · dữ liệu không có họ tên, số điện thoại của ai.",
+ roleNote:"Nhóm 3 bạn thì gộp Biểu đồ vào Trưởng nhóm.",
+ kl:`<p>Số liệu thật giúp lớp em hiểu mình hơn là đoán. Bảng tính giúp tính nhanh, lọc ra điều nổi bật và vẽ biểu đồ ai nhìn cũng hiểu.</p>`,
+ klQ:"Số liệu của nhóm em có điều gì bất ngờ?",
  thay:`<div class="card stack" style="gap:6px"><b>Mục tiêu (Chương trình GDPT 2018, Tin học 8, Chủ đề 4)</b><ul class="wqul"><li>Giải thích được sự khác nhau giữa địa chỉ tương đối và địa chỉ tuyệt đối; sử dụng bảng tính giải quyết bài toán thực tế.</li><li>Sắp xếp, lọc dữ liệu; nêu được tình huống thực tế cần sắp xếp, lọc.</li><li>Chọn được dạng biểu đồ phù hợp; tạo và chỉnh sửa biểu đồ.</li><li>Phát triển năng lực hợp tác, giải quyết vấn đề; trung thực, tôn trọng thông tin riêng của người khác.</li></ul></div>
    <div class="card stack" style="gap:6px"><b>Thời lượng gợi ý</b><div class="tbl"><table class="dtable"><thead><tr><th>Tuần</th><th>Bài trên lớp</th><th>Dự án</th></tr></thead><tbody><tr><td>1</td><td>Bài 5</td><td>Giao nhiệm vụ, chia nhóm; giai đoạn 1 (thu dữ liệu ở nhà); giai đoạn 2 công thức</td></tr><tr><td>2</td><td>Bài 6</td><td>Giai đoạn 3: sắp xếp, lọc</td></tr><tr><td>3</td><td>Bài 7</td><td>Giai đoạn 4: biểu đồ; giai đoạn 5 hoàn thiện</td></tr><tr><td>4</td><td>1 tiết</td><td>Trình bày, chấm chéo</td></tr></tbody></table></div></div>
    <div class="card stack" style="gap:6px"><b>Lưu ý tổ chức</b><ul class="wqul"><li>Chia nhóm 3–4 em, trộn trình độ; mỗi nhóm một chủ đề khác nhau.</li><li>Dữ liệu khảo sát phải ẩn danh: không hỏi họ tên, email, địa chỉ; câu hỏi về chi tiêu, sức khoẻ để ở mức chung, không làm em nào ngại.</li><li>Nhóm không có máy ở nhà: thu dữ liệu trên giấy, nhập vào máy ở phòng máy.</li><li>Ảnh sản phẩm đưa lên Sản phẩm mở chỉ hiện công khai sau khi Thầy duyệt; nhóm dùng tên nhóm, không dùng họ tên.</li><li>Đây là bản soạn mẫu, Thầy chỉnh chủ đề, thời lượng theo kế hoạch tổ chuyên môn.</li></ul></div>`}
@@ -17310,20 +17300,20 @@ function wqEl(id,teacher){const W=WQS[id]||WQS.k10c4;const S=wqState(id,teacher)
  const lbtn=l=>L[l]?(teacher?`<span class="small">${esc(L[l].title.split(".")[0])}</span>`:`<button class="btn sm ghost" data-wql="${l}">Mở ${esc(L[l].title.split(".")[0])}</button>`):"";
  const d=document.createElement("div");d.className="wq";
  function sec(){const p=Math.round(nDone()/nChk*100);
-  if(tab==="gt")return W.gt()+`<div class="wqthemes">${W.themes.map(([i,t])=>`<span>${i} ${esc(t)}</span>`).join("")}</div>`;
+  if(tab==="gt")return W.gt();
   if(tab==="nv")return `<div class="card stack" style="gap:8px"><b>Sản phẩm nhóm em cần nộp</b><ol class="wqol">${W.nv}</ol>
    <p class="small muted" style="margin:0">${W.nvNote}</p></div>
    <div class="card stack" style="gap:6px"><b>Chọn chủ đề của nhóm</b><div class="wqpick">${W.themes.map(([i,t])=>`<button class="btn sm ${S.theme===t?"":"ghost"}" data-wqt="${esc(t)}">${i} ${esc(t)}</button>`).join("")}</div><p class="small muted" style="margin:0">Muốn chọn chủ đề khác thì hỏi thầy cô trước.</p></div>
-   <div class="card stack" style="gap:6px"><b>Vai trong nhóm – em nhận vai nào?</b><div class="wqroles">${W.roles.map(([k,t,x])=>`<button class="wqrole ${S.role===k?"on":""}" data-wqr="${k}"><b>${esc(t)}</b><span>${esc(x)}</span></button>`).join("")}</div><p class="small muted" style="margin:0">${esc(W.roleNote)}</p></div>`;
+   <details class="card wqroled"><summary><b>Vai trong nhóm – em nhận vai nào?</b> <span class="small muted">(bấm để chọn)</span></summary><div class="wqroles">${W.roles.map(([k,t,x])=>`<button class="wqrole ${S.role===k?"on":""}" data-wqr="${k}"><b>${esc(t)}</b><span>${esc(x)}</span></button>`).join("")}</div><p class="small muted" style="margin:6px 0 0">${esc(W.roleNote)}</p></details>`;
   if(tab==="tt")return `<div class="card wqmeth"><b>Phương pháp:</b> ${esc(W.method)}</div>
    <div class="wqprog"><span>Tiến độ của em</span><div class="wqbar"><i style="width:${p}%"></i></div><b>${nDone()}/${nChk}</b></div>${W.stages.map(s=>{const k=s.chk.filter((_,i)=>S.chk[s.k+i]).length;return `<details class="card wqst" ${k<s.chk.length&&W.stages.findIndex(z=>z.chk.some((_,i)=>!S.chk[z.k+i]))===W.stages.indexOf(s)?"open":""}><summary><b>${esc(s.t)}</b><span class="small muted">${esc(s.time)}</span><span class="status ${k===s.chk.length?"ok":""}">${k}/${s.chk.length}</span></summary>
-   <p>${esc(s.do)}</p><div class="stack" style="gap:4px">${s.chk.map((c,i)=>`<label class="stchk"><input type="checkbox" data-wqc="${s.k+i}" ${S.chk[s.k+i]?"checked":""}><span>${esc(c)}</span></label>`).join("")}</div>
+   <p><b>Em làm gì:</b> ${esc(s.do)}</p>${s.more?`<details class="wqmore"><summary class="small">Xem hướng dẫn chi tiết</summary><p class="small">${esc(s.more)}</p></details>`:""}<div class="stack" style="gap:4px">${s.chk.map((c,i)=>`<label class="stchk"><input type="checkbox" data-wqc="${s.k+i}" ${S.chk[s.k+i]?"checked":""}><span>${esc(c)}</span></label>`).join("")}</div>
    <div class="wqres"><b class="small">📎 Tài liệu cho giai đoạn này</b><div class="row" style="gap:6px;flex-wrap:wrap">${lbtn(s.lesson)}${s.lesson2?lbtn(s.lesson2):""}${s.dk&&W.dkit?`<button class="btn sm ghost" data-dkopen data-dktab="${s.dk}">📘 Sổ tay: ${esc(WQDK[s.dk])}</button>`:""}</div>${s.res&&s.res.length?`<ul class="wqul">${s.res.map(([t,h])=>`<li><a href="${h}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("")}</ul>`:""}</div></details>`;}).join("")}
    <p class="small muted" style="margin:0">Trang bên ngoài: mở cùng thầy cô hoặc bố mẹ. Chỉ dùng hình, phông, số liệu có nguồn rõ ràng và ghi nguồn trong sản phẩm.</p>
    ${teacher||!W.submit?"":`<div class="row"><button class="btn gold" data-wql="${W.submit.lesson}" data-wqstep="${W.submit.step}">${esc(W.submit.label)}</button></div>`}`;
-  if(tab==="dg")return `<div class="card stack" style="gap:6px"><b>Thang đánh giá (10 điểm)</b><div class="tbl"><table class="dtable wqrub"><thead><tr><th>Tiêu chí</th><th>Xuất sắc (100%)</th><th>Tốt (75%)</th><th>Đạt (50%)</th><th>Cần cố gắng (25%)</th></tr></thead><tbody>${W.rub.map(([c,pt,lv])=>`<tr><th>${esc(c)}<br><span class="small muted">${String(pt).replace(".",",")} điểm</span></th>${lv.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+  if(tab==="dg")return `<div class="card stack" style="gap:6px"><b>Thang đánh giá (10 điểm)</b><div class="tbl"><table class="dtable wqrub"><thead><tr><th>Tiêu chí</th>${(W.lv||["Xuất sắc","Tốt","Đạt","Cần cố gắng"]).map(x=>`<th>${esc(x)}</th>`).join("")}</tr></thead><tbody>${W.rub.map(([c,pt,lv])=>`<tr><th>${esc(c)}<br><span class="small muted">${String(pt).replace(".",",")} điểm</span></th>${lv.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
    <p class="small muted" style="margin:0">${esc(W.rubNote)}</p></div>`;
-  if(tab==="kl")return `<div class="card stack" style="gap:8px"><b>Ý nghĩa của dự án</b>${W.kl}<p class="small muted" style="margin:0">Câu hỏi tự suy ngẫm: ${esc(W.klQ)}</p></div>`;
+  if(tab==="kl")return `<div class="card stack" style="gap:8px"><b>Điều em mang theo</b>${W.kl}<p class="small muted" style="margin:0">Câu hỏi tự suy ngẫm: ${esc(W.klQ)}</p></div>`;
   if(tab==="sp")return `<div class="wqsp" data-wqsp><p class="small muted">Đang tải sản phẩm…</p></div>`;
   if(tab==="thay")return W.thay;
   return "";}
@@ -17346,10 +17336,10 @@ function wqTree(id,prods){const W=WQS[id],tx=h=>String(h||"").replace(/<[^>]+>/g
  const g=W.gt(),h3=tx((g.match(/<h3>([\s\S]*?)<\/h3>/)||[])[1]),ps=[...g.matchAll(/<p>([\s\S]*?)<\/p>/g)].map(m=>tx(m[1]));
  const li=h=>[...h.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(m=>tx(m[1]));
  return {t:W.t,sub:W.sub,b:[
-  {k:"gt",t:"1. Giới thiệu",c:[{t:h3}].concat(ps.slice(0,2).map(t=>({t})),[{t:"Chủ đề gợi ý",c:W.themes.map(([i,t])=>({t:i+" "+t}))}])},
-  {k:"nv",t:"2. Nhiệm vụ",c:li(W.nv).map(t=>({t})).concat([{t:"Vai trong nhóm",c:W.roles.map(([k,t,x])=>({t:t+": "+x}))}])},
-  {k:"tt",t:"3. Tiến trình",c:[{t:"Phương pháp: "+W.method}].concat(W.stages.map(s=>({t:s.t,c:[{t:"Thời gian: "+s.time},{t:s.do}].concat(s.chk.map(t=>({t:"Kiểm tra: "+t})),(s.lesson&&L[s.lesson]?[{t:"Bài học: "+L[s.lesson].title}]:[]),(s.res||[]).map(([t,h])=>({t:"Tài liệu: "+t,l:h})))})))},
-  {k:"dg",t:"4. Đánh giá",c:W.rub.map(([c,p,lv])=>({t:c+" ("+String(p).replace(".",",")+" điểm)",c:[["Xuất sắc",0],["Tốt",1],["Đạt",2],["Cần cố gắng",3]].map(([n,i])=>({t:n+": "+lv[i]}))}))},
+  {k:"gt",t:"1. Giới thiệu",c:[{t:h3}].concat(ps.slice(0,2).map(t=>({t})))},
+  {k:"nv",t:"2. Nhiệm vụ",c:li(W.nv).map(t=>({t})).concat([{t:tx(W.nvNote)},{t:"Chủ đề gợi ý",c:W.themes.map(([i,t])=>({t:i+" "+t}))},{t:"Vai trong nhóm",c:W.roles.map(([k,t,x])=>({t:t+": "+x}))}])},
+  {k:"tt",t:"3. Tiến trình",c:[{t:"Phương pháp: "+W.method}].concat(W.stages.map(s=>({t:s.t,c:[{t:"Thời gian: "+s.time},{t:"Em làm gì: "+s.do}].concat(s.chk.map(t=>({t:"Kiểm tra: "+t})),(s.lesson&&L[s.lesson]?[{t:"Bài học: "+L[s.lesson].title}]:[]),(s.res||[]).map(([t,h])=>({t:"Tài liệu: "+t,l:h})))})))},
+  {k:"dg",t:"4. Đánh giá",c:W.rub.map(([c,p,lv])=>({t:c+" ("+String(p).replace(".",",")+" điểm)",c:lv.map((x,i)=>({t:(W.lv||["Xuất sắc","Tốt","Đạt","Cần cố gắng"])[i].replace(/ \(.*\)$/,"")+": "+x}))}))},
   {k:"kl",t:"5. Kết luận",c:[{t:tx(W.kl)},{t:"Câu hỏi tự suy ngẫm: "+W.klQ}]},
   {k:"sp",t:"6. Sản phẩm mở",c:[{t:"Nhóm nộp ảnh hoặc liên kết sản phẩm trên trang"},{t:"Thầy duyệt rồi mới hiện công khai"},{t:"Ghi tên nhóm, không ghi họ tên, không có khuôn mặt"}].concat((prods||[]).map(r=>({t:r.tieu_de+" · "+r.nhom+" · Lớp "+r.lop,l:r.lien_ket||""})))}]};}
 function wqMindmap(id){const T=wqTree(id),side=(k,w)=>`<section class="wqmmb wqmm-${k.k}" style="--mmc:${WQMMC[k.k]}"><button class="wqmmh" data-wqs="${k.k}">${esc(k.t)} <span aria-hidden="true">›</span></button><ul>${k.c.slice(0,w).map(c=>`<li>${esc(c.t.length>110?c.t.slice(0,108)+"…":c.t)}${c.c?` <span class="small muted">(${c.c.length})</span>`:""}</li>`).join("")}${k.c.length>w?`<li class="small muted">… và ${k.c.length-w} ý nữa</li>`:""}</ul></section>`;
