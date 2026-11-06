@@ -1617,6 +1617,24 @@ body.dkopen{overflow:hidden}
 .wqst p{line-height:1.55}
 .wqrub{min-width:640px}
 .wqrub td,.wqrub th{font-size:13px;vertical-align:top;line-height:1.45}
+.wqbar2{gap:6px;flex-wrap:wrap;margin:2px 0 4px}
+.wqmm{display:grid;grid-template-columns:minmax(0,1fr) minmax(170px,230px) minmax(0,1fr);gap:14px;align-items:center}
+.wqmmcol{display:grid;gap:12px}
+.wqmmroot{display:grid;gap:4px;text-align:center;background:#6E1014;color:#fff;border-radius:14px;padding:18px 14px;box-shadow:0 6px 18px rgba(110,16,20,.25)}
+.wqmmroot b{font-size:17px;line-height:1.3}
+.wqmmb{border:2px solid var(--mmc);border-radius:14px;background:var(--surface);overflow:hidden;min-width:0}
+.wqmmh{display:block;width:100%;text-align:left;border:0;background:var(--mmc);color:#1c2333;font:inherit;font-weight:800;font-size:15px;padding:8px 12px;cursor:pointer}
+.wqmmh:hover,.wqmmh:focus-visible{filter:brightness(.95);outline:2px solid #1c2333;outline-offset:-2px}
+.wqmmb ul{margin:0;padding:8px 12px 10px 26px;display:grid;gap:4px;font-size:13px;line-height:1.45}
+@media (max-width:860px){.wqmm{grid-template-columns:1fr}.wqmmroot{order:-1}.wqmmcol:first-child{order:2;display:flex;flex-direction:column-reverse}}
+.wqmeth{padding:10px 12px;font-size:14px;line-height:1.5}
+.wqres{display:grid;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.wqgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.wqcard{border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);display:grid;align-content:start;min-width:0}
+.wqcard img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#fff;display:block}
+.wqnoimg{aspect-ratio:4/3;display:grid;place-items:center;font-size:42px;background:color-mix(in srgb,var(--line) 40%,transparent)}
+.wqcard b{overflow-wrap:anywhere}
+.wqform{display:grid;gap:8px}.wqform textarea{width:100%;font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line);box-sizing:border-box}
 .pjimgw{display:grid;gap:6px}
 .pjimgw img,.pjimgv{max-width:min(320px,100%);border-radius:8px;border:1px solid var(--line);background:#fff}
 @media (max-width:760px){.wqgrid{grid-template-columns:1fr}.wqnav{position:static;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}.wqhero{grid-template-columns:1fr}.wqbig{display:none}}
@@ -17187,10 +17205,13 @@ function toast(text,img){$("#toastText").textContent=text;$("#toastImg").src=img
 /* ---------- views ---------- */
 const VIEWS=["public","login","home","lesson","progress","why","practice","area","gv","onthi"];
 let whyBackTo="trangchu",curRoute="trangchu";
-/* ---------- WebQuest dự án cuối Chủ đề 4 lớp 10: Poster vectơ ---------- */
-const WQ={t:"Hoạ sĩ số: Poster cổ động vì cộng đồng",sub:"WebQuest dự án cuối Chủ đề 4 · Tin học 10 · Inkscape",
+/* ---------- WebQuest theo chủ đề: 6 nhánh (Giới thiệu, Nhiệm vụ, Tiến trình, Đánh giá, Kết luận, Sản phẩm mở) ---------- */
+const WQS={
+ k10c4:{t:"Hoạ sĩ số: Poster cổ động vì cộng đồng",sub:"WebQuest dự án cuối Chủ đề 4 · Tin học 10 · Inkscape",short:"Tin học 10 Chủ đề 4",lop:10,
+ method:"Tư duy thiết kế: thấu cảm với người xem → phác thảo → dựng hình → hoàn thiện → góp ý và chỉnh sửa.",
  themes:[["🌱","Sống xanh, giảm rác thải nhựa"],["⚡","Tiết kiệm điện, nước"],["🛵","An toàn giao thông tuổi học trò"],["🔐","An toàn trên không gian mạng"],["📚","Văn hoá đọc"],["🏞","Quê hương em: điểm đến đáng yêu"],["🤝","Nói không với bắt nạt học đường"],["🧠","Dùng AI có trách nhiệm"]],
  roles:[["bt","Biên tập – trưởng nhóm","Giữ thông điệp, viết chữ trên tranh, chia việc, theo dõi tiến độ."],["hs","Hoạ sĩ hình","Vẽ hình minh hoạ: hình cơ bản, phép hợp/hiệu/giao, đường Bezier."],["mc","Màu & chữ","Lập bảng màu 60 – 30 – 10, chọn phông, kiểm tra tương phản."],["kt","Kĩ thuật viên","Đặt lớp, căn chỉnh, kiểm tra kích thước, lưu SVG, xuất PNG, nộp bài."]],
+ lessons:["bai12","bai13","bai14","bai15"],dkit:true,
  stages:[
   {k:"g1",t:"Giai đoạn 1 · Thấu cảm và chọn chủ đề",time:"Sau Bài 12 · 1 tiết + ở nhà",lesson:"bai12",dk:"tuduy",
    do:"Chọn một chủ đề trong danh sách (hoặc chủ đề nhóm đề xuất, được thầy cô đồng ý). Tìm 3 thông tin, số liệu đáng tin về chủ đề từ nguồn chính thức, ghi nguồn. Điền bản yêu cầu thiết kế: ai xem, xem ở đâu, thông điệp một câu, mong người xem làm gì.",
@@ -17200,12 +17221,14 @@ const WQ={t:"Hoạ sĩ số: Poster cổ động vì cộng đồng",sub:"WebQue
    chk:["Có ít nhất 3 bản phác thảo của nhóm","Đã chọn một bố cục, nêu được lí do chọn","Xác định hình chính đặt gần điểm giao của lưới 3×3"]},
   {k:"g3",t:"Giai đoạn 3 · Dựng hình trong Inkscape",time:"Cùng Bài 13 và Bài 14",lesson:"bai13",lesson2:"bai14",dk:"lop",
    do:"Tạo trang A4 dọc (File → Document Properties). Tạo 4 lớp: Nền, Hoạ tiết, Hình, Chữ. Vẽ hình bằng hình cơ bản, phép hợp, hiệu, giao; vẽ chi tiết bằng bút Bezier; đặt tiêu đề, có thể cho chữ chạy theo đường. Lưu tệp .svg thường xuyên.",
-   chk:["Trang A4 dọc, có 4 lớp đặt tên rõ","Dùng ít nhất 2 phép kết hợp hình (hợp, hiệu, giao…)","Có ít nhất 1 chi tiết vẽ bằng bút Bezier","Đã lưu tệp .svg có tên rõ nghĩa"]},
+   chk:["Trang A4 dọc, có 4 lớp đặt tên rõ","Dùng ít nhất 2 phép kết hợp hình (hợp, hiệu, giao…)","Có ít nhất 1 chi tiết vẽ bằng bút Bezier","Đã lưu tệp .svg có tên rõ nghĩa"],
+   res:[["Inkscape – trang chính thức, tải phần mềm miễn phí, nguồn mở","https://inkscape.org/"],["Inkscape – hướng dẫn học (tiếng Anh, có hình minh hoạ)","https://inkscape.org/learn/tutorials/"],["Openclipart – hình vectơ miễn phí, dùng tự do (CC0)","https://openclipart.org/"],["Wikimedia Commons – ảnh, hình có ghi giấy phép (đọc kĩ giấy phép trước khi dùng)","https://commons.wikimedia.org/"]]},
   {k:"g4",t:"Giai đoạn 4 · Phối màu, chữ và hoàn thiện",time:"Cùng Bài 15",lesson:"bai15",dk:"mau",
    do:"Lập bảng 4–5 màu theo một kiểu phối, dùng tỉ lệ 60 – 30 – 10. Tối đa 2 phông, đủ dấu tiếng Việt. Kiểm tra tương phản chữ/nền, xem thử đen trắng. Căn chỉnh bằng Align and Distribute, chừa lề an toàn. Xuất PNG khổ A4 (1240 × 1754 điểm ảnh).",
-   chk:["Bảng màu 4–5 màu, có một màu nhấn","Tương phản chữ/nền đạt từ 4,5 : 1","Các đối tượng thẳng hàng, có lề an toàn","Đã xuất PNG và kiểm tra lại ảnh"]},
+   chk:["Bảng màu 4–5 màu, có một màu nhấn","Tương phản chữ/nền đạt từ 4,5 : 1","Các đối tượng thẳng hàng, có lề an toàn","Đã xuất PNG và kiểm tra lại ảnh"],
+   res:[["Google Fonts – lọc bộ chữ “Vietnamese” để có đủ dấu tiếng Việt","https://fonts.google.com/?subset=vietnamese"],["WebAIM – kiểm tra độ tương phản màu","https://webaim.org/resources/contrastchecker/"],["Adobe Color – vòng màu, gợi ý phối màu","https://color.adobe.com/"]]},
   {k:"g5",t:"Giai đoạn 5 · Góp ý, chỉnh sửa và trình bày",time:"1 tiết trình bày",lesson:"bai15",dk:"ai",
-   do:"Đổi poster với một nhóm khác, làm kiểm tra 5 giây: họ nhớ được gì? Có thể nhờ AI góp ý bằng câu lệnh trong Sổ tay (chỉ gửi ảnh poster). Sửa ít nhất 2 điểm, ghi nhật kí góp ý. Nộp sản phẩm ở phần Vận dụng của Bài 15, trình bày 2 phút trước lớp.",
+   do:"Đổi poster với một nhóm khác, làm kiểm tra 5 giây: họ nhớ được gì? Có thể nhờ AI góp ý bằng câu lệnh trong Sổ tay (chỉ gửi ảnh poster). Sửa ít nhất 2 điểm, ghi nhật kí góp ý. Nộp sản phẩm ở phần Vận dụng của Bài 15 và đưa ảnh poster lên nhánh Sản phẩm mở, trình bày 2 phút trước lớp.",
    chk:["Đã làm kiểm tra 5 giây với nhóm khác","Đã sửa ít nhất 2 điểm, ghi nhật kí góp ý","Đã đánh dấu danh sách kiểm tra trước khi nộp","Đã nộp ở Vận dụng Bài 15 và chuẩn bị trình bày 2 phút"]}],
  rub:[["Thông điệp và chủ đề",2,["Thông điệp rõ trong 5 giây, đúng chủ đề, có số liệu đáng tin và lời kêu gọi hành động hấp dẫn","Thông điệp rõ, đúng chủ đề, có lời kêu gọi","Đúng chủ đề nhưng thông điệp chưa nổi bật","Lạc chủ đề hoặc không rõ muốn nói gì"]],
   ["Bố cục",2,["Cấp bậc thị giác rõ, căn lề chuẩn, khoảng trắng hợp lí, dẫn mắt tốt","Có tiêu đề nổi bật, căn lề khá, thông tin chia nhóm","Bố cục chưa cân, vài chỗ lệch hoặc chật","Rối, khó biết nhìn vào đâu"]],
@@ -17213,51 +17236,196 @@ const WQ={t:"Hoạ sĩ số: Poster cổ động vì cộng đồng",sub:"WebQue
   ["Kĩ thuật Inkscape",2,["Dùng thành thạo lớp, phép kết hợp hình, Bezier, chữ theo đường; xuất PNG đúng khổ","Dùng đúng lớp, kết hợp hình, Bezier; xuất PNG","Dùng được hình cơ bản, xuất PNG, còn lỗi nhỏ","Chưa hoàn thành tệp hoặc chưa xuất được ảnh"]],
   ["Quy trình và hợp tác",1,["Đủ brief, phác thảo, nhật kí góp ý; mọi bạn làm đúng vai","Đủ brief, phác thảo, nhật kí góp ý","Thiếu một trong các minh chứng quy trình","Không có minh chứng quy trình"]],
   ["Trình bày và trung thực",1,["Trình bày tự tin 2 phút; ghi đủ nguồn, nêu rõ phần có AI hỗ trợ","Trình bày rõ; ghi nguồn","Trình bày còn lúng túng; thiếu một số nguồn","Không trình bày được hoặc sử dụng hình, phông không rõ nguồn"]]],
- res:[["Inkscape – trang chính thức, tải phần mềm miễn phí, nguồn mở","https://inkscape.org/"],["Inkscape – hướng dẫn học (tiếng Anh, có hình minh hoạ)","https://inkscape.org/learn/tutorials/"],["Google Fonts – lọc bộ chữ “Vietnamese” để có đủ dấu tiếng Việt","https://fonts.google.com/?subset=vietnamese"],["Openclipart – hình vectơ miễn phí, dùng tự do (CC0)","https://openclipart.org/"],["Wikimedia Commons – ảnh, hình có ghi giấy phép (đọc kĩ giấy phép trước khi dùng)","https://commons.wikimedia.org/"],["WebAIM – kiểm tra độ tương phản màu","https://webaim.org/resources/contrastchecker/"],["Adobe Color – vòng màu, gợi ý phối màu","https://color.adobe.com/"]]};
-function wqEl(teacher){const u=(!teacher&&U())||{};u.wq=u.wq||{chk:{},role:"",theme:""};const S=u.wq;let tab=teacher?"thay":(S.tab||"gt");
- const nChk=WQ.stages.reduce((t,s)=>t+s.chk.length,0),nDone=()=>Object.keys(S.chk).filter(k=>S.chk[k]).length;
- const TABS=[["gt","1. Giới thiệu"],["nv","2. Nhiệm vụ"],["tt","3. Tiến trình"],["tn","4. Tài nguyên"],["dg","5. Đánh giá"],["kl","6. Kết luận"]].concat(teacher?[["thay","Dành cho thầy cô"]]:[]);
- const d=document.createElement("div");d.className="wq";
- function sec(){const p=Math.round(nDone()/nChk*100);
-  if(tab==="gt")return `<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Đoàn trường cần ${WQ.themes.length} poster cổ động</h3>
+ rubNote:"Điểm từng tiêu chí = điểm tối đa × tỉ lệ mức đạt. Poster dùng hình, phông vi phạm bản quyền phải sửa trước khi chấm. Các nhóm chấm chéo theo bảng này trong buổi triển lãm; thầy cô chấm điểm chính thức.",
+ gt:()=>`<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Đoàn trường cần 8 poster cổ động</h3>
    <p>Đoàn trường (giả định) tổ chức triển lãm <b>“Poster cổ động vì cộng đồng”</b>. Mỗi poster sẽ được in khổ A4 dán ở bảng tin và đăng trên trang tin nội bộ của trường.</p>
    <p>Nhóm em là một <b>studio thiết kế nhỏ</b> được mời tham gia. Khách hàng là các bạn học sinh, thầy cô, phụ huynh đi ngang bảng tin, họ chỉ dừng mắt <b>vài giây</b>. Làm sao để poster của nhóm khiến họ dừng lại, hiểu ngay và muốn làm theo?</p>
-   <p>Trong 4 tuần học Chủ đề 4, nhóm sẽ dùng Inkscape và những gì học ở Bài 12–15 để trả lời câu hỏi đó.</p></div><div class="wqbig" aria-hidden="true">🎨</div></div>
-   <div class="wqthemes">${WQ.themes.map(([i,t])=>`<span>${i} ${esc(t)}</span>`).join("")}</div>`;
-  if(tab==="nv")return `<div class="card stack" style="gap:8px"><b>Sản phẩm nhóm em cần nộp</b><ol class="wqol">
-   <li><b>Một poster (tranh cổ động) vectơ</b> khổ A4 dọc làm bằng Inkscape: tệp <code>.svg</code> và ảnh <code>.png</code> 1240 × 1754 điểm ảnh.</li>
+   <p>Trong 4 tuần học Chủ đề 4, nhóm sẽ dùng Inkscape và những gì học ở Bài 12–15 để trả lời câu hỏi đó.</p></div><div class="wqbig" aria-hidden="true">🎨</div></div>`,
+ nv:`<li><b>Một poster (tranh cổ động) vectơ</b> khổ A4 dọc làm bằng Inkscape: tệp <code>.svg</code> và ảnh <code>.png</code> 1240 × 1754 điểm ảnh.</li>
    <li><b>Bản thuyết minh</b> 3–5 câu: người xem là ai, ý tưởng, vì sao chọn màu sắc và bố cục như vậy.</li>
    <li><b>Minh chứng quy trình:</b> bản yêu cầu thiết kế (brief), ảnh 3 bản phác thảo, nhật kí góp ý (góp ý nhận được và điều đã sửa).</li>
-   <li><b>Trình bày 2 phút</b> trước lớp trong buổi triển lãm.</li></ol>
-   <p class="small muted" style="margin:0">Nhóm 3–4 bạn. Nộp ở phần <b>Vận dụng của Bài 15</b>. Poster không có ảnh khuôn mặt, họ tên, số điện thoại của học sinh.</p></div>
-   <div class="card stack" style="gap:6px"><b>Chọn chủ đề của nhóm</b><div class="wqpick">${WQ.themes.map(([i,t])=>`<button class="btn sm ${S.theme===t?"":"ghost"}" data-wqt="${esc(t)}">${i} ${esc(t)}</button>`).join("")}</div><p class="small muted" style="margin:0">Muốn chọn chủ đề khác thì hỏi thầy cô trước.</p></div>
-   <div class="card stack" style="gap:6px"><b>Vai trong nhóm – em nhận vai nào?</b><div class="wqroles">${WQ.roles.map(([k,t,x])=>`<button class="wqrole ${S.role===k?"on":""}" data-wqr="${k}"><b>${esc(t)}</b><span>${esc(x)}</span></button>`).join("")}</div><p class="small muted" style="margin:0">Nhóm 3 bạn: gộp vai Kĩ thuật viên vào Biên tập. Mọi bạn đều cùng vẽ, vai chỉ là người chịu trách nhiệm chính.</p></div>`;
-  if(tab==="tt")return `<div class="wqprog"><span>Tiến độ của em</span><div class="wqbar"><i style="width:${p}%"></i></div><b>${nDone()}/${nChk}</b></div>${WQ.stages.map(s=>{const k=s.chk.filter((_,i)=>S.chk[s.k+i]).length;return `<details class="card wqst" ${k<s.chk.length&&WQ.stages.findIndex(z=>z.chk.some((_,i)=>!S.chk[z.k+i]))===WQ.stages.indexOf(s)?"open":""}><summary><b>${esc(s.t)}</b><span class="small muted">${esc(s.time)}</span><span class="status ${k===s.chk.length?"ok":""}">${k}/${s.chk.length}</span></summary>
-   <p>${esc(s.do)}</p><div class="stack" style="gap:4px">${s.chk.map((c,i)=>`<label class="stchk"><input type="checkbox" data-wqc="${s.k+i}" ${S.chk[s.k+i]?"checked":""}><span>${esc(c)}</span></label>`).join("")}</div>
-   <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px">${teacher?"":`<button class="btn sm ghost" data-wql="${s.lesson}">Mở ${esc(L[s.lesson].title.split(".")[0])}</button>${s.lesson2?`<button class="btn sm ghost" data-wql="${s.lesson2}">Mở ${esc(L[s.lesson2].title.split(".")[0])}</button>`:""}`}<button class="btn sm ghost" data-dkopen data-dktab="${s.dk}">📘 Sổ tay: ${esc({tuduy:"Tư duy thiết kế",bocuc:"Bố cục",lop:"Lớp & chế độ",mau:"Phối màu",ai:"Prompt AI"}[s.dk])}</button></div></details>`;}).join("")}
-   ${teacher?"":`<div class="row"><button class="btn gold" data-wql="bai15" data-wqstep="vandung">Nộp sản phẩm ở Vận dụng Bài 15 →</button></div>`}`;
-  if(tab==="tn")return `<div class="card stack" style="gap:6px"><b>Trong website</b><ul class="wqul"><li><button class="btn sm ghost" data-dkopen>📘 Sổ tay thiết kế (8 mục)</button></li>${["bai12","bai13","bai14","bai15"].map(l=>`<li>${teacher?esc(L[l].title):`<button class="btn sm ghost" data-wql="${l}">${esc(L[l].title)}</button>`}</li>`).join("")}</ul></div>
-   <div class="card stack" style="gap:6px"><b>Trang bên ngoài</b> <span class="small muted">Mở cùng thầy cô hoặc bố mẹ. Chỉ dùng hình, phông có giấy phép cho phép, ghi nguồn trong bản thuyết minh.</span><ul class="wqul">${WQ.res.map(([t,h])=>`<li><a href="${h}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("")}</ul></div>`;
-  if(tab==="dg")return `<div class="card stack" style="gap:6px"><b>Thang đánh giá (10 điểm)</b><div class="tbl"><table class="dtable wqrub"><thead><tr><th>Tiêu chí</th><th>Xuất sắc (100%)</th><th>Tốt (75%)</th><th>Đạt (50%)</th><th>Cần cố gắng (25%)</th></tr></thead><tbody>${WQ.rub.map(([c,p,lv])=>`<tr><th>${esc(c)}<br><span class="small muted">${p} điểm</span></th>${lv.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
-   <p class="small muted" style="margin:0">Điểm từng tiêu chí = điểm tối đa × tỉ lệ mức đạt. Poster dùng hình, phông vi phạm bản quyền phải sửa trước khi chấm. Các nhóm chấm chéo theo bảng này trong buổi triển lãm; thầy cô chấm điểm chính thức.</p></div>`;
-  if(tab==="kl")return `<div class="card stack" style="gap:8px"><b>Sau dự án, em đã biết…</b><ul class="wqul"><li>Đi từ người xem và thông điệp, không bắt đầu từ công cụ.</li><li>Biến ý tưởng thành sản phẩm vectơ: lớp, hình, đường, chữ, màu.</li><li>Nhận góp ý, chỉnh sửa và trình bày sản phẩm của mình.</li><li>Tôn trọng bản quyền và dùng AI có trách nhiệm.</li></ul>
-   <p>Những kĩ năng này chính là công việc hằng ngày của nhà thiết kế đồ hoạ, người làm truyền thông, marketing – xem thêm Bài 33 “Nghề thiết kế đồ hoạ máy tính”.</p>
-   <p class="small muted" style="margin:0">Câu hỏi tự suy ngẫm: Nếu làm lại, nhóm em sẽ đổi điều gì đầu tiên? Vì sao?</p></div>`;
-  if(tab==="thay")return `<div class="card stack" style="gap:6px"><b>Mục tiêu (Chương trình GDPT 2018, Tin học 10, Chủ đề 4)</b><ul class="wqul"><li>Sử dụng được phần mềm thiết kế đồ hoạ tạo sản phẩm số đơn giản: hình, đường, chữ, màu, lớp; xuất ảnh.</li><li>Phát triển năng lực hợp tác, giải quyết vấn đề và sáng tạo; ý thức tôn trọng bản quyền.</li></ul></div>
+   <li><b>Trình bày 2 phút</b> trước lớp trong buổi triển lãm.</li>`,
+ nvNote:"Nhóm 3–4 bạn. Nộp ở phần <b>Vận dụng của Bài 15</b>; ảnh poster đưa lên nhánh <b>Sản phẩm mở</b>. Poster không có ảnh khuôn mặt, họ tên, số điện thoại của học sinh.",
+ roleNote:"Nhóm 3 bạn: gộp vai Kĩ thuật viên vào Biên tập. Mọi bạn đều cùng vẽ, vai chỉ là người chịu trách nhiệm chính.",
+ submit:{lesson:"bai15",step:"vandung",label:"Nộp sản phẩm ở Vận dụng Bài 15 →"},
+ kl:`<p>Sau dự án, nhóm em biết thiết kế phải bắt đầu từ người xem và thông điệp chứ không bắt đầu từ công cụ: hiểu ai sẽ nhìn poster, họ có vài giây, mình muốn họ làm gì. Từ đó em biến ý tưởng thành sản phẩm vectơ bằng lớp, hình, đường, chữ và màu; biết nhận góp ý để sửa; biết tôn trọng bản quyền và dùng AI có trách nhiệm. Đó cũng là công việc hằng ngày của người làm thiết kế đồ hoạ, truyền thông (xem thêm Bài 33 “Nghề thiết kế đồ hoạ máy tính”).</p>`,
+ klQ:"Nếu làm lại, nhóm em sẽ đổi điều gì đầu tiên? Vì sao?",
+ thay:`<div class="card stack" style="gap:6px"><b>Mục tiêu (Chương trình GDPT 2018, Tin học 10, Chủ đề 4)</b><ul class="wqul"><li>Sử dụng được phần mềm thiết kế đồ hoạ tạo sản phẩm số đơn giản: hình, đường, chữ, màu, lớp; xuất ảnh.</li><li>Phát triển năng lực hợp tác, giải quyết vấn đề và sáng tạo; ý thức tôn trọng bản quyền.</li></ul></div>
    <div class="card stack" style="gap:6px"><b>Thời lượng gợi ý</b><div class="tbl"><table class="dtable"><thead><tr><th>Tuần</th><th>Bài trên lớp</th><th>Dự án</th></tr></thead><tbody><tr><td>9</td><td>Bài 12</td><td>Giao nhiệm vụ, chia nhóm, giai đoạn 1–2</td></tr><tr><td>10</td><td>Bài 13</td><td>Giai đoạn 3: dựng hình</td></tr><tr><td>11</td><td>Bài 14</td><td>Giai đoạn 3: đường, chữ</td></tr><tr><td>12</td><td>Bài 15</td><td>Giai đoạn 4–5, nộp bài</td></tr><tr><td>13</td><td>1 tiết</td><td>Triển lãm, trình bày, chấm chéo</td></tr></tbody></table></div></div>
-   <div class="card stack" style="gap:6px"><b>Lưu ý tổ chức</b><ul class="wqul"><li>Chia nhóm 3–4 em, trộn trình độ; mỗi nhóm một chủ đề khác nhau để triển lãm phong phú.</li><li>Phòng máy cần cài Inkscape 1.x; nhóm không có máy ở nhà làm giai đoạn 1–2 trên giấy.</li><li>Sản phẩm nộp ở Vận dụng Bài 15; Thầy xem ảnh poster, thuyết minh, nhật kí góp ý ở trang Lớp học, mục “Sản phẩm vận dụng”.</li><li>Quyền riêng tư: poster không có khuôn mặt, họ tên, thông tin liên lạc của học sinh. Đăng ra ngoài lớp cần sự đồng ý của phụ huynh.</li><li>AI chỉ dùng để góp ý theo câu lệnh trong Sổ tay; học sinh ghi rõ phần có AI hỗ trợ.</li><li>Đây là bản soạn mẫu, Thầy chỉnh chủ đề, thời lượng theo kế hoạch tổ chuyên môn.</li></ul></div>`;
+   <div class="card stack" style="gap:6px"><b>Lưu ý tổ chức</b><ul class="wqul"><li>Chia nhóm 3–4 em, trộn trình độ; mỗi nhóm một chủ đề khác nhau để triển lãm phong phú.</li><li>Phòng máy cần cài Inkscape 1.x; nhóm không có máy ở nhà làm giai đoạn 1–2 trên giấy.</li><li>Sản phẩm nộp ở Vận dụng Bài 15; Thầy xem ảnh poster, thuyết minh, nhật kí góp ý ở trang Lớp học, mục “Sản phẩm vận dụng”. Ảnh đưa lên Sản phẩm mở chỉ hiện công khai sau khi Thầy duyệt.</li><li>Quyền riêng tư: poster không có khuôn mặt, họ tên, thông tin liên lạc của học sinh. Đăng ra ngoài lớp cần sự đồng ý của phụ huynh.</li><li>AI chỉ dùng để góp ý theo câu lệnh trong Sổ tay; học sinh ghi rõ phần có AI hỗ trợ.</li><li>Đây là bản soạn mẫu, Thầy chỉnh chủ đề, thời lượng theo kế hoạch tổ chuyên môn.</li></ul></div>`},
+ k8c4:{t:"Nhà phân tích nhí: Dữ liệu kể chuyện lớp em",sub:"WebQuest dự án Chủ đề 4 · Tin học 8 · Bảng tính",short:"Tin học 8 Chủ đề 4",lop:8,
+ method:"PRIMM cho phần công thức: Dự đoán → Chạy thử → Tìm hiểu → Sửa → Tự tạo. Các phần còn lại làm theo: Quan sát mẫu → Làm theo → Tự làm.",
+ themes:[["🧴","Rác nhựa dùng một lần ở lớp em"],["🚲","Em đến trường bằng gì?"],["📱","Thời gian dùng điện thoại mỗi ngày"],["💡","Điện, nước nhà em dùng mỗi tháng"],["📚","Sách cả lớp đọc trong tháng"],["🥭","Giá trái cây ở chợ gần nhà theo tuần"],["🥤","Tiền ăn sáng, ăn vặt mỗi tuần"],["⏰","Giờ ngủ và giờ tự học"]],
+ roles:[["tn","Trưởng nhóm – điều phối","Chia việc, giữ tiến độ, viết phần kết luận và đề xuất."],["tt","Thu thập dữ liệu","Soạn câu hỏi khảo sát, thu thập, nhập dữ liệu, kiểm tra dữ liệu thiếu hoặc sai."],["ct","Công thức","Viết công thức tính tổng, trung bình, tỉ lệ; dùng đúng địa chỉ tương đối, tuyệt đối."],["bd","Biểu đồ – trình bày","Sắp xếp, lọc, vẽ biểu đồ, chuẩn bị 3 phút trình bày."]],
+ lessons:["k8b5","k8b6","k8b7"],
+ stages:[
+  {k:"g1",t:"Giai đoạn 1 · Chọn câu hỏi và thu thập dữ liệu",time:"Sau Bài 5 · ở nhà 1 tuần",lesson:"k8b5",
+   do:"Chọn một chủ đề, đặt một câu hỏi mà dữ liệu trả lời được (ví dụ: “Lớp em dùng bao nhiêu chai nhựa mỗi tuần, ai dùng nhiều nhất?”). Thu thập ít nhất 20 dòng dữ liệu bằng khảo sát ẩn danh hoặc tự ghi chép. Không hỏi họ tên, số điện thoại, địa chỉ. Nhập vào bảng tính, mỗi cột một loại thông tin, dòng đầu là tên cột.",
+   chk:["Nhóm đã chọn chủ đề, viết câu hỏi trong một câu","Có từ 20 dòng dữ liệu, không có họ tên hay thông tin riêng","Bảng có dòng tên cột, mỗi cột một loại dữ liệu","Ghi rõ dữ liệu thu thập thế nào, ngày nào"],
+   res:[["Google Biểu mẫu – tạo phiếu khảo sát (bỏ câu hỏi tên, email)","https://docs.google.com/forms/"],["Trợ giúp Google Trang tính","https://support.google.com/docs/"]]},
+  {k:"g2",t:"Giai đoạn 2 · Công thức theo PRIMM",time:"Cùng Bài 5 · 1 tiết",lesson:"k8b5",
+   do:"Dự đoán: trước khi sao chép công thức =C2/C$22 xuống các ô bên dưới, em đoán kết quả từng ô. Chạy: sao chép thật và so với dự đoán. Tìm hiểu: vì sao C2 đổi thành C3, C4 mà C$22 không đổi? Sửa: bỏ dấu $ rồi sao chép lại, xem điều gì sai. Tự tạo: viết thêm ít nhất 2 cột tính mới cho dữ liệu của nhóm (tổng, trung bình, tỉ lệ phần trăm so với cả lớp).",
+   chk:["Đã ghi dự đoán trước khi chạy thử","Giải thích được vì sao cần dấu $ ở một địa chỉ","Có ít nhất 2 cột tính bằng công thức, không gõ tay kết quả","Có ít nhất 1 công thức dùng địa chỉ tuyệt đối"],
+   res:[["Microsoft Excel – trợ giúp tiếng Việt","https://support.microsoft.com/vi-vn/excel"]]},
+  {k:"g3",t:"Giai đoạn 3 · Sắp xếp, lọc tìm điều đáng chú ý",time:"Cùng Bài 6",lesson:"k8b6",
+   do:"Sắp xếp dữ liệu theo cột quan trọng nhất (giảm dần để thấy nhóm cao nhất). Lọc ra những dòng thoả một điều kiện (ví dụ: dùng trên 5 chai mỗi tuần). Ghi lại 3 điều nhóm phát hiện được, kèm con số. Nhớ bỏ lọc trước khi vẽ biểu đồ cả bảng.",
+   chk:["Đã sắp xếp theo ít nhất một cột","Đã lọc theo một điều kiện và bỏ lọc đúng cách","Ghi được 3 phát hiện có con số kèm theo"]},
+  {k:"g4",t:"Giai đoạn 4 · Biểu đồ kể chuyện dữ liệu",time:"Cùng Bài 7",lesson:"k8b7",
+   do:"Vẽ ít nhất 2 biểu đồ, chọn đúng dạng: cột để so sánh, đường để xem thay đổi theo thời gian, tròn để xem tỉ lệ các phần của một tổng. Mỗi biểu đồ có tiêu đề nói được điều muốn kể, tiêu đề trục, chú giải hoặc nhãn dữ liệu.",
+   chk:["Có ít nhất 2 biểu đồ, đúng dạng với dữ liệu","Mỗi biểu đồ có tiêu đề nói rõ điều phát hiện","Có tiêu đề trục, chú giải hoặc nhãn dữ liệu"]},
+  {k:"g5",t:"Giai đoạn 5 · Kết luận, góp ý và trình bày",time:"1 tiết trình bày",lesson:"k8b7",
+   do:"Viết 3–5 câu trả lời câu hỏi ban đầu dựa trên số liệu, kèm một đề xuất hành động cho lớp (ví dụ: mang bình nước riêng). Đổi bài với nhóm khác để góp ý, sửa ít nhất 1 điểm. Chụp ảnh bảng và biểu đồ, đưa lên nhánh Sản phẩm mở, trình bày 3 phút trước lớp.",
+   chk:["Có 3–5 câu kết luận dựa trên số liệu","Có một đề xuất hành động cụ thể","Đã nhận góp ý và sửa ít nhất 1 điểm","Đã đưa sản phẩm lên Sản phẩm mở"]}],
+ rub:[["Câu hỏi và dữ liệu",2,["Câu hỏi rõ, trả lời được bằng dữ liệu; từ 20 dòng, ẩn danh, ghi rõ cách thu thập","Câu hỏi rõ; đủ 20 dòng, ẩn danh","Câu hỏi chưa rõ hoặc dưới 20 dòng","Không có câu hỏi hoặc dữ liệu có thông tin riêng"]],
+  ["Công thức và địa chỉ ô",2,["Mọi cột tính dùng công thức đúng; dùng đúng địa chỉ tương đối và tuyệt đối, giải thích được","Công thức đúng, có dùng địa chỉ tuyệt đối","Công thức đúng một phần hoặc còn gõ tay kết quả","Chưa dùng được công thức"]],
+  ["Sắp xếp và lọc",1.5,["Sắp xếp, lọc đúng và rút ra được 3 phát hiện có số liệu","Sắp xếp, lọc đúng, có phát hiện","Làm được sắp xếp hoặc lọc","Chưa làm được"]],
+  ["Biểu đồ",2,["Từ 2 biểu đồ đúng dạng; tiêu đề kể được điều phát hiện; đủ tiêu đề trục, chú giải, nhãn","Từ 2 biểu đồ đúng dạng, có tiêu đề và chú giải","Có biểu đồ nhưng chọn dạng chưa hợp hoặc thiếu tiêu đề","Không có biểu đồ"]],
+  ["Kết luận và đề xuất",1.5,["Kết luận trả lời đúng câu hỏi, dựa trên số liệu; đề xuất cụ thể, làm được","Kết luận dựa trên số liệu, có đề xuất","Kết luận chung chung","Không có kết luận"]],
+  ["Hợp tác và trình bày",1,["Mọi bạn làm đúng vai; trình bày 3 phút rõ ràng, trả lời được câu hỏi","Trình bày rõ, chia việc hợp lí","Trình bày còn lúng túng","Không trình bày được"]]],
+ rubNote:"Điểm từng tiêu chí = điểm tối đa × tỉ lệ mức đạt. Nhóm tự chấm theo bảng này trước khi nộp; các nhóm chấm chéo trong buổi trình bày; Thầy chấm điểm chính thức.",
+ gt:()=>`<div class="wqhero"><div><span class="eyebrow">Tình huống</span><h3>Cô Tổng phụ trách cần số liệu thật của lớp em</h3>
+   <p>Liên đội (giả định) chuẩn bị phát động phong trào <b>“Lớp em sống xanh, sống khoẻ”</b>. Cô Tổng phụ trách muốn biết thói quen thật của học sinh để chọn việc làm phù hợp, không đoán mò.</p>
+   <p>Nhóm em được mời làm <b>“nhà phân tích nhí”</b>: tự thu thập số liệu của lớp, dùng bảng tính để tính toán, sắp xếp, lọc và vẽ biểu đồ, rồi báo cáo điều số liệu nói lên. Làm sao để chỉ nhìn một biểu đồ, cả lớp hiểu ngay vấn đề và muốn thay đổi?</p>
+   <p>Trong 3 tuần học Bài 5, 6, 7, nhóm sẽ dùng những gì học được để trả lời câu hỏi đó.</p></div><div class="wqbig" aria-hidden="true">📊</div></div>`,
+ nv:`<li><b>Một tệp bảng tính</b> (Excel hoặc Google Trang tính): bảng dữ liệu từ 20 dòng, ít nhất 2 cột tính bằng công thức, có dùng địa chỉ tuyệt đối.</li>
+   <li><b>Ít nhất 2 biểu đồ</b> đúng dạng, có tiêu đề kể được điều nhóm phát hiện.</li>
+   <li><b>Bản kết luận</b> 3–5 câu dựa trên số liệu và một đề xuất hành động cho lớp.</li>
+   <li><b>Trình bày 3 phút</b> trước lớp.</li>`,
+ nvNote:"Nhóm 3–4 bạn. Ảnh chụp bảng và biểu đồ đưa lên nhánh <b>Sản phẩm mở</b>; tệp bảng tính nộp theo cách Thầy hướng dẫn trên lớp. Dữ liệu không có họ tên, số điện thoại, địa chỉ của ai.",
+ roleNote:"Nhóm 3 bạn: gộp vai Biểu đồ – trình bày vào Trưởng nhóm. Cả nhóm cùng làm, vai chỉ là người chịu trách nhiệm chính.",
+ kl:`<p>Qua dự án, nhóm em thấy bảng tính không chỉ để tính toán mà còn giúp trả lời câu hỏi về cuộc sống quanh mình: số liệu thật thuyết phục hơn lời đoán, công thức đúng giúp tính một lần dùng cho cả bảng, sắp xếp và lọc giúp thấy điều nổi bật, còn biểu đồ giúp người khác hiểu ngay. Biết dùng số liệu một cách trung thực, không thu thông tin riêng của người khác, là việc mà người làm kế toán, thống kê, phân tích dữ liệu làm mỗi ngày.</p>`,
+ klQ:"Số liệu của nhóm em có điều gì bất ngờ không? Nếu thu thập lại, nhóm em sẽ hỏi thêm câu gì?",
+ thay:`<div class="card stack" style="gap:6px"><b>Mục tiêu (Chương trình GDPT 2018, Tin học 8, Chủ đề 4)</b><ul class="wqul"><li>Giải thích được sự khác nhau giữa địa chỉ tương đối và địa chỉ tuyệt đối; sử dụng bảng tính giải quyết bài toán thực tế.</li><li>Sắp xếp, lọc dữ liệu; nêu được tình huống thực tế cần sắp xếp, lọc.</li><li>Chọn được dạng biểu đồ phù hợp; tạo và chỉnh sửa biểu đồ.</li><li>Phát triển năng lực hợp tác, giải quyết vấn đề; trung thực, tôn trọng thông tin riêng của người khác.</li></ul></div>
+   <div class="card stack" style="gap:6px"><b>Thời lượng gợi ý</b><div class="tbl"><table class="dtable"><thead><tr><th>Tuần</th><th>Bài trên lớp</th><th>Dự án</th></tr></thead><tbody><tr><td>1</td><td>Bài 5</td><td>Giao nhiệm vụ, chia nhóm; giai đoạn 1 (thu dữ liệu ở nhà); giai đoạn 2 công thức</td></tr><tr><td>2</td><td>Bài 6</td><td>Giai đoạn 3: sắp xếp, lọc</td></tr><tr><td>3</td><td>Bài 7</td><td>Giai đoạn 4: biểu đồ; giai đoạn 5 hoàn thiện</td></tr><tr><td>4</td><td>1 tiết</td><td>Trình bày, chấm chéo</td></tr></tbody></table></div></div>
+   <div class="card stack" style="gap:6px"><b>Lưu ý tổ chức</b><ul class="wqul"><li>Chia nhóm 3–4 em, trộn trình độ; mỗi nhóm một chủ đề khác nhau.</li><li>Dữ liệu khảo sát phải ẩn danh: không hỏi họ tên, email, địa chỉ; câu hỏi về chi tiêu, sức khoẻ để ở mức chung, không làm em nào ngại.</li><li>Nhóm không có máy ở nhà: thu dữ liệu trên giấy, nhập vào máy ở phòng máy.</li><li>Ảnh sản phẩm đưa lên Sản phẩm mở chỉ hiện công khai sau khi Thầy duyệt; nhóm dùng tên nhóm, không dùng họ tên.</li><li>Đây là bản soạn mẫu, Thầy chỉnh chủ đề, thời lượng theo kế hoạch tổ chuyên môn.</li></ul></div>`}
+};
+const WQTABS=[["gt","1. Giới thiệu"],["nv","2. Nhiệm vụ"],["tt","3. Tiến trình"],["dg","4. Đánh giá"],["kl","5. Kết luận"],["sp","6. Sản phẩm mở"]];
+const WQDK={tuduy:"Tư duy thiết kế",bocuc:"Bố cục",lop:"Lớp & chế độ",mau:"Phối màu",ai:"Prompt AI"};
+function wqState(id,teacher){if(teacher)return {chk:{},role:"",theme:""};const u=U()||{};
+ if(id==="k10c4"){u.wq=u.wq||{chk:{},role:"",theme:""};return u.wq;}
+ u.wqs=u.wqs||{};u.wqs[id]=u.wqs[id]||{chk:{},role:"",theme:""};return u.wqs[id];}
+function wqEl(id,teacher){const W=WQS[id]||WQS.k10c4;const S=wqState(id,teacher);let tab=teacher?"thay":(S.tab||"gt");if(tab==="tn")tab="tt";
+ const nChk=W.stages.reduce((t,s)=>t+s.chk.length,0),nDone=()=>Object.keys(S.chk).filter(k=>S.chk[k]).length;
+ const TABS=WQTABS.concat(teacher?[["thay","Dành cho thầy cô"]]:[]);
+ const lbtn=l=>L[l]?(teacher?`<span class="small">${esc(L[l].title.split(".")[0])}</span>`:`<button class="btn sm ghost" data-wql="${l}">Mở ${esc(L[l].title.split(".")[0])}</button>`):"";
+ const d=document.createElement("div");d.className="wq";
+ function sec(){const p=Math.round(nDone()/nChk*100);
+  if(tab==="gt")return W.gt()+`<div class="wqthemes">${W.themes.map(([i,t])=>`<span>${i} ${esc(t)}</span>`).join("")}</div>`;
+  if(tab==="nv")return `<div class="card stack" style="gap:8px"><b>Sản phẩm nhóm em cần nộp</b><ol class="wqol">${W.nv}</ol>
+   <p class="small muted" style="margin:0">${W.nvNote}</p></div>
+   <div class="card stack" style="gap:6px"><b>Chọn chủ đề của nhóm</b><div class="wqpick">${W.themes.map(([i,t])=>`<button class="btn sm ${S.theme===t?"":"ghost"}" data-wqt="${esc(t)}">${i} ${esc(t)}</button>`).join("")}</div><p class="small muted" style="margin:0">Muốn chọn chủ đề khác thì hỏi thầy cô trước.</p></div>
+   <div class="card stack" style="gap:6px"><b>Vai trong nhóm – em nhận vai nào?</b><div class="wqroles">${W.roles.map(([k,t,x])=>`<button class="wqrole ${S.role===k?"on":""}" data-wqr="${k}"><b>${esc(t)}</b><span>${esc(x)}</span></button>`).join("")}</div><p class="small muted" style="margin:0">${esc(W.roleNote)}</p></div>`;
+  if(tab==="tt")return `<div class="card wqmeth"><b>Phương pháp:</b> ${esc(W.method)}</div>
+   <div class="wqprog"><span>Tiến độ của em</span><div class="wqbar"><i style="width:${p}%"></i></div><b>${nDone()}/${nChk}</b></div>${W.stages.map(s=>{const k=s.chk.filter((_,i)=>S.chk[s.k+i]).length;return `<details class="card wqst" ${k<s.chk.length&&W.stages.findIndex(z=>z.chk.some((_,i)=>!S.chk[z.k+i]))===W.stages.indexOf(s)?"open":""}><summary><b>${esc(s.t)}</b><span class="small muted">${esc(s.time)}</span><span class="status ${k===s.chk.length?"ok":""}">${k}/${s.chk.length}</span></summary>
+   <p>${esc(s.do)}</p><div class="stack" style="gap:4px">${s.chk.map((c,i)=>`<label class="stchk"><input type="checkbox" data-wqc="${s.k+i}" ${S.chk[s.k+i]?"checked":""}><span>${esc(c)}</span></label>`).join("")}</div>
+   <div class="wqres"><b class="small">📎 Tài liệu cho giai đoạn này</b><div class="row" style="gap:6px;flex-wrap:wrap">${lbtn(s.lesson)}${s.lesson2?lbtn(s.lesson2):""}${s.dk&&W.dkit?`<button class="btn sm ghost" data-dkopen data-dktab="${s.dk}">📘 Sổ tay: ${esc(WQDK[s.dk])}</button>`:""}</div>${s.res&&s.res.length?`<ul class="wqul">${s.res.map(([t,h])=>`<li><a href="${h}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("")}</ul>`:""}</div></details>`;}).join("")}
+   <p class="small muted" style="margin:0">Trang bên ngoài: mở cùng thầy cô hoặc bố mẹ. Chỉ dùng hình, phông, số liệu có nguồn rõ ràng và ghi nguồn trong sản phẩm.</p>
+   ${teacher||!W.submit?"":`<div class="row"><button class="btn gold" data-wql="${W.submit.lesson}" data-wqstep="${W.submit.step}">${esc(W.submit.label)}</button></div>`}`;
+  if(tab==="dg")return `<div class="card stack" style="gap:6px"><b>Thang đánh giá (10 điểm)</b><div class="tbl"><table class="dtable wqrub"><thead><tr><th>Tiêu chí</th><th>Xuất sắc (100%)</th><th>Tốt (75%)</th><th>Đạt (50%)</th><th>Cần cố gắng (25%)</th></tr></thead><tbody>${W.rub.map(([c,pt,lv])=>`<tr><th>${esc(c)}<br><span class="small muted">${String(pt).replace(".",",")} điểm</span></th>${lv.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+   <p class="small muted" style="margin:0">${esc(W.rubNote)}</p></div>`;
+  if(tab==="kl")return `<div class="card stack" style="gap:8px"><b>Ý nghĩa của dự án</b>${W.kl}<p class="small muted" style="margin:0">Câu hỏi tự suy ngẫm: ${esc(W.klQ)}</p></div>`;
+  if(tab==="sp")return `<div class="wqsp" data-wqsp><p class="small muted">Đang tải sản phẩm…</p></div>`;
+  if(tab==="thay")return W.thay;
   return "";}
- function draw(){d.innerHTML=`<div class="wqhead"><span class="eyebrow">${esc(WQ.sub)}</span><h2>🧭 ${esc(WQ.t)}</h2></div><div class="wqgrid"><nav class="wqnav" aria-label="Các phần WebQuest">${TABS.map(([k,t])=>`<button data-wqs="${k}" aria-current="${k===tab?"step":"false"}">${t}</button>`).join("")}</nav><div class="wqbody stack" style="gap:10px">${sec()}</div></div>`;
-  d.querySelectorAll("[data-wqs]").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.wqs;if(!teacher){S.tab=tab;save();}draw();const bd=d.querySelector(".wqbody");if(bd)bd.scrollIntoView({block:"nearest"});}));
+ let mode=teacher?"tab":(S.mm===false?"tab":"mm");
+ function draw(){const bar=`<div class="row wqbar2" role="group" aria-label="Cách xem"><button class="btn sm ${mode==="mm"?"":"ghost"}" data-wqmode="mm" aria-pressed="${mode==="mm"}">🧠 Sơ đồ tư duy</button><button class="btn sm ${mode==="tab"?"":"ghost"}" data-wqmode="tab" aria-pressed="${mode==="tab"}">📑 Từng nhánh</button><button class="btn sm ghost" data-wqmm>⬇ Tải .mm (OKMindmap)</button></div>`;
+  if(mode==="mm"){d.innerHTML=`<div class="wqhead"><span class="eyebrow">${esc(W.sub)}</span><h2>🧭 ${esc(W.t)}</h2></div>${bar}${wqMindmap(id,teacher)}`;bindTop();return;}
+  d.innerHTML=`<div class="wqhead"><span class="eyebrow">${esc(W.sub)}</span><h2>🧭 ${esc(W.t)}</h2></div>${bar}<div class="wqgrid"><nav class="wqnav" aria-label="Các phần WebQuest">${TABS.map(([k,t])=>`<button data-wqs="${k}" aria-current="${k===tab?"step":"false"}">${t}</button>`).join("")}</nav><div class="wqbody stack" style="gap:10px">${sec()}</div></div>`;
+  bindTop();
   d.querySelectorAll("[data-wqt]").forEach(b=>b.addEventListener("click",()=>{S.theme=b.dataset.wqt;save();draw();}));
   d.querySelectorAll("[data-wqr]").forEach(b=>b.addEventListener("click",()=>{S.role=b.dataset.wqr;save();draw();}));
-  d.querySelectorAll("[data-wqc]").forEach(c=>c.addEventListener("change",()=>{S.chk[c.dataset.wqc]=c.checked;save();const pr=d.querySelector(".wqprog");if(pr){pr.querySelector("i").style.width=Math.round(nDone()/nChk*100)+"%";pr.querySelector("b").textContent=nDone()+"/"+nChk;}const st=c.closest(".wqst"),s=WQ.stages.find(z=>z.k===c.dataset.wqc.slice(0,2));if(st&&s){const k=s.chk.filter((_,i)=>S.chk[s.k+i]).length,b=st.querySelector("summary .status");b.textContent=k+"/"+s.chk.length;b.classList.toggle("ok",k===s.chk.length);}}));}
+  d.querySelectorAll("[data-wqc]").forEach(c=>c.addEventListener("change",()=>{S.chk[c.dataset.wqc]=c.checked;save();const pr=d.querySelector(".wqprog");if(pr){pr.querySelector("i").style.width=Math.round(nDone()/nChk*100)+"%";pr.querySelector("b").textContent=nDone()+"/"+nChk;}const st=c.closest(".wqst"),s=W.stages.find(z=>z.k===c.dataset.wqc.slice(0,2));if(st&&s){const k=s.chk.filter((_,i)=>S.chk[s.k+i]).length,b=st.querySelector("summary .status");b.textContent=k+"/"+s.chk.length;b.classList.toggle("ok",k===s.chk.length);}}));
+  const sp=d.querySelector("[data-wqsp]");if(sp)wqGallery(sp,id,teacher);}
+ function bindTop(){d.querySelectorAll("[data-wqs]").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.wqs;mode="tab";if(!teacher){S.tab=tab;S.mm=false;save();}draw();const bd=d.querySelector(".wqbody");if(bd)bd.scrollIntoView({block:"nearest"});}));
+  d.querySelectorAll("[data-wqmode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.wqmode;if(!teacher){S.mm=mode==="mm";save();}draw();}));
+  const x=d.querySelector("[data-wqmm]");if(x)x.addEventListener("click",()=>wqExportMM(id,x));}
  draw();return d;}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-wqopen]");if(!b)return;e.preventDefault();const teacher=!!(me&&me.role==="gv");
+/* ---------- sơ đồ tư duy WebQuest + xuất tệp .mm (FreeMind, mở được trên OKMindmap) ---------- */
+const WQMMC={gt:"#E8C8D9",nv:"#97DE97",tt:"#A9C8F2",dg:"#D2B4A6",kl:"#F5D0A6",sp:"#A8B8EC"};
+function wqTree(id,prods){const W=WQS[id],tx=h=>String(h||"").replace(/<[^>]+>/g,"").replace(/&nbsp;/g," ").replace(/\s+/g," ").trim();
+ const g=W.gt(),h3=tx((g.match(/<h3>([\s\S]*?)<\/h3>/)||[])[1]),ps=[...g.matchAll(/<p>([\s\S]*?)<\/p>/g)].map(m=>tx(m[1]));
+ const li=h=>[...h.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(m=>tx(m[1]));
+ return {t:W.t,sub:W.sub,b:[
+  {k:"gt",t:"1. Giới thiệu",c:[{t:h3}].concat(ps.slice(0,2).map(t=>({t})),[{t:"Chủ đề gợi ý",c:W.themes.map(([i,t])=>({t:i+" "+t}))}])},
+  {k:"nv",t:"2. Nhiệm vụ",c:li(W.nv).map(t=>({t})).concat([{t:"Vai trong nhóm",c:W.roles.map(([k,t,x])=>({t:t+": "+x}))}])},
+  {k:"tt",t:"3. Tiến trình",c:[{t:"Phương pháp: "+W.method}].concat(W.stages.map(s=>({t:s.t,c:[{t:"Thời gian: "+s.time},{t:s.do}].concat(s.chk.map(t=>({t:"Kiểm tra: "+t})),(s.lesson&&L[s.lesson]?[{t:"Bài học: "+L[s.lesson].title}]:[]),(s.res||[]).map(([t,h])=>({t:"Tài liệu: "+t,l:h})))})))},
+  {k:"dg",t:"4. Đánh giá",c:W.rub.map(([c,p,lv])=>({t:c+" ("+String(p).replace(".",",")+" điểm)",c:[["Xuất sắc",0],["Tốt",1],["Đạt",2],["Cần cố gắng",3]].map(([n,i])=>({t:n+": "+lv[i]}))}))},
+  {k:"kl",t:"5. Kết luận",c:[{t:tx(W.kl)},{t:"Câu hỏi tự suy ngẫm: "+W.klQ}]},
+  {k:"sp",t:"6. Sản phẩm mở",c:[{t:"Nhóm nộp ảnh hoặc liên kết sản phẩm trên trang"},{t:"Thầy duyệt rồi mới hiện công khai"},{t:"Ghi tên nhóm, không ghi họ tên, không có khuôn mặt"}].concat((prods||[]).map(r=>({t:r.tieu_de+" · "+r.nhom+" · Lớp "+r.lop,l:r.lien_ket||""})))}]};}
+function wqMindmap(id){const T=wqTree(id),side=(k,w)=>`<section class="wqmmb wqmm-${k.k}" style="--mmc:${WQMMC[k.k]}"><button class="wqmmh" data-wqs="${k.k}">${esc(k.t)} <span aria-hidden="true">›</span></button><ul>${k.c.slice(0,w).map(c=>`<li>${esc(c.t.length>110?c.t.slice(0,108)+"…":c.t)}${c.c?` <span class="small muted">(${c.c.length})</span>`:""}</li>`).join("")}${k.c.length>w?`<li class="small muted">… và ${k.c.length-w} ý nữa</li>`:""}</ul></section>`;
+ return `<div class="wqmm"><div class="wqmmcol">${[T.b[5],T.b[4],T.b[3]].map(k=>side(k,5)).join("")}</div><div class="wqmmroot"><span class="small">WEBQUEST</span><b>${esc(T.t)}</b><span class="small">${esc(T.sub)}</span></div><div class="wqmmcol">${T.b.slice(0,3).map(k=>side(k,6)).join("")}</div></div>
+  <p class="small muted" style="margin:0">Bấm vào tên một nhánh để xem đầy đủ. Tệp .mm mở được bằng OKMindmap (Nhập tệp FreeMind), FreeMind hoặc Freeplane.</p>`;}
+function wqMMxml(T){const ent=s=>String(s).replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu,"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"}[c])).replace(/[^\x20-\x7E]/g,c=>"&#"+c.codePointAt(0)+";").trim();
+ let n=0;const id=()=>"ID_"+(++n)+"_"+Date.now().toString(36);
+ const node=(x,dep,extra)=>`<node TEXT="${ent(x.t)}" ID="${id()}"${x.l&&/^https:\/\//.test(x.l)?` LINK="${ent(x.l)}"`:""}${extra||""}${dep>=2?' FOLDED="false"':""}>${(x.c||[]).map(y=>node(y,dep+1)).join("")}</node>`;
+ const br=T.b.map((x,i)=>node(x,1,` POSITION="${i<3?"right":"left"}" BACKGROUND_COLOR="${WQMMC[x.k]}" STYLE="bubble"`)).join("");
+ return `<map version="1.0.1">\n<node TEXT="${ent("WEBQUEST: "+T.t)}" ID="${id()}" BACKGROUND_COLOR="#6E1014" COLOR="#ffffff" STYLE="bubble"><font BOLD="true" NAME="SansSerif" SIZE="16"/>${br}</node>\n</map>\n`;}
+async function wqExportMM(id,btn){let prods=[];
+ if(CLOUD){try{btn.disabled=true;await CL.load();const a=await CL.sb.from("wq_sanpham").select("tieu_de,nhom,lop,lien_ket").eq("wq",id).eq("duyet",true).order("tao_luc",{ascending:false}).limit(30);if(!a.error)prods=a.data||[];}catch(e){}finally{btn.disabled=false;}}
+ const xml=wqMMxml(wqTree(id,prods)),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([xml],{type:"application/x-freemind"}));
+ a.download="webquest-"+id+".mm";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);toast("Đã tải tệp .mm. Mở OKMindmap → Nhập (Import) → chọn tệp này.",M.chip);}
+/* ---------- nhánh 6: Sản phẩm mở (nhóm nộp, Thầy duyệt, hiện công khai) ---------- */
+const WQCOL="id,wq,lop,nhom,tieu_de,mo_ta,anh,lien_ket,duyet,tao_luc";
+function wqCard(r,act){const img=typeof r.anh==="string"&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(r.anh);
+ const link=typeof r.lien_ket==="string"&&/^https:\/\/[^\s<>"']{4,300}$/.test(r.lien_ket);
+ return `<article class="wqcard">${img?`<img src="${r.anh}" alt="Sản phẩm: ${esc(r.tieu_de)}" loading="lazy">`:`<div class="wqnoimg" aria-hidden="true">🖼</div>`}
+  <div class="stack" style="gap:3px;padding:10px"><b>${esc(r.tieu_de)}</b><span class="small muted">${/^nhóm\b/i.test(r.nhom)?"":"Nhóm "}${esc(r.nhom)} · Lớp ${esc(r.lop)}</span>${r.mo_ta?`<p class="small" style="margin:0">${esc(r.mo_ta)}</p>`:""}
+  ${link?`<a class="small" href="${esc(r.lien_ket)}" target="_blank" rel="noopener noreferrer">Xem sản phẩm ↗</a>`:""}${act||""}</div></article>`;}
+async function wqImg(f){if(!/^image\/(png|jpeg|webp)$/.test(f.type))throw new Error("Chỉ nhận ảnh PNG, JPG hoặc WEBP");
+ const url=await new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>ok(fr.result);fr.onerror=()=>no(new Error("Không đọc được ảnh"));fr.readAsDataURL(f);});
+ const im=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>no(new Error("Ảnh bị lỗi"));i.src=url;});
+ const k=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+ const g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);g.drawImage(im,0,0,c.width,c.height);
+ let q=.82,out=c.toDataURL("image/jpeg",q);while(out.length>380000&&q>.4){q-=.12;out=c.toDataURL("image/jpeg",q);}
+ if(out.length>380000)throw new Error("Ảnh quá lớn, em chụp lại hoặc cắt bớt");return out;}
+async function wqGallery(box,id,teacher){
+ if(!CLOUD){box.innerHTML=`<div class="card stack" style="gap:6px"><b>Sản phẩm mở</b><p class="small muted" style="margin:0">Nơi trưng bày sản phẩm của các nhóm sau khi Thầy duyệt. Phần này chỉ hoạt động trên trang chính thức có tài khoản (tinhocthaydien.id.vn).</p></div>`;return;}
+ const role=me&&me.role,uid=CL.uid;let pub=[],mine=null,pend=[],err="";
+ try{await CL.load();const sb=CL.sb;
+  const a=await sb.from("wq_sanpham").select(WQCOL).eq("wq",id).eq("duyet",true).order("tao_luc",{ascending:false}).limit(60);if(a.error)throw a.error;pub=a.data||[];
+  if(role==="hs"&&uid){const b=await sb.from("wq_sanpham").select(WQCOL).eq("wq",id).eq("user_id",uid).limit(1);if(b.error)throw b.error;mine=(b.data||[])[0]||null;}
+  if(role==="gv"&&uid){const c=await sb.from("wq_sanpham").select(WQCOL).eq("wq",id).eq("duyet",false).order("tao_luc",{ascending:false}).limit(100);if(c.error)throw c.error;pend=c.data||[];}}
+ catch(e){err=/relation|does not exist|schema cache|42P01/i.test(e.message||"")?"Máy chủ chưa có bảng Sản phẩm mở. Thầy chạy tệp 4-san-pham-mo.sql trên Supabase.":"Chưa tải được sản phẩm: "+(e.message||e);}
+ const gv=role==="gv";
+ const act=r=>gv?`<div class="row" style="gap:6px;margin-top:4px">${r.duyet?`<button class="btn sm ghost" data-wqhide="${r.id}">Ẩn khỏi trang công khai</button>`:`<button class="btn sm" data-wqok="${r.id}">✓ Duyệt</button>`}<button class="btn sm ghost tkxdel" data-wqdel="${r.id}">Xoá</button></div>`:"";
+ let h=`<div class="card stack" style="gap:6px"><b>Sản phẩm mở</b><p class="small muted" style="margin:0">Sản phẩm của các nhóm, chỉ hiện sau khi Thầy duyệt. Ghi tên nhóm, không ghi họ tên; ảnh không có khuôn mặt hay thông tin riêng của ai.</p>${err?`<p class="small tkxwarn" style="margin:0">${esc(err)}</p>`:""}</div>`;
+ if(gv&&!err)h+=`<div class="card stack" style="gap:8px"><b>Chờ Thầy duyệt (${pend.length})</b>${pend.length?`<div class="wqgal">${pend.map(r=>wqCard(r,act(r))).join("")}</div>`:`<p class="small muted" style="margin:0">Chưa có sản phẩm nào đang chờ.</p>`}</div>`;
+ if(role==="hs"&&!err&&!teacher){const m=mine||{};const locked=!!m.duyet;
+  h+=`<div class="card stack" style="gap:8px"><b>${mine?"Sản phẩm nhóm em đã nộp":"Nộp sản phẩm của nhóm"}</b>
+   ${mine?`<p class="small" style="margin:0">Trạng thái: <b>${locked?"Đã hiện công khai":"Chờ Thầy duyệt"}</b>${locked?" · muốn sửa thì em báo Thầy":""}</p>`:`<p class="small muted" style="margin:0">Mỗi nhóm chỉ cần một bạn nộp. Em gửi ảnh chụp sản phẩm, có thể thêm liên kết Canva, Padlet hoặc Google Drive (đã mở quyền xem).</p>`}
+   ${locked?wqCard(m,""):`<div class="wqform"><div class="field"><label for="wqNhom">Tên nhóm</label><input id="wqNhom" maxlength="40" value="${esc(m.nhom||"")}" placeholder="Ví dụ: Nhóm Mặt Trời"></div>
+   <div class="field"><label for="wqTd">Tên sản phẩm</label><input id="wqTd" maxlength="80" value="${esc(m.tieu_de||"")}"></div>
+   <div class="field"><label for="wqMt">Giới thiệu ngắn (tối đa 400 kí tự)</label><textarea id="wqMt" maxlength="400" rows="3">${esc(m.mo_ta||"")}</textarea></div>
+   <div class="field"><label for="wqAnh">Ảnh sản phẩm (PNG, JPG)</label><input id="wqAnh" type="file" accept="image/png,image/jpeg,image/webp"><span class="small muted" id="wqAnhN">${m.anh?"Đã có ảnh, chọn ảnh khác nếu muốn thay":"Ảnh được thu nhỏ còn khoảng 1000 điểm ảnh"}</span></div>
+   <div class="field"><label for="wqLk">Liên kết (không bắt buộc, bắt đầu bằng https://)</label><input id="wqLk" maxlength="300" value="${esc(m.lien_ket||"")}" placeholder="https://"></div>
+   <label class="small"><input type="checkbox" id="wqCam"> Sản phẩm không có họ tên, khuôn mặt, số điện thoại của ai</label>
+   <div class="row"><button class="btn gold" id="wqGui">${mine?"Cập nhật sản phẩm":"Gửi Thầy duyệt"}</button><span class="small muted" id="wqMsg" role="status"></span></div></div>`}</div>`;}
+ h+=`<div class="card stack" style="gap:8px"><b>Đã trưng bày (${pub.length})</b>${pub.length?`<div class="wqgal">${pub.map(r=>wqCard(r,act(r))).join("")}</div>`:`<p class="small muted" style="margin:0">Chưa có sản phẩm nào được trưng bày.</p>`}</div>`;
+ box.innerHTML=h;
+ const re=()=>wqGallery(box,id,teacher);
+ box.querySelectorAll("[data-wqok],[data-wqhide]").forEach(b=>b.addEventListener("click",async()=>{b.disabled=true;const ok=!!b.dataset.wqok,rid=b.dataset.wqok||b.dataset.wqhide;
+  const r=await CL.sb.from("wq_sanpham").update({duyet:ok,sua_luc:new Date().toISOString()}).eq("id",rid);if(r.error){toast(r.error.message,M.chip);b.disabled=false;return;}toast(ok?"Đã duyệt, sản phẩm hiện công khai":"Đã ẩn khỏi trang công khai",M.chip);re();}));
+ box.querySelectorAll("[data-wqdel]").forEach(b=>b.addEventListener("click",async()=>{if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="Bấm lần nữa để xoá";return;}b.disabled=true;
+  const r=await CL.sb.from("wq_sanpham").delete().eq("id",b.dataset.wqdel);if(r.error){toast(r.error.message,M.chip);b.disabled=false;return;}toast("Đã xoá sản phẩm",M.chip);re();}));
+ const gui=box.querySelector("#wqGui");if(!gui)return;let anh=(mine&&mine.anh)||null;
+ box.querySelector("#wqAnh").addEventListener("change",async e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const n=box.querySelector("#wqAnhN");n.textContent="Đang xử lí ảnh…";
+  try{anh=await wqImg(f);n.textContent="Đã chọn ảnh ("+Math.round(anh.length*3/4/1024)+" KB)";}catch(er){n.textContent=er.message;}});
+ gui.addEventListener("click",async()=>{const v=s=>box.querySelector(s).value.trim(),msg=box.querySelector("#wqMsg");
+  const row={wq:id,user_id:uid,lop:(CL.prof&&CL.prof.lop)||"",nhom:v("#wqNhom"),tieu_de:v("#wqTd"),mo_ta:v("#wqMt")||null,anh:anh,lien_ket:v("#wqLk")||null,sua_luc:new Date().toISOString()};
+  if(row.nhom.length<2||row.tieu_de.length<2){msg.textContent="Em ghi tên nhóm và tên sản phẩm.";return;}
+  if(!row.anh&&!row.lien_ket){msg.textContent="Em gửi ảnh hoặc liên kết sản phẩm.";return;}
+  if(row.lien_ket&&!/^https:\/\/[^\s<>"']{4,300}$/.test(row.lien_ket)){msg.textContent="Liên kết cần bắt đầu bằng https://";return;}
+  if(/\b(0\d{9,10})\b/.test(row.nhom+" "+row.mo_ta)){msg.textContent="Không ghi số điện thoại trong sản phẩm.";return;}
+  if(!box.querySelector("#wqCam").checked){msg.textContent="Em đánh dấu xác nhận trước khi gửi.";return;}
+  gui.disabled=true;msg.textContent="Đang gửi…";
+  const r=await CL.sb.from("wq_sanpham").upsert(row,{onConflict:"wq,user_id"});
+  if(r.error){gui.disabled=false;msg.textContent=/row-level|policy/i.test(r.error.message)?"Không gửi được: sản phẩm đã được duyệt hoặc tài khoản chưa có lớp.":r.error.message;return;}
+  toast("Đã gửi, chờ Thầy duyệt",M.chip);re();});}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-wqopen]");if(!b)return;e.preventDefault();const teacher=!!(me&&me.role==="gv");const id=WQS[b.dataset.wqopen]?b.dataset.wqopen:"k10c4",W=WQS[id];
  const old=document.querySelector(".wqmodal");if(old)old.remove();const back=document.activeElement;
  const m=document.createElement("div");m.className="dkmodal wqmodal";m.setAttribute("role","dialog");m.setAttribute("aria-modal","true");m.setAttribute("aria-label","Dự án WebQuest");
- m.innerHTML=`<div class="dkmbox"><div class="row dkmtop"><b>🧭 Dự án WebQuest · Tin học 10 Chủ đề 4</b><button class="btn sm ghost" data-wqx>✕ Đóng</button></div></div>`;
- m.querySelector(".dkmbox").appendChild(wqEl(teacher));document.body.appendChild(m);document.body.classList.add("dkopen");
+ m.innerHTML=`<div class="dkmbox"><div class="row dkmtop"><b>🧭 Dự án WebQuest · ${esc(W.short)}</b><button class="btn sm ghost" data-wqx>✕ Đóng</button></div></div>`;
+ m.querySelector(".dkmbox").appendChild(wqEl(id,teacher));document.body.appendChild(m);document.body.classList.add("dkopen");
  const close=()=>{m.remove();if(!document.querySelector(".dkmodal"))document.body.classList.remove("dkopen");document.removeEventListener("keydown",kd);if(back&&back.focus&&back.isConnected)back.focus();};
  const kd=ev=>{if(ev.key==="Escape"&&!document.querySelector(".dkmodal:not(.wqmodal)"))close();};document.addEventListener("keydown",kd);
  m.addEventListener("click",ev=>{if(ev.target===m||ev.target.closest("[data-wqx]")){close();return;}const l=ev.target.closest("[data-wql]");if(l){const lid=l.dataset.wql,st=l.dataset.wqstep;close();setHash(lid);openLesson(lid,st);window.scrollTo(0,0);}});
@@ -17633,7 +17801,7 @@ function renderHome(){const u=U();
   :mine.length?`<div class="continue"><div class="stack" style="gap:6px"><span class="eyebrow">Tuyệt vời</span><h2>Em đã xong ${mine.length===1?"bài mẫu":"cả "+mine.length+" bài mẫu"} của khối ${K}!</h2><p>Các bài khác sẽ mở khi Thầy duyệt nội dung. Trong lúc chờ, em vào Luyện tập để giữ phong độ nhé.</p></div><img src="${M.chuot}" alt=""></div>`
   :`<div class="continue"><div class="stack" style="gap:6px;min-width:0"><span class="eyebrow">Khối ${K}</span><h2>Thầy Diễn đang soạn bài cho khối ${K}</h2><p>Trong lúc chờ, em xem phần Học thêm bên dưới nhé.</p></div><img src="${M.man}" alt=""></div>`;
  const cb=$("#contBtn");if(cb)cb.addEventListener("click",()=>{curStep=n[1][0];setHash(n[0]);openLesson(n[0],n[1][0]);});
- $("#courseMap").innerHTML=TP.map(tp=>`<div class="topic"><h3><span class="code">${tp.code}</span>${esc(tp.name)}</h3>${tp.code==="F"&&K===10?`<div><button class="btn gold sm" data-why>Vì sao phải học Python?</button></div>`:""}${tp.code==="E"&&K===10&&PRACTICE.designkit?`<div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold sm" data-wqopen>🧭 Dự án WebQuest: Poster cổ động</button><button class="btn gold sm" data-dkopen>📘 Sổ tay thiết kế</button></div>`:""}<div class="lessons">${tp.ls.map(([num,t])=>{
+ $("#courseMap").innerHTML=TP.map(tp=>`<div class="topic"><h3><span class="code">${tp.code}</span>${esc(tp.name)}</h3>${tp.code==="F"&&K===10?`<div><button class="btn gold sm" data-why>Vì sao phải học Python?</button></div>`:""}${tp.code==="E"&&K===10&&PRACTICE.designkit?`<div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold sm" data-wqopen="k10c4">🧭 Dự án WebQuest: Poster cổ động</button><button class="btn gold sm" data-dkopen>📘 Sổ tay thiết kế</button></div>`:""}${K===8&&/Ứng dụng tin học/.test(tp.name)?`<div><button class="btn gold sm" data-wqopen="k8c4">🧭 Dự án WebQuest: Dữ liệu kể chuyện lớp em</button></div>`:""}<div class="lessons">${tp.ls.map(([num,t])=>{
    const lid=lidOf(K,num),has=!!L[lid],tl=has&&lockedFor(me.cls,lid),open=has&&!tl,pct=has?lessonPct(lid):0,cls=open?(pct===1?"lesson open done":"lesson open"):"lesson locked";
    return `<button class="${cls}" ${open?`data-l="${lid}"`:'disabled aria-disabled="true"'}><span class="n">${num}</span><span class="stack" style="gap:2px;min-width:0"><span class="t">${esc(t)}</span><span class="s ${tl?"lock":""}">${tl?"Thầy đang khoá bài này":open?(pct===1?"Đã hoàn thành":Math.round(pct*100)+"% · Đang mở"):"Sắp mở"}</span></span></button>`;}).join("")}</div></div>`).join("");
  document.querySelectorAll("[data-l]").forEach(b=>b.addEventListener("click",()=>{setHash(b.dataset.l);openLesson(b.dataset.l);}));
@@ -22685,7 +22853,8 @@ function renderGV(r,quiet){const box=$("#gvBody");
   <button class="tool" data-go="gv-onthi"><b>Ôn thi giữa kì I</b><span>Đề cương Tin 6–11 cho học sinh tự ôn: kiểm tra từng câu, lời giải, tiến độ từng lớp.</span></button>
   <button class="tool" data-vdopen><b>🎨 Vẽ đoán Tin học</b><span>Trò chơi kiểu Gartic: chiếu cả lớp chia tổ, hoặc mở phòng online cho học sinh vẽ và đoán trên máy.</span></button>
   <button class="tool" data-mdopen=""><b>🎬 Mở đầu bài · trình chiếu</b><span>Video hoặc ảnh, tình huống, câu hỏi gợi mở, mục tiêu bài. Chiếu lên màn hình lớn để dẫn dắt vào bài.</span></button>
-  <button class="tool" data-wqopen><b>Dự án WebQuest Tin 10 · Chủ đề 4</b><span>Poster cổ động bằng Inkscape: trang học sinh, thang chấm, trang dành cho thầy cô.</span></button>
+  <button class="tool" data-wqopen="k10c4"><b>Dự án WebQuest Tin 10 · Chủ đề 4</b><span>Poster cổ động bằng Inkscape: 6 nhánh, thang chấm, duyệt Sản phẩm mở, trang dành cho thầy cô.</span></button>
+  <button class="tool" data-wqopen="k8c4"><b>Dự án WebQuest Tin 8 · Chủ đề 4</b><span>Dữ liệu kể chuyện lớp em bằng bảng tính (Bài 5–7): 6 nhánh, thang chấm, duyệt Sản phẩm mở.</span></button>
   <button class="tool" data-go="gv-viec"><b>Việc của Thầy</b><span>Danh sách việc trước, trong, sau giờ học; đánh dấu theo tuần.</span></button></div>
  ${CLOUD?"":`<p class="note">Cách thử giám sát: mở thêm một tab trình duyệt với cùng đường link, đăng nhập vai trò Học sinh lớp 10A1, vào một bài và bấm “Bắt đầu làm bài” ở phần Kiểm tra, rồi chuyển tab. Trang Lớp học bên này sẽ cập nhật ngay.</p>`}`;}
 function gvSetBind(box){const save=W=>{const st=classState();st.warn=Object.assign(warnCfg(),W);LS.set("thtd:class",st);renderGV("gv");toast("Đã lưu cài đặt cảnh báo rời trang",M.chip);};
