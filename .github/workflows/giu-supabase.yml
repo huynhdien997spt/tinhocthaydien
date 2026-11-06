@@ -1,0 +1,47 @@
+# Giữ project Supabase (gói miễn phí) không bị tạm dừng khi cả trường nghỉ hè, nghỉ Tết.
+# Supabase tạm dừng project nếu 7 ngày liền không có ai dùng. Việc này chạy 3 ngày một lần,
+# gửi một truy vấn nhỏ (chỉ đọc, không có dữ liệu học sinh) để project luôn được tính là đang dùng.
+name: Giữ Supabase hoạt động
+
+on:
+  schedule:
+    - cron: "17 1 */3 * *"   # khoảng 8 giờ 17 sáng (giờ Việt Nam), 3 ngày một lần
+  workflow_dispatch:          # cho phép bấm chạy tay trong tab Actions
+
+permissions:
+  contents: write
+
+jobs:
+  giu-hoat-dong:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gọi Supabase
+        env:
+          SB_URL: https://ilqhtjhbctmfpgnrwjqa.supabase.co
+          SB_KEY: sb_publishable_YVHaLnfTqXnLIqjssNyI6g_VQYzGbf0   # khoá công khai, đã có sẵn trong trang web
+        run: |
+          for i in 1 2 3; do
+            code=$(curl -s -o /tmp/kq.txt -w "%{http_code}" "$SB_URL/rest/v1/profiles?select=id&limit=1" -H "apikey: $SB_KEY")
+            echo "Lần $i: HTTP $code"
+            if [ "$code" = "200" ]; then echo "Supabase đang hoạt động."; exit 0; fi
+            sleep 30
+          done
+          echo "::error::Supabase không trả lời. Có thể project đã bị tạm dừng: vào supabase.com/dashboard, mở project tinhocthaydien và bấm Restore."
+          exit 1
+
+      - uses: actions/checkout@v4
+
+      - name: Giữ cho GitHub không tự tắt lịch chạy
+        # GitHub tự tắt lịch chạy nếu kho 60 ngày không có thay đổi; cứ 45 ngày ghi lại một dòng ngày giờ.
+        run: |
+          last=$(git log -1 --format=%ct); now=$(date +%s)
+          if [ $(( (now - last) / 86400 )) -ge 45 ]; then
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/lan-chay-cuoi.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .github/lan-chay-cuoi.txt
+            git commit -m "Giữ lịch chạy tự động"
+            git push
+          else
+            echo "Kho vừa có thay đổi gần đây, chưa cần ghi."
+          fi
