@@ -2107,6 +2107,12 @@ html.vdlock,html.vdlock body{overflow:hidden}
 .tkrwarn{color:#1E40AF;flex-basis:100%;margin:0}
 #lgQuen{margin-top:6px}
 .hero-text>h1:first-child{margin-top:14px}@media(min-width:721px){.hero-text>h1:first-child{margin-top:64px}}
+.mtc .lbs{display:block;margin:4px auto 0;font-size:.74rem;font-weight:700;color:var(--brand);text-align:center;line-height:1.3;max-width:96px;overflow-wrap:anywhere}
+.mtpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.mtpg{border:1.5px solid var(--line);border-radius:12px;padding:8px 12px 10px;margin:0;min-width:0}
+.mtpg legend{font-weight:800;font-size:.9rem;padding:0 4px}
+.mtpi{display:flex;gap:8px;align-items:flex-start;font-size:.9rem;padding:3px 0;cursor:pointer;line-height:1.35}
+.mtpi input{margin-top:3px;flex:none}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -22326,7 +22332,6 @@ function newRow(k,cd,nd,num,w){const r={cd,nd,src:num||null,w:w||1,c:[0,0,0,0,0,
 function defaultSet(k,ki){const P=MT_PRESET[k+":"+ki];
  if(P){const rows=JSON.parse(JSON.stringify(P)).map(r=>Object.assign(r,{src:+k>=10?srcOf(k,r.nd):null,w:1}));rows.forEach(r=>applyStd(k,r));return Object.assign({rows,tlp:[],preset:true},+k<=9?{pat:"BBHV"}:{});}
  const S={rows:[],tlp:[]};
- if(+k===10&&KI[ki]){L10.filter(x=>KI[ki].ls.includes(x[0])).forEach(x=>S.rows.push(newRow(10,CDN[x[2]],"Bài "+x[0]+" "+x[1],x[0],x[3])));autoFill(S);}
  return S;}
 function curSet(){const key=MT.khoi+":"+MT.ki;if(!MT.sets[key])MT.sets[key]=defaultSet(MT.khoi,MT.ki);return MT.sets[key];}
 /* chia số câu theo số tiết: Biết nhiều lựa chọn rải đều; các cột khác không dồn vào một nội dung */
@@ -22349,7 +22354,7 @@ function apportion(T,ws,min){const n=ws.length,W=ws.reduce((a,b)=>a+b,0)||1;let 
 const toks=s=>String(s||"").split(/[,;\s]+/).map(x=>x.trim().toLowerCase()).filter(Boolean);
 /* tính toàn bộ: thứ tự câu/ý (tự đánh cho ô để trống), điểm, tỉ lệ, kiểm tra */
 function mtCalc(){const S=curSet(),R=S.rows,pat=DSPAT[curPat(S)].lv,bad=[],warn=[];
- const L_=R.map(r=>r.lab.map(x=>String(x||"").trim()));const F=R.map(()=>["","","","","","",""]);
+ const L_=R.map(r=>r.lab.map(()=>""));const F=R.map(()=>["","","","","","",""]);
  /* phần I, III: số thứ tự */
  [[0,1],[5,6]].forEach(cols=>{const N=R.reduce((s,r)=>s+cols.reduce((t,c)=>t+r.c[c],0),0),usedN=new Set();
   R.forEach((r,i)=>cols.forEach(c=>{if(L_[i][c]&&r.c[c]){toks(L_[i][c]).forEach(t=>usedN.add(+t));F[i][c]=L_[i][c];}}));
@@ -22362,20 +22367,14 @@ function mtCalc(){const S=curSet(),R=S.rows,pat=DSPAT[curPat(S)].lv,bad=[],warn=
   R.forEach((r,i)=>cols.forEach(c=>{if(r.c[c]&&L_[i][c]&&toks(L_[i][c]).length!==r.c[c])bad.push(nm+", "+r.nd.slice(0,40)+": số câu ("+r.c[c]+") khác số thứ tự đã ghi");}));});
  /* phần II: ý a b c d */
  const dsT=R.reduce((s,r)=>s+r.c[2]+r.c[3]+r.c[4],0),nQ=Math.ceil(dsT/4),slot={};
- for(let q=1;q<=nQ;q++)"abcd".split("").forEach((ch,li)=>slot[q+ch]={lv:pat[li],used:false});
- R.forEach((r,i)=>[2,3,4].forEach(c=>{if(r.c[c]&&L_[i][c]){F[i][c]=L_[i][c];toks(L_[i][c]).forEach(t=>{if(slot[t])slot[t].used=true;});}}));
- const need=R.map((r,i)=>[2,3,4].map(c=>r.c[c]&&!L_[i][c]?r.c[c]:0)),got=R.map(()=>[[],[],[]]);
- const freeQ=q=>"abcd".split("").every(ch=>!slot[q+ch].used);
- R.forEach((r,i)=>{for(let q=1;q<=nQ;q++){const want=[0,0,0];pat.forEach(lv=>want[lv]++);if(!freeQ(q)||want.some((w,lv)=>need[i][lv]-got[i][lv].length<w))continue;"abcd".split("").forEach(ch=>{slot[q+ch].used=true;got[i][slot[q+ch].lv].push(q+ch);});}});
- R.forEach((r,i)=>[0,1,2].forEach(lv=>{for(let q=1;q<=nQ&&got[i][lv].length<need[i][lv];q++)"abcd".split("").forEach(ch=>{const s=slot[q+ch];if(!s.used&&s.lv===lv&&got[i][lv].length<need[i][lv]){s.used=true;got[i][lv].push(q+ch);}});}));
- R.forEach((r,i)=>[0,1,2].forEach(lv=>{if(need[i][lv]){const g=got[i][lv].sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b));while(g.length<need[i][lv])g.push("?");F[i][2+lv]=g.join(", ");}}));
+ let seq=0;R.forEach((r,i)=>[2,3,4].forEach(c=>{if(r.c[c]){const a=[];for(let k=0;k<r.c[c];k++){a.push((Math.floor(seq/4)+1)+"abcd"[seq%4]);seq++;}F[i][c]=a.join(", ");}}));
  {const all=[];R.forEach((r,i)=>[2,3,4].forEach(c=>{if(r.c[c])toks(F[i][c]).forEach(t=>all.push([t,c-2,r.nd]));}));
   const ids=all.map(x=>x[0]);if(dsT%4)bad.push("Phần II: tổng số ý ("+dsT+") phải chia hết cho 4");
   if(ids.some(t=>!/^\d+[a-d]$/.test(t)))bad.push("Phần II: thứ tự ý ghi dạng 1a, 1b, 1c, 1d");
   const dup=ids.filter((t,i)=>ids.indexOf(t)!==i);if(dup.length)bad.push("Phần II: ý "+[...new Set(dup)].join(", ")+" bị ghi hai lần");
   const want=[0,0,0];pat.forEach(lv=>want[lv]+=nQ);const have=[0,1,2].map(lv=>R.reduce((s,r)=>s+r.c[2+lv],0));
-  if(!(dsT%4)&&have.some((v,lv)=>v!==want[lv]))bad.push("Phần II: "+nQ+" câu theo kiểu “"+DSPAT[curPat(S)].t.split(" (")[0]+"” cần "+want.join(" Biết – ")+" ý; hiện có "+have.join(" – "));
-  const off=all.filter(([t,lv])=>/^\d+[a-d]$/.test(t)&&pat["abcd".indexOf(t.slice(-1))]!==lv);if(off.length)warn.push("Phần II: ý "+off.map(x=>x[0]+" ("+LVN[x[1]]+")").join(", ")+" khác quy ước "+DSPAT[curPat(S)].t.split(" (")[0]);
+  if(!(dsT%4)&&have.some((v,lv)=>v!==want[lv]))warn.push("Phần II: "+nQ+" câu theo kiểu “"+DSPAT[curPat(S)].t.split(" (")[0]+"” cần "+want.join(" Biết – ")+" ý; hiện có "+have.join(" – "));
+
   R.forEach((r,i)=>[2,3,4].forEach(c=>{if(r.c[c]&&L_[i][c]&&toks(L_[i][c]).length!==r.c[c])bad.push("Phần II, "+r.nd.slice(0,40)+": số ý ("+r.c[c]+") khác thứ tự đã ghi");}));}
  /* điểm */
  const tlN=R.reduce((s,r)=>s+r.c[5]+r.c[6],0);S.tlp=Array.from({length:tlN},(_,k)=>S.tlp[k]!=null?+S.tlp[k]:1);
@@ -22401,7 +22400,7 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
   R.rows.forEach(x=>{if(x.r.ycSrc!=="mota")return;[0,1,2].forEach(lv=>{if(x.tot[lv]&&!motaYC(k,x.r.mota,lv))checks.push(["warn",x.r.nd.slice(0,50)+": bảng mô tả không có mức "+LVN[lv]+" cho nội dung này"+(String(x.r.yc[lv]||"").trim()?" (đang giữ câu chữ trong file của Thầy)":"")+". Thầy cân nhắc chuyển câu hỏi sang mức khác hoặc giữ nguyên."]);});});}
  if(!S.rows.length)checks.push(["warn","Chưa có nội dung nào. Thêm nội dung ở cuối khung ma trận."]);
  const cds=[];S.rows.forEach(r=>{if(!cds.includes(r.cd))cds.push(r.cd);});
- const cnt=(x,c)=>`<td class="c mtc"><input class="n" type="number" min="0" max="12" value="${x.r.c[c]}" data-ri="${x.i}" data-c="${c}" aria-label="${esc(x.r.nd)} cột ${c+1}"><input class="lb" value="${esc(x.r.lab[c])}" placeholder="${x.r.c[c]?esc(x.F[c]):""}" data-ri="${x.i}" data-lb="${c}" ${x.r.c[c]?"":"hidden"} aria-label="Thứ tự câu ${esc(x.r.nd)} cột ${c+1}" title="Thứ tự câu, ý trong đề. Để trống thì website tự đánh."></td>`;
+ const cnt=(x,c)=>`<td class="c mtc"><input class="n" type="number" min="0" max="12" value="${x.r.c[c]}" data-ri="${x.i}" data-c="${c}" aria-label="${esc(x.r.nd)} cột ${c+1}">${x.r.c[c]?`<span class="lbs" title="Thứ tự ${c>=2&&c<=4?"ý":"câu"} trong đề">${esc(x.F[c])}</span>`:""}</td>`;
  let trs="",prev=null;R.rows.forEach(x=>{const first=x.r.cd!==prev;prev=x.r.cd;const span=R.rows.filter(z=>z.r.cd===x.r.cd).length;
   trs+=`<tr>${first?`<td class="c" rowspan="${span}">${cds.indexOf(x.r.cd)+1}</td><td rowspan="${span}"><textarea class="cdin" rows="3" data-cd="${esc(x.r.cd)}" aria-label="Chủ đề">${esc(x.r.cd)}</textarea></td>`:""}
    <td><textarea class="ndin" rows="2" data-ri="${x.i}" aria-label="Nội dung">${esc(x.r.nd)}</textarea><button class="linkbtn small" data-del="${x.i}">Bỏ dòng</button></td>
@@ -22425,14 +22424,16 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
    <div class="field"><label for="mtNam">Năm học</label><input id="mtNam" value="${esc(MT.nam)}"></div>
    <div class="field"><label for="mtTen">Tên giáo viên (trong tên file)</label><input id="mtTen" value="${esc(MT.ten)}"></div></div>
   <div class="field"><label for="mtPat">Phần II: mỗi câu Đúng/Sai 4 ý</label><select id="mtPat">${Object.entries(DSPAT).map(([x,v])=>`<option value="${x}" ${x===curPat(S)?"selected":""}>${esc(v.t)}</option>`).join("")}</select></div>
-  <div class="row" style="gap:8px;flex-wrap:wrap">${MT_PRESET[k+":"+MT.ki]?`<button class="btn ghost sm" id="mtPre">Dùng lại đề mẫu ${kiN.toLowerCase()} của Thầy</button>`:""}<button class="btn ghost sm" id="mtAuto">Tự chia ${TOT(S).mcB+TOT(S).mcH} câu – ${TOT(S).ds} câu Đúng/Sai – ${TOT(S).tlH+TOT(S).tlV} câu tự luận</button><button class="btn ghost sm" id="mtLb">Đánh lại thứ tự tự động</button><button class="btn ghost sm" id="mtZero">Xoá hết số câu</button></div>
+  <div class="row" style="gap:8px;flex-wrap:wrap">${MT_PRESET[k+":"+MT.ki]?`<button class="btn ghost sm" id="mtPre">Dùng lại đề mẫu ${kiN.toLowerCase()} của Thầy</button>`:""}<button class="btn gold sm" id="mtAuto" title="Gợi ý ${TOT(S).mcB+TOT(S).mcH} câu nhiều lựa chọn – ${TOT(S).ds} câu Đúng/Sai – ${TOT(S).tlH+TOT(S).tlV} câu tự luận cho các bài đã chọn">💡 Đề xuất ma trận</button><button class="btn ghost sm" id="mtZero">Xoá hết số câu</button></div>
   ${S.preset?`<p class="small muted">Đang mở đề mẫu ${kiN.toLowerCase()} lớp ${k} lấy từ file của Thầy. Mọi chỉnh sửa được lưu trên máy này.</p>`:""}</div>
  <div class="card stack"><h3>Kiểm tra theo quy tắc ra đề</h3><div class="checks">${checks.map(([s,t])=>`<div class="check ${s}"><i>${s==="ok"?"✓":s==="bad"?"✗":"!"}</i><span>${esc(t)}</span></div>`).join("")}</div></div>
- <div class="card stack"><h3>1. Ma trận đề kiểm tra</h3><p class="small muted">Ô xanh: số câu (số ý với Đúng/Sai). Ô nhỏ bên dưới: thứ tự câu, ý trong đề; để trống thì website tự đánh (chữ mờ là thứ tự gợi ý).</p>
+ <div class="card stack mtpick"><h3>Bước 1 · Chọn bài đưa vào đề</h3><p class="small muted">Đánh dấu các bài (nội dung) có trong đề. Bỏ dấu là bỏ dòng đó khỏi ma trận.</p>
+  <div class="mtpl">${mtPickHTML(k,S)}</div></div>
+ <div class="card stack"><h3>Bước 2 · Ma trận đề kiểm tra</h3><p class="small muted">Gõ số câu vào ô xanh (Đúng/Sai là số ý). Thứ tự hiện ngay bên dưới, đánh lần lượt theo thứ tự bài từ trên xuống: Phần I và Phần III là 1, 2, 3…; Phần II là 1a, 1b, 1c, 1d rồi 2a… Muốn website gợi ý thì bấm <b>💡 Đề xuất ma trận</b>.</p>
   <div class="tbl"><table class="dtable mtx"><thead><tr><th rowspan="4">TT</th><th rowspan="4">Chủ đề/Chương</th><th rowspan="4">Nội dung/Đơn vị kiến thức</th><th colspan="7">Mức độ đánh giá</th><th rowspan="3">Tổng</th><th rowspan="4">Tỉ lệ % điểm</th></tr>
    <tr><th colspan="5">TNKQ</th><th colspan="2" rowspan="2">Tự luận</th></tr><tr><th colspan="2">Nhiều lựa chọn</th><th colspan="3">Đúng/Sai</th></tr>
    <tr><th>Biết</th><th>Hiểu</th><th>Biết</th><th>Hiểu</th><th>Vận dụng</th><th>Hiểu</th><th>Vận dụng</th><th>B / H / VD</th></tr></thead><tbody>${trs}${foot}</tbody></table></div>
-  <div class="formrow"><div class="field" style="flex:2;min-width:260px"><label for="mtAdd">Thêm nội dung</label><select id="mtAdd">${opts}</select></div><button class="btn sm" id="mtAddB">Thêm</button><button class="btn ghost sm" id="mtAddE">Thêm dòng trống</button></div></div>
+  <div class="formrow"><select id="mtAdd" hidden aria-hidden="true" tabindex="-1">${opts}</select><button id="mtAddB" hidden tabindex="-1"></button><button class="btn ghost sm" id="mtAddE">Thêm dòng nội dung khác</button></div></div>
  <div class="card stack"><h3>Điểm phần tự luận</h3>${R.tlN?`<div class="tlpts">${Array.from({length:R.tlN},(_,n)=>{const x=R.rows.find(z=>[5,6].some(c=>toks(z.F[c]).includes(String(n+1))));const lv=x&&toks(x.F[5]).includes(String(n+1))?"Hiểu":"Vận dụng";return `<div class="field"><label for="tlp${n}">Câu ${n+1} · ${lv}${x?" · "+esc(x.r.nd.slice(0,28)):""}</label><input id="tlp${n}" class="tlp" type="number" min="0.25" max="4" step="0.25" value="${R.tlP(n+1)}" data-i="${n}"></div>`;}).join("")}</div>`:'<p class="small muted">Chưa có câu tự luận.</p>'}</div>
  <div class="card stack"><h3>2. Bảng đặc tả đề kiểm tra</h3><p class="small muted">${+k<=9?"Cấp 2: yêu cầu cần đạt lấy từ <b>bảng mô tả mức độ đánh giá</b> của Thầy; ý Vận dụng cao đã viết lại ở mức Vận dụng (dấu *).":"Cấp 3: yêu cầu cần đạt bám <b>Chương trình GDPT 2018 môn Tin học</b>, chia 3 mức Biết, Hiểu, Vận dụng; ý có dấu † là phần website diễn giải khi CT không ghi mức đó."} Mỗi ý một dòng (khi xuất file tự thêm gạch đầu dòng, bỏ dấu * và †). Năng lực ghi trong ngoặc ở từng ô.</p>
   <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="mtStd">Lấy lại yêu cầu cần đạt theo ${+k<=9?"bảng mô tả":"Chương trình 2018"}</button>${S.rows.some(r=>r.yc0&&r.yc0.some(t=>String(t||"").trim()))?`<button class="btn ghost sm" id="mtOrig">Dùng lại câu chữ trong file của Thầy</button>`:""}</div>
@@ -22458,8 +22459,8 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
  $("#mtPat").addEventListener("change",e=>{S.pat=e.target.value;if(+k>=10)MT.pat=e.target.value;re();});
  [["mtNam","nam"],["mtTen","ten"]].forEach(([id,f])=>$("#"+id).addEventListener("change",e=>{MT[f]=e.target.value.trim();saveMT();}));
  const pre=$("#mtPre");if(pre)pre.addEventListener("click",()=>{MT.sets[k+":"+MT.ki]=defaultSet(k,MT.ki);re();toast("Đã mở lại đề mẫu của Thầy",M.phim);});
- $("#mtAuto").addEventListener("click",()=>{autoFill(S);S.preset=false;re();toast("Đã chia lại số câu theo cấu trúc 3 – 4 – 3 điểm",M.phim);});
- $("#mtLb").addEventListener("click",()=>{S.rows.forEach(r=>r.lab=r.lab.map(()=>""));re();});
+ $("#mtAuto").addEventListener("click",()=>{if(!S.rows.length){toast("Thầy chọn bài ở Bước 1 trước",M.phim);return;}autoFill(S);S.preset=false;re();toast("Đã đề xuất số câu theo cấu trúc 3 – 4 – 3 điểm. Thầy sửa lại ô nào cũng được.",M.phim);});
+ 
  $("#mtZero").addEventListener("click",()=>{S.rows.forEach(r=>{r.c=r.c.map(()=>0);r.lab=r.lab.map(()=>"");});re();});
  $("#mtAddB").addEventListener("click",()=>{const v=$("#mtAdd").value;if(!v)return;if(v.startsWith("m|")){const ui=+v.slice(2),u=MOTA[k][ui],r=newRow(k,u[0],u[1],null,1);r.mota=ui;applyMota(k,r);r.yc0=null;S.rows.push(r);re();return;}const [cd,n]=v.split("|"),tp=(CM[k]||[]).find(t=>t.name===cd),t=tp.ls.find(z=>String(z[0])===n);const lx=+k===10?L10.find(z=>z[0]===+n):null;
   S.rows.push(newRow(k,cd,(+k>=10?"Bài "+n+". ":"")+t[1],+n,lx?lx[3]:1));S.rows.sort((a,b)=>{const ia=(CM[k]||[]).findIndex(t=>t.name===a.cd),ib=(CM[k]||[]).findIndex(t=>t.name===b.cd);return (ia<0?99:ia)-(ib<0?99:ib)||(a.src||99)-(b.src||99);});re();});
@@ -22467,7 +22468,17 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
  box.querySelectorAll("select.motasel").forEach(sl=>sl.addEventListener("change",()=>{const r=row(sl);if(sl.value===""){if(r.yc0)r.yc=r.yc0.slice();r.ycSrc="";r.mota=null;}else{r.mota=+sl.value;r.yc0=r.yc0||r.yc.slice();r.yc=[0,1,2].map(lv=>motaYC(k,r.mota,lv)||r.yc0[lv]||"");r.ycSrc="mota";}re();}));
  $("#mtStd").addEventListener("click",()=>{let n=0;S.rows.forEach(r=>{if(+k<=9&&r.ycSrc!=="mota")r.mota=null;if(applyStd(k,r))n++;});re();toast(n?"Đã lấy yêu cầu cần đạt chuẩn cho "+n+" nội dung":"Không tìm thấy nội dung tương ứng",M.phim);});
  const og=$("#mtOrig");if(og)og.addEventListener("click",()=>{S.rows.forEach(r=>{if(r.yc0){r.yc=r.yc0.slice();r.ycSrc="";}});re();toast("Đã dùng lại câu chữ trong file của Thầy",M.phim);});
+ box.querySelectorAll("input.mtpk").forEach(c=>c.addEventListener("change",()=>{const v=c.value,idx=S.rows.findIndex(r=>mtRowIs(k,r,v));
+  if(c.checked){if(idx>=0)return;$("#mtAdd").value=v;$("#mtAddB").click();mtSort(k,S);re();}
+  else{const n=S.rows.filter(r=>mtRowIs(k,r,v)).reduce((t,r)=>t+r.c.reduce((a,b)=>a+b,0),0);S.rows=S.rows.filter(r=>!mtRowIs(k,r,v));re();if(n)toast("Đã bỏ bài này cùng "+n+" câu, ý đã nhập",M.phim);}}));
  box.querySelectorAll("[data-dx]").forEach(b=>b.addEventListener("click",()=>exportDocx(b.dataset.dx)));}
+/* danh sách bài để chọn: lớp 6–9 theo bản mô tả, lớp 10–12 theo bài */
+function mtItems(k){return +k<=9&&MOTA[k]?MOTA[k].map((u,ui)=>({v:"m|"+ui,cd:u[0],t:u[1],ord:ui})):(CM[k]||[]).flatMap((tp,ti)=>tp.ls.map(([n,t])=>({v:tp.name+"|"+n,cd:tp.name,t:"Bài "+n+". "+t,n:+n,ord:ti*1000+(+n||0)})));}
+function mtRowIs(k,r,v){const it=mtItems(k).find(x=>x.v===v);if(!it)return false;if(v.startsWith("m|"))return r.mota===+v.slice(2)||(r.mota==null&&nmv(r.nd)===nmv(it.t));
+ return (r.src!=null&&+r.src===it.n&&nmv(r.cd)===nmv(it.cd))||nmv(String(r.nd).replace(/^Bài\s*\d+[a-z]?\.?\s*/i,""))===nmv(it.t.replace(/^Bài\s*\d+[a-z]?\.\s*/i,""));}
+function mtSort(k,S){const its=mtItems(k),key=r=>{const it=its.find(x=>mtRowIs(k,r,x.v));return it?it.ord:1e6;};S.rows.forEach((r,i)=>r._o=i);S.rows.sort((a,b)=>key(a)-key(b)||a._o-b._o);S.rows.forEach(r=>delete r._o);}
+function mtPickHTML(k,S){const its=mtItems(k);if(!its.length)return '<p class="small muted">Chưa có danh sách bài cho khối này. Thầy dùng nút “Thêm dòng nội dung khác”.</p>';
+ const cds=[...new Set(its.map(x=>x.cd))];return cds.map(cd=>`<fieldset class="mtpg"><legend>${esc(cd)}</legend>${its.filter(x=>x.cd===cd).map(x=>`<label class="mtpi"><input type="checkbox" class="mtpk" value="${esc(x.v)}" ${S.rows.some(r=>mtRowIs(k,r,x.v))?"checked":""}><span>${esc(x.t)}</span></label>`).join("")}</fieldset>`).join("");}
 /* xuất Word theo đúng mẫu: MA TRẬN và BẢNG ĐẶC TẢ là hai file riêng */
 async function buildDocxBlob(kind){if(kind==="dc"||kind==="hdc"||/^ex\|/.test(kind))return buildExamDocx(kind);const d=await loadDocx(),R=mtCalc(),S=R.S,k=MT.khoi;
  const {Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,WidthType,AlignmentType,PageOrientation,VerticalAlign,TableLayoutType,Footer,PageNumber}=d;
