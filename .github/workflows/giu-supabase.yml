@@ -1,6 +1,6 @@
 # Giữ project Supabase (gói miễn phí) không bị tạm dừng khi cả trường nghỉ hè, nghỉ Tết.
 # Supabase tạm dừng project nếu 7 ngày liền không có ai dùng. Việc này chạy 3 ngày một lần,
-# gửi một truy vấn nhỏ (chỉ đọc, không có dữ liệu học sinh) để project luôn được tính là đang dùng.
+# gọi hàm ping() (chỉ trả về giờ máy chủ, không đụng dữ liệu học sinh) để project luôn được tính là đang dùng.
 name: Giữ Supabase hoạt động
 
 on:
@@ -21,8 +21,8 @@ jobs:
           SB_KEY: sb_publishable_YVHaLnfTqXnLIqjssNyI6g_VQYzGbf0   # khoá công khai, đã có sẵn trong trang web
         run: |
           for i in 1 2 3; do
-            code=$(curl -s -o /tmp/kq.txt -w "%{http_code}" "$SB_URL/rest/v1/profiles?select=id&limit=1" -H "apikey: $SB_KEY")
-            echo "Lần $i: HTTP $code"
+            code=$(curl -s -o /tmp/kq.txt -w "%{http_code}" -X POST "$SB_URL/rest/v1/rpc/ping" -H "apikey: $SB_KEY" -H "Content-Type: application/json" -d '{}')
+            echo "Lần $i: HTTP $code · giờ máy chủ: $(cat /tmp/kq.txt)"
             if [ "$code" = "200" ]; then echo "Supabase đang hoạt động."; exit 0; fi
             sleep 30
           done
