@@ -2116,6 +2116,8 @@ html.vdlock,html.vdlock body{overflow:hidden}
 .mtpi input{margin-top:3px;flex:none}
 .exq.exout{border-left:4px solid var(--warn,#d97706);padding-left:10px}
 .status.gtag{font-size:.74rem}
+.pvbar{border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:10px 12px;background:var(--gold-soft);color:var(--ink);display:grid;gap:8px}.pvbar .small,.pvbar label{color:var(--ink)}.pvbar .muted{opacity:.8}.pvms{gap:10px;flex-wrap:wrap}.pvms select{max-width:260px}
+.pvt{font-style:normal;font-size:.72rem;margin-left:6px;padding:1px 6px;border-radius:8px;white-space:nowrap}.pvt.old{background:#fef3c7;color:#92400e}.pvt.new{background:#dcfce7;color:#166534}.pvt.out{background:#fee2e2;color:#991b1b}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -22339,7 +22341,41 @@ function defaultSet(k,ki){const P=MT_PRESET[k+":"+ki];
  return S;}
 function curSet(){const key=MT.khoi+":"+MT.ki;if(!MT.sets[key])MT.sets[key]=defaultSet(MT.khoi,MT.ki);MT.sets[key].rows.forEach(r=>{if(r.yc)r.yc=r.yc.map(t=>String(t||"").replace(/†\s*/g,""));});return MT.sets[key];}
 /* chia số câu theo số tiết: Biết nhiều lựa chọn rải đều; các cột khác không dồn vào một nội dung */
-function autoFill(S){const R=S.rows;if(!R.length)return;const pat=DSPAT[curPat(S)].lv,used=R.map(()=>0),MT_TOT=TOT(S);
+/* ---------- phạm vi kiến thức theo kì ---------- */
+const PV_DEF={6:["5","9","13"],7:["4","8","12"],8:["4","7","11a"],9:["4","8","13a"],10:["11","20","28"],11:["6","15","21"],12:["6","12","18"]};
+const PV_KI={GKI:{s:[0],o:[]},CKI:{s:[0,1],o:[0]},GKII:{s:[2],o:[]},CKII:{s:[2,3],o:[2]}};
+const PV_NAME=["đầu năm → giữa kì I","sau giữa kì I → hết kì I","đầu kì II → giữa kì II","sau giữa kì II → cuối năm"];
+const pvKi=()=>kiLabel(MT.ki).toLowerCase().replace(/ i$/," I").replace(/ ii$/," II");
+const pvNum=v=>String(String(v).split("|")[1]).toLowerCase();
+function pvMoc(k){MT.pv=MT.pv||{};const its=mtItems(k),ok=m=>m&&m.length===3&&m.every(x=>its.some(it=>pvNum(it.v)===String(x).toLowerCase()));return ok(MT.pv[k])?MT.pv[k]:ok(PV_DEF[k])?PV_DEF[k]:null;}
+/* nhóm của một bài: 0 đến giữa kì I · 1 sau giữa kì I đến hết kì I · 2 đầu kì II đến giữa kì II · 3 sau giữa kì II */
+function pvGroup(k,n){const m=pvMoc(k);if(!m)return null;const its=mtItems(k),pos=x=>its.findIndex(it=>pvNum(it.v)===String(x).toLowerCase()),p=pos(n);if(p<0)return null;const b=m.map(pos);return p<=b[0]?0:p<=b[1]?1:p<=b[2]?2:3;}
+const pvRowGroup=(k,r)=>{const it=mtItems(k).find(x=>mtRowIs(k,r,x.v));return it?pvGroup(k,pvNum(it.v)):null;};
+function pvTag(k,x){const P=PV_KI[MT.ki],g=pvGroup(k,pvNum(x.v));if(!P||g==null)return "";
+ if(!P.s.includes(g))return '<em class="pvt out">ngoài phạm vi</em>';if(P.o.includes(g))return '<em class="pvt old">ôn lại · ~30%</em>';return P.o.length?'<em class="pvt new">kiến thức mới · ~70%</em>':"";}
+function pvBarHTML(k){const P=PV_KI[MT.ki],m=pvMoc(k),its=mtItems(k);if(!P||!m)return "";
+ const D={GKI:"các bài từ đầu năm đến giữa kì I.",CKI:"khoảng <b>30%</b> số điểm ôn lại bài đã kiểm tra giữa kì I, còn lại (~70%) là bài sau giữa kì I đến hết học kì I.",GKII:"chỉ các bài từ đầu học kì II đến giữa kì II.",CKII:"khoảng <b>30%</b> số điểm ôn lại bài đã kiểm tra giữa kì II, còn lại (~70%) là bài sau giữa kì II đến cuối năm."}[MT.ki];
+ const sel=(i,lb)=>`<label class="small">${lb} <select class="pvm sm" data-i="${i}">${its.map(it=>`<option value="${esc(pvNum(it.v))}"${pvNum(it.v)===String(m[i]).toLowerCase()?" selected":""}>${esc(it.t.length>46?it.t.slice(0,44)+"…":it.t)}</option>`).join("")}</select></label>`;
+ return `<div class="pvbar"><p class="small"><b>Phạm vi ${esc(pvKi())}:</b> ${D}</p>
+  <div class="row pvms">${sel(0,"Bài cuối giữa kì I")}${sel(1,"Bài cuối học kì I")}${sel(2,"Bài cuối giữa kì II")}</div>
+  <div class="row" style="gap:8px;align-items:center"><button class="btn sm" id="pvPick">✓ Chọn đúng các bài trong phạm vi</button><span class="small muted">Mốc lấy theo PPCT thường dùng; trường mình dạy khác thì Thầy đổi mốc ở trên, website nhớ cho từng khối.</span></div></div>`;}
+/* điểm của từng dòng ma trận và phần ôn lại / kiến thức mới */
+function pvSplit(R){const k=MT.khoi,P=PV_KI[MT.ki];if(!P)return null;const o={old:0,nw:0,out:[],tot:0};
+ R.rows.forEach(x=>{const p=(x.r.c[0]+x.r.c[1]+x.r.c[2]+x.r.c[3]+x.r.c[4])*.25+toks(x.F[5]).concat(toks(x.F[6])).reduce((s,t)=>s+R.tlP(+t),0);if(!p&&!x.r.c.some(v=>v))return;
+  const g=pvRowGroup(k,x.r);o.tot+=p;if(g==null)return;if(!P.s.includes(g)){o.out.push(x.r.nd);return;}if(P.o.includes(g))o.old+=p;else o.nw+=p;});return o;}
+function pvChecks(R,checks){const P=PV_KI[MT.ki],sp=pvSplit(R);if(!sp||!pvMoc(MT.khoi))return;
+ if(sp.out.length)checks.push(["warn","Có "+sp.out.length+" nội dung ngoài phạm vi "+pvKi()+": "+sp.out.slice(0,4).join("; ")+(sp.out.length>4?"…":"")+". Thầy bỏ dấu ở Bước 1 hoặc đổi mốc phạm vi."]);
+ if(P.o.length&&sp.tot){const pc=Math.round(1000*sp.old/sp.tot)/10;checks.push([Math.abs(pc-30)<=7?"ok":"warn","Ôn lại bài "+(MT.ki==="CKI"?"giữa kì I":"giữa kì II")+": "+fmtN(sp.old,2)+" điểm ("+fmtN(pc)+"%) · kiến thức mới: "+fmtN(sp.nw,2)+" điểm ("+fmtN(Math.round(1000*sp.nw/sp.tot)/10)+"%). Mục tiêu khoảng 30% / 70%."]);}}
+/* đề xuất ma trận: cuối kì chia riêng phần ôn lại (~30% số điểm) và phần kiến thức mới (~70%) */
+function autoFill(S){const k=MT.khoi,P=PV_KI[MT.ki];if(!P||!P.o.length||!pvMoc(k))return autoFill0(S);
+ const P0=P.s,g=S.rows.map(r=>pvRowGroup(k,r)),old=S.rows.filter((r,i)=>P.o.includes(g[i])),nw=S.rows.filter((r,i)=>!P.o.includes(g[i]));
+ if(!old.length||!nw.length)return autoFill0(S);
+ const T=TOT(S),pts=x=>(x.mcB+x.mcH)*.25+x.ds+x.tlH+x.tlV,want=pts(T)*.3,nTL=Math.round((T.tlH+T.tlV)*.3);
+ const o={mcB:Math.round(T.mcB*.3),mcH:Math.round(T.mcH*.3),ds:Math.round(T.ds*.3),tlH:Math.min(T.tlH,nTL),tlV:0};o.tlV=nTL-o.tlH;
+ for(let t=0;t<24&&Math.abs(pts(o)-want)>.125;t++){if(pts(o)<want){if(o.mcB<T.mcB)o.mcB++;else if(o.mcH<T.mcH)o.mcH++;else break;}else{if(o.mcB>0)o.mcB--;else if(o.mcH>0)o.mcH--;else break;}}
+ const n={};Object.keys(T).forEach(f=>n[f]=T[f]-o[f]);
+ autoFill0(Object.assign({},S,{rows:old}),o);autoFill0(Object.assign({},S,{rows:nw}),n);S.tlp=[];}
+function autoFill0(S,T){const R=S.rows;if(!R.length)return;const pat=DSPAT[curPat(S)].lv,used=R.map(()=>0),MT_TOT=T||TOT(S);
  R.forEach(r=>{r.c=[0,0,0,0,0,0,0];r.lab=["","","","","","",""];});
  const pick=sc=>{let b=0,bs=-1e9;R.forEach((r,i)=>{const s=sc(r,i)+(i%3)*.01;if(s>bs){bs=s;b=i;}});return b;};
  /* lớp 6–9: không xếp câu vào mức mà bảng mô tả không có cho nội dung đó (nếu còn nội dung khác) */
@@ -22398,7 +22434,7 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
  R.rows.forEach(x=>{if(!x.r.src)return;const lid=lidOf(k,x.r.src);if(!L[lid])return;const b=bankOf(lid);const lack=[0,1].filter(l=>x.r.c[l]>b.filter(q=>q.lv===LVN[l]).length);if(lack.length)checks.push(["warn",x.r.nd.slice(0,50)+": ngân hàng trên website chưa đủ câu nhiều lựa chọn mức "+lack.map(l=>LVN[l]).join(", ")]);});
  R.rows.forEach(x=>[0,1,2].forEach(lv=>{if(x.tot[lv]&&!String(x.r.yc[lv]||"").trim())checks.push(["warn",x.r.nd.slice(0,50)+": chưa có yêu cầu cần đạt mức "+LVN[lv]]);}));
  {const mk={low:0,der:0};R.rows.forEach(x=>x.r.yc.forEach((t,lv)=>{if(x.tot[lv])ycLines(t).forEach(l=>{if(l[0]==="*")mk.low++;if(l[0]==="†")mk.der++;});}));
-  if(mk.low)checks.push(["warn",mk.low+" ý “Vận dụng cao” của bảng mô tả đã được viết lại: bài có mức Hiểu thì đưa về mức Vận dụng, bài không có mức Hiểu thì hạ xuống mức Hiểu (dấu * trong ô yêu cầu cần đạt). Thầy xem lại câu chữ; dấu * không in ra file."]);
+  pvChecks(R,checks);if(mk.low)checks.push(["warn",mk.low+" ý “Vận dụng cao” của bảng mô tả đã được viết lại: bài có mức Hiểu thì đưa về mức Vận dụng, bài không có mức Hiểu thì hạ xuống mức Hiểu (dấu * trong ô yêu cầu cần đạt). Thầy xem lại câu chữ; dấu * không in ra file."]);
   if(mk.der)checks.push(["warn",mk.der+" ý Chương trình 2018 không ghi ở mức đó nên website diễn giải từ chính YCCĐ của nội dung để đủ 3 mức (dấu †). Thầy duyệt; dấu † không in ra file."]);
   if(S.rows.some(r=>r.yc.some(t=>/vận dụng cao/i.test(t))))checks.push(["bad","Bảng đặc tả còn chữ “Vận dụng cao”: chỉ dùng 3 mức Biết, Hiểu, Vận dụng"]);
   R.rows.forEach(x=>{if(x.r.ycSrc!=="mota")return;[0,1,2].forEach(lv=>{if(x.tot[lv]&&!motaYC(k,x.r.mota,lv))checks.push(["warn",x.r.nd.slice(0,50)+": bảng mô tả không có mức "+LVN[lv]+" cho nội dung này"+(String(x.r.yc[lv]||"").trim()?" (đang giữ câu chữ trong file của Thầy)":"")+". Thầy cân nhắc chuyển câu hỏi sang mức khác hoặc giữ nguyên."]);});});}
@@ -22431,7 +22467,7 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
   <div class="row" style="gap:8px;flex-wrap:wrap">${MT_PRESET[k+":"+MT.ki]?`<button class="btn ghost sm" id="mtPre">Dùng lại đề mẫu ${kiN.toLowerCase()} của Thầy</button>`:""}<button class="btn gold sm" id="mtAuto" title="Gợi ý ${TOT(S).mcB+TOT(S).mcH} câu nhiều lựa chọn – ${TOT(S).ds} câu Đúng/Sai – ${TOT(S).tlH+TOT(S).tlV} câu tự luận cho các bài đã chọn">💡 Đề xuất ma trận</button><button class="btn ghost sm" id="mtZero">Xoá hết số câu</button></div>
   ${S.preset?`<p class="small muted">Đang mở đề mẫu ${kiN.toLowerCase()} lớp ${k} lấy từ file của Thầy. Mọi chỉnh sửa được lưu trên máy này.</p>`:""}</div>
  <div class="card stack"><h3>Kiểm tra theo quy tắc ra đề</h3><div class="checks">${checks.map(([s,t])=>`<div class="check ${s}"><i>${s==="ok"?"✓":s==="bad"?"✗":"!"}</i><span>${esc(t)}</span></div>`).join("")}</div></div>
- <div class="card stack mtpick"><h3>Bước 1 · Chọn bài đưa vào đề</h3><p class="small muted">Đánh dấu các bài (nội dung) có trong đề. Bỏ dấu là bỏ dòng đó khỏi ma trận.</p>
+ <div class="card stack mtpick"><h3>Bước 1 · Chọn bài đưa vào đề</h3>${pvBarHTML(k)}<p class="small muted">Đánh dấu các bài (nội dung) có trong đề. Bỏ dấu là bỏ dòng đó khỏi ma trận.</p>
   <div class="mtpl">${mtPickHTML(k,S)}</div></div>
  <div class="card stack"><h3>Bước 2 · Ma trận đề kiểm tra</h3><p class="small muted">Gõ số câu vào ô xanh (Đúng/Sai là số ý). Thứ tự hiện ngay bên dưới, đánh lần lượt theo thứ tự bài từ trên xuống: Phần I và Phần III là 1, 2, 3…; Phần II là 1a, 1b, 1c, 1d rồi 2a… Muốn website gợi ý thì bấm <b>💡 Đề xuất ma trận</b>.</p>
   <div class="tbl"><table class="dtable mtx"><thead><tr><th rowspan="4">TT</th><th rowspan="4">Chủ đề/Chương</th><th rowspan="4">Nội dung/Đơn vị kiến thức</th><th colspan="7">Mức độ đánh giá</th><th rowspan="3">Tổng</th><th rowspan="4">Tỉ lệ % điểm</th></tr>
@@ -22463,7 +22499,7 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
  $("#mtPat").addEventListener("change",e=>{S.pat=e.target.value;if(+k>=10)MT.pat=e.target.value;re();});
  [["mtNam","nam"],["mtTen","ten"]].forEach(([id,f])=>$("#"+id).addEventListener("change",e=>{MT[f]=e.target.value.trim();saveMT();}));
  const pre=$("#mtPre");if(pre)pre.addEventListener("click",()=>{MT.sets[k+":"+MT.ki]=defaultSet(k,MT.ki);re();toast("Đã mở lại đề mẫu của Thầy",M.phim);});
- $("#mtAuto").addEventListener("click",()=>{if(!S.rows.length){toast("Thầy chọn bài ở Bước 1 trước",M.phim);return;}autoFill(S);S.preset=false;re();toast("Đã đề xuất số câu theo cấu trúc 3 – 4 – 3 điểm. Thầy sửa lại ô nào cũng được.",M.phim);});
+ $("#mtAuto").addEventListener("click",()=>{if(!S.rows.length){toast("Thầy chọn bài ở Bước 1 trước",M.phim);return;}autoFill(S);S.preset=false;re();toast(PV_KI[MT.ki]&&PV_KI[MT.ki].o.length?"Đã đề xuất: khoảng 30% số điểm ôn lại bài giữa kì, 70% kiến thức mới. Thầy sửa lại ô nào cũng được.":"Đã đề xuất số câu theo cấu trúc 3 – 4 – 3 điểm. Thầy sửa lại ô nào cũng được.",M.phim);});
  
  $("#mtZero").addEventListener("click",()=>{S.rows.forEach(r=>{r.c=r.c.map(()=>0);r.lab=r.lab.map(()=>"");});re();});
  $("#mtAddB").addEventListener("click",()=>{const v=$("#mtAdd").value;if(!v)return;if(v.startsWith("m|")){const ui=+v.slice(2),u=MOTA[k][ui],r=newRow(k,u[0],u[1],null,1);r.mota=ui;applyMota(k,r);r.yc0=null;S.rows.push(r);re();return;}const [cd,n]=v.split("|"),tp=(CM[k]||[]).find(t=>t.name===cd),t=tp.ls.find(z=>String(z[0])===n);const lx=+k===10?L10.find(z=>z[0]===+n):null;
@@ -22477,7 +22513,13 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
    if(+k<=9&&MOTA_LS[k]){const ln=String(v.split("|")[1]).toLowerCase(),r=S.rows.find(r=>r.src!=null&&String(r.src).toLowerCase()===ln)||S.rows[S.rows.length-1];const ui=MOTA_LS[k].findIndex(a=>a.map(x=>String(x).toLowerCase()).includes(ln));if(r&&ui>=0){r.mota=ui;applyMota(k,r);}}
    mtSort(k,S);re();}
   else{const n=S.rows.filter(r=>mtRowIs(k,r,v)).reduce((t,r)=>t+r.c.reduce((a,b)=>a+b,0),0);S.rows=S.rows.filter(r=>!mtRowIs(k,r,v));re();if(n)toast("Đã bỏ bài này cùng "+n+" câu, ý đã nhập",M.phim);}}));
- box.querySelectorAll("[data-dp]").forEach(b=>b.addEventListener("click",()=>mtPdf(b.dataset.dp))); box.querySelectorAll("[data-dx]").forEach(b=>b.addEventListener("click",()=>exportDocx(b.dataset.dx)));}
+ box.querySelectorAll("[data-dp]").forEach(b=>b.addEventListener("click",()=>mtPdf(b.dataset.dp))); box.querySelectorAll(".pvm").forEach(se=>se.addEventListener("change",()=>{const its=mtItems(k),m=(pvMoc(k)||PV_DEF[k]||["","",""]).slice();m[+se.dataset.i]=se.value;
+  const pos=x=>its.findIndex(it=>pvNum(it.v)===String(x).toLowerCase());if(!(pos(m[0])<pos(m[1])&&pos(m[1])<pos(m[2]))){toast("Mốc phải theo thứ tự: giữa kì I trước hết kì I, hết kì I trước giữa kì II",M.phim);re();return;}
+  MT.pv=MT.pv||{};MT.pv[k]=m;saveMT();re();toast("Đã lưu mốc phạm vi cho lớp "+k,M.phim);}));
+ if($("#pvPick"))$("#pvPick").addEventListener("click",()=>{const P=PV_KI[MT.ki],vs=mtItems(k).map(it=>it.v);let add=0,rm=0;
+  vs.forEach(v=>{const g=pvGroup(k,pvNum(v)),inS=g!=null&&P.s.includes(g),el=[...document.querySelectorAll(".mtpk")].find(e=>e.value===v);if(!el||el.checked===inS)return;el.checked=inS;el.dispatchEvent(new Event("change"));inS?add++:rm++;});
+  toast(add||rm?"Đã chọn "+add+" bài, bỏ "+rm+" bài ngoài phạm vi":"Các bài đã đúng phạm vi",M.phim);});
+ box.querySelectorAll("[data-dx]").forEach(b=>b.addEventListener("click",()=>exportDocx(b.dataset.dx)));}
 /* danh sách bài để chọn: lớp 6–9 theo bản mô tả, lớp 10–12 theo bài */
 function mtItems(k){return (CM[k]||[]).flatMap((tp,ti)=>tp.ls.map(([n,t])=>({v:tp.name+"|"+n,cd:tp.name,t:"Bài "+n+". "+t,n:+n,ord:ti*1000+(+n||0)})));}
 function mtRowIs(k,r,v){const it=mtItems(k).find(x=>x.v===v);if(!it)return false;const ln=String(v.split("|")[1]).toLowerCase();
@@ -22485,7 +22527,7 @@ function mtRowIs(k,r,v){const it=mtItems(k).find(x=>x.v===v);if(!it)return false
  return (r.src!=null&&String(r.src).toLowerCase()===ln&&nmv(r.cd)===nmv(it.cd))||nmv(String(r.nd).replace(/^Bài\s*\d+[a-z]?\.?\s*/i,""))===nmv(it.t.replace(/^Bài\s*\d+[a-z]?\.\s*/i,""));}
 function mtSort(k,S){const its=mtItems(k),key=r=>{const it=its.find(x=>mtRowIs(k,r,x.v));return it?it.ord:1e6;};S.rows.forEach((r,i)=>r._o=i);S.rows.sort((a,b)=>key(a)-key(b)||a._o-b._o);S.rows.forEach(r=>delete r._o);}
 function mtPickHTML(k,S){const its=mtItems(k);if(!its.length)return '<p class="small muted">Chưa có danh sách bài cho khối này. Thầy dùng nút “Thêm dòng nội dung khác”.</p>';
- const cds=[...new Set(its.map(x=>x.cd))];return cds.map(cd=>`<fieldset class="mtpg"><legend>${esc(cd)}</legend>${its.filter(x=>x.cd===cd).map(x=>`<label class="mtpi"><input type="checkbox" class="mtpk" value="${esc(x.v)}" ${S.rows.some(r=>mtRowIs(k,r,x.v))?"checked":""}><span>${esc(x.t)}</span></label>`).join("")}</fieldset>`).join("");}
+ const cds=[...new Set(its.map(x=>x.cd))];return cds.map(cd=>`<fieldset class="mtpg"><legend>${esc(cd)}</legend>${its.filter(x=>x.cd===cd).map(x=>`<label class="mtpi"><input type="checkbox" class="mtpk" value="${esc(x.v)}" ${S.rows.some(r=>mtRowIs(k,r,x.v))?"checked":""}><span>${esc(x.t)}</span>${pvTag(k,x)}</label>`).join("")}</fieldset>`).join("");}
 /* xuất Word theo đúng mẫu: MA TRẬN và BẢNG ĐẶC TẢ là hai file riêng */
 async function buildDocxBlob(kind){if(kind==="dc"||kind==="hdc"||/^ex\|/.test(kind))return buildExamDocx(kind);const d=await loadDocx(),R=mtCalc(),S=R.S,k=MT.khoi;
  const {Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,WidthType,AlignmentType,PageOrientation,VerticalAlign,TableLayoutType,Footer,PageNumber}=d;
