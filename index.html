@@ -23011,15 +23011,14 @@ async function buildExamDocx(kind){const d=await loadDocx(),R=mtCalc(),k=MT.khoi
   body.push(P(run("A. CẤU TRÚC ĐỀ KIỂM TRA",{bold:true})));
   body.push(P("– Thời gian làm bài: "+MT.phut+" phút."),P("– Phần I. Trắc nghiệm nhiều lựa chọn: "+(R.col(0)+R.col(1))+" câu ("+pts[0]+" điểm)."),P("– Phần II. Trắc nghiệm Đúng/Sai: "+R.nQ+" câu, mỗi câu 4 ý ("+pts[1]+" điểm)."),P("– Phần III. Tự luận: "+R.tlN+" câu ("+pts[2]+" điểm)."));
   body.push(P(run("B. NỘI DUNG ÔN TẬP",{bold:true}),{spacing:{before:120,after:40}}));
-  LS_.forEach((l,li)=>{const D=dcOf(l),rows=R.rows.filter(x=>rowLessons(k,x.r).includes(l));
-   body.push(P(run(L[l].title,{bold:true,size:26}),{spacing:{before:160,after:40}}));
-   const yc=[0,1,2].map(lv=>[...new Set(rows.flatMap(x=>ycLines(x.r.yc[lv]).map(s=>s.replace(/^[*†]\s*/,""))))]);
-   if(yc.some(a=>a.length)){body.push(P(run("Yêu cầu cần đạt",{bold:true,italics:true})));yc.forEach((a,lv)=>{if(a.length){body.push(P([run(LVH[lv]+": ",{bold:true}),run(a.join(" "))]));}});}
-   if(D.mc.length)body.push(P(run("I. Câu hỏi nhiều lựa chọn",{bold:true}),{spacing:{before:60,after:20}}));
-   D.mc.forEach(q=>{qn++;key.push(["mc",qn,"ABCD"[q.a]]);body.push(...mcBlock(qn,q));});
-   if(D.ds.length){body.push(P(run("II. Câu hỏi Đúng/Sai",{bold:true}),{spacing:{before:80,after:20}}));D.ds.forEach(ds=>{dn++;key.push(["ds",dn,ds.it.map((x,i)=>"abcd"[i]+") "+(x.a?"Đúng":"Sai")).join("; ")]);body.push(...dsBlock(dn,ds,false));});}
-   if(D.tl.length){body.push(P(run("III. Tự luận",{bold:true}),{spacing:{before:80,after:20}}));D.tl.forEach(t=>{tn++;key.push(["tl",tn,t.parts.map(p=>p.t.split(")")[0]+") "+p.ans).join(" ")]);body.push(...tlBlock(tn,t,t.parts.reduce((s,p)=>s+p.p,0)));});}});
-  if(MT.dcAns!==false){body.push(P(run("C. ĐÁP ÁN",{bold:true}),{spacing:{before:200,after:40}}));
+  const DL=LS_.map(dcOf),blank=n=>Array.from({length:n},()=>new Paragraph({spacing:{before:60,after:60},tabStops:[{type:TabStopType.RIGHT,position:9638,leader:"dot"}],children:[new TextRun({text:"\t",font:F,size:24})]}));
+  const allMC=DL.flatMap(D=>D.mc),allDS=DL.flatMap(D=>D.ds),allTL=DL.flatMap(D=>D.tl);
+  if(allMC.length){body.push(P(run("PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN",{bold:true}),{spacing:{before:120,after:40}}));allMC.forEach(q=>{qn++;key.push(["mc",qn,"ABCD"[q.a]]);body.push(...mcBlock(qn,q));});}
+  if(allDS.length){body.push(P(run("PHẦN II. TRẮC NGHIỆM ĐÚNG/SAI",{bold:true}),{spacing:{before:160,after:40}}));allDS.forEach(ds=>{dn++;key.push(["ds",dn,ds.it.map((x,i)=>"abcd"[i]+") "+(x.a?"Đúng":"Sai")).join("; ")]);body.push(...dsBlock(dn,ds,false));});}
+  if(allTL.length){body.push(P(run("PHẦN III. TỰ LUẬN",{bold:true}),{spacing:{before:160,after:40}}),P(run("Em viết câu trả lời vào các dòng trống bên dưới mỗi câu.",{italics:true})));
+   allTL.forEach(t=>{tn++;key.push(["tl",tn,t.parts.map(p=>p.t.split(")")[0]+") "+p.ans).join(" ")]);body.push(P([run("Câu "+tn+". ",{bold:true}),run(t.q)],{spacing:{before:100,after:20}}));
+    if(t.parts.length)t.parts.forEach(x=>{body.push(P(x.t,{spacing:{before:20,after:0}}));body.push(...blank(String(x.t).length>110||x.p>=.75?4:3));});else body.push(...blank(5));});}
+  if(MT.dcAns!==false){body.push(P(run("C. ĐÁP ÁN",{bold:true}),{spacing:{before:0,after:40},pageBreakBefore:true}));
    const mcK=key.filter(x=>x[0]==="mc");for(let i=0;i<mcK.length;i+=10){const ch=mcK.slice(i,i+10);body.push(new Table({width:{size:9600,type:WidthType.DXA},columnWidths:[1400].concat(ch.map(()=>820)),rows:[new TableRow({children:[cell("Câu",{b:1,c:1})].concat(ch.map(x=>cell(String(x[1]),{b:1,c:1})))}),new TableRow({children:[cell("Đáp án",{b:1,c:1})].concat(ch.map(x=>cell(x[2],{c:1})))})]}),P(""));}
    key.filter(x=>x[0]==="ds").forEach(x=>body.push(P([run("Đúng/Sai câu "+x[1]+": ",{bold:true}),run(x[2])])));
    key.filter(x=>x[0]==="tl").forEach(x=>body.push(P([run("Tự luận câu "+x[1]+": ",{bold:true}),run(x[2])])));}
