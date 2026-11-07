@@ -2123,6 +2123,12 @@ html.vdlock,html.vdlock body{overflow:hidden}
 .ptcharts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.ptcharts figure{margin:0}.pthist,.ptpos{width:100%;height:auto}.pthist rect,.ptpos rect{fill:#3b82f6}.ptpos rect.lo{fill:#f59e0b}.pthist text,.ptpos text{font-size:10px;fill:currentColor}.pthist text.v{font-size:9px}.ptpos line.g{stroke:#ef4444;stroke-dasharray:4 3}
 .pttab td,.pttab th{vertical-align:top}.pttab .neg{color:#b91c1c;font-weight:700}.pttab .pos{color:#15803d;font-weight:700}.pto small{display:block;font-size:.68rem;opacity:.75}.pto.key{background:rgba(34,197,94,.14)}.pto.dead{background:rgba(148,163,184,.2)}.pto.trap{background:rgba(245,158,11,.18)}
 tr.ptbad td{background:rgba(239,68,68,.07)}.ptf{display:block;margin:1px 0}.ptf.bad{color:#b91c1c;font-weight:600}.ptf.warn{color:#b45309}.ptf.ok{color:#15803d}.ptf.info{opacity:.8}.pttab select{max-width:170px}
+.dlbox{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.55);display:flex;align-items:stretch;justify-content:center;padding:18px}
+.dlpanel{background:var(--card,#fff);color:var(--ink);border-radius:16px;width:min(1100px,100%);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.dlhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}.dlt{display:grid;min-width:0}.dlt b{overflow-wrap:anywhere}.dlbtns{display:flex;gap:8px;flex-wrap:wrap}
+.dlpanel>.fb{margin:6px 16px 0}.dlview{flex:1;overflow:auto;background:#e5e7eb;padding:12px 0}.dlview .docx-wrapper{background:#e5e7eb;padding:10px}.dlview section.docx{color:#000;box-shadow:0 2px 10px rgba(0,0,0,.2);margin:0 auto 14px}
+.dlwait{padding:40px 20px;text-align:center;color:#334155}
+@media (max-width:700px){.dlbox{padding:0}.dlpanel{border-radius:0}.dlview section.docx{transform-origin:top left}}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -22489,7 +22495,7 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
    <tr class="tot"><td colspan="4">Tổng số điểm</td><td class="c" colspan="2">${fmtN(R.parts[0],1)}</td><td class="c" colspan="3">${fmtN(R.parts[1],1)}</td><td class="c" colspan="2">${fmtN(R.parts[2],1)}</td></tr>
    <tr class="tot"><td colspan="4">Tỉ lệ %</td><td class="c" colspan="2">${fmtN(pc(R.parts[0]))}</td><td class="c" colspan="3">${fmtN(pc(R.parts[1]))}</td><td class="c" colspan="2">${fmtN(pc(R.parts[2]))}</td></tr></tbody></table></div></div>
  <div class="card row" style="justify-content:space-between;flex-wrap:wrap;gap:10px"><div class="stack" style="gap:4px;min-width:0;flex:1"><h3>Xuất file Word theo mẫu</h3><p class="small muted">Hai file riêng như bộ đề của Thầy: khổ ngang A4, Times New Roman, tiêu đề cột lặp lại ở mỗi trang; bảng đặc tả có số trang ở chân trang.</p></div>
-  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn" data-go="gv-dethi">Tạo đề cương và đề thi →</button><button class="btn gold" data-dx="mt">Ma trận (.docx)</button><button class="btn gold" data-dx="dt">Bảng đặc tả (.docx)</button><button class="btn ghost" data-dp="mt">Ma trận (PDF)</button><button class="btn ghost" data-dp="dt">Bảng đặc tả (PDF)</button></div></div><p class="fb" id="mtFb"></p>`;
+  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn" data-go="gv-dethi">Tạo đề cương và đề thi →</button><button class="btn gold" data-dx="mt">📄 Ma trận</button><button class="btn gold" data-dx="dt">📄 Bảng đặc tả</button><button class="btn ghost" data-dp="mt">Ma trận (PDF)</button><button class="btn ghost" data-dp="dt">Bảng đặc tả (PDF)</button></div></div><p class="fb" id="mtFb"></p>`;
  const re=()=>{saveMT();gvMatran(box);},row=el=>S.rows[+el.dataset.ri];
  box.querySelectorAll("input.n").forEach(i=>i.addEventListener("change",()=>{const r=row(i),c=+i.dataset.c,v=Math.max(0,parseInt(i.value)||0);if(v!==r.c[c])r.lab[c]="";r.c[c]=v;re();}));
  box.querySelectorAll("input.lb").forEach(i=>i.addEventListener("change",()=>{row(i).lab[+i.dataset.lb]=i.value.trim();re();}));
@@ -22622,7 +22628,8 @@ function mtPdf(kind){const R=mtCalc(),k=MT.khoi,pc=v=>R.P?Math.round(1000*v/R.P)
   <body><div class="bar"><button onclick="print()">🖨 In / Lưu thành PDF</button><span>Trong hộp in, chọn máy in <b>“Lưu dưới dạng PDF”</b> (Save as PDF), khổ A4 ngang.</span></div>${body}</body></html>`;
  const w=window.open("","_blank");if(w){w.document.open();w.document.write(html);w.document.close();setTimeout(()=>{try{w.focus();w.print();}catch(_){}},500);}
  else{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));a.download=nm+".html";document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),800);toast("Trình duyệt chặn cửa sổ mới: em đã tải trang in về máy, Thầy mở ra rồi bấm In → Lưu thành PDF",M.phim);}}
-async function exportDocx(kind){const fb=$("#mtFb");fb.className="fb";fb.textContent="Đang tạo file…";document.querySelectorAll("[data-dx]").forEach(b=>b.disabled=true);
+function exportDocx(kind){const nm=docxName(kind);return dlBox({title:nm.replace(/\.docx$/i,""),name:nm,build:()=>buildDocxBlob(kind)});}
+async function exportDocx0(kind){const fb=$("#mtFb");fb.className="fb";fb.textContent="Đang tạo file…";document.querySelectorAll("[data-dx]").forEach(b=>b.disabled=true);
  try{const blob=await buildDocxBlob(kind);const C=window.claude;const dl=C&&C.use?await C.use("downloads"):null;
   if(!dl){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=docxName(kind);document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);}
   else await dl.save({filename:docxName(kind),data:blob});fb.className="fb ok";fb.textContent="Đã tạo "+docxName(kind)+".";}
@@ -22945,6 +22952,49 @@ function variant(E,code){const n=E.mc.length,r=rng(hs32(String(code)+":"+E.seed)
  if(+code)for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[ord[i],ord[j]]=[ord[j],ord[i]];}
  return ord.map(i=>{const q=exMC(E.mc[i]);if(!q)return null;const idx=q.o.map((_,j)=>j);if(+code)for(let j=idx.length-1;j>0;j--){const t=Math.floor(r()*(j+1));[idx[j],idx[t]]=[idx[t],idx[j]];}return {q:q.q,o:idx.map(j=>q.o[j]),a:idx.indexOf(q.a)};});}
 
+/* ---------- hộp xem trước và tải: Thầy xem file trước, rồi chọn tải Word (.docx) hoặc PDF ---------- */
+let DPV=null;
+const dpScript=src=>new Promise((res,rej)=>{const sc=document.createElement("script");sc.src=src;sc.onload=res;sc.onerror=()=>rej(new Error("chưa tải được bộ xem trước, Thầy kiểm tra mạng"));document.head.appendChild(sc);});
+/* docx-preview cũng gắn vào window.docx nên phải giữ lại thư viện tạo file Word */
+async function dpLoad(){if(DPV)return DPV;await loadDocx();const keep=window.docx;
+ try{if(!window.JSZip)await dpScript("https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js");await dpScript("https://cdn.jsdelivr.net/npm/docx-preview@0.3.5/dist/docx-preview.min.js");DPV=window.docx;}
+ finally{window.docx=keep;}return DPV;}
+let dlCur=null;
+function dlClose(){const o=document.getElementById("dlBox");if(o)o.remove();document.removeEventListener("keydown",dlKey);dlCur=null;}
+function dlKey(e){if(e.key==="Escape")dlClose();}
+async function dlSave(blob,name){const C=window.claude,dl=C&&C.use?await C.use("downloads"):null;if(dl)return dl.save({filename:name,data:blob});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);}
+/* opts: {title, name (tên file .docx), build: async () => Blob} */
+async function dlBox(opts){dlClose();const o=document.createElement("div");o.id="dlBox";o.className="dlbox";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Xem trước "+opts.title);
+ o.innerHTML=`<div class="dlpanel"><div class="dlhead"><div class="dlt"><b>${esc(opts.title)}</b><span class="small muted">Xem trước rồi chọn định dạng tải về</span></div>
+  <div class="dlbtns"><button class="btn gold sm" id="dlW" disabled>⬇ Word (.docx)</button><button class="btn sm" id="dlP" disabled>⬇ PDF</button><button class="btn ghost sm" id="dlX" aria-label="Đóng">✕ Đóng</button></div></div>
+  <p class="fb" id="dlFb"></p><div class="dlview" id="dlView"><div class="dlwait">Đang tạo bản xem trước…</div></div><div id="dlSty" hidden></div></div>`;
+ document.body.appendChild(o);document.addEventListener("keydown",dlKey);
+ o.addEventListener("click",e=>{if(e.target===o)dlClose();});$("#dlX").addEventListener("click",dlClose);
+ const fb=$("#dlFb"),view=$("#dlView"),me_={};dlCur=me_;let blob;
+ try{blob=await opts.build();if(dlCur!==me_)return;$("#dlW").disabled=false;}
+ catch(e){fb.className="fb bad";fb.textContent="Chưa tạo được file: "+(e&&e.message||e);view.innerHTML="";return;}
+ $("#dlW").addEventListener("click",async()=>{try{await dlSave(blob,opts.name);fb.className="fb ok";fb.textContent="Đã tải "+opts.name+".";}catch(e){fb.className="fb bad";fb.textContent=e&&e.code==="declined"?"Thầy đã huỷ tải file.":"Chưa tải được: "+(e&&e.message||e);}});
+ try{const P=await dpLoad();if(dlCur!==me_)return;view.innerHTML="";
+  await P.renderAsync(blob,view,$("#dlSty"),{className:"docx",inWrapper:true,ignoreWidth:false,ignoreHeight:false,ignoreFonts:false,breakPages:true,renderHeaders:true,renderFooters:true,renderFootnotes:true,experimental:true,useBase64URL:true});
+  $("#dlP").disabled=false;$("#dlP").addEventListener("click",()=>dlPdf(opts,view));}
+ catch(e){view.innerHTML=`<div class="dlwait">Chưa hiện được bản xem trước (${esc(e&&e.message||String(e))}). Thầy vẫn tải file Word được.</div>`;}}
+/* PDF: mở trang in đúng khổ giấy của file, Thầy chọn “Lưu dưới dạng PDF” */
+function dlPdf(opts,view){const sec=view.querySelector("section.docx");const w=sec?sec.style.width:"",h=sec?(sec.style.minHeight||sec.style.height):"";
+ const land=w&&h&&parseFloat(w)>parseFloat(h),size=w&&h?`${w} ${h}`:(land?"A4 landscape":"A4"),cs=sec?getComputedStyle(sec):null,mg=cs?[cs.paddingTop,cs.paddingRight,cs.paddingBottom,cs.paddingLeft].join(" "):"15mm";
+ const sty=[...document.querySelectorAll("#dlSty style, #dlView style")].map(s=>s.outerHTML).join("");
+ const nm=opts.name.replace(/\.docx$/i,"");
+ const html=`<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>${esc(nm)}</title>${sty}<style>
+  @page{size:${size};margin:${mg}}html,body{margin:0;padding:0;background:#fff}
+  .docx-wrapper{background:#fff!important;padding:0!important;display:block!important}
+  .docx-wrapper>section.docx{box-shadow:none!important;margin:0!important;padding:0!important;width:auto!important;min-height:0!important;height:auto!important;page-break-after:always;break-after:page}.docx-wrapper>section.docx>footer,.docx-wrapper>section.docx>header{display:none}tr{break-inside:avoid}
+  .docx-wrapper>section.docx:last-child{page-break-after:auto;break-after:auto}
+  .bar{font-family:Arial,sans-serif;font-size:14px;padding:10px;display:flex;gap:10px;align-items:center;background:#fff8e1;border-bottom:1px solid #e5d18a}.bar button{font-size:15px;padding:6px 14px}
+  @media print{.bar{display:none}}</style></head>
+  <body><div class="bar"><button onclick="print()">🖨 Lưu thành PDF</button><span>Trong hộp in, chọn máy in <b>“Lưu dưới dạng PDF”</b> (Save as PDF), khổ ${land?"A4 ngang":"A4 dọc"}, lề “Không có”.</span></div>${view.innerHTML}</body></html>`;
+ const fb=$("#dlFb"),win=window.open("","_blank");
+ if(win){win.document.open();win.document.write(html);win.document.close();setTimeout(()=>{try{win.focus();win.print();}catch(_){}},600);fb.className="fb ok";fb.textContent="Đã mở trang in: chọn “Lưu dưới dạng PDF” để có file PDF.";}
+ else{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));a.download=nm+" (in PDF).html";document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),800);fb.className="fb";fb.textContent="Trình duyệt chặn cửa sổ mới: em đã tải trang in về máy, Thầy mở ra rồi bấm “Lưu thành PDF”.";}}
 /* ---------- phân tích câu hỏi trắc nghiệm sau kiểm tra (chạy trên máy Thầy, không gửi dữ liệu đi đâu) ----------
    Độ khó p, độ phân biệt D (nhóm 27%), point-biserial (so với phần điểm còn lại), phương án nhiễu, KR-20 (Alpha), SEM. */
 let PT={mode:"site",raw:"",ans:"",dsKey:"",dsMode:"luy",res:null,dec:{},sim:false,ids:[]};
@@ -23082,7 +23132,7 @@ function ptResHTML(R){const A=R.A,X=R.X,flags=[];A.mc.forEach(it=>{if(!it)return
   ${A.ds.map((c,i)=>c?c.map(y=>`<tr class="${y.flags.some(f=>f[0]==="bad")?"ptbad":""}"><td class="c"><b>${y.n}${"abcd"[y.j]}</b>${y.j===0&&X.ds[i]&&X.ds[i].lid?`<br><span class="small muted">${tl(X.ds[i].lid)}</span>`:""}</td><td class="small">${esc(y.lv||"")}</td><td class="c">${y.key?"Đ":"S"}</td><td class="c">${ptF(y.p)}</td><td class="c">${ptPc(y.pD)} · ${ptPc(y.pS)}</td><td class="c ${y.D<0?"neg":y.D>=.3?"pos":""}">${ptF(y.D)}</td><td class="small">${y.flags.map(f=>`<span class="ptf ${f[0]}">${esc(f[1])}</span>`).join("")}</td></tr>`).join(""):"").join("")}</tbody></table></div>
   <p class="small muted">Bốn ý của một câu nên đi theo bậc nhận thức: ý Biết dễ nhất, ý Vận dụng khó nhất. Ý quá hiển nhiên (p > 0,85, D thấp) hoặc quá khó (p < 0,20) nên viết lại.</p></div>`:""}
  <div class="card row" style="justify-content:space-between;flex-wrap:wrap;gap:10px"><div class="stack" style="gap:4px;flex:1;min-width:220px"><h3>Lưu kết quả</h3><p class="small muted"><b>Bảng dự kiến và phân tích kết quả</b> theo mẫu của tổ: cột dự kiến lấy từ phần “Dự kiến khi ra đề”, cột thực tế lấy từ bài làm vừa phân tích. Biên bản hậu kiểm ghi chỉ số, nhận xét và quyết định của Thầy cho từng câu. Điểm sau hiệu đính dùng khi Thầy đổi đáp án, nhận thêm đáp án hoặc loại câu.</p></div>
-  <div class="row" style="gap:8px;flex-wrap:wrap">${PT.mode==="site"?`<button class="btn gold" data-kq="1">📄 Bảng dự kiến và phân tích kết quả (.docx)</button>`:""}<button class="btn ghost" id="ptDoc">📄 Biên bản hậu kiểm từng câu (.docx)</button><button class="btn ghost" id="ptCsv">⬇ Điểm sau hiệu đính (.csv)</button></div></div><p class="fb" id="ptFb2"></p>`;}
+  <div class="row" style="gap:8px;flex-wrap:wrap">${PT.mode==="site"?`<button class="btn gold" data-kq="1">📄 Bảng dự kiến và phân tích kết quả</button>`:""}<button class="btn ghost" id="ptDoc">📄 Biên bản hậu kiểm từng câu</button><button class="btn ghost" id="ptCsv">⬇ Điểm sau hiệu đính (.csv)</button></div></div><p class="fb" id="ptFb2"></p>`;}
 function ptRun(rows,sim){const fb=$("#ptFb"),X=ptExam();if(!X){fb.className="fb bad";fb.textContent=PT.mode==="site"?"Lớp và kì đang chọn chưa có đề. Thầy tạo đề trước hoặc chọn “Nhập đáp án”.":"Thầy nhập đáp án Phần I trước.";return;}
  if(sim)rows=ptSim(X);const P_=ptParse(rows,X);if(!P_.out.length){fb.className="fb bad";fb.textContent="Chưa đọc được bài nào. "+P_.err.slice(0,3).join("; ");return;}
  const S=ptUnmix(X,P_.out);PT.ids=P_.out.map(s=>s.id);PT.codes=P_.out.map(s=>s.code);PT.sim=!!sim;PT.X=X;PT.S=S;PT.dec={};
@@ -23107,7 +23157,7 @@ function ptBind(box){box.querySelectorAll('input[name="ptm"]').forEach(r=>r.addE
  if($("#ptCsv"))$("#ptCsv").addEventListener("click",async()=>{const A0=ptAnalyse(PT.X,PT.S,{}),A=PT.res.A,q=v=>/[,"\n]/.test(v)?'"'+String(v).replace(/"/g,'""')+'"':v;
   const rows=[["STT","Mã học sinh","Mã đề","Điểm trắc nghiệm ban đầu","Điểm sau hiệu đính","Chênh lệch"]].concat(PT.ids.map((id,i)=>[i+1,q(id),PT.codes[i],q(fmtN(A0.score[i],2)),q(fmtN(A.score[i],2)),q(fmtN(A.score[i]-A0.score[i],2))]));
   await ptSave(new Blob(["﻿"+rows.map(r=>r.join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"}),"diem-sau-hieu-dinh-lop"+MT.khoi+"-"+MT.ki+".csv");});
- if($("#ptDoc"))$("#ptDoc").addEventListener("click",async()=>{const fb=$("#ptFb2");fb.className="fb";fb.textContent="Đang tạo biên bản…";try{await ptSave(await ptDocx(),"bien-ban-hau-kiem-lop"+MT.khoi+"-"+MT.ki+".docx");fb.className="fb ok";fb.textContent="Đã tạo biên bản hậu kiểm.";}catch(e){fb.className="fb bad";fb.textContent=e&&e.code==="declined"?"Thầy đã huỷ tải file.":"Chưa tạo được file: "+(e&&e.message||e);}});}
+ if($("#ptDoc"))$("#ptDoc").addEventListener("click",()=>dlBox({title:"Biên bản hậu kiểm · Tin "+MT.khoi+" · "+kiLabel(MT.ki),name:"bien-ban-hau-kiem-lop"+MT.khoi+"-"+MT.ki+".docx",build:ptDocx}));}
 async function ptSave(blob,name){const C=window.claude,dl=C&&C.use?await C.use("downloads"):null;if(dl)return dl.save({filename:name,data:blob});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);}
 async function ptDocx(){const d=await loadDocx(),{Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,WidthType,AlignmentType,VerticalAlign,PageOrientation}=d,F="Times New Roman",A_=AlignmentType;
@@ -23139,7 +23189,7 @@ function kqSetHTML(){const c=kqCfg(),f=(id,lb,v,w)=>`<div class="field" style="m
   <div class="field"><label for="kq_dt">Đặc điểm đối tượng</label><input id="kq_dt" data-kq-f="dt" value="${esc(c.dt)}"></div>
   <p class="small muted" style="margin:6px 0 0">Tỉ lệ hoàn thành dự kiến (%):</p>
   <div class="row" style="gap:10px;flex-wrap:wrap">${f("mcB","Nhiều lựa chọn · Biết",c.mcB,150)}${f("mcH","Nhiều lựa chọn · Hiểu",c.mcH,150)}${f("dsB","Đúng/Sai · Biết",c.dsB)}${f("dsH","Đúng/Sai · Hiểu",c.dsH)}${f("dsV","Đúng/Sai · Vận dụng",c.dsV,140)}${f("tlH","Tự luận · Hiểu",c.tlH)}${f("tlV","Tự luận · Vận dụng",c.tlV,140)}</div>
-  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold sm" data-kq="0">📄 Bảng dự kiến (trước khi thi, .docx)</button><span class="small muted">Cột “Thực tế” để trống [Nhập sau]; phân tích bài làm xong thì tải lại để có số liệu thực tế.</span></div><p class="fb" id="kqFb"></p></details>`;}
+  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold sm" data-kq="0">📄 Bảng dự kiến (trước khi thi)</button><span class="small muted">Cột “Thực tế” để trống [Nhập sau]; phân tích bài làm xong thì tải lại để có số liệu thực tế.</span></div><p class="fb" id="kqFb"></p></details>`;}
 function kqBind(box){const d=box.querySelector(".kqset");if(d)d.addEventListener("toggle",()=>{MT.kqOpen=d.open;});
  box.querySelectorAll("[data-kq-f]").forEach(i=>i.addEventListener("change",()=>{const k=i.dataset.kqF,v=k==="dt"?i.value:parseFloat(String(i.value).replace(",","."));if(k!=="dt"&&(isNaN(v)||v<0))return;MT.kq=MT.kq||{};MT.kq[dKey()]=Object.assign(MT.kq[dKey()]||{},{[k]:v});saveMT();}));}
 const kqPhi=x=>{const t=1/(1+.2316419*Math.abs(x)),d=.3989423*Math.exp(-x*x/2),p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p;};
@@ -23243,9 +23293,7 @@ async function kqDocx(withAct){const X=ptExam();if(!X||!X.E)throw new Error("l�
  return Packer.toBlob(doc);}
 let kqBound=false;
 function kqGlobal(){if(kqBound)return;kqBound=true;document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest("[data-kq]");if(!b)return;e.preventDefault();const act=b.dataset.kq==="1",fb=document.getElementById(act?"ptFb2":"kqFb")||document.getElementById("mtFb");
- if(fb){fb.className="fb";fb.textContent="Đang tạo bảng…";}b.disabled=true;
- try{await ptSave(await kqDocx(act),"BANG DU KIEN"+(act?" VA PHAN TICH":"")+" KET QUA - TIN "+MT.khoi+" - "+MT.ki+".docx");if(fb){fb.className="fb ok";fb.textContent="Đã tạo bảng "+(act?"dự kiến và phân tích kết quả":"dự kiến kết quả")+".";}}
- catch(err){if(fb){fb.className="fb bad";fb.textContent=err&&err.code==="declined"?"Thầy đã huỷ tải file.":"Chưa tạo được file: "+(err&&err.message||err);}}finally{b.disabled=false;}});}
+ dlBox({title:"Bảng dự kiến"+(act?" và phân tích":"")+" kết quả · Tin "+MT.khoi+" · "+kiLabel(MT.ki),name:"BANG DU KIEN"+(act?" VA PHAN TICH":"")+" KET QUA - TIN "+MT.khoi+" - "+MT.ki+".docx",build:()=>kqDocx(act)});});}
 kqGlobal();
 /* ---------- trang giáo viên: đề cương và đề thi ---------- */
 let dtOpen={};
@@ -23267,7 +23315,7 @@ function gvDethi(box){const k=MT.khoi,kiN=KIN[MT.ki],LS_=scopeLessons(),R=mtCalc
  `<div class="card stack"><div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>Phạm vi: ${LS_.length} bài · Tin học ${k} · ${esc(kiLabel(MT.ki))}</h3><button class="btn ghost sm" data-go="gv-matran">Sửa ma trận</button></div>
   <p class="small">${LS_.map(l=>`<span class="status">${esc(L[l].title)}</span>`).join(" ")||'<span class="muted">Ma trận chưa có nội dung gắn với bài học trên website.</span>'}</p>
   ${noDS2.length||noTL.length?`<p class="note small">Bài chưa đủ ngân hàng: ${[...new Set(noDS2.concat(noTL))].map(tt).join(", ")} (thiếu câu Đúng/Sai thứ hai hoặc câu tự luận). Đề cương vẫn tạo được với phần đang có.</p>`:""}</div>
- <div class="card stack"><div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>1. Đề cương ôn tập</h3><div class="row" style="gap:8px;flex-wrap:wrap"><label class="small"><input type="checkbox" id="dcAns" ${MT.dcAns!==false?"checked":""}> Kèm đáp án ở cuối</label><button class="btn gold sm" data-dx="dc">Tải đề cương (Word)</button></div></div>
+ <div class="card stack"><div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>1. Đề cương ôn tập</h3><div class="row" style="gap:8px;flex-wrap:wrap"><label class="small"><input type="checkbox" id="dcAns" ${MT.dcAns!==false?"checked":""}> Kèm đáp án ở cuối</label><button class="btn gold sm" data-dx="dc">📄 Xem trước và tải đề cương</button></div></div>
   <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><label class="small" for="dcX">Số câu đề cương mỗi mức</label><select id="dcX" class="sm">${[2,3].map(v=>`<option value="${v}"${(MT.dcX||2)===v?" selected":""}>gấp ${v} số câu trong đề</option>`).join("")}</select></div>
   ${(()=>{const rs=dcInfo().plan.filter(c=>c.ty==="res");return rs.length?`<p class="note small">Để đề thi có phần phân loại (dự kiến ${fmtN(dcInfo().out,2)} điểm, tức ${fmtN(Math.round(1000*dcInfo().out/(mtCalc().P||10))/10)}% số điểm), em giữ lại, không đưa vào đề cương: ${rs.map(c=>esc(L[c.lid].title.split(".")[0])+" – "+(c.part==="ds"?"1 câu Đúng/Sai":"1 câu tự luận "+((L[c.lid].tl||[])[c.i]||{}).lv)).join("; ")}. Các câu này chỉ có trong đề thi.</p>`:"";})()}
   <p class="small muted">Đề cương đi theo ma trận: bài nào, mức nào có bao nhiêu câu trong đề thì đề cương có gấp ${MT.dcX||2} lần câu cùng mức; phần ma trận không có (ví dụ bài không có Đúng/Sai hay tự luận) thì đề cương cũng không có. Câu gắn nhãn <b>🔢 Dạng tính toán</b> sẽ được đổi số liệu khi ra đề. Bấm “Đổi câu khác” để thay câu nhiều lựa chọn trong đề cương.</p>${dcHTML||'<p class="muted small">Chưa có bài nào.</p>'}</div>
@@ -23277,7 +23325,7 @@ function gvDethi(box){const k=MT.khoi,kiN=KIN[MT.ki],LS_=scopeLessons(),R=mtCalc
   <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><label class="small" for="dcPct">Tỉ lệ điểm lấy từ đề cương</label><select id="dcPct" class="sm">${[80,85,90].map(v=>`<option value="${v}"${(MT.dcPct||85)===v?" selected":""}>${v}%</option>`).join("")}</select><span class="small muted">Đổi tỉ lệ rồi bấm “Tạo lại đề mới”.</span></div>
   <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" id="exNew">${E?"Tạo lại đề mới":"Tạo đề từ ma trận"}</button>${E?`<span class="status ${Math.abs(st.pct-(MT.dcPct||85))<=5?"ok":"bad"}">Trong đề cương: ${fmtN(st.dc,2)} điểm (${fmtN(st.pct)}%)</span>${st.doi?`<span class="status warn">★ Đổi số liệu: ${fmtN(st.doi,2)} điểm</span>`:""}${st.ngoai?`<span class="status warn">★ Ngoài đề cương: ${fmtN(st.ngoai,2)} điểm</span>`:""}${st.miss.length?`<span class="status bad">Còn thiếu: ${esc(st.miss.join(", "))}</span>`:""}`:""}</div>
   ${E?`<p class="small muted">Câu gắn ★ là phần phân loại: cùng dạng nhưng đổi số liệu, hoặc ngoài đề cương; bấm “Đổi câu” ở câu ★ để lấy bộ số khác. Dấu ★ chỉ hiện ở trang này, đề gốc và hướng dẫn chấm, không in ở các mã đề. Thi xong, Thầy dán bài làm vào <a href="#" data-go="gv-phantich">📊 Phân tích câu hỏi trắc nghiệm</a> để xem câu nào tốt, câu nào cần sửa. Đề gốc (mã 000) đặt câu theo đúng thứ tự trong ma trận. Các mã đề đảo thứ tự câu và phương án Phần I; Phần II, III dùng chung như đề của Thầy. Đề chỉ hiện ở trang giáo viên.</p>${exHTML}
-  <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn gold sm" data-dx="ex|000">Tải đề gốc</button>${codes.map(c=>`<button class="btn gold sm" data-dx="ex|${esc(c)}">Tải mã ${esc(c)}</button>`).join("")}<button class="btn gold sm" data-dx="hdc">Tải hướng dẫn chấm</button><button class="btn ghost sm" data-kq="0">📄 Bảng dự kiến kết quả</button></div>`:""}<p class="fb" id="mtFb"></p></div>`;
+  <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn gold sm" data-dx="ex|000">📄 Đề gốc</button>${codes.map(c=>`<button class="btn gold sm" data-dx="ex|${esc(c)}">📄 Mã ${esc(c)}</button>`).join("")}<button class="btn gold sm" data-dx="hdc">📄 Hướng dẫn chấm</button><button class="btn ghost sm" data-kq="0">📄 Bảng dự kiến kết quả</button></div>`:""}<p class="fb" id="mtFb"></p></div>`;
  const re=()=>{saveMT();gvDethi(box);};
  box.querySelectorAll("details.dcl").forEach(d=>d.addEventListener("toggle",()=>{dtOpen[d.dataset.dl]=d.open;}));
  box.querySelectorAll("[data-dcs]").forEach(b=>b.addEventListener("click",()=>{const [l,id]=b.dataset.dcs.split("|");dcSwap(l,id);re();}));
