@@ -22871,6 +22871,15 @@ function tlItem(lid,k,s){if(!lid||!L[lid])return null;
 const tlBank=lid=>isTLN()?(((typeof TLN!=="undefined"?TLN:{})[lid])||[]).map((_,i)=>tlItem(lid,"n:"+i)).filter(Boolean):(L[lid].tl||[]).map((_,i)=>tlItem(lid,"b:"+i)).filter(Boolean);
 /* dạng tính toán dùng được cho một ô phần III ở mức lv */
 const tlGens=(lid,lv)=>(isTLN()?genOf(lid,"mc"):genOf(lid,"tl",lv)).map(g=>tlItem(lid,"g:"+g.id)).filter(t=>t&&t.lv===lv);
+/* điểm phân loại: câu ngoài đề cương phải đo được năng lực (Vận dụng, nhiều bước, tính toán, code, bảng dữ liệu), không lấy câu nhớ máy móc */
+const PL_EASY=/phím tắt|là gì\??$|là thẻ gì|tên (thẻ|lỗi|máy|tệp|miền)|viết tắt|phần mở rộng|điền chữ|điền từ|điền từ khoá|có màu gì|là màu gì|là số nào|bao nhiêu bit\?$/i;
+function plScore(x,key){if(!x)return -9;const q=String(x.q||"")+(x.it?" "+x.it.map(i=>i.t).join(" "):"");let s={"Biết":0,"Hiểu":2,"Vận dụng":3}[x.lv];if(s==null)s=1;
+ if(x._gen)s+=2;if(/\n`|`/.test(q))s+=1.5;if(/\n\|/.test(q))s+=1.5;
+ if(/\d/.test(q)&&/(bao nhiêu|tính|bằng|kết quả|in ra|trả về)/i.test(q))s+=1;
+ if(/ghi số thứ tự|có bao nhiêu|sắp xếp|theo đúng trình tự/i.test(q))s+=1;if(/vì sao|\bvì\b|khác nhau|ở chỗ|\bnếu\b|\bthì\b|\bkhi\b/i.test(q))s+=.5;if(q.length>140)s+=.5;if(PL_EASY.test(q.trim()))s-=2.5;
+ const st=key&&(MT.qstat||{})[key];if(st&&st.n>=20){if(st.D>=.3)s+=3;else if(st.D<.2)s-=3;if(st.p>.85)s-=2;else if(st.p<.2)s-=1;}return s;}
+const PL_MIN=2;
+const plKeyMC=(lid,id)=>lid+"|"+id;
 function tlAlt(id,seed){const g=genFind(id);if(!g)return null;const d=tlItem(g.lid,"g:"+id);for(let t=0;t<12;t++){const s=(hs32(id+":"+seed)+t*104729)>>>0,q=genQ(g,s);if(q&&(!d||q.q!==d.q))return s;}return null;}
 let dcNeedC={k:"",v:null};
 /* need: số câu đề cương từng bài; plan: các ô trong đề dành cho phần phân loại; res: câu giữ lại, không đưa vào đề cương */
@@ -22882,16 +22891,16 @@ function dcInfo(){const S=curSet(),key=JSON.stringify([MT.khoi,MT.ki,MT.dcX,MT.d
   const c={"Biết":x.r.c[0],"Hiểu":x.r.c[1],ds:own[x.i]||(hasDS?1:0),tlH:toks(x.F[5]).length,tlV:toks(x.F[6]).length};
   ls.forEach(l=>{const n=need[l]=need[l]||{"Biết":0,"Hiểu":0,ds:0,tlH:0,tlV:0};Object.keys(c).forEach(f=>{if(c[f])n[f]+=f==="ds"&&!own[x.i]?1:Math.ceil(XF[f]*c[f]/ls.length);});});});
  const P=R.P||10,O=Math.round(P*(100-pct)/100*4)/4,Omax=Math.min(O+.05*P,.2*P),gen=[],nat=[],rV=[],rD=[],rH=[];
- const lastTL=(l,lv)=>{const a=tlBank(l).filter(t=>t.lv===lv);return a.length?a[a.length-1]._k:null;};
+ const lastTL=(l,lv)=>{const a=tlBank(l).filter(t=>t.lv===lv).sort((x,y)=>plScore(x)-plScore(y));return a.length&&plScore(a[a.length-1])>=PL_MIN?a[a.length-1]._k:null;};
  R.rows.forEach(x=>{const ls=lsR[x.i];if(!ls.length)return;
   [[6,"Vận dụng"],[5,"Hiểu"]].forEach(([c,lv])=>toks(x.F[c]).map(Number).forEach(n=>{const p=R.tlP(n);
    if(ls.some(l=>tlGens(l,lv).length))gen.push({part:"tl",n,ty:"gen",pr:lv==="Vận dụng"?1:3,p});
    else{const l=ls.find(l=>lastTL(l,lv));if(l)(lv==="Vận dụng"?rV:rH).push({part:"tl",n,ty:"res",p,lid:l,k:lastTL(l,lv)});}}));
   toks(x.F[1]).map(Number).forEach(n=>{if(ls.some(l=>genOf(l,"mc","Hiểu").length))gen.push({part:"mc",n,ty:"gen",pr:2,p:.25});else nat.push({part:"mc",n,ty:"out",p:.25,row:x.i});});});
- Object.keys(ownQ).forEach(q=>{const ls=lsR[ownQ[q]]||[],l=ls.find(l=>dsAll(l).length>=2);if(l)rD.push({part:"ds",n:+q,ty:"res",p:1,lid:l,i:dsAll(l).length-1});});
+ Object.keys(ownQ).forEach(q=>{const ls=lsR[ownQ[q]]||[],l=ls.find(l=>dsAll(l).length>=2);if(l){const sc=dsAll(l).map((d,i)=>[i,plScore({lv:"Vận dụng",q:d.q,it:d.it})]).sort((a,b)=>b[1]-a[1]);rD.push({part:"ds",n:+q,ty:"res",p:1,lid:l,i:sc[0][0]});}});
  const byN=(a,b)=>b.n-a.n;gen.sort((a,b)=>a.pr-b.pr||b.n-a.n);[nat,rV,rD,rH].forEach(a=>a.sort(byN));
  const cand=gen.concat(nat,rV.slice(0,1),rD.slice(0,1),rV.slice(1),rD.slice(1),rH);
- const avail={};R.rows.forEach(x=>{const ls=lsR[x.i];avail[x.i]=ls.reduce((s,l)=>s+bankOf(l).filter(q=>q.lv==="Hiểu").length-((need[l]||{})["Hiểu"]||0),0);});
+ const avail={};R.rows.forEach(x=>{const ls=lsR[x.i];avail[x.i]=ls.reduce((s,l)=>{const b=bankOf(l).filter(q=>q.lv==="Hiểu"),good=b.filter(q=>plScore(q,plKeyMC(l,q._id))>=PL_MIN).length;return s+Math.max(0,Math.min(good,b.length-((need[l]||{})["Hiểu"]||0)));},0);});
  let out=0;const plan=[],res={ds:new Set(),tl:new Set()};
  for(const c of cand){if(out>=O-1e-9)break;if(out+c.p>Omax+1e-9)continue;
   if(c.ty==="res"){const kk=c.lid+"|"+(c.part==="ds"?c.i:c.k),S_=c.part==="ds"?res.ds:res.tl;if(S_.has(kk))continue;S_.add(kk);}
@@ -22900,12 +22909,12 @@ function dcInfo(){const S=curSet(),key=JSON.stringify([MT.khoi,MT.ki,MT.dcX,MT.d
  dcNeedC={k:key,v:{need,plan,res,O,out}};return dcNeedC.v;}
 const dcNeed=()=>dcInfo().need;
 /* thứ tự ưu tiên khi chọn câu đề cương: dạng tính toán xen kẽ câu ngân hàng */
-function dcPool(lid,lv){const gs=genOf(lid,"mc",lv).map(g=>genDC(g.id)).filter(Boolean),bs=bankOf(lid).filter(q=>q.lv===lv),pool=[];
+function dcPool(lid,lv){const gs=genOf(lid,"mc",lv).map(g=>genDC(g.id)).filter(Boolean),bs0=bankOf(lid).filter(q=>q.lv===lv),bs=lv==="Hiểu"?bs0.map((q,i)=>[q,plScore(q,plKeyMC(lid,q._id)),i]).sort((a,b)=>a[1]-b[1]||a[2]-b[2]).map(z=>z[0]):bs0,pool=[];
  for(let i=0;i<Math.max(gs.length,bs.length);i++){if(gs[i])pool.push(gs[i]);if(bs[i])pool.push(bs[i]);}return pool;}
 function dcOf(lid){const l=L[lid];MT.dcov=MT.dcov||{};const ov=MT.dcov[lid]||{},nd=dcNeed()[lid];
  const sel=lv=>{const N=nd?nd[lv]:DC_N[lv];if(!N)return [];const pool=dcPool(lid,lv),ids=(ov[lv]||[]).filter(id=>pool.some(q=>q._id===id));pool.forEach(q=>{if(ids.length<N&&!ids.includes(q._id))ids.push(q._id);});return ids.slice(0,N).map(id=>pool.find(q=>q._id===id));};
  const RS=dcInfo().res,all=dsAll(lid).filter((d,i)=>!RS.ds.has(lid+"|"+i)),tlB=tlBank(lid).filter(t=>!RS.tl.has(lid+"|"+t._k));
- const tlSel=(lv,N)=>{if(!N)return [];const b=tlB.filter(t=>t.lv===lv),g=tlGens(lid,lv);return (isTLN()?g.concat(b):b.concat(g)).slice(0,Math.max(N,b.length?1:0));};
+ const tlSel=(lv,N)=>{if(!N)return [];const b=tlB.filter(t=>t.lv===lv).map((t,i)=>[t,plScore(t),i]).sort((x,y)=>x[1]-y[1]||x[2]-y[2]).map(z=>z[0]),g=tlGens(lid,lv);return (isTLN()?g.concat(b):b.concat(g)).slice(0,Math.max(N,b.length?1:0));};
  return {lid,mc:sel("Biết").concat(sel("Hiểu")),ds:nd?all.slice(0,Math.min(all.length,nd.ds)):all,tl:nd?tlSel("Hiểu",nd.tlH).concat(tlSel("Vận dụng",nd.tlV)):tlB};}
 function dcSwap(lid,id){const q=dcOf(lid).mc.find(x=>x._id===id);if(!q)return;const pool=dcPool(lid,q.lv),cur=dcOf(lid).mc.filter(x=>x.lv===q.lv).map(x=>x._id),rest=pool.filter(x=>!cur.includes(x._id));
  if(!rest.length){toast("Ngân hàng bài này không còn câu "+q.lv+" khác",M.chip);return;}
@@ -22935,7 +22944,7 @@ function buildExam(seed){const R=mtCalc(),k=MT.khoi,r=rng(seed),used=new Set(),E
 const exTot=(E,R)=>E.mc.length*.25+E.ds.length+E.tl.reduce((s,_,i)=>s+R.tlP(i+1),0);
 /* phần phân loại theo kế hoạch của dcInfo: câu tính toán đổi số liệu, câu Hiểu ngoài đề cương, câu đã giữ lại không đưa vào đề cương */
 function examOutside(E,r){const R=mtCalc(),k=MT.khoi,I=dcInfo();
- const lsOf=e=>{const x=R.rows.find(y=>y.i===e.row);return x?rowLessons(k,x.r):[];},gUsed=new Set();
+ const lsOf=e=>{const x=R.rows.find(y=>y.i===e.row);return x?rowLessons(k,x.r):[];},gUsed=new Set();gUsed.mcIds=new Set(E.mc.filter(e=>e&&!e.miss).map(e=>e.lid+e.id));
  E.mc.forEach(e=>{if(e&&!e.miss&&String(e.id).startsWith("g:"))gUsed.add(e.id.slice(2));});E.tl.forEach(e=>{if(e&&!e.miss&&tlKey(e).startsWith("g:"))gUsed.add(tlKey(e).slice(2));});
  I.plan.forEach(c=>{const arr=E[c.part],e=arr[c.n-1];if(!e)return;
   if(c.ty==="res"){arr[c.n-1]=c.part==="ds"?{lid:c.lid,i:c.i,row:e.row}:{lid:c.lid,k:c.k,row:e.row};return;}
@@ -22948,7 +22957,8 @@ function examAlt(part,e,ls,gUsed,r){const pk=a=>a.length?a[Math.floor((r?r():Mat
  const q=exMC(e),lv=q?q.lv:e.lv;let gs=ls.flatMap(l=>genOf(l,"mc",lv).map(g=>[l,g.id]));
  if(gs.length){const own=String(e.id).startsWith("g:")&&gs.find(z=>z[1]===e.id.slice(2)),inDc=gs.filter(z=>dcOf(z[0]).mc.some(x=>x._id==="g:"+z[1])&&!gUsed.has(z[1]));
   const z=own||pk(inDc)||pk(gs.filter(z=>!gUsed.has(z[1])));if(z){const a=genAlt(z[1],(r?r()*1e9:Math.random()*1e9)|0);if(a){gUsed&&gUsed.add(z[1]);return {lid:z[0],id:"g:"+z[1],s:a._s,row:e.row};}}}
- const out=ls.flatMap(l=>bankOf(l).filter(z=>z.lv===lv&&!dcOf(l).mc.some(d=>d._id===z._id)).map(z=>({lid:l,id:z._id,row:e.row})));const z=pk(out);return z||null;}
+ const used=gUsed&&gUsed.mcIds||new Set(),out=ls.flatMap(l=>bankOf(l).filter(z=>z.lv===lv&&!dcOf(l).mc.some(d=>d._id===z._id)&&!used.has(l+z._id)).map(z=>({lid:l,id:z._id,row:e.row,sc:plScore(z,plKeyMC(l,z._id))}))).filter(z=>z.sc>=PL_MIN);
+ if(!out.length)return null;const top=Math.max(...out.map(z=>z.sc)),best=out.filter(z=>z.sc>=top-.5);const z=pk(best);used.add(z.lid+z.id);if(gUsed)gUsed.mcIds=used;delete z.sc;return z;}
 function examOf(){MT.exam=MT.exam||{};return MT.exam[dKey()]||null;}
 const exMC=e=>{if(!e||e.miss)return null;if(String(e.id).startsWith("g:")){const g=genFind(e.id.slice(2));return g?(e.s!=null?genQ(g,e.s):genDC(g.id)):null;}return bankOf(e.lid).find(q=>q._id===e.id);},
  exDS=e=>e&&!e.miss?dsAll(e.lid)[e.i]:null,
@@ -23165,11 +23175,13 @@ function ptResHTML(R){const A=R.A,X=R.X,flags=[];A.mc.forEach(it=>{if(!it)return
  <div class="card row" style="justify-content:space-between;flex-wrap:wrap;gap:10px"><div class="stack" style="gap:4px;flex:1;min-width:220px"><h3>Lưu kết quả</h3><p class="small muted"><b>Bảng dự kiến và phân tích kết quả</b> theo mẫu của tổ: cột dự kiến lấy từ phần “Dự kiến khi ra đề”, cột thực tế lấy từ bài làm vừa phân tích. Biên bản hậu kiểm ghi chỉ số, nhận xét và quyết định của Thầy cho từng câu. Điểm sau hiệu đính dùng khi Thầy đổi đáp án, nhận thêm đáp án hoặc loại câu.</p></div>
   <div class="row" style="gap:8px;flex-wrap:wrap">${PT.mode==="site"?`<button class="btn gold" data-kq="1">📄 Bảng dự kiến và phân tích kết quả</button>`:""}<button class="btn ghost" id="ptDoc">📄 Biên bản hậu kiểm từng câu</button><button class="btn ghost" id="ptCsv">⬇ Điểm sau hiệu đính (.csv)</button></div></div><p class="fb" id="ptFb2"></p>`;}
 function ptRun(rows,sim){const fb=$("#ptFb"),X=ptExam();if(!X){fb.className="fb bad";fb.textContent=PT.mode==="site"?"Lớp và kì đang chọn chưa có đề. Thầy tạo đề trước hoặc chọn “Nhập đáp án”.":"Thầy nhập đáp án Phần I trước.";return;}
- if(sim)rows=ptSim(X);const P_=ptParse(rows,X);if(!P_.out.length){fb.className="fb bad";fb.textContent="Chưa đọc được bài nào. "+P_.err.slice(0,3).join("; ");return;}
+ PT.saved=false;if(sim)rows=ptSim(X);const P_=ptParse(rows,X);if(!P_.out.length){fb.className="fb bad";fb.textContent="Chưa đọc được bài nào. "+P_.err.slice(0,3).join("; ");return;}
  const S=ptUnmix(X,P_.out);PT.ids=P_.out.map(s=>s.id);PT.codes=P_.out.map(s=>s.code);PT.sim=!!sim;PT.X=X;PT.S=S;PT.dec={};
  if(sim)PT.raw=rows.map(r=>r.join("\t")).join("\n");
- PT.res={X,A:ptAnalyse(X,S,PT.dec)};const byC={};P_.out.forEach(s=>byC[s.code]=(byC[s.code]||0)+1);
- PT.msg="Đã đọc "+P_.out.length+" bài · "+Object.entries(byC).map(([c,n])=>"mã "+c+": "+n).join(", ")+(P_.err.length?" · bỏ qua "+P_.err.length+" dòng ("+P_.err.slice(0,2).join("; ")+(P_.err.length>2?"…":"")+")":"")+(P_.nameCol?" · đã bỏ qua cột họ tên":"");
+ PT.res={X,A:ptAnalyse(X,S,PT.dec)};
+ /* lưu chỉ số từng câu (không có dữ liệu học sinh) để lần sau ưu tiên câu phân loại tốt */
+ if(!sim&&X.E&&PT.res.A.N>=20){MT.qstat=MT.qstat||{};const A=PT.res.A;A.mc.forEach((it,i)=>{const e=X.E.mc[i];if(it&&e&&!e.miss)MT.qstat[e.lid+"|"+e.id]={p:Math.round(it.p*100)/100,D:Math.round(it.D*100)/100,n:A.N,t:Date.now()};});saveMT();PT.saved=true;}const byC={};P_.out.forEach(s=>byC[s.code]=(byC[s.code]||0)+1);
+ PT.msg="Đã đọc "+P_.out.length+" bài · "+Object.entries(byC).map(([c,n])=>"mã "+c+": "+n).join(", ")+(P_.err.length?" · bỏ qua "+P_.err.length+" dòng ("+P_.err.slice(0,2).join("; ")+(P_.err.length>2?"…":"")+")":"")+(P_.nameCol?" · đã bỏ qua cột họ tên":"")+(PT.saved&&!sim?" · đã lưu độ khó, độ phân biệt của từng câu để lần sau chọn câu phân loại tốt hơn":"");
  gvPhantich($("#gvBody"));const f2=$("#ptFb");f2.className="fb ok";f2.textContent=PT.msg;}
 function ptBind(box){box.querySelectorAll('input[name="ptm"]').forEach(r=>r.addEventListener("change",()=>{PT.mode=r.value;PT.res=null;gvPhantich(box);}));
  const ta=$("#ptRaw");ta.addEventListener("input",()=>{PT.raw=ta.value;});
@@ -24583,7 +24595,7 @@ function vdClassPhaseUI(){const C=VD.C,t=C.teams[C.cur];
  vdOver("");}
 document.addEventListener("click",e=>{if(e.target.closest("[data-vdopen]"))vdOpen();});
 
-if(location.protocol==="file:")window.__dt={tlItemDC:e=>tlItem(e.lid,tlKey(e)),tlItem,isTLN,GEN,genQ,genDC,genAlt,dcOf,dcNeed,dcInfo,buildExam,examStats,exMC,exTL,exDS,exKind,examOutList,MT:()=>MT};
+if(location.protocol==="file:")window.__dt={plScore,tlItemDC:e=>tlItem(e.lid,tlKey(e)),tlItem,isTLN,GEN,genQ,genDC,genAlt,dcOf,dcNeed,dcInfo,buildExam,examStats,exMC,exTL,exDS,exKind,examOutList,MT:()=>MT};
 /* ---------- boot ---------- */
 setInterval(()=>{if(me&&me.role==="hs"&&!document.hidden)setMon({});},15000);
 if(location.protocol==="file:")window.__thtd={buildDocxBlob,mtCalc,L,bankOf,OT,CL,CM,lidOf,lessonsOf,I18N};
