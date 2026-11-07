@@ -22956,10 +22956,11 @@ function ptMap(E,code){const n=E.mc.length,r=rng(hs32(String(code)+":"+E.seed)),
 /* thông tin đề: danh sách câu gốc, đáp án, mã đề hợp lệ */
 function ptExam(){if(PT.mode==="site"){const E=examOf();if(!E)return null;const mc=E.mc.map((e,i)=>{const q=exMC(e);return q?{n:i+1,a:[q.a],no:q.o.length,lv:q.lv,lid:e.lid,q:q.q,o:q.o}:null;});
   const ds=E.ds.map((e,i)=>{const d=exDS(e);return d?{n:i+1,lid:e.lid,key:d.it.map(x=>x.a?1:0),lv:d.it.map((_,j)=>["Biết","Hiểu","Vận dụng"][((DSPAT[curPat(curSet())]||DSPAT.BBHV).lv||[0,0,1,2])[j]]||""),q:d.q,it:d.it.map(x=>x.t)}:null;});
-  return {E,mc,ds,codes:["000"].concat(examCodes().map(String))};}
+  const R_=mtCalc(),tl=E.tl.map((e,i)=>{const t=exTL(e);return t?{n:i+1,lid:e.lid,lv:t.lv,p:R_.tlP(i+1),q:t.q}:{n:i+1,lid:null,lv:"",p:R_.tlP(i+1),q:""};});
+  return {E,mc,ds,tl,codes:["000"].concat(examCodes().map(String))};}
  const mk=String(PT.ans||"").toUpperCase().replace(/[^ABCD]/g,"").split(""),dk=String(PT.dsKey||"").toUpperCase().replace(/[ĐDT1]/g,"1").replace(/[SF0]/g,"0").replace(/[^01]/g,"");
  if(!mk.length)return null;const ds=[];for(let i=0;i+4<=dk.length;i+=4)ds.push({n:ds.length+1,key:dk.slice(i,i+4).split("").map(Number),lv:["Biết","Hiểu","Hiểu","Vận dụng"]});
- return {E:null,mc:mk.map((c,i)=>({n:i+1,a:["ABCD".indexOf(c)],no:4,lv:"",lid:null})),ds,codes:["000"]};}
+ return {E:null,mc:mk.map((c,i)=>({n:i+1,a:["ABCD".indexOf(c)],no:4,lv:"",lid:null})),ds,tl:[],codes:["000"]};}
 const ptMC=t=>{t=String(t==null?"":t).trim().toUpperCase();return /^[ABCD]$/.test(t)?"ABCD".indexOf(t):null;};
 const ptDS=t=>{t=String(t==null?"":t).trim().toLowerCase();if(!t)return null;if(/^(đ|d|t|1|đúng|dung|true|x)$/.test(t))return 1;if(/^(s|f|0|sai|false)$/.test(t))return 0;return null;};
 /* đọc bảng bài làm: [mã HS] [mã đề] câu 1..n [Đúng/Sai: 4 cột mỗi câu hoặc 1 cột “ĐSĐS”] */
@@ -22973,17 +22974,20 @@ function ptParse(rows,X){const n=X.mc.length,m=X.ds.length,out=[],err=[],codes=X
  const skip=new Set([ci,ii,ni].filter(x=>x>=0));
  body.forEach((r,ri)=>{const id=ii>=0?r[ii]:String(ri+1),code=ci>=0?String(r[ci]).trim():"000";let rest=r.filter((_,c)=>!skip.has(c));
   if(rest.length&&rest[0].length===n&&n>1&&/^[ABCD\-_ .]+$/i.test(rest[0]))rest=rest[0].split("").concat(rest.slice(1));
-  const mcA=rest.slice(0,n).map(ptMC);let dsA=[];const tail=rest.slice(n);
-  if(m){if(tail.length>=4*m)for(let q=0;q<m;q++)dsA.push(tail.slice(4*q,4*q+4).map(ptDS));
-   else if(tail.length>=m)for(let q=0;q<m;q++){const s=String(tail[q]).replace(/\s/g,"");dsA.push(s.length===4?s.split("").map(ptDS):[null,null,null,null]);}
+  const mcA=rest.slice(0,n).map(ptMC);let dsA=[],tail=rest.slice(n),used=0;const one=t=>String(t).trim().length<=1||/^(đúng|sai|true|false)$/i.test(String(t).trim());
+  if(m){if(tail.length>=4*m&&tail.slice(0,4*m).every(one)){for(let q=0;q<m;q++)dsA.push(tail.slice(4*q,4*q+4).map(ptDS));used=4*m;}
+   else if(tail.length>=m){for(let q=0;q<m;q++){const s=String(tail[q]).replace(/\s/g,"");dsA.push(s.length===4?s.split("").map(ptDS):[null,null,null,null]);}used=m;}
    else for(let q=0;q<m;q++)dsA.push([null,null,null,null]);}
+  const tlRaw=tail.slice(used).map(t=>String(t).trim().replace(",",".")).filter(t=>t!==""),tlN=(X.tl||[]).length;let tlA=null,tlTot=null;
+  if(tlN&&tlRaw.length>=tlN&&tlRaw.slice(0,tlN).every(t=>!isNaN(+t))){tlA=tlRaw.slice(0,tlN).map(Number);}
+  else if(tlRaw.length===1&&!isNaN(+tlRaw[0]))tlTot=+tlRaw[0];
   if(!codes.includes(code)&&!(codes.length===1)){err.push("Dòng "+(ri+1+(isHead?1:0))+": mã đề “"+code+"” không có trong đề");return;}
   if(mcA.every(x=>x==null)&&dsA.every(a=>a.every(x=>x==null))){err.push("Dòng "+(ri+1+(isHead?1:0))+": không đọc được câu trả lời");return;}
-  out.push({id,code:codes.length===1?codes[0]:code,mc:mcA,ds:dsA});});
+  out.push({id,code:codes.length===1?codes[0]:code,mc:mcA,ds:dsA,tl:tlA,tlTot});});
  return {out,err,nameCol:ni>=0};}
 /* giải trộn về mã 000 */
-function ptUnmix(X,list){const maps={};return list.map(s=>{if(!X.E||s.code==="000")return {code:s.code,mc:s.mc.slice(0,X.mc.length),ds:s.ds};
- const mp=maps[s.code]||(maps[s.code]=ptMap(X.E,s.code)),mc=Array(X.mc.length).fill(null);mp.forEach((z,p)=>{const v=s.mc[p];if(v!=null&&z.idx)mc[z.i]=z.idx[v];});return {code:s.code,mc,ds:s.ds,pos:mp.map(z=>z.i)};});}
+function ptUnmix(X,list){const maps={};return list.map(s=>{if(!X.E||s.code==="000")return {code:s.code,mc:s.mc.slice(0,X.mc.length),ds:s.ds,tl:s.tl,tlTot:s.tlTot};
+ const mp=maps[s.code]||(maps[s.code]=ptMap(X.E,s.code)),mc=Array(X.mc.length).fill(null);mp.forEach((z,p)=>{const v=s.mc[p];if(v!=null&&z.idx)mc[z.i]=z.idx[v];});return {code:s.code,mc,ds:s.ds,tl:s.tl,tlTot:s.tlTot,pos:mp.map(z=>z.i)};});}
 const ptMean=a=>a.reduce((s,x)=>s+x,0)/(a.length||1),ptSD=a=>{const m=ptMean(a);return Math.sqrt(ptMean(a.map(x=>(x-m)*(x-m))));};
 /* phân tích; dec: quyết định của Thầy cho từng câu nhiều lựa chọn (đổi đáp án, nhận thêm đáp án, loại khỏi chấm) */
 function ptAnalyse(X,S,dec){const N=S.length,nM=X.mc.length,nD=X.ds.length;
@@ -23004,7 +23008,12 @@ function ptAnalyse(X,S,dec){const N=S.length,nM=X.mc.length,nD=X.ds.length;
  const sdS=ptSD(score),sem=alpha!=null?sdS*Math.sqrt(Math.max(0,1-alpha)):null;
  /* tỉ lệ đúng theo vị trí trên đề em làm */
  const posP=Array(nM).fill(0).map((_,p)=>{const v=S.map((s,si)=>{const oi=s.pos?s.pos[p]:p;return mcOK[si][oi];});return ptMean(v);});
- return {N,g,score,mc,ds,alpha,sem,mean:ptMean(score),sd:sdS,min:Math.min(...score),max:Math.max(...score),max0:nM*.25+nD,posP};}
+ const hasTL=(X.tl||[]).length>0&&S.every(s=>s.tl||s.tlTot!=null),tlS=hasTL?S.map(s=>s.tl?s.tl.reduce((a,b)=>a+b,0):s.tlTot):null,total=hasTL?score.map((v,i)=>v+tlS[i]):null;
+ const tlQ=hasTL&&S.every(s=>s.tl)?X.tl.map((q,j)=>ptMean(S.map(s=>s.tl[j]))):null;
+ const lv=(arr,f)=>{const o={};arr.forEach(x=>{if(!x)return;const k=f(x);(o[k]=o[k]||[]).push(x);});return o;};
+ return {N,g,score,mc,ds,alpha,sem,mean:ptMean(score),sd:sdS,min:Math.min(...score),max:Math.max(...score),max0:nM*.25+nD,posP,hasTL,tlS,tlQ,total,
+  dsMean:ptMean(dsOK.map(r=>r.reduce((a,x)=>a+ptDsPts(x.reduce((u,v)=>u+v,0)),0))),mcMean:ptMean(mcOK.map(r=>r.reduce((a,b)=>a+b,0)*.25)),
+  tMean:total?ptMean(total):null,tSD:total?ptSD(total):null,tMax:total?nM*.25+nD+X.tl.reduce((a,q)=>a+q.p,0):null};}
 function ptFlags(q,p,D,r,op,key,N){const f=[],ks=key,dis=op.filter(o=>!ks.includes(o.o)),kh=Math.max(...op.filter(o=>ks.includes(o.o)).map(o=>o.h),0);
  if(D<0)f.push(["bad","D âm: nhóm yếu đúng nhiều hơn nhóm giỏi. Kiểm tra ngay đáp án đã nhập, tính đúng khoa học và khả năng có hai đáp án đúng"]);
  const wrongKey=dis.filter(o=>o.h>kh&&o.h>=.3);if(wrongKey.length)f.push(["bad","Nhóm giỏi chọn "+wrongKey.map(o=>"ABCD"[o.o]).join(", ")+" nhiều hơn đáp án "+ks.map(x=>"ABCD"[x]).join("/")+": có thể nhập sai đáp án"]);
@@ -23018,14 +23027,15 @@ function ptFlags(q,p,D,r,op,key,N){const f=[],ks=key,dis=op.filter(o=>!ks.includ
  if(!f.some(x=>x[0]!=="info")&&D>=.3)f.unshift(["ok",D>=.4?"Rất tốt (D ≥ 0,40): giữ trong ngân hàng, dùng làm câu chuẩn":"Tốt (D ≥ 0,30)"]);return f;}
 /* dữ liệu mô phỏng: 42 em, có cài sẵn 1 câu nhập sai đáp án để Thầy xem cách cảnh báo */
 function ptSim(X){const r=rng(hs32("pt:"+Date.now())),gs=()=>{let u=0,v=0;while(!u)u=r();while(!v)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);};
- const n=X.mc.length,bad=n>3?Math.floor(n/2):-1,rows=[["STT","Mã đề"].concat(X.mc.map((_,i)=>"Câu "+(i+1)),X.ds.map((_,i)=>"ĐS "+(i+1)))];
+ const n=X.mc.length,bad=n>3?Math.floor(n/2):-1,rows=[["STT","Mã đề"].concat(X.mc.map((_,i)=>"Câu "+(i+1)),X.ds.map((_,i)=>"ĐS "+(i+1)),(X.tl||[]).map((_,i)=>"TL "+(i+1)))];
  for(let s=0;s<42;s++){const th=gs(),code=X.codes[X.codes.length>1?1+Math.floor(r()*(X.codes.length-1)):0],mp=X.E&&code!=="000"?ptMap(X.E,code):null;
   const orig=X.mc.map((q,i)=>{if(!q)return null;const b=q.lv==="Biết"?-1:q.lv==="Hiểu"?.1:.6,pc=1/(1+Math.exp(-1.7*(th-b))),w=[0,1,2,3].filter(o=>!q.a.includes(o));
    if(i===bad){/* đáp án nhập sai: em giỏi chọn phương án w[0] */return r()<1/(1+Math.exp(-1.7*(th-.2)))?w[0]:(r()<.35?q.a[0]:w[1+Math.floor(r()*2)]);}
    return r()<pc?q.a[0]:w[r()<.45?0:r()<.6?1:2];});
   const shown=Array(n).fill("");if(mp)mp.forEach((z,p)=>{const v=orig[z.i];if(v!=null&&z.idx)shown[p]="ABCD"[z.idx.indexOf(v)];});else orig.forEach((v,i)=>{if(v!=null)shown[i]="ABCD"[v];});
   const dsS=X.ds.map((q,i)=>q?q.key.map((k,j)=>{const b=[-1,.2,.4,.9][j],pc=1/(1+Math.exp(-1.6*(th-b)));return (r()<pc?k:1-k)?"Đ":"S";}).join(""):"");
-  rows.push([String(s+1),code].concat(shown,dsS));}
+  const tlS=(X.tl||[]).map(q=>{const b=q.lv==="Vận dụng"?.7:0,pc=1/(1+Math.exp(-1.5*(th-b)));return fmtN(Math.max(0,Math.min(q.p,Math.round(q.p*(pc+(r()-.5)*.3)*4)/4)),2);});
+  rows.push([String(s+1),code].concat(shown,dsS,tlS));}
  if(bad>=0&&X.mc[bad])X._simBad=bad+1;return rows;}
 const ptF=(v,d)=>v==null||isNaN(v)?"–":fmtN(Math.round(v*Math.pow(10,d||2))/Math.pow(10,d||2),d||2);
 const ptPc=v=>Math.round(v*100)+"%";
@@ -23036,17 +23046,18 @@ function gvPhantich(box){const X=ptExam(),E=examOf(),k=MT.khoi,kiN=KIN[MT.ki];
  const src=E?`<p class="small">Đề <b>lớp ${k} · ${esc(kiLabel(MT.ki))}</b> tạo trên trang: ${E.mc.length} câu nhiều lựa chọn, ${E.ds.length} câu Đúng/Sai; mã đề 000, ${examCodes().join(", ")}. Website tự giải trộn bài làm của từng mã đề về mã gốc 000.</p>`:`<p class="small muted">Lớp ${k} · ${esc(kiLabel(MT.ki))} chưa có đề tạo trên trang. Thầy chọn “Nhập đáp án” hoặc vào trang Đề cương và đề thi để tạo đề.</p>`;
  const R=PT.res;
  box.innerHTML=gvHead(M.phim,"Sau kiểm tra","Phân tích câu hỏi trắc nghiệm","Độ khó, độ phân biệt, phương án nhiễu và độ tin cậy của đề. Mọi phép tính chạy ngay trên máy Thầy, bài làm không gửi đi đâu.")+`
+ ${PT.mode==="site"&&E?kqSetHTML():""}
  <div class="card stack"><h3>Bước 1 · Đề và đáp án</h3>
   <div class="row" style="gap:14px;flex-wrap:wrap"><label class="small"><input type="radio" name="ptm" value="site"${PT.mode==="site"?" checked":""}> Đề tạo trên trang (lớp và kì đang chọn ở Ma trận)</label><label class="small"><input type="radio" name="ptm" value="tay"${PT.mode==="tay"?" checked":""}> Nhập đáp án (bài đã giải trộn về một mã)</label></div>
   ${PT.mode==="site"?src:`<div class="row" style="gap:10px;flex-wrap:wrap"><div class="field" style="flex:2;min-width:240px"><label for="ptAns">Đáp án Phần I (mỗi câu một chữ)</label><input id="ptAns" value="${esc(PT.ans)}" placeholder="Ví dụ: DBBCAAABBCDD"></div><div class="field" style="flex:2;min-width:240px"><label for="ptDsk">Đáp án Phần II (4 ý mỗi câu)</label><input id="ptDsk" value="${esc(PT.dsKey)}" placeholder="Ví dụ: ĐĐSĐ ĐSĐĐ SĐĐS ĐSSĐ"></div></div>`}
   <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><label class="small" for="ptDm">Chấm Phần II</label><select id="ptDm" class="sm"><option value="luy"${PT.dsMode==="luy"?" selected":""}>Đúng 1/2/3/4 ý: 0,10 / 0,25 / 0,50 / 1,00 điểm</option><option value="deu"${PT.dsMode==="deu"?" selected":""}>Mỗi ý đúng 0,25 điểm</option></select></div></div>
  <div class="card stack"><h3>Bước 2 · Bài làm của học sinh</h3>
-  <p class="small muted">Dán bảng từ Excel hoặc phần mềm chấm (mỗi em một dòng): <b>STT hoặc mã học sinh</b> · <b>mã đề</b> · câu 1, 2, 3… (A/B/C/D, bỏ trống nếu không làm) · Phần II mỗi câu 4 ô Đ/S hoặc một ô “ĐSĐS”. <b>Không cần họ tên</b>; nếu bảng có cột họ tên, website bỏ qua cột đó.</p>
+  <p class="small muted">Dán bảng từ Excel hoặc phần mềm chấm (mỗi em một dòng): <b>STT hoặc mã học sinh</b> · <b>mã đề</b> · câu 1, 2, 3… (A/B/C/D, bỏ trống nếu không làm) · Phần II mỗi câu 4 ô Đ/S hoặc một ô “ĐSĐS” · <b>điểm tự luận</b> từng câu (hoặc một cột tổng tự luận, để có điểm toàn bài và phổ điểm). <b>Không cần họ tên</b>; nếu bảng có cột họ tên, website bỏ qua cột đó.</p>
   <textarea id="ptRaw" rows="7" class="ptraw" placeholder="STT	Mã đề	Câu 1	Câu 2	…	ĐS 1	ĐS 2&#10;1	961	B	D	…	ĐĐSĐ	ĐSĐS">${esc(PT.raw)}</textarea>
   <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn" id="ptGo">📊 Phân tích</button><label class="btn ghost sm" style="cursor:pointer">📂 Mở file Excel/CSV<input type="file" id="ptFile" accept=".xlsx,.xls,.csv,.txt" hidden></label><button class="btn ghost sm" id="ptSim">🧪 Dùng dữ liệu mô phỏng</button>${PT.raw?'<button class="btn ghost sm" id="ptClr">Xoá dữ liệu</button>':""}</div>
   <p class="fb" id="ptFb"></p></div>
  ${R?ptResHTML(R):""}`;
- ptBind(box);}
+ ptBind(box);kqBind(box);}
 function ptResHTML(R){const A=R.A,X=R.X,flags=[];A.mc.forEach(it=>{if(!it)return;it.flags.forEach(f=>{if(f[0]==="bad"||f[0]==="warn")flags.push([f[0],"Phần I câu "+it.q.n+": "+f[1]]);});});
  A.ds.forEach(c=>c&&c.forEach(y=>y.flags.forEach(f=>{if(f[0]==="bad")flags.push([f[0],"Phần II câu "+y.n+" ý "+"abcd"[y.j]+": "+f[1]]);})));
  const aT=A.alpha==null?"":A.alpha>=.85?"Rất cao":A.alpha>=.75?"Tốt":A.alpha>=.7?"Cần xem xét":"Sai số lớn",aC=A.alpha==null?"":A.alpha>=.75?"ok":A.alpha>=.7?"warn":"bad";
@@ -23055,7 +23066,7 @@ function ptResHTML(R){const A=R.A,X=R.X,flags=[];A.mc.forEach(it=>{if(!it)return
  const tl=t=>t?esc(L[t]?L[t].title.split(".")[0]:""):"";
  return `<div class="card stack"><h3>Kết quả toàn đề ${PT.sim?'<span class="status warn">Dữ liệu mô phỏng</span>':""}</h3>
   ${A.N<30?`<p class="note small">Mới có ${A.N} bài. Với dưới 30 bài, các chỉ số dao động nhiều; Thầy nên gộp bài của nhiều lớp cùng đề rồi phân tích lại.</p>`:""}
-  <div class="ptkpi"><div><b>${A.N}</b><span>bài</span></div><div><b>${ptF(A.mean)}</b><span>điểm TB trắc nghiệm / ${ptF(A.max0,2)}</span></div><div><b>${ptF(A.sd)}</b><span>độ lệch chuẩn</span></div><div><b>${ptF(A.min)}–${ptF(A.max)}</b><span>thấp nhất – cao nhất</span></div><div class="${aC}"><b>${ptF(A.alpha)}</b><span>Alpha (KR-20) · ${aT}</span></div><div><b>±${ptF(A.sem)}</b><span>SEM (điểm)</span></div></div>
+  <div class="ptkpi"><div><b>${A.N}</b><span>bài</span></div><div><b>${ptF(A.mean)}</b><span>điểm TB trắc nghiệm / ${ptF(A.max0,2)}</span></div><div><b>${ptF(A.sd)}</b><span>độ lệch chuẩn</span></div><div><b>${ptF(A.min)}–${ptF(A.max)}</b><span>thấp nhất – cao nhất</span></div><div class="${aC}"><b>${ptF(A.alpha)}</b><span>Alpha (KR-20) · ${aT}</span></div><div><b>±${ptF(A.sem)}</b><span>SEM (điểm)</span></div>${A.hasTL?`<div><b>${ptF(A.tMean)}</b><span>điểm TB toàn bài / ${ptF(A.tMax,1)} (có tự luận)</span></div>`:`<div><b>–</b><span>chưa có điểm tự luận nên chưa có điểm toàn bài</span></div>`}</div>
   <div class="ptcharts"><figure><figcaption class="small">Phổ điểm phần trắc nghiệm (quy về thang 10)</figcaption>${ptHist(A.score,A.max0||10)}</figure><figure><figcaption class="small">Tỉ lệ đúng theo vị trí câu trên đề em làm (đường ngang: 25%, mức đoán mò)</figcaption>${ptPos(A.posP)}</figure></div>
   ${tail<.35?`<p class="note small">Các câu cuối đề chỉ còn khoảng ${ptPc(tail)} làm đúng: có thể các em hết giờ và đoán mò. Thầy xem lại thời lượng hoặc độ dài đề.</p>`:""}
   <p class="small muted">Nhóm cao, nhóm thấp: ${A.g} em điểm cao nhất và ${A.g} em điểm thấp nhất (27%). SEM ${ptF(A.sem)} nghĩa là điểm 7,00 có thể hiểu là khoảng ${ptF(7-(A.sem||0))}–${ptF(7+(A.sem||0))}; chênh lệch nhỏ hơn mức này không nên dùng để so sánh học sinh.</p></div>
@@ -23070,8 +23081,8 @@ function ptResHTML(R){const A=R.A,X=R.X,flags=[];A.mc.forEach(it=>{if(!it)return
  ${A.ds.some(Boolean)?`<div class="card stack"><h3>Phần II · Từng ý Đúng/Sai</h3><div class="tbl"><table class="dtable pttab"><thead><tr><th>Câu · ý</th><th>Mức</th><th>Đáp án</th><th>p</th><th>Chọn Đ · S</th><th>D</th><th>Nhận xét</th></tr></thead><tbody>
   ${A.ds.map((c,i)=>c?c.map(y=>`<tr class="${y.flags.some(f=>f[0]==="bad")?"ptbad":""}"><td class="c"><b>${y.n}${"abcd"[y.j]}</b>${y.j===0&&X.ds[i]&&X.ds[i].lid?`<br><span class="small muted">${tl(X.ds[i].lid)}</span>`:""}</td><td class="small">${esc(y.lv||"")}</td><td class="c">${y.key?"Đ":"S"}</td><td class="c">${ptF(y.p)}</td><td class="c">${ptPc(y.pD)} · ${ptPc(y.pS)}</td><td class="c ${y.D<0?"neg":y.D>=.3?"pos":""}">${ptF(y.D)}</td><td class="small">${y.flags.map(f=>`<span class="ptf ${f[0]}">${esc(f[1])}</span>`).join("")}</td></tr>`).join(""):"").join("")}</tbody></table></div>
   <p class="small muted">Bốn ý của một câu nên đi theo bậc nhận thức: ý Biết dễ nhất, ý Vận dụng khó nhất. Ý quá hiển nhiên (p > 0,85, D thấp) hoặc quá khó (p < 0,20) nên viết lại.</p></div>`:""}
- <div class="card row" style="justify-content:space-between;flex-wrap:wrap;gap:10px"><div class="stack" style="gap:4px;flex:1;min-width:220px"><h3>Lưu kết quả</h3><p class="small muted">Biên bản hậu kiểm ghi chỉ số, nhận xét và quyết định của Thầy cho từng câu. Điểm sau hiệu đính dùng khi Thầy đổi đáp án, nhận thêm đáp án hoặc loại câu.</p></div>
-  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold" id="ptDoc">📄 Biên bản hậu kiểm (.docx)</button><button class="btn ghost" id="ptCsv">⬇ Điểm sau hiệu đính (.csv)</button></div></div><p class="fb" id="ptFb2"></p>`;}
+ <div class="card row" style="justify-content:space-between;flex-wrap:wrap;gap:10px"><div class="stack" style="gap:4px;flex:1;min-width:220px"><h3>Lưu kết quả</h3><p class="small muted"><b>Bảng dự kiến và phân tích kết quả</b> theo mẫu của tổ: cột dự kiến lấy từ phần “Dự kiến khi ra đề”, cột thực tế lấy từ bài làm vừa phân tích. Biên bản hậu kiểm ghi chỉ số, nhận xét và quyết định của Thầy cho từng câu. Điểm sau hiệu đính dùng khi Thầy đổi đáp án, nhận thêm đáp án hoặc loại câu.</p></div>
+  <div class="row" style="gap:8px;flex-wrap:wrap">${PT.mode==="site"?`<button class="btn gold" data-kq="1">📄 Bảng dự kiến và phân tích kết quả (.docx)</button>`:""}<button class="btn ghost" id="ptDoc">📄 Biên bản hậu kiểm từng câu (.docx)</button><button class="btn ghost" id="ptCsv">⬇ Điểm sau hiệu đính (.csv)</button></div></div><p class="fb" id="ptFb2"></p>`;}
 function ptRun(rows,sim){const fb=$("#ptFb"),X=ptExam();if(!X){fb.className="fb bad";fb.textContent=PT.mode==="site"?"Lớp và kì đang chọn chưa có đề. Thầy tạo đề trước hoặc chọn “Nhập đáp án”.":"Thầy nhập đáp án Phần I trước.";return;}
  if(sim)rows=ptSim(X);const P_=ptParse(rows,X);if(!P_.out.length){fb.className="fb bad";fb.textContent="Chưa đọc được bài nào. "+P_.err.slice(0,3).join("; ");return;}
  const S=ptUnmix(X,P_.out);PT.ids=P_.out.map(s=>s.id);PT.codes=P_.out.map(s=>s.code);PT.sim=!!sim;PT.X=X;PT.S=S;PT.dec={};
@@ -23119,6 +23130,123 @@ async function ptDocx(){const d=await loadDocx(),{Document,Packer,Paragraph,Text
   new Table({width:{size:14700,type:WidthType.DXA},columnWidths:[7350,7350],borders:{top:{style:"none"},bottom:{style:"none"},left:{style:"none"},right:{style:"none"},insideHorizontal:{style:"none"},insideVertical:{style:"none"}},rows:[new TableRow({children:["TỔ TRƯỞNG CHUYÊN MÔN","NGƯỜI PHÂN TÍCH"].map(t=>new TableCell({borders:{top:{style:"none"},bottom:{style:"none"},left:{style:"none"},right:{style:"none"}},children:[new Paragraph({alignment:A_.CENTER,children:[run(t,{bold:true})]}),new Paragraph({alignment:A_.CENTER,children:[run("(Kí, ghi rõ họ tên)",{italics:true,size:22})]})]}))})]}));
  const doc=new Document({creator:"Tin học Thầy Diễn",title:"Biên bản hậu kiểm",styles:{default:{document:{run:{font:F,size:24}}}},sections:[{properties:{page:{size:{orientation:PageOrientation.LANDSCAPE},margin:{top:850,right:850,bottom:850,left:1000}}},children:body}]});
  return Packer.toBlob(doc);}
+/* ---------- BẢNG DỰ KIẾN VÀ PHÂN TÍCH KẾT QUẢ (theo mẫu của tổ) ---------- */
+const KQ_DEF={N:40,lop:1,dt:"Học sinh học chương trình GDPT 2018 (đối tượng đại trà: Trung bình – Khá chiếm đa số).",sd:1.3,mcB:88,mcH:72,dsB:80,dsH:65,dsV:50,tlH:70,tlV:45};
+function kqCfg(){MT.kq=MT.kq||{};const c=Object.assign({},KQ_DEF,MT.kq[dKey()]||{});return c;}
+function kqSetHTML(){const c=kqCfg(),f=(id,lb,v,w)=>`<div class="field" style="max-width:${w||120}px"><label for="kq_${id}">${lb}</label><input id="kq_${id}" data-kq-f="${id}" value="${esc(String(v))}" inputmode="decimal"></div>`;
+ return `<details class="card stack kqset"${MT.kqOpen?" open":""}><summary><b>Dự kiến khi ra đề</b> <span class="small muted">(số học sinh, tỉ lệ hoàn thành dự kiến theo từng mức; dùng cho Bảng dự kiến và phân tích kết quả)</span></summary>
+  <div class="row" style="gap:10px;flex-wrap:wrap;margin-top:8px">${f("N","Số học sinh dự kiến",c.N)}${f("lop","Số lớp",c.lop,90)}${f("sd","Độ lệch chuẩn dự kiến",fmtN(c.sd,2),150)}</div>
+  <div class="field"><label for="kq_dt">Đặc điểm đối tượng</label><input id="kq_dt" data-kq-f="dt" value="${esc(c.dt)}"></div>
+  <p class="small muted" style="margin:6px 0 0">Tỉ lệ hoàn thành dự kiến (%):</p>
+  <div class="row" style="gap:10px;flex-wrap:wrap">${f("mcB","Nhiều lựa chọn · Biết",c.mcB,150)}${f("mcH","Nhiều lựa chọn · Hiểu",c.mcH,150)}${f("dsB","Đúng/Sai · Biết",c.dsB)}${f("dsH","Đúng/Sai · Hiểu",c.dsH)}${f("dsV","Đúng/Sai · Vận dụng",c.dsV,140)}${f("tlH","Tự luận · Hiểu",c.tlH)}${f("tlV","Tự luận · Vận dụng",c.tlV,140)}</div>
+  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold sm" data-kq="0">📄 Bảng dự kiến (trước khi thi, .docx)</button><span class="small muted">Cột “Thực tế” để trống [Nhập sau]; phân tích bài làm xong thì tải lại để có số liệu thực tế.</span></div><p class="fb" id="kqFb"></p></details>`;}
+function kqBind(box){const d=box.querySelector(".kqset");if(d)d.addEventListener("toggle",()=>{MT.kqOpen=d.open;});
+ box.querySelectorAll("[data-kq-f]").forEach(i=>i.addEventListener("change",()=>{const k=i.dataset.kqF,v=k==="dt"?i.value:parseFloat(String(i.value).replace(",","."));if(k!=="dt"&&(isNaN(v)||v<0))return;MT.kq=MT.kq||{};MT.kq[dKey()]=Object.assign(MT.kq[dKey()]||{},{[k]:v});saveMT();}));}
+const kqPhi=x=>{const t=1/(1+.2316419*Math.abs(x)),d=.3989423*Math.exp(-x*x/2),p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p;};
+/* lỗi sai thường gặp theo nội dung bài (dự báo) */
+const KQ_ERR=[[/bieu dien|luu tru|dung luong|don vi|nhi phan|\bbit\b|thong tin trong may tinh/, "Nhầm 1 KB = 1 000 byte với 1 KB = 1 024 byte; quên đổi về cùng đơn vị trước khi so sánh, tính toán.","Lập bảng quy đổi đơn vị theo bậc; yêu cầu ghi rõ đơn vị ở mỗi bước tính."],
+ [/thong tin va du lieu|xu li thong tin|vat mang tin/, "Nhầm lẫn giữa thông tin, dữ liệu và vật mang tin.","Cho ví dụ đối chiếu ba khái niệm trong cùng một tình huống quen thuộc."],
+ [/thu dien tu|email/, "Nhầm phần tên đăng nhập với tên miền trong địa chỉ thư; nhầm “Trả lời” với “Chuyển tiếp”.","Phân tích cấu trúc địa chỉ thư; thực hành gửi, trả lời, chuyển tiếp trên tài khoản mẫu."],
+ [/tim kiem thong tin|may tim kiem|tu khoa/, "Chọn từ khoá quá chung chung; tin ngay kết quả đầu tiên mà không đối chiếu nguồn.","Luyện tách từ khoá từ câu hỏi; dùng dấu ngoặc kép và đối chiếu ít nhất hai nguồn tin cậy."],
+ [/an toan|tac hai|dao duc|phap li|ung xu|ban quyen|van hoa|giao tiep/, "Chọn theo cảm tính, không dựa vào dữ kiện của tình huống; nhầm hành vi vi phạm với hành vi đúng.","Phân tích tình huống cụ thể; yêu cầu học sinh chỉ ra dữ kiện trong đề làm căn cứ cho lựa chọn."],
+ [/mang|internet|www|web|trinh duyet|thiet bi mang|giao thuc/, "Nhầm Internet với WWW, website với trang web, trình duyệt với máy tìm kiếm.","Dùng sơ đồ quan hệ giữa các khái niệm; cho học sinh chỉ ra từng thành phần trên máy thật."],
+ [/bang tinh|trang tinh|cong thuc|ham|dia chi|loc|sap xep du lieu|bieu do|countif|sumif|\bif\b|xac thuc|tai chinh/, "Quên dấu “=” khi nhập công thức; nhầm địa chỉ tương đối với tuyệt đối khi sao chép; xác định sai khối ô.","Cho học sinh dự đoán kết quả công thức trước rồi kiểm tra trên máy; luyện sao chép công thức có $."],
+ [/thuat toan|tim kiem tuan tu|tim kiem nhi phan|sap xep|bai toan/, "Đếm sai số lần so sánh; áp dụng tìm kiếm nhị phân trên dãy chưa sắp xếp; nhầm thứ tự các lượt sắp xếp.","Mô phỏng từng bước bằng bảng trạng thái dãy; cho học sinh tự làm với bộ dữ liệu nhỏ."],
+ [/lap trinh|chuong trinh|python|bien|vong lap|cau truc|lenh|scratch|kieu du lieu|danh sach|xau|ham trong/, "Hiểu sai range() không lấy giá trị cuối; nhầm // với %, = với ==; theo dõi sai giá trị biến qua vòng lặp.","Chạy tay chương trình bằng bảng giá trị biến từng dòng; đối chiếu kết quả bằng cách chạy thử."],
+ [/soan thao|dinh dang|trinh chieu|so do tu duy|html|css|trang web|danh sach dang liet ke|ban mau|anh|phim/, "Nhầm công cụ, thao tác định dạng với nhau; chọn thao tác không đúng mục đích trình bày.","Thực hành theo sản phẩm mẫu; yêu cầu học sinh giải thích lí do chọn cách trình bày."],
+ [/co so du lieu|sql|truy van|khoa/, "Nhầm khoá chính với khoá ngoài; viết sai điều kiện WHERE.","Luyện trên bảng dữ liệu nhỏ, cho học sinh dự đoán kết quả truy vấn trước khi chạy."],
+ [/phan cung|thiet bi|he dieu hanh|phan mem|may tinh/, "Nhầm thiết bị vào với thiết bị ra; nhầm hệ điều hành với phần mềm ứng dụng.","Phân loại thiết bị, phần mềm theo chức năng bằng bảng; dùng ví dụ trên chính máy của phòng học."],
+ [/nghe|huong nghiep/, "Nhầm đặc trưng công việc của các nhóm nghề.","Dùng bản mô tả công việc thật để học sinh đối chiếu với kĩ năng cần có."]];
+function kqErr(lids){const out=[];lids.forEach(l=>{if(!l||!L[l])return;const t=nmv(L[l].title);const e=KQ_ERR.find(x=>x[0].test(t));if(e&&!out.some(o=>o[0]===e[1]))out.push([e[1],e[2],L[l].title.split(".")[0]]);});return out;}
+async function kqDocx(withAct){const X=ptExam();if(!X||!X.E)throw new Error("lớp và kì đang chọn chưa có đề tạo trên trang");const c=kqCfg(),A=withAct&&PT.res?PT.res.A:null,R=mtCalc();
+ const d=await loadDocx(),{Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,WidthType,AlignmentType,VerticalAlign,ShadingType,Footer,PageNumber}=d,F="Times New Roman",A_=AlignmentType,SZ=26;
+ const run=(t,o)=>new TextRun(Object.assign({text:String(t),font:F,size:SZ},o||{}));
+ const P=(c_,o)=>new Paragraph(Object.assign({spacing:{before:0,after:60,line:276},children:Array.isArray(c_)?c_:[typeof c_==="string"?run(c_):c_]},o||{}));
+ const H=t=>P([run(t,{bold:true})],{spacing:{before:200,after:100}});
+ const cell=(lines,o)=>{o=o||{};const L_=Array.isArray(lines)?lines:[lines];return new TableCell(Object.assign({verticalAlign:VerticalAlign.CENTER,margins:{left:80,right:80,top:40,bottom:40},shading:o.h?{type:ShadingType.CLEAR,color:"auto",fill:"EFF0F5"}:undefined,
+  children:L_.map(x=>{const [t,ro]=Array.isArray(x)?x:[x,{}];return new Paragraph({alignment:o.c||o.h?A_.CENTER:A_.LEFT,spacing:{before:0,after:0},children:[run(t,Object.assign({bold:!!(o.b||o.h),size:o.sz||24},ro))]});})},o.span?{columnSpan:o.span}:{},o.rs?{rowSpan:o.rs}:{}));};
+ const pc=v=>v==null?"[Nhập sau]":fmtN(Math.round(v*1000)/10,1)+"%",pt=v=>v==null?"[Nhập sau]":fmtN(Math.round(v*100)/100,2),NS="[Nhập sau]";
+ const lvOf=e=>{const q=exMC(e);return q?q.lv:"";},mcB=X.mc.filter(q=>q&&q.lv==="Biết").length,mcH=X.mc.filter(q=>q&&q.lv!=="Biết").length;
+ const pat=(DSPAT[curPat(curSet())]||DSPAT.BBHV).lv,dsL=[0,1,2].map(lv=>pat.filter(x=>x===lv).length*X.ds.length);
+ const LVN=["Nhận biết","Thông hiểu","Vận dụng"],rate=[c.mcB/100,c.mcH/100],dsR=[c.dsB/100,c.dsH/100,c.dsV/100];
+ /* dự kiến */
+ const dMC=[mcB*.25*rate[0],mcH*.25*rate[1]],dDS=dsL.map((n,i)=>n*.25*dsR[i]),dTL=X.tl.map(q=>q.p*(q.lv==="Vận dụng"?c.tlV:c.tlH)/100);
+ const sum=a=>a.reduce((x,y)=>x+y,0),mx=[X.mc.filter(Boolean).length*.25,X.ds.length,sum(X.tl.map(q=>q.p))],dPart=[sum(dMC),sum(dDS),sum(dTL)],dTot=sum(dPart),Tm=sum(mx);
+ /* thực tế */
+ let aMC=[null,null],aDS=[null,null,null],aTL=X.tl.map(()=>null),aPart=[null,null,null],aTot=null,aRate={mc:[null,null],ds:[null,null,null]};
+ if(A){const mcI=A.mc.filter(Boolean),byL=lv=>mcI.filter(it=>(it.q.lv==="Biết")===(lv===0));[0,1].forEach(lv=>{const a=byL(lv);if(a.length){aRate.mc[lv]=ptMean(a.map(it=>it.p));aMC[lv]=sum(a.map(it=>it.p*.25));}});
+  const dsI=A.ds.filter(Boolean).flat();[0,1,2].forEach(lv=>{const a=dsI.filter(y=>pat[y.j]===lv);if(a.length){aRate.ds[lv]=ptMean(a.map(y=>y.p));aDS[lv]=sum(a.map(y=>y.p*.25));}});
+  aPart[0]=A.mcMean;aPart[1]=A.dsMean;if(A.tlQ)aTL=A.tlQ;if(A.hasTL){aPart[2]=ptMean(A.tlS);aTot=A.tMean;}}
+ const Tn=t=>t.replace(/^Bài\s*/,"Bài ");
+ const tlName=(q,i)=>{const tt=q.lid&&L[q.lid]?L[q.lid].title.replace(/^Bài\s*\w+\.?\s*/,""):"";return "• Câu "+(i+1)+": "+(tt.length>38?tt.slice(0,36)+"…":tt)+" ("+fmtN(q.p,1)+"đ)";};
+ const lvPts=R.lvPts||[0,0,0];
+ const body=[new Paragraph({alignment:A_.CENTER,spacing:{after:60},children:[run("BẢNG DỰ KIẾN VÀ PHÂN TÍCH KẾT QUẢ",{bold:true,size:28})]}),
+  new Paragraph({alignment:A_.CENTER,spacing:{after:120},children:[run("KIỂM TRA ĐỊNH KỲ MÔN: TIN HỌC – KHỐI LỚP "+MT.khoi+" ("+(KIN[MT.ki]||"").replace("HỌC KÌ","HỌC KỲ")+")",{bold:true,size:28})]}),
+  P([run("(Bảng dự kiến do Cán bộ ra đề và Tổ chuyên môn lập trước kỳ kiểm tra; cập nhật số liệu thực tế sau khi hoàn thành công tác chấm thi)",{italics:true})],{alignment:A_.JUSTIFIED}),
+  H("I. THÔNG TIN CHUNG"),
+  P([run("- Quy mô khảo sát: ",{bold:true}),run("Toàn khối "+MT.khoi+" (Dự kiến: N = "+c.N+" học sinh / "+c.lop+" lớp"+(A?"; thực tế phân tích: N = "+A.N+" bài":"")+").")]),
+  P([run("- Đặc điểm đối tượng: ",{bold:true}),run(c.dt)]),
+  P([run("- Cơ cấu ma trận đề: ",{bold:true}),run(LVN.map((n,i)=>Math.round(100*lvPts[i]/(R.P||10))+"% "+n+" ("+fmtN(lvPts[i],1)+" điểm)").join(" – ")+".")]),
+  P([run("- Thời gian làm bài: ",{bold:true}),run((MT.phut||45)+" phút.")]),
+  H("II. DỰ KIẾN KẾT QUẢ THEO MỨC ĐỘ NHẬN THỨC VÀ DẠNG THỨC CÂU HỎI")];
+ const W2=[650,3550,950,1300,1300,1300,1416];
+ const row2=(stt,lines,max,dv,dr,av,ar,b)=>new TableRow({children:[cell(stt,{c:1,b}),cell(lines,{b:0}),cell(max,{c:1,b}),cell(dv,{c:1}),cell(dr,{c:1}),cell(av,{c:1}),cell(ar,{c:1})]});
+ const part=(i,title,subs,dParts,aParts,maxs)=>row2(String(i+1),[[title,{bold:true}]].concat(subs.map(x=>[x,{}])),fmtN(mx[i],1),[pt(dPart[i])].concat(dParts.map(pt)),[pc(dPart[i]/mx[i])].concat(dParts.map((v,j)=>pc(v/maxs[j]))),[pt(aPart[i])].concat(aParts.map(v=>v==null?"":pt(v))),[aPart[i]==null?NS:pc(aPart[i]/mx[i])].concat(aParts.map((v,j)=>v==null?"":pc(v/maxs[j]))));
+ const mcSub=[],mcD=[],mcA=[],mcM=[];if(mcB){mcSub.push("• Nhận biết: "+mcB+" câu ("+fmtN(mcB*.25,2)+" điểm)");mcD.push(dMC[0]);mcA.push(aMC[0]);mcM.push(mcB*.25);}if(mcH){mcSub.push("• Thông hiểu: "+mcH+" câu ("+fmtN(mcH*.25,2)+" điểm)");mcD.push(dMC[1]);mcA.push(aMC[1]);mcM.push(mcH*.25);}
+ const dsSub=[],dsD=[],dsA_=[],dsM=[];[0,1,2].forEach(lv=>{if(dsL[lv]){dsSub.push("• "+LVN[lv]+": "+dsL[lv]+" lệnh ("+fmtN(dsL[lv]*.25,2)+" điểm)");dsD.push(dDS[lv]);dsA_.push(aDS[lv]);dsM.push(dsL[lv]*.25);}});
+ const rows2=[new TableRow({tableHeader:true,children:[cell("STT",{h:1,rs:2}),cell("Cấu trúc phần thi & Mức độ nhận thức",{h:1,rs:2}),cell("Điểm tối đa",{h:1,rs:2}),cell("DỰ KIẾN (KHI RA ĐỀ)",{h:1,span:2}),cell("THỰC TẾ (SAU KHI CHẤM)",{h:1,span:2})]}),
+  new TableRow({tableHeader:true,children:[cell("Điểm TB dự kiến",{h:1}),cell("Tỉ lệ hoàn thành (%)",{h:1}),cell("Điểm TB thực tế",{h:1}),cell("Tỉ lệ hoàn thành (%)",{h:1})]}),
+  part(0,"Phần I: TNKQ Nhiều lựa chọn ("+(mcB+mcH)+" câu)",mcSub,mcD,mcA,mcM),
+  part(1,"Phần II: TNKQ Đúng/Sai ("+X.ds.length+" câu - "+X.ds.length*4+" lệnh)",dsSub,dsD,dsA_,dsM)];
+ if(X.tl.length)rows2.push(part(2,"Phần III: Tự luận ("+X.tl.length+" câu)",X.tl.map(tlName),dTL,aTL,X.tl.map(q=>q.p)));
+ rows2.push(new TableRow({children:[cell("TỔNG TOÀN BÀI",{b:1,span:2}),cell(fmtN(Tm,1),{c:1,b:1}),cell(pt(dTot),{c:1,b:1}),cell(pc(dTot/Tm),{c:1,b:1}),cell(aTot==null?NS:pt(aTot),{c:1,b:1}),cell(aTot==null?NS:pc(aTot/Tm),{c:1,b:1})]}));
+ body.push(new Table({width:{size:sum(W2),type:WidthType.DXA},columnWidths:W2,rows:rows2}));
+ if(A&&PT.dsMode==="luy")body.push(P([run("Phần II chấm theo số ý đúng trong mỗi câu (1/2/3/4 ý: 0,10/0,25/0,50/1,00 điểm); các dòng theo mức độ quy đổi mỗi lệnh 0,25 điểm.",{italics:true,size:22})],{spacing:{before:60}}));
+ /* III. phổ điểm */
+ body.push(H("III. DỰ KIẾN PHỔ ĐIỂM VÀ PHÂN LOẠI HỌC LỰC"));
+ const BK=[[9,10.01,"9,0 − 10,0","Xuất sắc"],[8,9,"8,0 − 8,9","Giỏi"],[6.5,8,"6,5 − 7,9","Khá"],[5,6.5,"5,0 − 6,4","Trung bình (Đạt)"],[-1,5,"Dưới 5,0","Chưa đạt (Yếu/Kém)"]];
+ const sc=10/Tm,mu=dTot*sc,sd=c.sd,cdf=x=>kqPhi((x-mu)/sd),pr=BK.map(([a,b])=>Math.max(0,(b>10?1:cdf(b))-(a<0?0:cdf(a)))),cntD=pr.map(p=>Math.round(p*c.N));let diff=c.N-sum(cntD);cntD[pr.indexOf(Math.max(...pr))]+=diff;
+ const tot10=A&&A.total?A.total.map(v=>v*10/Tm):null,cntA=tot10?BK.map(([a,b])=>tot10.filter(v=>v>=a&&v<b-1e-9||(b>10&&v>=a)).length):null;
+ const fix=cntA?(()=>{const o=BK.map(()=>0);tot10.forEach(v=>{const r=Math.round(v*100)/100;const i=r>=9?0:r>=8?1:r>=6.5?2:r>=5?3:4;o[i]++;});return o;})():null;
+ const W3=[2000,2700,1400,1400,1400,1566],N0=c.N,NA=A?A.N:0;
+ const rows3=[new TableRow({tableHeader:true,children:[cell("Khoảng điểm",{h:1,rs:2}),cell("Phân loại kết quả học tập",{h:1,rs:2}),cell("DỰ KIẾN (N = "+N0+")",{h:1,span:2}),cell("THỰC TẾ"+(fix?" (N = "+NA+")":""),{h:1,span:2})]}),new TableRow({tableHeader:true,children:[cell("Số lượng (HS)",{h:1}),cell("Tỉ lệ (%)",{h:1}),cell("Số lượng (HS)",{h:1}),cell("Tỉ lệ (%)",{h:1})]})]
+  .concat(BK.map((b,i)=>new TableRow({children:[cell(b[2],{c:1}),cell(b[3],{b:1}),cell(String(cntD[i]),{c:1}),cell(pc(cntD[i]/N0),{c:1}),cell(fix?String(fix[i]):"[...]",{c:1}),cell(fix?pc(fix[i]/NA):"[...]%",{c:1})]})))
+  .concat([["Tỉ lệ đạt yêu cầu (≥ 5,0 điểm)",[0,1,2,3]],["Tỉ lệ Khá - Giỏi - Xuất sắc (≥ 6,5 điểm)",[0,1,2]]].map(([t,ix])=>{const dN=sum(ix.map(i=>cntD[i])),aN=fix?sum(ix.map(i=>fix[i])):null;return new TableRow({children:[cell(t,{b:1,span:2}),cell(String(dN),{c:1}),cell(pc(dN/N0),{c:1}),cell(aN==null?"[...]":String(aN),{c:1}),cell(aN==null?"[...]%":pc(aN/NA),{c:1})]});}));
+ body.push(new Table({width:{size:sum(W3),type:WidthType.DXA},columnWidths:W3,rows:rows3}));
+ if(A&&!fix)body.push(P([run("Bảng bài làm chưa có điểm tự luận nên chưa có phổ điểm thực tế toàn bài.",{italics:true,size:22})],{spacing:{before:60}}));
+ /* IV. thông số */
+ body.push(H("IV. CÁC THÔNG SỐ ĐO LƯỜNG CHẤT LƯỢNG ĐỀ THI"+(A?"":" DỰ KIẾN")));
+ const mu10=mu,Pk=dTot/Tm,allI=A?A.mc.filter(Boolean).map(it=>it.D).concat(A.ds.filter(Boolean).flat().map(y=>y.D)):[],allP=A?A.mc.filter(Boolean).map(it=>it.p).concat(A.ds.filter(Boolean).flat().map(y=>y.p)):[];
+ const act=(t)=>A?[run(" Thực tế: ",{bold:true,italics:true}),run(t,{italics:true})]:[];
+ body.push(P([run("1. Điểm trung bình toàn khối (X̄): ",{bold:true}),run("Dự kiến đạt "+fmtN(Math.max(0,mu10-.1),2)+" − "+fmtN(Math.min(10,mu10+.1),2)+" điểm. Phản ánh đúng chuẩn ma trận và mục tiêu phân hóa đối tượng học sinh.")].concat(act(A?(A.hasTL?fmtN(A.tMean*sc,2)+" điểm (thang 10).":"phần trắc nghiệm "+fmtN(A.mean,2)+"/"+fmtN(A.max0,2)+" điểm; chưa có điểm tự luận."):""))),
+  P([run("2. Độ lệch chuẩn dự kiến (S): ",{bold:true}),run("Khoảng "+fmtN(sd-.08,2)+" − "+fmtN(sd+.08,2)+". Độ phân tán điểm số ở mức vừa phải, đỉnh phân bố rơi vào khoảng "+fmtN(mu10-.4,1)+" − "+fmtN(mu10+.4,1)+" điểm.")].concat(act(A?(A.hasTL?fmtN(A.tSD*sc,2)+".":fmtN(A.sd,2)+" (phần trắc nghiệm)."):""))),
+  P([run("3. Độ khó trung bình toàn đề (P): ",{bold:true}),run("Khoảng "+fmtN(Pk,2)+" ("+(Pk>=.75?"đề ở mức dễ, cần bảo đảm câu Vận dụng đủ sức phân loại":Pk>=.6?"đề ở mức vừa sức, tạo tâm lí tích cực nhưng vẫn có tính phân hóa":"đề ở mức khó so với đối tượng")+").")].concat(act(A?fmtN(ptMean(allP),2)+" (trung bình các câu trắc nghiệm và lệnh Đúng/Sai).":""))),
+  P([run("4. Độ phân biệt dự kiến (D): ",{bold:true}),run("Đạt khoảng 0,30 − 0,40 (mức phân biệt tốt; các lệnh Vận dụng ở Phần II và câu tự luận Vận dụng phân loại rõ học sinh Khá và Giỏi).")].concat(act(A?fmtN(ptMean(allI),2)+"; "+allI.filter(v=>v<0).length+" câu/lệnh có D âm, "+allI.filter(v=>v>=0&&v<.2).length+" câu/lệnh phân biệt kém.":""))));
+ if(A)body.push(P([run("5. Độ tin cậy (Cronbach’s Alpha – KR-20): ",{bold:true}),run(fmtN(A.alpha==null?0:A.alpha,2)+(A.alpha>=.85?" (rất cao)":A.alpha>=.75?" (tốt)":A.alpha>=.7?" (cần xem xét)":" (sai số lớn)")+"; sai số đo lường SEM ≈ ±"+fmtN(A.sem||0,2)+" điểm (phần trắc nghiệm).")]));
+ /* V. lỗi sai */
+ body.push(H("V. DỰ BÁO CÁC LỖI SAI HỌC SINH THƯỜNG MẮC VÀ BIỆN PHÁP HỖ TRỢ"));
+ const lMC=[...new Set(X.mc.filter(Boolean).map(q=>q.lid))],lDS=[...new Set(X.ds.filter(Boolean).map(q=>q.lid))];
+ const eMC=kqErr(lMC).slice(0,3),eDS=kqErr(lDS).slice(0,2),eTL=X.tl.map((q,i)=>{const e=kqErr([q.lid])[0];return e?["Câu "+(i+1)+": "+e[0],e[1]]:null;}).filter(Boolean);
+ const fact=part=>{if(!A)return [];const o=[];if(part===0)A.mc.filter(Boolean).filter(it=>it.p<.5).sort((a,b)=>a.p-b.p).slice(0,3).forEach(it=>{const w=it.op.filter(x=>!it.key.includes(x.o)).sort((a,b)=>b.all-a.all)[0];o.push("Thực tế: câu "+it.q.n+" chỉ "+pc(it.p)+" làm đúng"+(w?", nhiều em chọn "+"ABCD"[w.o]+" ("+pc(w.all)+")":"")+".");});
+  if(part===1)A.ds.filter(Boolean).flat().filter(y=>y.p<.5).sort((a,b)=>a.p-b.p).slice(0,3).forEach(y=>o.push("Thực tế: ý "+y.n+"abcd"[y.j]+" chỉ "+pc(y.p)+" làm đúng."));
+  if(part===2&&A.tlQ)A.tlQ.forEach((v,j)=>{const r=v/X.tl[j].p;if(r<.5)o.push("Thực tế: câu "+(j+1)+" đạt trung bình "+pc(r)+" số điểm.");});return o;};
+ const W5=[2000,4600,3866],ln=a=>a.map(t=>"- "+t);
+ const rows5=[new TableRow({tableHeader:true,children:[cell("Khu vực nội dung",{h:1}),cell("Dự báo lỗi sai điển hình của học sinh",{h:1}),cell("Biện pháp sư phạm / Lưu ý khi chấm & chữa bài",{h:1})]}),
+  new TableRow({children:[cell("Phần I: TNKQ",{b:1}),cell(ln((eMC.length?eMC.map(e=>e[0]):["Đọc chưa kĩ từ khoá của câu hỏi, chọn theo cảm giác quen thuộc."]).concat(["Không loại trừ phương án nhiễu trước khi chọn."])).concat(fact(0).map(t=>[t,{italics:true}]))),cell(ln((eMC.length?eMC.map(e=>e[1]):[]).concat(["Rèn thói quen gạch chân từ khoá và loại trừ phương án sai."])))]}),
+  new TableRow({children:[cell("Phần II: Đúng/Sai",{b:1}),cell(ln(["Chọn Đúng/Sai theo cảm tính, không đối chiếu dữ kiện trong bối cảnh của câu."].concat(eDS.map(e=>e[0]))).concat(fact(1).map(t=>[t,{italics:true}]))),cell(ln(["Luyện kĩ năng đọc kĩ từng nhận định độc lập, tìm dữ kiện trong bối cảnh trước khi phán đoán."].concat(eDS.map(e=>e[1]))))]})];
+ if(X.tl.length)rows5.push(new TableRow({children:[cell("Phần III: Tự luận",{b:1}),cell(ln((eTL.length?eTL.map(e=>e[0]):[]).concat(["Trình bày thiếu bước, chỉ ghi kết quả; thiếu đơn vị hoặc giải thích."])).concat(fact(2).map(t=>[t,{italics:true}]))),cell(ln((eTL.length?eTL.map(e=>e[1]):[]).concat(["Thang điểm tự luận chia nhỏ theo từng ý (viết công thức/lệnh, thế số, kết quả)."])))]}));
+ body.push(new Table({width:{size:sum(W5),type:WidthType.DXA},columnWidths:W5,rows:rows5}));
+ const nb={style:"none",size:0,color:"FFFFFF"},nbs={top:nb,bottom:nb,left:nb,right:nb};
+ body.push(P(""),new Table({width:{size:10466,type:WidthType.DXA},columnWidths:[5233,5233],borders:Object.assign({insideHorizontal:nb,insideVertical:nb},nbs),rows:[new TableRow({children:["NGƯỜI RA ĐỀ / DỰ BÁO","TỔ TRƯỞNG CHUYÊN MÔN"].map((t,i)=>new TableCell({borders:nbs,children:[new Paragraph({alignment:A_.CENTER,children:[run(t,{bold:true})]}),new Paragraph({alignment:A_.CENTER,children:[run("(Ký và ghi rõ họ tên)",{italics:true})]}),P(""),P(""),new Paragraph({alignment:A_.CENTER,children:[run("…………………………………………")]})]}))})]}),
+  P(""),P([run("Ghi chú: ",{bold:true,italics:true}),run("Sau khi có kết quả chấm thi chính thức, giáo viên phụ trách nhập số liệu thực tế vào các cột THỰC TẾ để thực hiện việc đối chiếu, đánh giá độ vênh giữa dự kiến và thực tế, từ đó rút kinh nghiệm điều chỉnh phương pháp giảng dạy và ngân hàng câu hỏi kiểm tra.",{italics:true})],{alignment:A_.JUSTIFIED}));
+ const doc=new Document({creator:"Tin học Thầy Diễn",title:"Bảng dự kiến và phân tích kết quả",styles:{default:{document:{run:{font:F,size:SZ}}}},sections:[{properties:{page:{margin:{top:720,right:720,bottom:720,left:720}}},footers:{default:new Footer({children:[new Paragraph({alignment:A_.CENTER,children:[new TextRun({font:F,size:22,children:["Trang ",PageNumber.CURRENT," / ",PageNumber.TOTAL_PAGES]})]})]})},children:body}]});
+ return Packer.toBlob(doc);}
+let kqBound=false;
+function kqGlobal(){if(kqBound)return;kqBound=true;document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest("[data-kq]");if(!b)return;e.preventDefault();const act=b.dataset.kq==="1",fb=document.getElementById(act?"ptFb2":"kqFb")||document.getElementById("mtFb");
+ if(fb){fb.className="fb";fb.textContent="Đang tạo bảng…";}b.disabled=true;
+ try{await ptSave(await kqDocx(act),"BANG DU KIEN"+(act?" VA PHAN TICH":"")+" KET QUA - TIN "+MT.khoi+" - "+MT.ki+".docx");if(fb){fb.className="fb ok";fb.textContent="Đã tạo bảng "+(act?"dự kiến và phân tích kết quả":"dự kiến kết quả")+".";}}
+ catch(err){if(fb){fb.className="fb bad";fb.textContent=err&&err.code==="declined"?"Thầy đã huỷ tải file.":"Chưa tạo được file: "+(err&&err.message||err);}}finally{b.disabled=false;}});}
+kqGlobal();
 /* ---------- trang giáo viên: đề cương và đề thi ---------- */
 let dtOpen={};
 function gvDethi(box){const k=MT.khoi,kiN=KIN[MT.ki],LS_=scopeLessons(),R=mtCalc();
@@ -23149,7 +23277,7 @@ function gvDethi(box){const k=MT.khoi,kiN=KIN[MT.ki],LS_=scopeLessons(),R=mtCalc
   <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><label class="small" for="dcPct">Tỉ lệ điểm lấy từ đề cương</label><select id="dcPct" class="sm">${[80,85,90].map(v=>`<option value="${v}"${(MT.dcPct||85)===v?" selected":""}>${v}%</option>`).join("")}</select><span class="small muted">Đổi tỉ lệ rồi bấm “Tạo lại đề mới”.</span></div>
   <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" id="exNew">${E?"Tạo lại đề mới":"Tạo đề từ ma trận"}</button>${E?`<span class="status ${Math.abs(st.pct-(MT.dcPct||85))<=5?"ok":"bad"}">Trong đề cương: ${fmtN(st.dc,2)} điểm (${fmtN(st.pct)}%)</span>${st.doi?`<span class="status warn">★ Đổi số liệu: ${fmtN(st.doi,2)} điểm</span>`:""}${st.ngoai?`<span class="status warn">★ Ngoài đề cương: ${fmtN(st.ngoai,2)} điểm</span>`:""}${st.miss.length?`<span class="status bad">Còn thiếu: ${esc(st.miss.join(", "))}</span>`:""}`:""}</div>
   ${E?`<p class="small muted">Câu gắn ★ là phần phân loại: cùng dạng nhưng đổi số liệu, hoặc ngoài đề cương; bấm “Đổi câu” ở câu ★ để lấy bộ số khác. Dấu ★ chỉ hiện ở trang này, đề gốc và hướng dẫn chấm, không in ở các mã đề. Thi xong, Thầy dán bài làm vào <a href="#" data-go="gv-phantich">📊 Phân tích câu hỏi trắc nghiệm</a> để xem câu nào tốt, câu nào cần sửa. Đề gốc (mã 000) đặt câu theo đúng thứ tự trong ma trận. Các mã đề đảo thứ tự câu và phương án Phần I; Phần II, III dùng chung như đề của Thầy. Đề chỉ hiện ở trang giáo viên.</p>${exHTML}
-  <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn gold sm" data-dx="ex|000">Tải đề gốc</button>${codes.map(c=>`<button class="btn gold sm" data-dx="ex|${esc(c)}">Tải mã ${esc(c)}</button>`).join("")}<button class="btn gold sm" data-dx="hdc">Tải hướng dẫn chấm</button></div>`:""}<p class="fb" id="mtFb"></p></div>`;
+  <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn gold sm" data-dx="ex|000">Tải đề gốc</button>${codes.map(c=>`<button class="btn gold sm" data-dx="ex|${esc(c)}">Tải mã ${esc(c)}</button>`).join("")}<button class="btn gold sm" data-dx="hdc">Tải hướng dẫn chấm</button><button class="btn ghost sm" data-kq="0">📄 Bảng dự kiến kết quả</button></div>`:""}<p class="fb" id="mtFb"></p></div>`;
  const re=()=>{saveMT();gvDethi(box);};
  box.querySelectorAll("details.dcl").forEach(d=>d.addEventListener("toggle",()=>{dtOpen[d.dataset.dl]=d.open;}));
  box.querySelectorAll("[data-dcs]").forEach(b=>b.addEventListener("click",()=>{const [l,id]=b.dataset.dcs.split("|");dcSwap(l,id);re();}));
