@@ -2114,6 +2114,8 @@ html.vdlock,html.vdlock body{overflow:hidden}
 .mtpg legend{font-weight:800;font-size:.9rem;padding:0 4px}
 .mtpi{display:flex;gap:8px;align-items:flex-start;font-size:.9rem;padding:3px 0;cursor:pointer;line-height:1.35}
 .mtpi input{margin-top:3px;flex:none}
+.exq.exout{border-left:4px solid var(--warn,#d97706);padding-left:10px}
+.status.gtag{font-size:.74rem}
 
 .langsw{position:relative;display:inline-flex}
 .langbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-weight:800;font-size:13px;cursor:pointer;min-height:34px}
@@ -22586,43 +22588,307 @@ function rowLessons(k,r){if(+k>=10)return r.src&&L[lidOf(k,r.src)]?[lidOf(k,r.sr
  const ui=r.mota!=null?r.mota:motaFind(k,r.nd);return ui>=0&&MOTA_LS[k]?MOTA_LS[k][ui].map(n=>lidOf(k,n)).filter(l=>L[l]):[];}
 function scopeLessons(){const R=mtCalc(),out=[];R.rows.forEach(x=>{if(!x.r.c.some(v=>v))return;rowLessons(MT.khoi,x.r).forEach(l=>{if(!out.includes(l))out.push(l);});});return out;}
 const dKey=()=>MT.khoi+":"+MT.ki;
-/* bộ câu đề cương của một bài: 4 Biết, 3 Hiểu nhiều lựa chọn; 2 Đúng/Sai; 2 tự luận */
+/* ---------- câu dạng tính toán: cùng dạng, đổi số liệu ----------
+   Đề cương dùng một bộ số cố định; khi ra đề, câu cùng dạng được sinh với bộ số khác. */
+const gNf=x=>{const neg=x<0;x=Math.abs(x);let [i,d]=String(Math.round(x*1000)/1000).split(".");if(i.length>3)i=i.replace(/\B(?=(\d{3})+(?!\d))/g," ");return (neg?"−":"")+i+(d?","+d:"");};
+const gDot=x=>String(Math.round(x*1000)/1000);
+function gR(seed){const r=rng(seed);const R={i:(a,b)=>a+Math.floor(r()*(b-a+1)),p:a=>a[Math.floor(r()*a.length)],
+ sh:a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}};
+ R.k=(a,n)=>R.sh(a).slice(0,n);R.ds=(n,a,b)=>{const s=new Set();let t=0;while(s.size<n&&t++<500)s.add(R.i(a,b));return [...s];};return R;}
+const GCOL="ABCDEFGHIJ";
+const sumA=a=>a.reduce((s,x)=>s+x,0);
+/* G[lid] = danh sách dạng; mỗi dạng: [mã, mức, loại ("mc" | "tl"), hàm sinh] */
+const GEN={};
+const gAdd=(lid,id,lv,t,f,nf)=>{for(let k=0;k<(nf||1);k++)(GEN[lid]=GEN[lid]||[]).push({id:lid+"."+id+(k?k+1:""),lid,lv,t,f,form:k});};
+/* hàm sinh câu nhiều lựa chọn trả về [đề, đáp án đúng, [các phương án nhiễu]] */
+const gUnit=R=>{const X=R.i(2,9),[u1,u2]=R.p([["MB","KB"],["GB","MB"],["KB","byte"]]);
+ return [`${X} ${u1} bằng bao nhiêu ${u2}?`,gNf(X*1024),[gNf(X*1000),gNf(X*8),gNf(X*100),gNf(X*8192)]];};
+const gAnh=R=>{const A=R.p([2,3,4,5,6]),n=R.i(6,15),B=A*n+R.i(0,A-1);
+ return [`Mỗi bức ảnh khoảng ${A} MB. Thẻ nhớ còn trống ${B} MB chứa được tối đa bao nhiêu bức ảnh như vậy?`,n+" bức",[(n+1)+" bức",(B-A)+" bức",(n-1)+" bức",gNf(B*A)+" bức"]];};
+const gPoly=R=>{const n=R.p([3,4,5,6,8,9,10,12]),A=360/n;
+ return !R.form?[`Robot vẽ đa giác đều ${n} cạnh bằng cách lặp “đi 50 bước, quay A°”. Mỗi lần robot cần quay bao nhiêu độ?`,A+"°",[(180-A)+"°",(2*A)+"°","360°",(n*10)+"°",Math.round(180/n)+"°"]]
+  :[`Robot lặp “đi 50 bước, quay ${A}°” để vẽ một đa giác đều. Cần lặp lại bao nhiêu lần?`,n+" lần",[(n+1)+" lần",(n-1)+" lần",A+" lần",(2*n)+" lần"]];};
+/* ===== lớp 6 ===== */
+gAdd("k6b3","doi","Hiểu","mc",gUnit);
+gAdd("k6b3","anh","Hiểu","mc",gAnh);
+gAdd("k6b3","bit","Hiểu","mc",R=>{const n=R.i(3,7);return [`Với ${n} bit, tạo được bao nhiêu dãy bit khác nhau?`,String(2**n),[String(2*n),String(n*n),String(2**(n-1)),String(2**(n+1)),String(n)]];});
+gAdd("k6b3","usb","Vận dụng","tl",R=>{const G=R.p([1,2]),cap=G*1024;let V,m,p,tot;
+ do{V=R.p([300,450,600,700,850,1200,1500]);m=R.i(20,80);p=R.p([3,4,5,6]);tot=V+m*p;}while(V>=cap||tot===cap);
+ return {q:`USB của Huy còn trống ${G} GB. Huy cần chép một video ${gNf(V)} MB và ${m} ảnh, mỗi ảnh ${p} MB.`,parts:[
+  {t:`a) Đổi ${G} GB ra MB và tính tổng dung lượng cần chép.`,ans:`${G} GB = ${gNf(cap)} MB. Tổng: ${gNf(V)} + ${m} × ${p} = ${gNf(tot)} MB.`,p:.5},
+  {t:"b) USB có đủ chỗ không? Giải thích.",ans:tot<cap?`Đủ, vì ${gNf(tot)} MB < ${gNf(cap)} MB (còn trống ${gNf(cap-tot)} MB).`:`Không đủ, vì ${gNf(tot)} MB > ${gNf(cap)} MB (thiếu ${gNf(tot-cap)} MB).`,p:.5}],
+  note:"Mỗi phép đổi, phép tính đúng được 0,25 điểm."};});
+gAdd("k6b12","o","Hiểu","mc",R=>{const c=R.i(3,8),h=R.i(4,12);return [`Bảng ${c} cột × ${h} hàng có bao nhiêu ô?`,String(c*h),[String(c+h),String(c*h+c),String(c*h-h),String(2*(c+h))]];});
+gAdd("k6b15","tien","Hiểu","mc",R=>{const g=R.p([5000,6000,8000,12000,15000]),n=R.i(3,12);
+ return [`Thuật toán tính tiền mua n quyển vở, mỗi quyển ${gNf(g)} đồng có bước xử lí “Tiền ← n × ${gNf(g)}”. Nhập n = ${n} thì kết quả là`,gNf(n*g)+" đồng",[gNf(n+g)+" đồng",gNf((n+1)*g)+" đồng",gNf((n-1)*g)+" đồng",gNf(n*g*10)+" đồng"]];});
+gAdd("k6b16","da","Hiểu","mc",gPoly,2);
+gAdd("k6b17","lap","Hiểu","mc",R=>{const n=R.i(3,9),d=R.p([10,20,25,30,50]);return [`Chương trình: lặp lại ${n} lần { di chuyển ${d} bước }. Nhân vật di chuyển tổng cộng`,(n*d)+" bước",[(n+d)+" bước",d+" bước",(n*d+d)+" bước",((n-1)*d)+" bước"]];});
+/* ===== lớp 7 ===== */
+gAdd("k7b6","khoi","Hiểu","mc",R=>{const c1=R.i(0,3),c2=c1+R.i(1,3),r1=R.i(1,5),r2=r1+R.i(1,5),w=c2-c1+1,h=r2-r1+1;
+ return [`Khối ô ${GCOL[c1]}${r1}:${GCOL[c2]}${r2} gồm bao nhiêu ô?`,String(w*h),[String(w+h),String((w-1)*(h-1)),String(w*(h-1)),String(w*h+w)]];});
+gAdd("k7b6","tien","Hiểu","mc",R=>{const n=R.i(3,12),g=R.p([5000,8000,12000,15000]);
+ return [`Ô B2 ghi số lượng ${n}, ô C2 ghi đơn giá ${g}. Ô D2 có công thức =B2*C2 sẽ hiện`,String(n*g),[String(n+g),"=B2*C2",String(n*g*10),String(n)+String(g)]];});
+gAdd("k7b7","sua","Hiểu","mc",R=>{const op=R.p(["*","+","-"]),f=(x,y)=>op==="*"?x*y:op==="+"?x+y:x-y;let a,b,c;
+ do{a=R.i(4,12);b=R.i(2,9);c=R.i(4,15);}while(c===a||(op==="-"&&(a<=b||c<=b)));
+ return [`Ô C1 có =A1${op}B1, A1 = ${a}, B1 = ${b}. Sửa A1 thành ${c} thì C1 hiện`,String(f(c,b)),[String(f(a,b)),String(c),String(f(c,b)+b),String(c*b),String(c+b)]];});
+gAdd("k7b7","chep","Hiểu","mc",R=>{const [x,y,z]=R.p([["A","B","C"],["B","C","D"],["D","E","F"]]),op=R.p(["+","*","-"]),r=R.i(3,9);
+ return [`Sao chép công thức =${x}2${op}${y}2 từ ô ${z}2 sang ô ${z}${r}, công thức mới là`,`=${x}${r}${op}${y}${r}`,[`=${x}2${op}${y}2`,`=${x}${r}${op}${y}2`,`=${x}2${op}${y}${r}`,`=${z}${r}${op}${y}${r}`]];});
+gAdd("k7b8","sum","Hiểu","mc",R=>{const [a,b,c]=R.ds(3,2,15);return [`A1 = ${a}, A2 = ${b}, A3 = ${c}. =SUM(A1:A3) cho kết quả`,String(a+b+c),[String(a+b),String(b+c),String(Math.max(a,b,c)),String(a*b),String(a+c)]];});
+gAdd("k7b8","mm","Hiểu","mc",R=>{const v=R.ds(4,1,20),mx=Math.max(...v),mn=Math.min(...v);
+ return [`B1:B4 chứa ${v.join(", ")}. =MAX(B1:B4)-MIN(B1:B4) cho kết quả`,String(mx-mn),[String(mx),String(mn),String(mx+mn),String(sumA(v))]];});
+gAdd("k7b8","tb","Hiểu","mc",R=>{let v;do{v=[R.i(3,10),R.i(3,10),R.i(3,10),R.i(3,10)];}while(sumA(v)%4);const s=sumA(v),t=s/4;
+ return [`C2:F2 chứa điểm 4 bài kiểm tra ${v.join(", ")}. =AVERAGE(C2:F2) cho kết quả`,String(t),[String(s),String(Math.max(...v)),String(t+1),String(Math.min(...v)),String(s/3|0)]];});
+gAdd("k7b8","diem","Vận dụng","tl",R=>{const v=[R.i(4,10),R.i(4,10),R.i(4,10),R.i(4,10),R.i(4,10)],s=sumA(v);
+ return {q:`Ô C2:C6 ghi điểm của 5 bạn lần lượt là ${v.join(", ")}.`,parts:[
+  {t:"a) Viết hàm tính tổng điểm ở C7 và điểm trung bình ở C8.",ans:"C7: =SUM(C2:C6); C8: =AVERAGE(C2:C6).",p:.5},
+  {t:"b) Hai hàm ở câu a) cho kết quả bao nhiêu? Viết hàm tìm điểm cao nhất và cho biết kết quả.",ans:`=SUM cho ${s}; =AVERAGE cho ${gNf(s/5)}; =MAX(C2:C6) cho ${Math.max(...v)}.`,p:.5}],
+  note:"Câu b) đúng 2 trong 3 kết quả được 0,25 điểm. Thiếu dấu = trừ 0,25 điểm."};});
+gAdd("k7b9","tp","Hiểu","mc",R=>{let n,f;do{n=R.i(1,9);f=R.i(101,999);}while(f%10<6);const v=n*1000+f,r2=Math.round(v/10),tr=Math.floor(v/10),r1=Math.round(v/100);
+ const s2=x=>Math.floor(x/100)+"."+String(x%100).padStart(2,"0");
+ return [`Ô chứa ${n}.${f}. Giảm còn 2 chữ số thập phân thì ô hiện`,s2(r2),[s2(tr),Math.floor(r1/10)+"."+(r1%10),String(Math.round(v/1000)),s2(r2+1)]];});
+gAdd("k7b9","pt","Hiểu","mc",R=>{const v=R.i(5,95);return [`Ô chứa ${gDot(v/100)}. Bấm nút định dạng phần trăm (%) thì ô hiện`,v+"%",[gDot(v/100)+"%",(v*10)+"%",gDot(v/10)+"%",String(v)]];});
+gAdd("k7b14","tt","Hiểu","mc",R=>{const a=R.ds(6,1,30);if(!R.form){const p=R.i(1,6),x=a[p-1];
+  return [`Dãy ${a.join(", ")}. Tìm kiếm tuần tự số ${x} cần bao nhiêu lần so sánh?`,p+" lần",[(p+1)+" lần",(p-1||7)+" lần","6 lần",(7-p)+" lần"]];}
+ let x;do{x=R.i(1,30);}while(a.includes(x));return [`Dãy ${a.join(", ")}. Tìm kiếm tuần tự số ${x} cần bao nhiêu lần so sánh để kết luận không tìm thấy?`,"6 lần",["1 lần","5 lần","7 lần","0 lần"]];},2);
+gAdd("k7b15","np","Hiểu","mc",R=>{const a=[R.i(1,6)];for(let i=1;i<7;i++)a.push(a[i-1]+R.i(2,6));let j;do{j=R.i(0,6);}while(j===3);const x=a[j];
+ if(!R.form)return [`Dãy ${a.join(", ")} đã sắp xếp tăng dần. Tìm kiếm nhị phân số ${x}, phần tử ở giữa được so sánh đầu tiên là`,String(a[3]),[String(a[2]),String(a[4]),String(x),String(a[0]),String(a[6])]];
+ const L_=a.slice(0,3).join(", "),Rt=a.slice(4).join(", ");
+ return [`Dãy ${a.join(", ")} đã sắp xếp tăng dần. Tìm kiếm nhị phân số ${x}: sau lần so sánh với phần tử giữa ${a[3]}, phần dãy được tìm tiếp là`,j>3?Rt:L_,[j>3?L_:Rt,a.join(", "),a.slice(3).join(", "),a.slice(0,4).join(", ")]];},2);
+gAdd("k7b16","chon","Hiểu","mc",R=>{let a;do{a=R.ds(4,1,20);}while(Math.min(...a)===a[0]);const mn=Math.min(...a),k=a.indexOf(mn),b=a.slice();[b[0],b[k]]=[b[k],b[0]];
+ if(!R.form)return [`Dãy ${a.join(", ")}. Lượt 1 của sắp xếp chọn (tăng dần) đổi chỗ hai số nào?`,`${a[0]} và ${mn}`,[`${a[0]} và ${a[1]}`,`${mn} và ${a[3]===mn?a[2]:a[3]}`,`${Math.max(...a)} và ${a[3]}`,`${a[2]} và ${a[3]}`]];
+ const c=a.slice();[c[0],c[1]]=[c[1],c[0]];return [`Dãy ${a.join(", ")}. Sau lượt 1 của sắp xếp chọn (tăng dần), dãy là`,b.join(", "),[a.join(", "),a.slice().sort((x,y)=>x-y).join(", "),c.join(", "),a.slice().reverse().join(", ")]];},2);
+/* ===== lớp 8 ===== */
+gAdd("k8b1","eniac","Hiểu","mc",R=>{const v=R.p([5000,10000,20000,25000]),n=R.p([1,2,5,10]),N=n*1000000,t=N/v;
+ return [`Một máy tính cổ cộng khoảng ${gNf(v)} phép mỗi giây. Cộng ${gNf(N)} phép cần khoảng`,gNf(t)+" giây",[gNf(t*10)+" giây",gNf(t/10)+" giây",gNf(t/60)+" giây",gNf(N*v)+" giây"]];});
+gAdd("k8b5","chep","Hiểu","mc",R=>{const r=R.i(3,9);if(!R.form){const [x,y,z]=R.p([["B","C","D"],["C","D","E"]]);
+  return [`Ô ${z}2 có =${x}2*${y}2. Sao chép sang ô ${z}${r}, công thức là`,`=${x}${r}*${y}${r}`,[`=${x}2*${y}2`,`=${x}${r}*${y}2`,`=${z}${r}*${y}${r}`,`=${x}2*${y}${r}`]];}
+ const ab=R.p(["H1","G1","I1","H2"]),c=ab[0],rw=ab[1];
+ return [`Ô F2 có =E2*$${c}$${rw}. Sao chép sang ô F${r}, công thức là`,`=E${r}*$${c}$${rw}`,[`=E${r}*$${c}$${r}`,`=E2*$${c}$${rw}`,`=E${r}*${c}${+rw+r-2}`,`=F${r}*$${c}$${rw}`]];},2);
+gAdd("k8b5","tien","Vận dụng","tl",R=>{const g=R.p([2000,2500,3000]),v=[R.i(5,20)*10,R.i(5,20)*10,R.i(5,20)*10,R.i(5,20)*10];
+ return {q:`Bảng tính tiền điện (số liệu giả định): ô H1 ghi đơn giá ${gNf(g)} đồng/số; cột E từ E2 đến E5 ghi số điện của 4 hộ lần lượt là ${v.join(", ")}.`,parts:[
+  {t:"a) Viết công thức ở F2 tính tiền điện của hộ thứ nhất sao cho sao chép xuống F5 vẫn đúng. Công thức ở F5 là gì?",ans:"F2: =E2*$H$1; F5: =E5*$H$1.",p:.5},
+  {t:"b) Ô F3 hiện kết quả bao nhiêu? Vì sao phải viết $H$1?",ans:`F3 = ${v[1]} × ${gNf(g)} = ${gNf(v[1]*g)}. $H$1 là địa chỉ tuyệt đối nên khi sao chép vẫn giữ ô đơn giá H1.`,p:.5}],
+  note:"Mỗi công thức, kết quả hoặc giải thích đúng được 0,25 điểm."};});
+gAdd("k8b6","loc","Hiểu","mc",R=>{const t=R.p([6,7,8,9]);let v,c,g;do{v=Array.from({length:8},()=>R.i(4,10));c=v.filter(x=>x>=t).length;g=v.filter(x=>x>t).length;}while(!v.includes(t)||c<2||c>6);
+ return [`Cột Điểm có các giá trị ${v.join(", ")}. Lọc “lớn hơn hoặc bằng ${t}” thì hiện bao nhiêu hàng?`,c+" hàng",[g+" hàng",(8-c)+" hàng",(c+1)+" hàng","8 hàng"]];});
+gAdd("k8b13","div","Hiểu","mc",R=>{let a,b;do{a=R.i(17,99);b=R.i(3,9);}while(a%b===0);const q=Math.floor(a/b),r=a%b;
+ return [`${a} div ${b} và ${a} mod ${b} lần lượt là`,`${q} và ${r}`,[`${r} và ${q}`,`${q+1} và ${r}`,`${q} và ${b-r}`,`${q-1} và ${r+b}`]];});
+gAdd("k8b13","bien","Hiểu","mc",R=>{const [a,b]=R.ds(2,2,9),c=R.i(2,6);if(!R.form)return [`diem = ${a}. Sau “đặt diem thành ${b}” rồi “thay đổi diem một lượng ${c}”, diem bằng`,String(b+c),[String(a+c),String(a+b+c),String(b),String(c)]];
+ const z=R.i(2,5);return [`(${a} + ${b}) * ${z} có giá trị`,String((a+b)*z),[String(a+b*z),String(a*z+b),String(a+b+z),String(a*b*z)]];},2);
+gAdd("k8b12","da","Hiểu","mc",gPoly,2);
+gAdd("k8b14","lap","Hiểu","mc",R=>{const d=R.i(0,10),n=R.i(3,8),c=R.i(2,6);return [`Biến d ban đầu bằng ${d}. Lặp lại ${n} lần { thay đổi d một lượng ${c} }. Sau vòng lặp, d bằng`,String(d+n*c),[String(n*c),String(d+c),String(d+(n-1)*c),String(d+n+c)]];});
+gAdd("k8b14","neu","Hiểu","mc",R=>{const t=R.i(4,8),v=R.p([t,t,t-R.i(1,3),t+R.i(1,3)]),ok=v>t;
+ return [`Nếu x > ${t} thì nói “Đạt”, nếu không thì nói “Chưa đạt”. Với x = ${v}, nhân vật nói`,ok?"“Đạt”":"“Chưa đạt”",[ok?"“Chưa đạt”":"“Đạt”","Nói “Đạt” rồi nói “Chưa đạt”","Không nói gì"]];});
+/* ===== lớp 9 ===== */
+gAdd("k9b6","ohm","Hiểu","mc",R=>{const r=R.p([10,20,25,40,50]),u=R.p([2,4,5,6,8,10,12]);
+ return [`Mô phỏng mạch điện với R = ${r} Ω. Đặt U = ${u} V thì cường độ dòng điện I bằng`,gNf(u/r)+" A",[gNf(u*r)+" A",gNf(r/u)+" A",gNf(u/r*10)+" A",gNf(u+r)+" A"]];});
+gAdd("k9b10a","dem","Hiểu","mc",R=>{if(!R.form){let v,c;do{v=Array.from({length:6},()=>R.p(["Đạt","Chưa đạt"]));c=v.filter(x=>x==="Đạt").length;}while(c<1||c>5);
+  return [`A1:A6 chứa ${v.join(", ")}. =COUNTIF(A1:A6,"Đạt") cho kết quả`,String(c),[String(6-c),"6",String(c+1),"Đạt"]];}
+ const t=R.p([5,7,8]);let v,c;do{v=Array.from({length:6},()=>R.i(3,10));c=v.filter(x=>x>=t).length;}while(!v.includes(t)||c<1||c>5);
+ return [`C2:C7 chứa ${v.join(", ")}. =COUNTIF(C2:C7,">=${t}") cho kết quả`,String(c),[String(v.filter(x=>x>t).length),String(6-c),String(c+1),String(sumA(v.filter(x=>x>=t)))]];},2);
+gAdd("k9b10a","tl","Vận dụng","tl",R=>{let v,n;do{v=Array.from({length:8},()=>R.i(2,10));n=v.filter(x=>x>=5).length;}while(n<2||n>7||!v.includes(5));
+ return {q:`Cột C từ C2 đến C9 ghi điểm của 8 bạn: ${v.join(", ")}.`,parts:[
+  {t:"a) Viết hàm đếm số bạn đạt từ 5 điểm trở lên và cho biết kết quả.",ans:`=COUNTIF(C2:C9,">=5") cho ${n}.`,p:.5},
+  {t:"b) Viết hàm đếm số bạn dưới 5 điểm và cho biết kết quả.",ans:`=COUNTIF(C2:C9,"<5") cho ${8-n}.`,p:.5}],
+  note:"Mỗi câu: viết đúng hàm được 0,25 điểm, kết quả đúng được 0,25 điểm. Điểm 5 được tính là đạt."};});
+gAdd("k9b11a","tong","Hiểu","mc",R=>{let k,v;do{k=Array.from({length:4},()=>R.p(["Thu","Chi"]));}while(!k.includes("Thu")||!k.includes("Chi"));v=Array.from({length:4},()=>R.i(1,9)*100);
+ const w=R.p(["Thu","Chi"]),s=sumA(v.filter((_,i)=>k[i]===w)),o=sumA(v.filter((_,i)=>k[i]!==w));
+ return [`A2:A5 là ${k.join(", ")}; B2:B5 là ${v.join(", ")}. =SUMIF(A2:A5,"${w}",B2:B5) cho`,String(s),[String(o),String(sumA(v)),String(k.filter(x=>x===w).length),String(Math.max(...v)),String(s+100)]];});
+gAdd("k9b11a","tl","Vận dụng","tl",R=>{let k,v,t,c;do{k=Array.from({length:6},()=>R.p(["Thu","Chi"]));v=Array.from({length:6},()=>R.i(2,30)*10);t=sumA(v.filter((_,i)=>k[i]==="Thu"));c=sumA(v.filter((_,i)=>k[i]==="Chi"));}while(t<=c||!c);
+ return {q:`Sổ quỹ lớp: cột A từ A2 đến A7 ghi loại khoản (${k.join(", ")}), cột B từ B2 đến B7 ghi số tiền tương ứng (nghìn đồng): ${v.join(", ")}.`,parts:[
+  {t:"a) Viết hàm tính tổng tiền Thu và tổng tiền Chi, cho biết kết quả.",ans:`=SUMIF(A2:A7,"Thu",B2:B7) cho ${t}; =SUMIF(A2:A7,"Chi",B2:B7) cho ${c}.`,p:.5},
+  {t:"b) Viết một công thức tính số tiền quỹ còn lại và cho biết kết quả.",ans:`=SUMIF(A2:A7,"Thu",B2:B7)-SUMIF(A2:A7,"Chi",B2:B7) cho ${t-c} (nghìn đồng).`,p:.5}],
+  note:"Mỗi hàm hoặc kết quả đúng được 0,25 điểm."};});
+gAdd("k9b12a","if","Hiểu","mc",R=>{if(!R.form){const v=R.p([4,4.5,5,5.5,6,7,3]);return [`A1 = ${gDot(v)}. =IF(A1>=5,"Đỗ","Trượt") cho kết quả`,v>=5?"Đỗ":"Trượt",[v>=5?"Trượt":"Đỗ","5","#VALUE!"]];}
+ const v=R.p([5,6,6.5,7,7.5,8,8.5,9]),k=v>=8?"Giỏi":v>=6.5?"Khá":"TB";
+ return [`=IF(A1>=8,"Giỏi",IF(A1>=6.5,"Khá","TB")) với A1 = ${gDot(v)} cho`,k,["Giỏi","Khá","TB","Khá TB"].filter(x=>x!==k)];},2);
+gAdd("k9b12a","tl","Vận dụng","tl",R=>{const T=R.p([100,150,200]),r=R.p([5,10]),v1=T+R.i(1,10)*10,v2=T-R.i(1,5)*10;
+ return {q:`Cột B ghi doanh số bán hàng của từng người (triệu đồng, số liệu giả định). Ai có doanh số từ ${T} trở lên được thưởng ${r}% doanh số, còn lại không được thưởng.`,parts:[
+  {t:"a) Viết công thức ở C2 tính tiền thưởng của người ở hàng 2.",ans:`=IF(B2>=${T},B2*${r}%,0) (hoặc =IF(B2>=${T},B2*${gDot(r/100)},0)).`,p:.5},
+  {t:`b) Với B2 = ${v1} và B3 = ${v2}, sao chép công thức xuống C3. C2 và C3 bằng bao nhiêu?`,ans:`C2 = ${gNf(v1*r/100)}; C3 = 0 (vì ${v2} < ${T}).`,p:.5}],
+  note:"Câu a) đúng điều kiện được 0,25 điểm, đúng hai giá trị được 0,25 điểm."};});
+gAdd("k9b14","diem","Hiểu","mc",R=>{const a=R.i(2,5),b=R.i(2,5),h1=R.i(2,4),h2=R.i(1,3);
+ return [`Giải pháp X: hiệu quả ${a} điểm (hệ số ${h1}), chi phí ${b} điểm (hệ số ${h2}). Tổng điểm có trọng số là`,String(a*h1+b*h2),[String(a+b),String(a*h2+b*h1),String(a*h1+b),String((a+b)*(h1+h2))]];});
+gAdd("k9b16","mod","Hiểu","mc",R=>{let n;do{n=R.i(23,989);}while(n%10===0);const m=n%10,d=Math.floor(n/10);
+ return [`${n} mod 10 và ${n} div 10 lần lượt là`,`${m} và ${d}`,[`${d} và ${m}`,`${n%100} và ${Math.floor(n/100)}`,`${m} và ${n}`,`${m} và ${d+1}`]];});
+gAdd("k9b16","tien","Hiểu","mc",R=>{let s,c;do{s=R.i(4,25)*10;}while(s%50===0);let r=s;const a=Math.floor(r/50);r-=a*50;const b=Math.floor(r/20);r-=b*20;c=a+b+r/10;
+ return [`Đổi ${gNf(s*1000)} đồng ra ít tờ tiền nhất với các loại 50 000, 20 000, 10 000 đồng (thuật toán tham lam) được bao nhiêu tờ?`,c+" tờ",[(c+1)+" tờ",(c-1||c+2)+" tờ",(s/10)+" tờ",(a||c+3)+" tờ"]];});
+/* ===== lớp 10 ===== */
+gAdd("bai1","doi","Hiểu","mc",gUnit);
+gAdd("bai1","usb","Hiểu","mc",R=>{const G=R.p([1,2,4]),p=R.p([3,5,6,7]),n=Math.floor(G*1024/p);
+ return [`USB còn trống ${G} GB, mỗi ảnh khoảng ${p} MB. Lưu được tối đa bao nhiêu ảnh?`,gNf(n),[gNf(Math.floor(G*1000/p)),gNf(n+1),gNf(G*1024*p),gNf(Math.floor(G*100/p))]];});
+gAdd("bai17","phep","Hiểu","mc",R=>{const k=R.form;if(k===0){let a,b;do{a=R.i(13,59);b=R.i(3,9);}while(a%b===0);const o=R.p(["//","%"]),v=o==="//"?Math.floor(a/b):a%b;
+  return [`Kết quả của ${a} ${o} ${b} là`,String(v),[String(o==="//"?a%b:Math.floor(a/b)),gDot(Math.round(a/b*100)/100),String(v+1),String(a-b)]];}
+ if(k===1){const a=R.i(2,9),b=R.i(2,5),c=R.i(1,9);return [`Sau hai lệnh x = ${a} và x = x * ${b} + ${c}, giá trị của x là`,String(a*b+c),[String(a*(b+c)),String(a),String(b+c),String(a+b+c)]];}
+ const a=R.i(1,9),b=R.i(2,5);return [`Biểu thức ${a} + ${b} ** 2 có giá trị`,String(a+b*b),[String((a+b)**2),String(a+b*2),String(a+b+2),String(a*b*2)]];},3);
+gAdd("bai17","gio","Vận dụng","tl",R=>{const m=R.i(130,600);
+ return {q:`Chương trình nhập số phút m rồi đổi ra giờ và phút (ví dụ nhập m = ${m}).`,parts:[
+  {t:"a) Viết hai lệnh gán tính số giờ h và số phút còn lại p.",ans:"h = m // 60; p = m % 60.",p:.5},
+  {t:`b) Với m = ${m}, h và p bằng bao nhiêu?`,ans:`h = ${Math.floor(m/60)}, p = ${m%60}.`,p:.5}],
+  note:"Mỗi lệnh hoặc giá trị đúng được 0,25 điểm."};});
+gAdd("bai20","for","Hiểu","mc",R=>{if(!R.form){const a=R.i(0,3),b=a+R.i(3,6);let s=0;for(let i=a;i<b;i++)s+=i;
+  return [`s = 0; for i in range(${a}, ${b}): s = s + i. Sau vòng lặp s bằng`,String(s),[String(s+b),String(s-a||s+1),String(b-a),String(s+b+1)]];}
+ const a=R.i(0,4),c=R.i(2,4),b=a+c*R.i(2,5)+R.i(0,c-1);const n=Math.ceil((b-a)/c);
+ return [`Vòng lặp for i in range(${a}, ${b}, ${c}) lặp bao nhiêu lần?`,String(n),[String(n+1),String(b-a),String(Math.max(n-1,0)||n+2),String(Math.floor((b-a)/c)===n?n+3:Math.floor((b-a)/c))]];},2);
+gAdd("bai20","tong","Vận dụng","tl",R=>{const n=R.i(6,30);
+ return {q:`Cho số nguyên dương n (ví dụ n = ${n}).`,parts:[
+  {t:"a) Viết đoạn lệnh dùng for tính S = 1 + 2 + … + n.",ans:"S = 0; for i in range(1, n + 1): S = S + i (lệnh S = S + i viết lùi vào trong vòng for).",p:.5},
+  {t:`b) Với n = ${n}, S bằng bao nhiêu? Nếu viết nhầm range(1, n) thì S bằng bao nhiêu?`,ans:`S = ${n*(n+1)/2}; viết nhầm range(1, n) thì S = ${n*(n-1)/2} (thiếu số ${n}).`,p:.5}],
+  note:"Câu a) đúng khởi tạo và vòng lặp mỗi phần 0,25 điểm; câu b) mỗi giá trị đúng 0,25 điểm."};});
+gAdd("bai21","while","Hiểu","mc",R=>{const b=R.i(0,5),c=R.i(2,4),a=b+c*R.i(2,5)+R.i(0,c-1);let n=a;while(n>b)n-=c;
+ return [`n = ${a}; while n > ${b}: n = n - ${c}. Sau vòng lặp n bằng`,String(n),[String(n+c),String(b+1===n?b+2:b+1),String(n-c),String(a-c)]];});
+gAdd("bai22","list","Hiểu","mc",R=>{const A=R.ds(5,1,20);const k=R.form;if(k===0){const j=R.i(1,3);return [`A = [${A.join(", ")}]. A[${j}] bằng`,String(A[j]),[String(A[j-1]),String(A[j+1]),String(j),String(A[0])]];}
+ if(k===1)return [`A = [${A.join(", ")}]. A[-1] bằng`,String(A[4]),[String(A[0]),String(A[3]),"-1","Báo lỗi"]];
+ return [`A = [${A.join(", ")}]. A[len(A) - 2] bằng`,String(A[3]),[String(A[2]),String(A[4]),"3","Báo lỗi"]];},3);
+gAdd("bai23","mm","Hiểu","mc",R=>{const A=R.ds(R.i(3,5),1,30),mx=Math.max(...A),mn=Math.min(...A);
+ return [`A = [${A.join(", ")}]. max(A) - min(A) bằng`,String(mx-mn),[String(mx),String(mn),String(mx+mn),String(sumA(A))]];});
+gAdd("bai24","xau","Hiểu","mc",R=>{const w=R.p(["Python","Tin hoc","Can Tho","Lap trinh","Hello","Sach giao khoa"]);let j;do{j=R.i(1,w.length-2);}while(w[j]===" "||w[j-1]===" "||w[j+1]===" "||w[j]===w[j-1]||w[j]===w[j+1]);
+ if(!R.form)return [`s = "${w}". s[${j}] là`,`"${w[j]}"`,[`"${w[j-1]}"`,`"${w[j+1]}"`,`"${w[0]===w[j]?w[w.length-1]:w[0]}"`,`"${w[j]}${w[j+1]}"`]];
+ return [`s = "${w}". len(s) bằng`,String(w.length),[String(w.length-1),String(w.length+1),String(w.replace(/ /g,"").length===w.length?w.length+2:w.replace(/ /g,"").length),String(w.split(" ").length)]];},2);
+gAdd("bai26","round","Hiểu","mc",R=>{let n,f;do{n=R.i(1,20);f=R.i(11,99);}while(f%10===5||f%10===0||Math.floor(f/10)===9);const x=n+f/100,r1=Math.round(x*10)/10,tr=Math.floor(x*10)/10;
+ return [`round(${gDot(x)}, 1) cho kết quả`,gDot(r1),[gDot(tr)===gDot(r1)?gDot(r1+.1):gDot(tr),String(Math.round(x)),gDot(x),String(n)]];});
+gAdd("bai27","ham","Hiểu","mc",R=>{const m=R.p([2,3,10]),[x,y]=R.ds(2,1,9);return [`def f(a, b): return a * ${m} + b. f(${x}, ${y}) bằng`,String(x*m+y),[String(y*m+x),String(x+y),String(x*y*m),String(x*(m+y))]];});
+gAdd("bai31","giay","Hiểu","mc",R=>{let t;do{t=R.i(3700,9999);}while(t%3600<60);const q=Math.floor(t/3600),r=t%3600;
+ return [`${t} // 3600 và ${t} % 3600 lần lượt bằng`,`${q} và ${r}`,[`${r} và ${q}`,`${Math.floor(t/60)} và ${t%60}`,`${q} và ${Math.floor(r/60)}`,`${q+1} và ${r}`]];});
+gAdd("bai31","nhiphan","Hiểu","mc",R=>{const n=R.i(5,31),b=n.toString(2);return [`Đổi ${n} sang nhị phân được`,b,[b.split("").reverse().join(""),(n+1).toString(2),(n-1).toString(2),(n+2).toString(2)]];});
+/* ===== lớp 11 ===== */
+gAdd("k11b4","cong","Hiểu","mc",R=>{const A=R.i(0,1),B=R.i(0,1),C=R.i(0,1),o1=R.p(["AND","OR","XOR"]),o2=R.p(["AND","OR"]);const f=(o,x,y)=>o==="AND"?x&y:o==="OR"?x|y:x^y;
+ const v=f(o2,f(o1,A,B),C),n=1-A;return [`A = ${A}, B = ${B}, C = ${C}. Giá trị của (A ${o1} B) ${o2} C và NOT A lần lượt là`,`${v} và ${n}`,["0 và 0","0 và 1","1 và 0","1 và 1"].filter(x=>x!==`${v} và ${n}`)];});
+gAdd("k11b25","anh","Hiểu","mc",R=>{if(!R.form){const W=R.p([800,1024,1200,1600]),H=R.p([600,768,900]);return [`Ảnh ${W} × ${H} px xoay 90° thì kích thước thành`,`${H} × ${W} px`,[`${W} × ${H} px`,`${W/2} × ${H/2} px`,`${W} × ${W} px`,`${H} × ${H} px`]];}
+ const [rw,rh]=R.p([[3,2],[4,3],[16,9]]),a=R.p([100,150,200,250]),b=R.p([20,40,50,60].filter(x=>x!==a/5)),W=a*rw,H=a*rh,h=b*rh,w=b*rw;
+ return [`Ảnh ${W} × ${H} px, cần chiều cao ${h} px và giữ nguyên tỉ lệ, chiều rộng mới là`,`${w} px`,[`${W-(H-h)} px`,`${h} px`,`${Math.round(h*rh/rw)} px`,`${W} px`]];},2);
+gAdd("k11b28","gif","Hiểu","mc",R=>{const n=R.p([8,10,12,16,20]),t=R.p([50,100,125,200,250]),s=n*t/1000;
+ return [`Ảnh động có ${n} khung, mỗi khung hiển thị ${t} ms. Một vòng ảnh động dài`,gNf(s)+" giây",[gNf(s*10)+" giây",gNf(t/1000)+" giây",gNf(n*t)+" giây",gNf(s/2)+" giây"]];});
+gAdd("k11b31","phim","Hiểu","mc",R=>{const n=R.p([8,12,16,24]),t=R.p([0.125,0.25,0.5]),k=R.i(2,5),s=n*t*k;
+ return [`Phim ${n} khung, mỗi khung ${gNf(t)} s, phát lặp ${k} lần. Thời lượng phim là`,gNf(s)+" s",[gNf(n*t)+" s",gNf(n*k)+" s",gNf(n*t*(k+1))+" s",gNf(t*k)+" s"]];});
+/* ===== lớp 12 ===== */
+gAdd("k12b9","bang","Hiểu","mc",R=>{if(!R.form){const r=R.i(2,8),c=R.i(3,7);return [`Bảng có ${r} hàng, mỗi hàng ${c} ô td. Tổng số ô là`,String(r*c),[String(r+c),String(r*c+r),String((r-1)*c),String(r*(c-1))]];}
+ const s=R.i(2,20),n=R.i(3,8);return [`<ol start="${s}"> có ${n} mục li. Mục cuối cùng được đánh số`,String(s+n-1),[String(s+n),String(n),String(s),String(s+n+1)]];},2);
+gAdd("k12b14","em","Hiểu","mc",R=>{const [k,p]=R.p([[1.5,16],[2,16],[1.25,16],[0.75,16],[1.5,12],[2,12],[1.25,20],[1.5,20],[0.5,20]]);
+ return [`Cỡ chữ ${gDot(k)}em trong phần tử có cỡ chữ của phần tử cha là ${p}px tương ứng`,gDot(k*p)+"px",[gDot(k+p)+"px",p+"px",gDot(k*p*2)+"px",gDot(Math.round(p/k))+"px"]];});
+gAdd("k12b16","hop","Hiểu","mc",R=>{if(!R.form){const v=R.ds(4,1,9).map(x=>x*5),sd=["trên","phải","dưới","trái"],j=R.i(0,3);
+  return [`margin: ${v.map(x=>x+"px").join(" ")}; lề ${sd[j]} là`,v[j]+"px",v.filter((_,i)=>i!==j).map(x=>x+"px")];}
+ const w=R.p([200,250,300,400]),p=R.p([5,10,15,20]),b=R.p([1,2,3,5]);
+ return [`Hộp có width: ${w}px; padding: ${p}px; border: ${b}px solid (box-sizing mặc định). Chiều rộng hộp chiếm chỗ là`,(w+2*p+2*b)+"px",[w+"px",(w+p+b)+"px",(w+2*p)+"px",(w+2*b)+"px"]];},2);
+
+/* sinh một câu theo dạng và hạt giống; kiểm tra đủ 4 phương án khác nhau */
+function genQ(g,seed){for(let t=0;t<40;t++){const R=gR((seed+t*7919)>>>0);R.form=g.form||0;try{const x=g.f(R);
+  if(g.t==="tl")return Object.assign({lv:g.lv,_gen:g.id},x);
+  const [q,ans,ds]=x,seen=new Set([String(ans)]),o=[];ds.forEach(d=>{const s=String(d);if(!seen.has(s)&&o.length<3&&s!==""&&!/NaN|undefined|Infinity/.test(s)){seen.add(s);o.push(s);}});
+  if(o.length<3)continue;const all=R.sh([String(ans)].concat(o));return {q,o:all,a:all.indexOf(String(ans)),lv:g.lv,_id:"g:"+g.id,_gen:g.id};}catch(e){}}
+ return null;}
+const genFind=id=>{const lid=id.slice(0,id.lastIndexOf("."));return (GEN[lid]||[]).find(g=>g.id===id)||null;};
+const genSeedDC=id=>hs32("dc:"+id);
+const genDC=id=>{const g=genFind(id);return g?genQ(g,genSeedDC(id)):null;};
+/* bộ số khác đề cương */
+function genAlt(id,seed){const g=genFind(id);if(!g)return null;const d=genDC(id);for(let t=0;t<12;t++){const s=(hs32(id+":"+seed)+t*104729)>>>0,q=genQ(g,s);if(q&&(!d||q.q!==d.q))return Object.assign(q,{_s:s});}return null;}
+/* đề cương theo ma trận: mỗi mức lấy gấp MT.dcX (mặc định 2) số câu trong đề; phần ma trận không có thì đề cương không có */
 const DC_N={"Biết":4,"Hiểu":3};
-function dcOf(lid){const l=L[lid],b=bankOf(lid);MT.dcov=MT.dcov||{};const ov=MT.dcov[lid]||{};
- const sel=lv=>{const pool=b.filter(q=>q.lv===lv),ids=(ov[lv]||[]).filter(id=>pool.some(q=>q._id===id));pool.forEach(q=>{if(ids.length<DC_N[lv]&&!ids.includes(q._id))ids.push(q._id);});return ids.slice(0,DC_N[lv]).map(id=>pool.find(q=>q._id===id));};
- return {lid,mc:sel("Biết").concat(sel("Hiểu")),ds:[l.quiz.ds].concat(l.ds2?[l.ds2]:[],(MYQ[lid]&&MYQ[lid].ds)||[]),tl:l.tl||[]};}
-function dcSwap(lid,id){const b=bankOf(lid),q=b.find(x=>x._id===id);if(!q)return;const cur=dcOf(lid).mc.filter(x=>x.lv===q.lv).map(x=>x._id),pool=b.filter(x=>x.lv===q.lv&&!cur.includes(x._id));if(!pool.length){toast("Ngân hàng bài này không còn câu "+q.lv+" khác",M.chip);return;}
- const nx=pool[(pool.findIndex(x=>b.indexOf(x)>b.indexOf(q))+pool.length)%pool.length]||pool[0];MT.dcov[lid]=MT.dcov[lid]||{};MT.dcov[lid][q.lv]=cur.map(x=>x===id?nx._id:x);saveMT();}
+const dsAll=lid=>{const l=L[lid];return [l.quiz.ds].concat(l.ds2?[l.ds2]:[],(MYQ[lid]&&MYQ[lid].ds)||[]);};
+const genOf=(lid,t,lv)=>(GEN[lid]||[]).filter(g=>g.t===t&&(!lv||g.lv===lv));
+let dcNeedC={k:"",v:null};
+/* need: số câu đề cương từng bài; plan: các ô trong đề dành cho phần phân loại; res: câu giữ lại, không đưa vào đề cương */
+function dcInfo(){const S=curSet(),key=JSON.stringify([MT.khoi,MT.ki,MT.dcX,MT.dcPct,S.rows.map(r=>[r.nd,r.src,r.mota,r.c,r.lab]),S.tlp]);if(dcNeedC.k===key)return dcNeedC.v;
+ const R=mtCalc(),k=MT.khoi,X=MT.dcX||2,pct=MT.dcPct||85,need={},own={},ownQ={},lsR={};
+ R.rows.forEach(x=>{lsR[x.i]=rowLessons(k,x.r);});
+ for(let q=1;q<=R.nQ;q++){const cnt={};R.rows.forEach(x=>[2,3,4].forEach(c=>toks(x.F[c]).forEach(t=>{if(parseInt(t)===q)cnt[x.i]=(cnt[x.i]||0)+1;})));const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];if(top){own[top[0]]=(own[top[0]]||0)+1;ownQ[q]=+top[0];}}
+ R.rows.forEach(x=>{const ls=lsR[x.i];if(!ls.length)return;const hasDS=x.r.c[2]||x.r.c[3]||x.r.c[4];
+  const c={"Biết":x.r.c[0],"Hiểu":x.r.c[1],ds:own[x.i]||(hasDS?1:0),tlH:toks(x.F[5]).length,tlV:toks(x.F[6]).length};
+  ls.forEach(l=>{const n=need[l]=need[l]||{"Biết":0,"Hiểu":0,ds:0,tlH:0,tlV:0};Object.keys(c).forEach(f=>{if(c[f])n[f]+=f==="ds"&&!own[x.i]?1:Math.ceil(X*c[f]/ls.length);});});});
+ const P=R.P||10,O=Math.round(P*(100-pct)/100*4)/4,Omax=Math.min(O+.05*P,.2*P),gen=[],nat=[],rV=[],rD=[],rH=[];
+ const lastTL=(l,lv)=>{const a=L[l].tl||[];for(let i=a.length-1;i>=0;i--)if(a[i].lv===lv)return i;return -1;};
+ R.rows.forEach(x=>{const ls=lsR[x.i];if(!ls.length)return;
+  [[6,"Vận dụng"],[5,"Hiểu"]].forEach(([c,lv])=>toks(x.F[c]).map(Number).forEach(n=>{const p=R.tlP(n);
+   if(ls.some(l=>genOf(l,"tl",lv).length))gen.push({part:"tl",n,ty:"gen",pr:lv==="Vận dụng"?1:3,p});
+   else{const l=ls.find(l=>lastTL(l,lv)>=0);if(l)(lv==="Vận dụng"?rV:rH).push({part:"tl",n,ty:"res",p,lid:l,i:lastTL(l,lv)});}}));
+  toks(x.F[1]).map(Number).forEach(n=>{if(ls.some(l=>genOf(l,"mc","Hiểu").length))gen.push({part:"mc",n,ty:"gen",pr:2,p:.25});else nat.push({part:"mc",n,ty:"out",p:.25,row:x.i});});});
+ Object.keys(ownQ).forEach(q=>{const ls=lsR[ownQ[q]]||[],l=ls.find(l=>dsAll(l).length>=2);if(l)rD.push({part:"ds",n:+q,ty:"res",p:1,lid:l,i:dsAll(l).length-1});});
+ const byN=(a,b)=>b.n-a.n;gen.sort((a,b)=>a.pr-b.pr||b.n-a.n);[nat,rV,rD,rH].forEach(a=>a.sort(byN));
+ const cand=gen.concat(nat,rV.slice(0,1),rD.slice(0,1),rV.slice(1),rD.slice(1),rH);
+ const avail={};R.rows.forEach(x=>{const ls=lsR[x.i];avail[x.i]=ls.reduce((s,l)=>s+bankOf(l).filter(q=>q.lv==="Hiểu").length-((need[l]||{})["Hiểu"]||0),0);});
+ let out=0;const plan=[],res={ds:new Set(),tl:new Set()};
+ for(const c of cand){if(out>=O-1e-9)break;if(out+c.p>Omax+1e-9)continue;
+  if(c.ty==="res"){const kk=c.lid+"|"+c.i,S_=c.part==="ds"?res.ds:res.tl;if(S_.has(kk))continue;S_.add(kk);}
+  if(c.ty==="out"){if(avail[c.row]<=0)continue;avail[c.row]--;}
+  plan.push(c);out+=c.p;}
+ dcNeedC={k:key,v:{need,plan,res,O,out}};return dcNeedC.v;}
+const dcNeed=()=>dcInfo().need;
+/* thứ tự ưu tiên khi chọn câu đề cương: dạng tính toán xen kẽ câu ngân hàng */
+function dcPool(lid,lv){const gs=genOf(lid,"mc",lv).map(g=>genDC(g.id)).filter(Boolean),bs=bankOf(lid).filter(q=>q.lv===lv),pool=[];
+ for(let i=0;i<Math.max(gs.length,bs.length);i++){if(gs[i])pool.push(gs[i]);if(bs[i])pool.push(bs[i]);}return pool;}
+function dcOf(lid){const l=L[lid];MT.dcov=MT.dcov||{};const ov=MT.dcov[lid]||{},nd=dcNeed()[lid];
+ const sel=lv=>{const N=nd?nd[lv]:DC_N[lv];if(!N)return [];const pool=dcPool(lid,lv),ids=(ov[lv]||[]).filter(id=>pool.some(q=>q._id===id));pool.forEach(q=>{if(ids.length<N&&!ids.includes(q._id))ids.push(q._id);});return ids.slice(0,N).map(id=>pool.find(q=>q._id===id));};
+ const RS=dcInfo().res,all=dsAll(lid).filter((d,i)=>!RS.ds.has(lid+"|"+i)),tlB=(l.tl||[]).map((t,i)=>Object.assign({},t,{_i:i})).filter(t=>!RS.tl.has(lid+"|"+t._i));
+ const tlSel=(lv,N)=>{if(!N)return [];const b=tlB.filter(t=>t.lv===lv),g=genOf(lid,"tl",lv).map(x=>genDC(x.id)).filter(Boolean);return b.concat(g).slice(0,Math.max(N,b.length?1:0));};
+ return {lid,mc:sel("Biết").concat(sel("Hiểu")),ds:nd?all.slice(0,Math.min(all.length,nd.ds)):all,tl:nd?tlSel("Hiểu",nd.tlH).concat(tlSel("Vận dụng",nd.tlV)):tlB};}
+function dcSwap(lid,id){const q=dcOf(lid).mc.find(x=>x._id===id);if(!q)return;const pool=dcPool(lid,q.lv),cur=dcOf(lid).mc.filter(x=>x.lv===q.lv).map(x=>x._id),rest=pool.filter(x=>!cur.includes(x._id));
+ if(!rest.length){toast("Ngân hàng bài này không còn câu "+q.lv+" khác",M.chip);return;}
+ const nx=rest[(rest.findIndex(x=>pool.indexOf(x)>pool.indexOf(q))+rest.length)%rest.length]||rest[0];MT.dcov[lid]=MT.dcov[lid]||{};MT.dcov[lid][q.lv]=cur.map(x=>x===id?nx._id:x);saveMT();}
 const plainDS=t=>String(t).replace(/^[a-d]\)\s*/,"");
 /* sinh số giả ngẫu nhiên theo hạt giống */
 function rng(seed){let s=seed>>>0||1;return ()=>{s=(Math.imul(s^(s>>>15),2246822519)+0x9e3779b9)>>>0;return s/4294967296;};}
-/* dựng đề gốc: đặt câu đúng thứ tự trong ma trận, ưu tiên câu trong đề cương */
+/* dựng đề gốc: đặt câu đúng thứ tự trong ma trận; trước hết lấy đúng câu trong đề cương, rồi dành khoảng (100 − MT.dcPct)% số điểm
+   cho câu cùng dạng đổi số liệu hoặc câu ngoài đề cương để phân loại */
 function buildExam(seed){const R=mtCalc(),k=MT.khoi,r=rng(seed),used=new Set(),E={seed,mc:[],ds:[],tl:[]};
  const take=(arr)=>arr.length?arr[Math.floor(r()*arr.length)]:null;
  R.rows.forEach(x=>{const ls=rowLessons(k,x.r);
   [[0,"Biết"],[1,"Hiểu"]].forEach(([c,lv])=>toks(x.F[c]).map(Number).forEach(n=>{
-   let c1=ls.flatMap(l=>dcOf(l).mc.filter(q=>q.lv===lv).map(q=>[l,q._id,1])).filter(z=>!used.has(z[0]+z[1]));
-   if(!c1.length)c1=ls.flatMap(l=>bankOf(l).filter(q=>q.lv===lv).map(q=>[l,q._id,0])).filter(z=>!used.has(z[0]+z[1]));
+   let c1=ls.flatMap(l=>dcOf(l).mc.filter(q=>q.lv===lv).map(q=>[l,q._id])).filter(z=>!used.has(z[0]+z[1]));
+   if(!c1.length)c1=ls.flatMap(l=>bankOf(l).filter(q=>q.lv===lv).map(q=>[l,q._id])).filter(z=>!used.has(z[0]+z[1]));
    const z=take(c1);if(z)used.add(z[0]+z[1]);E.mc[n-1]=z?{lid:z[0],id:z[1],row:x.i}:{row:x.i,lv,miss:1};}));
   [[5,"Hiểu"],[6,"Vận dụng"]].forEach(([c,lv])=>toks(x.F[c]).map(Number).forEach(n=>{
-   const c1=ls.flatMap(l=>(L[l].tl||[]).map((t,i)=>[l,i,t])).filter(z=>z[2].lv===lv&&!used.has("tl"+z[0]+z[1]));const z=take(c1);if(z)used.add("tl"+z[0]+z[1]);E.tl[n-1]=z?{lid:z[0],i:z[1],row:x.i}:{row:x.i,lv,miss:1};}));});
+   let c1=ls.flatMap(l=>dcOf(l).tl.filter(t=>t.lv===lv).map(t=>t._gen?[l,"g",t._gen]:[l,"b",t._i])).filter(z=>!used.has("tl"+z[0]+z[2]));
+   if(!c1.length)c1=ls.flatMap(l=>(L[l].tl||[]).map((t,i)=>t.lv===lv?[l,"b",i]:null).filter(Boolean).concat(genOf(l,"tl",lv).map(g=>[l,"g",g.id]))).filter(z=>!used.has("tl"+z[0]+z[2]));
+   const z=take(c1);if(z)used.add("tl"+z[0]+z[2]);E.tl[n-1]=z?(z[1]==="g"?{lid:z[0],g:z[2],row:x.i}:{lid:z[0],i:z[2],row:x.i}):{row:x.i,lv,miss:1};}));});
  for(let q=1;q<=R.nQ;q++){const cnt={};R.rows.forEach(x=>[2,3,4].forEach(c=>toks(x.F[c]).forEach(t=>{if(parseInt(t)===q)cnt[x.i]=(cnt[x.i]||0)+1;})));
   const ri=+Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0]?.[0];const x=R.rows.find(y=>y.i===ri);const ls=x?rowLessons(k,x.r):[];
-  const c1=ls.flatMap(l=>dcOf(l).ds.map((d,i)=>[l,i])).filter(z=>!used.has("ds"+z[0]+z[1]));const z=take(c1);if(z)used.add("ds"+z[0]+z[1]);E.ds[q-1]=z?{lid:z[0],i:z[1],row:ri}:{row:ri,miss:1};}
- return E;}
+  let c1=ls.flatMap(l=>dcOf(l).ds.map(d=>[l,dsAll(l).indexOf(d)])).filter(z=>!used.has("ds"+z[0]+z[1]));
+  if(!c1.length)c1=ls.flatMap(l=>dsAll(l).map((d,i)=>[l,i])).filter(z=>!used.has("ds"+z[0]+z[1]));
+  const z=take(c1);if(z)used.add("ds"+z[0]+z[1]);E.ds[q-1]=z?{lid:z[0],i:z[1],row:ri}:{row:ri,miss:1};}
+ examOutside(E,r);return E;}
+const exTot=(E,R)=>E.mc.length*.25+E.ds.length+E.tl.reduce((s,_,i)=>s+R.tlP(i+1),0);
+/* phần phân loại theo kế hoạch của dcInfo: câu tính toán đổi số liệu, câu Hiểu ngoài đề cương, câu đã giữ lại không đưa vào đề cương */
+function examOutside(E,r){const R=mtCalc(),k=MT.khoi,I=dcInfo();
+ const lsOf=e=>{const x=R.rows.find(y=>y.i===e.row);return x?rowLessons(k,x.r):[];},gUsed=new Set();
+ E.mc.forEach(e=>{if(e&&!e.miss&&String(e.id).startsWith("g:"))gUsed.add(e.id.slice(2));});E.tl.forEach(e=>{if(e&&e.g)gUsed.add(e.g);});
+ I.plan.forEach(c=>{const arr=E[c.part],e=arr[c.n-1];if(!e)return;
+  if(c.ty==="res"){arr[c.n-1]=c.part==="ds"?{lid:c.lid,i:c.i,row:e.row}:{lid:c.lid,i:c.i,row:e.row};return;}
+  if(e.miss)return;const nE=examAlt(c.part,e,lsOf(e),gUsed,r);if(nE)arr[c.n-1]=nE;});}
+/* câu thay thế ngoài đề cương cho một ô: ưu tiên cùng dạng (đổi số), không trùng dạng đã có trong đề */
+function examAlt(part,e,ls,gUsed,r){const pk=a=>a.length?a[Math.floor((r?r():Math.random())*a.length)]:null;
+ if(part==="tl"){const t=exTL(e),lv=t?t.lv:e.lv;let gs=ls.flatMap(l=>genOf(l,"tl",lv).map(g=>[l,g.id]));
+  const own=e.g&&gs.find(z=>z[1]===e.g),inDc=gs.filter(z=>dcOf(z[0]).tl.some(x=>x._gen===z[1])&&!gUsed.has(z[1]));
+  const z=own||pk(inDc)||pk(gs.filter(z=>!gUsed.has(z[1])))||pk(gs);if(!z)return null;const a=genAlt(z[1],(r?r()*1e9:Math.random()*1e9)|0);if(!a)return null;gUsed&&gUsed.add(z[1]);return {lid:z[0],g:z[1],s:a._s,row:e.row};}
+ const q=exMC(e),lv=q?q.lv:e.lv;let gs=ls.flatMap(l=>genOf(l,"mc",lv).map(g=>[l,g.id]));
+ if(gs.length){const own=String(e.id).startsWith("g:")&&gs.find(z=>z[1]===e.id.slice(2)),inDc=gs.filter(z=>dcOf(z[0]).mc.some(x=>x._id==="g:"+z[1])&&!gUsed.has(z[1]));
+  const z=own||pk(inDc)||pk(gs.filter(z=>!gUsed.has(z[1])));if(z){const a=genAlt(z[1],(r?r()*1e9:Math.random()*1e9)|0);if(a){gUsed&&gUsed.add(z[1]);return {lid:z[0],id:"g:"+z[1],s:a._s,row:e.row};}}}
+ const out=ls.flatMap(l=>bankOf(l).filter(z=>z.lv===lv&&!dcOf(l).mc.some(d=>d._id===z._id)).map(z=>({lid:l,id:z._id,row:e.row})));const z=pk(out);return z||null;}
 function examOf(){MT.exam=MT.exam||{};return MT.exam[dKey()]||null;}
-const exMC=e=>e&&!e.miss?bankOf(e.lid).find(q=>q._id===e.id):null,exDS=e=>e&&!e.miss?dcOf(e.lid).ds[e.i]:null,exTL=e=>e&&!e.miss?(L[e.lid].tl||[])[e.i]:null;
-function examStats(E){const R=mtCalc();let tot=0,dc=0;const miss=[];
- E.mc.forEach((e,i)=>{tot+=.25;if(!e||e.miss){miss.push("Phần I câu "+(i+1));return;}if(dcOf(e.lid).mc.some(q=>q._id===e.id))dc+=.25;});
- E.ds.forEach((e,i)=>{tot+=1;if(!e||e.miss){miss.push("Phần II câu "+(i+1));return;}dc+=1;});
- E.tl.forEach((e,i)=>{const p=R.tlP(i+1);tot+=p;if(!e||e.miss){miss.push("Phần III câu "+(i+1));return;}dc+=p;});
- return {tot,dc,pct:tot?Math.round(1000*dc/tot)/10:0,miss};}
-function examSwap(part,n){const E=examOf();if(!E)return;const k=MT.khoi,R=mtCalc(),e=E[part][n],x=R.rows.find(y=>y.i===e.row),ls=x?rowLessons(k,x.r):[];
- const inUse=new Set(E.mc.filter(Boolean).map(z=>z.lid+z.id).concat(E.ds.filter(Boolean).map(z=>"ds"+z.lid+z.i),E.tl.filter(Boolean).map(z=>"tl"+z.lid+z.i)));
- let c=[];if(part==="mc"){const q=exMC(e),lv=q?q.lv:e.lv;c=ls.flatMap(l=>dcOf(l).mc.filter(z=>z.lv===lv).map(z=>({lid:l,id:z._id,row:e.row}))).filter(z=>!inUse.has(z.lid+z.id));
+const exMC=e=>{if(!e||e.miss)return null;if(String(e.id).startsWith("g:")){const g=genFind(e.id.slice(2));return g?(e.s!=null?genQ(g,e.s):genDC(g.id)):null;}return bankOf(e.lid).find(q=>q._id===e.id);},
+ exDS=e=>e&&!e.miss?dsAll(e.lid)[e.i]:null,
+ exTL=e=>{if(!e||e.miss)return null;if(e.g){const g=genFind(e.g);return g?(e.s!=null?genQ(g,e.s):genDC(g.id)):null;}return (L[e.lid].tl||[])[e.i];};
+/* loại câu trong đề: dc = đúng câu đề cương; doi = cùng dạng trong đề cương, đổi số liệu; ngoai = ngoài đề cương */
+function exKind(part,e){if(!e||e.miss)return "miss";const D=dcOf(e.lid);
+ if(part==="mc"){const inD=D.mc.some(q=>q._id===e.id);return e.s!=null?(inD?"doi":"ngoai"):(inD?"dc":"ngoai");}
+ if(part==="tl"){const inD=D.tl.some(t=>e.g?t._gen===e.g:t._i===e.i);return e.s!=null?(inD?"doi":"ngoai"):(inD?"dc":"ngoai");}
+ return D.ds.includes(dsAll(e.lid)[e.i])?"dc":"ngoai";}
+function examStats(E){const R=mtCalc(),o={tot:0,dc:0,doi:0,ngoai:0,miss:[]};
+ const add=(part,e,i,p,lb)=>{o.tot+=p;const kd=exKind(part,e);if(kd==="miss"){o.miss.push(lb+" câu "+(i+1));return;}o[kd]+=p;};
+ E.mc.forEach((e,i)=>add("mc",e,i,.25,"Phần I"));E.ds.forEach((e,i)=>add("ds",e,i,1,"Phần II"));E.tl.forEach((e,i)=>add("tl",e,i,R.tlP(i+1),"Phần III"));
+ o.pct=o.tot?Math.round(1000*o.dc/o.tot)/10:0;return o;}
+function examOutList(E){const f=(part,lb)=>{const a=E[part].map((e,i)=>{const kd=exKind(part,e);return kd==="doi"?(i+1)+" (đổi số)":kd==="ngoai"?(i+1)+" (ngoài đề cương)":"";}).filter(Boolean);return a.length?lb+": câu "+a.join(", "):"";};
+ return [f("mc","Phần I"),f("ds","Phần II"),f("tl","Phần III")].filter(Boolean).join("; ");}
+function examSwap(part,n){const E=examOf();if(!E)return;const k=MT.khoi,R=mtCalc(),e=E[part][n],x=R.rows.find(y=>y.i===e.row),ls=x?rowLessons(k,x.r):[],kd=exKind(part,e);
+ const inUse=new Set(E.mc.filter(Boolean).map(z=>z.lid+z.id).concat(E.ds.filter(Boolean).map(z=>"ds"+z.lid+z.i),E.tl.filter(Boolean).map(z=>"tl"+z.lid+(z.g||z.i))));
+ const gU=new Set(E.mc.filter(z=>z&&String(z.id).startsWith("g:")&&z!==e).map(z=>z.id.slice(2)).concat(E.tl.filter(z=>z&&z.g&&z!==e).map(z=>z.g)));
+ let c=[];
+ if(kd==="doi"||kd==="ngoai"){if(part==="ds")c=ls.flatMap(l=>dsAll(l).map((d,i)=>({lid:l,i,row:e.row}))).filter(z=>!inUse.has("ds"+z.lid+z.i));
+  else{const z=examAlt(part,Object.assign({},e,e.s!=null?{}:{id:"",g:""}),ls,gU,null);if(z){E[part][n]=z;saveMT();toast(z.s!=null?"Đã đổi sang bộ số liệu khác":"Đã đổi câu ngoài đề cương",M.chip);return;}
+   if(part==="tl"){const t=exTL(e),lv=t?t.lv:e.lv;c=ls.flatMap(l=>(L[l].tl||[]).map((t,i)=>({lid:l,i,row:e.row,lv:t.lv}))).filter(z=>z.lv===lv&&!dcOf(z.lid).tl.some(t=>t._i===z.i)&&!inUse.has("tl"+z.lid+z.i)).map(({lv,...z})=>z);}}}
+ else if(part==="mc"){const q=exMC(e),lv=q?q.lv:e.lv;c=ls.flatMap(l=>dcOf(l).mc.filter(z=>z.lv===lv).map(z=>({lid:l,id:z._id,row:e.row}))).filter(z=>!inUse.has(z.lid+z.id));
   if(!c.length)c=ls.flatMap(l=>bankOf(l).filter(z=>z.lv===lv).map(z=>({lid:l,id:z._id,row:e.row}))).filter(z=>!inUse.has(z.lid+z.id));}
- else if(part==="ds")c=ls.flatMap(l=>dcOf(l).ds.map((d,i)=>({lid:l,i,row:e.row}))).filter(z=>!inUse.has("ds"+z.lid+z.i));
- else{const t=exTL(e),lv=t?t.lv:e.lv;c=ls.flatMap(l=>(L[l].tl||[]).map((t,i)=>({lid:l,i,row:e.row,lv:t.lv}))).filter(z=>z.lv===lv&&!inUse.has("tl"+z.lid+z.i)).map(({lv,...z})=>z);}
+ else if(part==="ds")c=ls.flatMap(l=>dcOf(l).ds.map(d=>({lid:l,i:dsAll(l).indexOf(d),row:e.row}))).filter(z=>!inUse.has("ds"+z.lid+z.i));
+ else{const t=exTL(e),lv=t?t.lv:e.lv;c=ls.flatMap(l=>dcOf(l).tl.filter(t=>t.lv===lv).map(t=>t._gen?{lid:l,g:t._gen,row:e.row}:{lid:l,i:t._i,row:e.row})).filter(z=>!inUse.has("tl"+z.lid+(z.g||z.i)));}
  if(!c.length){toast("Không còn câu khác cùng mức trong nội dung này",M.chip);return;}E[part][n]=c[Math.floor(Math.random()*c.length)];saveMT();}
 const codeBase=k=>+k<=9?900+10*k:900+10*(k-10)+4;
 function examCodes(){MT.codes=MT.codes||{};const b=codeBase(MT.khoi);return MT.codes[dKey()]||[b+1,b+2,b+3,b+4];}
@@ -22638,32 +22904,37 @@ function gvDethi(box){const k=MT.khoi,kiN=KIN[MT.ki],LS_=scopeLessons(),R=mtCalc
  const E=examOf(),st=E?examStats(E):null,codes=examCodes();
  const noTL=LS_.filter(l=>!(L[l].tl||[]).length),noDS2=LS_.filter(l=>!L[l].ds2);
  const tt=l=>esc(L[l].title.split(".")[0]);
- const mcLi=(q,lid,swap)=>`<li><span class="lv">${q.lv}</span> ${esc(q.q)}<ol type="A" class="small">${q.o.map((o,j)=>`<li${j===q.a?' class="ans"':""}>${esc(o)}</li>`).join("")}</ol>${swap?`<button class="linkbtn small" data-dcs="${lid}|${q._id}">Đổi câu khác</button>`:""}</li>`;
+ const mcLi=(q,lid,swap)=>`<li><span class="lv">${q.lv}</span> ${esc(q.q)}<ol type="A" class="small">${q.o.map((o,j)=>`<li${j===q.a?' class="ans"':""}>${esc(o)}</li>`).join("")}</ol>${q._gen?'<span class="status gtag">🔢 Dạng tính toán: đề thi sẽ đổi số liệu</span> ':""}${swap?`<button class="linkbtn small" data-dcs="${lid}|${q._id}">Đổi câu khác</button>`:""}</li>`;
  const dsBox=d=>`<div class="dsbox"><p><b>${esc(d.q)}</b></p><ol class="small">${d.it.map(i=>`<li><span class="lv">${i.lv}</span> ${esc(plainDS(i.t))} <b class="${i.a?"ok":"no"}">${i.a?"Đúng":"Sai"}</b></li>`).join("")}</ol></div>`;
- const tlBox=t=>`<div class="dsbox"><p><span class="lv">${t.lv}</span> <b>${esc(t.q)}</b></p>${t.parts.map(p=>`<p class="small">${esc(p.t)}<br><i>Đáp án (${fmtN(p.p,2)} đ): ${esc(p.ans)}</i></p>`).join("")}</div>`;
+ const tlBox=t=>`<div class="dsbox"><p><span class="lv">${t.lv}</span> ${t._gen?'<span class="status gtag">🔢 Dạng tính toán</span> ':""}<b>${esc(t.q)}</b></p>${t.parts.map(p=>`<p class="small">${esc(p.t)}<br><i>Đáp án (${fmtN(p.p,2)} đ): ${esc(p.ans)}</i></p>`).join("")}</div>`;
  const dcHTML=LS_.map(l=>{const D=dcOf(l);return `<details class="dcl" data-dl="${l}" ${dtOpen[l]?"open":""}><summary><b>${esc(L[l].title)}</b> <span class="small muted">· ${D.mc.length} câu nhiều lựa chọn · ${D.ds.length} Đúng/Sai · ${D.tl.length} tự luận</span></summary>
-  <div class="stack" style="gap:6px;padding:8px 0"><h4>Phần I. Nhiều lựa chọn</h4><ol class="dcq">${D.mc.map(q=>mcLi(q,l,1)).join("")}</ol><h4>Phần II. Đúng/Sai</h4>${D.ds.map(dsBox).join("")}<h4>Phần III. Tự luận</h4>${D.tl.length?D.tl.map(tlBox).join(""):'<p class="small muted">Bài này chưa có câu tự luận.</p>'}</div></details>`;}).join("");
- const exRow=(part,i,label,inner,dc)=>`<div class="exq"><div class="row" style="justify-content:space-between;gap:8px"><b>${label}</b><span class="row" style="gap:6px">${dc===false?'<span class="status warn">ngoài đề cương</span>':""}<button class="btn ghost sm" data-exs="${part}|${i}">Đổi câu</button></span></div>${inner}</div>`;
- const exHTML=E?`<h4>Phần I. Nhiều lựa chọn</h4>${E.mc.map((e,i)=>{const q=exMC(e);if(!q)return `<div class="exq"><b>Câu ${i+1}</b> <span class="status bad">Thiếu câu ${e&&e.lv||""}</span></div>`;return exRow("mc",i,"Câu "+(i+1)+" · "+q.lv+" · "+tt(e.lid),`<p>${esc(q.q)}</p><ol type="A" class="small">${q.o.map((o,j)=>`<li${j===q.a?' class="ans"':""}>${esc(o)}</li>`).join("")}</ol>`,dcOf(e.lid).mc.some(z=>z._id===e.id));}).join("")}
-  <h4>Phần II. Đúng/Sai</h4>${E.ds.map((e,i)=>{const d=exDS(e);return d?exRow("ds",i,"Câu "+(i+1)+" · "+tt(e.lid),dsBox(d)):`<div class="exq"><b>Câu ${i+1}</b> <span class="status bad">Thiếu câu Đúng/Sai</span></div>`;}).join("")}
-  <h4>Phần III. Tự luận</h4>${E.tl.map((e,i)=>{const t=exTL(e);return t?exRow("tl",i,"Câu "+(i+1)+" ("+fmtN(R.tlP(i+1),1)+" điểm) · "+tt(e.lid),tlBox(t)):`<div class="exq"><b>Câu ${i+1}</b> <span class="status bad">Thiếu câu tự luận ${e&&e.lv||""}</span></div>`;}).join("")}`:"";
- box.innerHTML=gvHead(M.phim,"Ra đề","Đề cương ôn tập và đề thi","Lấy theo ma trận "+kiLabel(MT.ki).toLowerCase().replace(/ i$/," I").replace(/ ii$/," II")+" lớp "+k+". Đề cương cho học sinh ôn tập; đề thi lấy câu từ chính đề cương, bảo đảm trùng ít nhất 90%.")+
+  <div class="stack" style="gap:6px;padding:8px 0">${D.mc.length?`<h4>Phần I. Nhiều lựa chọn</h4><ol class="dcq">${D.mc.map(q=>mcLi(q,l,1)).join("")}</ol>`:""}${D.ds.length?`<h4>Phần II. Đúng/Sai</h4>${D.ds.map(dsBox).join("")}`:""}${D.tl.length?`<h4>Phần III. Tự luận</h4>${D.tl.map(tlBox).join("")}`:""}${D.mc.length+D.ds.length+D.tl.length?"":'<p class="small muted">Ma trận chưa có câu riêng cho bài này.</p>'}</div></details>`;}).join("");
+ const exRow=(part,i,label,inner,kd)=>`<div class="exq${kd==="doi"||kd==="ngoai"?" exout":""}"><div class="row" style="justify-content:space-between;gap:8px"><b>${label}</b><span class="row" style="gap:6px">${kd==="doi"?'<span class="status warn">★ Cùng dạng, đổi số liệu</span>':kd==="ngoai"?'<span class="status warn">★ Ngoài đề cương</span>':""}<button class="btn ghost sm" data-exs="${part}|${i}">Đổi câu</button></span></div>${inner}</div>`;
+ const exHTML=E?`<h4>Phần I. Nhiều lựa chọn</h4>${E.mc.map((e,i)=>{const q=exMC(e);if(!q)return `<div class="exq"><b>Câu ${i+1}</b> <span class="status bad">Thiếu câu ${e&&e.lv||""}</span></div>`;return exRow("mc",i,"Câu "+(i+1)+" · "+q.lv+" · "+tt(e.lid),`<p>${esc(q.q)}</p><ol type="A" class="small">${q.o.map((o,j)=>`<li${j===q.a?' class="ans"':""}>${esc(o)}</li>`).join("")}</ol>`,exKind("mc",e));}).join("")}
+  <h4>Phần II. Đúng/Sai</h4>${E.ds.map((e,i)=>{const d=exDS(e);return d?exRow("ds",i,"Câu "+(i+1)+" · "+tt(e.lid),dsBox(d),exKind("ds",e)):`<div class="exq"><b>Câu ${i+1}</b> <span class="status bad">Thiếu câu Đúng/Sai</span></div>`;}).join("")}
+  <h4>Phần III. Tự luận</h4>${E.tl.map((e,i)=>{const t=exTL(e);return t?exRow("tl",i,"Câu "+(i+1)+" ("+fmtN(R.tlP(i+1),1)+" điểm) · "+tt(e.lid),tlBox(t),exKind("tl",e)):`<div class="exq"><b>Câu ${i+1}</b> <span class="status bad">Thiếu câu tự luận ${e&&e.lv||""}</span></div>`;}).join("")}`:"";
+ box.innerHTML=gvHead(M.phim,"Ra đề","Đề cương ôn tập và đề thi","Lấy theo ma trận "+kiLabel(MT.ki).toLowerCase().replace(/ i$/," I").replace(/ ii$/," II")+" lớp "+k+". Đề cương đi theo ma trận; đề thi lấy khoảng "+(MT.dcPct||85)+"% số điểm từ đề cương, phần còn lại là câu cùng dạng đổi số liệu hoặc câu ngoài đề cương để phân loại học sinh.")+
  `<div class="card stack"><div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>Phạm vi: ${LS_.length} bài · Tin học ${k} · ${esc(kiLabel(MT.ki))}</h3><button class="btn ghost sm" data-go="gv-matran">Sửa ma trận</button></div>
   <p class="small">${LS_.map(l=>`<span class="status">${esc(L[l].title)}</span>`).join(" ")||'<span class="muted">Ma trận chưa có nội dung gắn với bài học trên website.</span>'}</p>
   ${noDS2.length||noTL.length?`<p class="note small">Bài chưa đủ ngân hàng: ${[...new Set(noDS2.concat(noTL))].map(tt).join(", ")} (thiếu câu Đúng/Sai thứ hai hoặc câu tự luận). Đề cương vẫn tạo được với phần đang có.</p>`:""}</div>
  <div class="card stack"><div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>1. Đề cương ôn tập</h3><div class="row" style="gap:8px;flex-wrap:wrap"><label class="small"><input type="checkbox" id="dcAns" ${MT.dcAns!==false?"checked":""}> Kèm đáp án ở cuối</label><button class="btn gold sm" data-dx="dc">Tải đề cương (Word)</button></div></div>
-  <p class="small muted">Mỗi bài: yêu cầu cần đạt, 7 câu nhiều lựa chọn (4 Biết, 3 Hiểu), 2 câu Đúng/Sai, 2 câu tự luận. Bấm “Đổi câu khác” để thay câu nhiều lựa chọn trong đề cương.</p>${dcHTML||'<p class="muted small">Chưa có bài nào.</p>'}</div>
+  <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><label class="small" for="dcX">Số câu đề cương mỗi mức</label><select id="dcX" class="sm">${[2,3].map(v=>`<option value="${v}"${(MT.dcX||2)===v?" selected":""}>gấp ${v} số câu trong đề</option>`).join("")}</select></div>
+  ${(()=>{const rs=dcInfo().plan.filter(c=>c.ty==="res");return rs.length?`<p class="note small">Để đề thi có phần phân loại (dự kiến ${fmtN(dcInfo().out,2)} điểm, tức ${fmtN(Math.round(1000*dcInfo().out/(mtCalc().P||10))/10)}% số điểm), em giữ lại, không đưa vào đề cương: ${rs.map(c=>esc(L[c.lid].title.split(".")[0])+" – "+(c.part==="ds"?"1 câu Đúng/Sai":"1 câu tự luận "+((L[c.lid].tl||[])[c.i]||{}).lv)).join("; ")}. Các câu này chỉ có trong đề thi.</p>`:"";})()}
+  <p class="small muted">Đề cương đi theo ma trận: bài nào, mức nào có bao nhiêu câu trong đề thì đề cương có gấp ${MT.dcX||2} lần câu cùng mức; phần ma trận không có (ví dụ bài không có Đúng/Sai hay tự luận) thì đề cương cũng không có. Câu gắn nhãn <b>🔢 Dạng tính toán</b> sẽ được đổi số liệu khi ra đề. Bấm “Đổi câu khác” để thay câu nhiều lựa chọn trong đề cương.</p>${dcHTML||'<p class="muted small">Chưa có bài nào.</p>'}</div>
  <div class="card stack"><h3>2. Đề thi</h3>
   <div class="formrow"><div class="field"><label for="exSo">Sở</label><input id="exSo" value="${esc(MT.so)}"></div><div class="field"><label for="exTr">Trường</label><input id="exTr" value="${esc(MT.truong)}"></div><div class="field" style="max-width:130px"><label for="exPh">Thời gian (phút)</label><input id="exPh" type="number" min="15" max="120" value="${MT.phut}"></div></div>
   <div class="formrow">${codes.map((c,i)=>`<div class="field" style="max-width:110px"><label for="exC${i}">Mã đề ${i+1}</label><input id="exC${i}" class="exc" data-i="${i}" value="${esc(c)}" maxlength="4"></div>`).join("")}</div>
-  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" id="exNew">${E?"Tạo lại đề mới":"Tạo đề từ ma trận"}</button>${E?`<span class="status ${st.pct>=90?"ok":"bad"}">Trùng đề cương: ${fmtN(st.pct)}% số điểm</span>${st.miss.length?`<span class="status bad">Còn thiếu: ${esc(st.miss.join(", "))}</span>`:""}`:""}</div>
-  ${E?`<p class="small muted">Đề gốc (mã 000) đặt câu theo đúng thứ tự trong ma trận. Các mã đề đảo thứ tự câu và phương án Phần I; Phần II, III dùng chung như đề của Thầy. Đề chỉ hiện ở trang giáo viên.</p>${exHTML}
+  <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><label class="small" for="dcPct">Tỉ lệ điểm lấy từ đề cương</label><select id="dcPct" class="sm">${[80,85,90].map(v=>`<option value="${v}"${(MT.dcPct||85)===v?" selected":""}>${v}%</option>`).join("")}</select><span class="small muted">Đổi tỉ lệ rồi bấm “Tạo lại đề mới”.</span></div>
+  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" id="exNew">${E?"Tạo lại đề mới":"Tạo đề từ ma trận"}</button>${E?`<span class="status ${Math.abs(st.pct-(MT.dcPct||85))<=5?"ok":"bad"}">Trong đề cương: ${fmtN(st.dc,2)} điểm (${fmtN(st.pct)}%)</span>${st.doi?`<span class="status warn">★ Đổi số liệu: ${fmtN(st.doi,2)} điểm</span>`:""}${st.ngoai?`<span class="status warn">★ Ngoài đề cương: ${fmtN(st.ngoai,2)} điểm</span>`:""}${st.miss.length?`<span class="status bad">Còn thiếu: ${esc(st.miss.join(", "))}</span>`:""}`:""}</div>
+  ${E?`<p class="small muted">Câu gắn ★ là phần phân loại: cùng dạng nhưng đổi số liệu, hoặc ngoài đề cương; bấm “Đổi câu” ở câu ★ để lấy bộ số khác. Dấu ★ chỉ hiện ở trang này, đề gốc và hướng dẫn chấm, không in ở các mã đề. Đề gốc (mã 000) đặt câu theo đúng thứ tự trong ma trận. Các mã đề đảo thứ tự câu và phương án Phần I; Phần II, III dùng chung như đề của Thầy. Đề chỉ hiện ở trang giáo viên.</p>${exHTML}
   <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn gold sm" data-dx="ex|000">Tải đề gốc</button>${codes.map(c=>`<button class="btn gold sm" data-dx="ex|${esc(c)}">Tải mã ${esc(c)}</button>`).join("")}<button class="btn gold sm" data-dx="hdc">Tải hướng dẫn chấm</button></div>`:""}<p class="fb" id="mtFb"></p></div>`;
  const re=()=>{saveMT();gvDethi(box);};
  box.querySelectorAll("details.dcl").forEach(d=>d.addEventListener("toggle",()=>{dtOpen[d.dataset.dl]=d.open;}));
  box.querySelectorAll("[data-dcs]").forEach(b=>b.addEventListener("click",()=>{const [l,id]=b.dataset.dcs.split("|");dcSwap(l,id);re();}));
  box.querySelectorAll("[data-exs]").forEach(b=>b.addEventListener("click",()=>{const [p,i]=b.dataset.exs.split("|");examSwap(p,+i);re();}));
  const dA=$("#dcAns");dA.addEventListener("change",()=>{MT.dcAns=dA.checked;saveMT();});
+ $("#dcX").addEventListener("change",e=>{MT.dcX=+e.target.value;re();toast("Đề cương lấy gấp "+MT.dcX+" số câu trong đề",M.phim);});
+ $("#dcPct").addEventListener("change",e=>{MT.dcPct=+e.target.value;re();});
  [["exSo","so"],["exTr","truong"]].forEach(([id,f])=>$("#"+id).addEventListener("change",e=>{MT[f]=e.target.value.trim();saveMT();}));
  $("#exPh").addEventListener("change",e=>{MT.phut=+e.target.value||45;saveMT();});
  box.querySelectorAll("input.exc").forEach(i=>i.addEventListener("change",()=>{const c=examCodes().slice();c[+i.dataset.i]=i.value.trim()||c[+i.dataset.i];MT.codes[dKey()]=c;re();}));
@@ -22701,7 +22972,7 @@ async function buildExamDocx(kind){const d=await loadDocx(),R=mtCalc(),k=MT.khoi
    body.push(P(run(L[l].title,{bold:true,size:26}),{spacing:{before:160,after:40}}));
    const yc=[0,1,2].map(lv=>[...new Set(rows.flatMap(x=>ycLines(x.r.yc[lv]).map(s=>s.replace(/^[*†]\s*/,""))))]);
    if(yc.some(a=>a.length)){body.push(P(run("Yêu cầu cần đạt",{bold:true,italics:true})));yc.forEach((a,lv)=>{if(a.length){body.push(P([run(LVH[lv]+": ",{bold:true}),run(a.join(" "))]));}});}
-   body.push(P(run("I. Câu hỏi nhiều lựa chọn",{bold:true}),{spacing:{before:60,after:20}}));
+   if(D.mc.length)body.push(P(run("I. Câu hỏi nhiều lựa chọn",{bold:true}),{spacing:{before:60,after:20}}));
    D.mc.forEach(q=>{qn++;key.push(["mc",qn,"ABCD"[q.a]]);body.push(...mcBlock(qn,q));});
    if(D.ds.length){body.push(P(run("II. Câu hỏi Đúng/Sai",{bold:true}),{spacing:{before:80,after:20}}));D.ds.forEach(ds=>{dn++;key.push(["ds",dn,ds.it.map((x,i)=>"abcd"[i]+") "+(x.a?"Đúng":"Sai")).join("; ")]);body.push(...dsBlock(dn,ds,false));});}
    if(D.tl.length){body.push(P(run("III. Tự luận",{bold:true}),{spacing:{before:80,after:20}}));D.tl.forEach(t=>{tn++;key.push(["tl",tn,t.parts.map(p=>p.t.split(")")[0]+") "+p.ans).join(" ")]);body.push(...tlBlock(tn,t,t.parts.reduce((s,p)=>s+p.p,0)));});}});
@@ -22721,6 +22992,7 @@ async function buildExamDocx(kind){const d=await loadDocx(),R=mtCalc(),k=MT.khoi
   body.push(P(run("B. TỰ LUẬN ("+pts[2]+" điểm)",{bold:true})),P(run("Đáp án phần Tự luận dùng chung cho tất cả các mã đề.",{italics:true})));
   body.push(new Table({width:{size:9922,type:WidthType.DXA},columnWidths:[1600,7322,1000],rows:E.tl.map((e,i)=>{const t=exTL(e),p=R.tlP(i+1),sc=t?p/t.parts.reduce((s,x)=>s+x.p,0):1;
    return new TableRow({children:[cell([["Câu "+(i+1)+".",{bold:true}],["("+fmtN(p,1)+" điểm)",{bold:true}]],{c:1}),cell(t?t.parts.map(x=>x.t.split(")")[0]+") "+x.ans):["?"]),cell(t?t.parts.map(x=>fmtN(x.p*sc,1)):[""],{c:1})]});})}));
+  const outL=examOutList(E);if(outL)body.push(P([run("Câu phân loại (đổi số liệu hoặc ngoài đề cương): ",{bold:true}),run(outL+".")],{spacing:{before:120}}));
   const notes=E.tl.map((e,i)=>{const t=exTL(e);return t&&t.note?"Câu "+(i+1)+": "+t.note:"";}).filter(Boolean);
   body.push(P(run("Lưu ý khi chấm tự luận:",{bold:true}),{spacing:{before:120}}));notes.concat(["Chấp nhận cách diễn đạt khác nếu đúng ý. Mỗi nội dung đúng được tính điểm theo thang điểm; sai hoặc bỏ trống được 0 điểm."]).forEach(t=>body.push(P(run(t,{italics:true}))));
   doc=new Document({creator:"Tin học Thầy Diễn",title:"Hướng dẫn chấm "+kiN,styles:{default:{document:{run:{font:F,size:24}}}},sections:[{properties:secP,children:body}]});}
@@ -22730,11 +23002,12 @@ async function buildExamDocx(kind){const d=await loadDocx(),R=mtCalc(),k=MT.khoi
   body.push(P([run("NỘI DUNG ĐỀ ",{bold:true}),new TextRun({font:F,size:24,italics:true,bold:true,children:["(Đề kiểm tra gồm có ",PageNumber.TOTAL_PAGES," trang)"]})],{spacing:{before:160,after:40}}));
   body.push(P(run("A. TRẮC NGHIỆM ("+fmtN(R.parts[0]+R.parts[1],1)+" điểm)",{bold:true})));
   body.push(P([run("PHẦN I. CÂU HỎI NHIỀU LỰA CHỌN ("+pts[0]+" điểm). ",{bold:true}),run("Thí sinh trả lời từ câu 1 đến câu "+v.length+". Mỗi câu hỏi chỉ chọn một phương án. Mỗi câu đúng được 0,25 điểm.",{bold:true})]));
-  v.forEach((q,i)=>{if(q)body.push(...mcBlock(i+1,q));});
+  const st0=code==="000";v.forEach((q,i)=>{if(q)body.push(...mcBlock(st0&&exKind("mc",E.mc[i])!=="dc"?(i+1)+"★":i+1,q));});
   body.push(P([run("PHẦN II. CÂU HỎI LỰA CHỌN ĐÚNG/SAI ("+pts[1]+" điểm). ",{bold:true}),run("Thí sinh trả lời từ câu 1 đến câu "+E.ds.length+". Với mỗi ý a), b), c), d), đánh dấu x vào ô Đúng hoặc Sai. Mỗi ý đúng được 0,25 điểm.",{bold:true})],{spacing:{before:160,after:40}}));
-  E.ds.forEach((e,i)=>{const ds=exDS(e);if(ds)body.push(...dsBlock(i+1,ds,false));});
+  E.ds.forEach((e,i)=>{const ds=exDS(e);if(ds)body.push(...dsBlock(st0&&exKind("ds",e)!=="dc"?(i+1)+"★":i+1,ds,false));});
   body.push(P(run("B. TỰ LUẬN ("+pts[2]+" điểm)",{bold:true}),{spacing:{before:160,after:40}}));
-  E.tl.forEach((e,i)=>{const t=exTL(e);if(t)body.push(...tlBlock(i+1,t,R.tlP(i+1)));});
+  E.tl.forEach((e,i)=>{const t=exTL(e);if(t)body.push(...tlBlock(st0&&exKind("tl",e)!=="dc"?(i+1)+"★":i+1,t,R.tlP(i+1)));});
+  if(st0&&examOutList(E))body.push(P(run("★ Câu cùng dạng đổi số liệu hoặc ngoài đề cương, dùng để phân loại (dấu ★ chỉ có ở đề gốc).",{italics:true,size:22}),{spacing:{before:120}}));
   body.push(new Paragraph({alignment:A.CENTER,spacing:{before:120,after:120},children:[run("--- Hết ---",{bold:true})]}),P("Họ và tên: ……………………………………… Lớp: ………… Số báo danh: ……………"));
   doc=new Document({creator:"Tin học Thầy Diễn",title:"Đề kiểm tra "+kiN+" mã "+code,styles:{default:{document:{run:{font:F,size:24}}}},sections:[{properties:secP,footers:{default:new Footer({children:[new Paragraph({children:[new TextRun({font:F,size:20,italics:true,children:["Trang ",PageNumber.CURRENT,"/",PageNumber.TOTAL_PAGES," Mã đề "+code]})]})]})},children:body}]});}
  return Packer.toBlob(doc);}
@@ -23875,6 +24148,7 @@ function vdClassPhaseUI(){const C=VD.C,t=C.teams[C.cur];
  vdOver("");}
 document.addEventListener("click",e=>{if(e.target.closest("[data-vdopen]"))vdOpen();});
 
+if(location.protocol==="file:")window.__dt={GEN,genQ,genDC,genAlt,dcOf,dcNeed,dcInfo,buildExam,examStats,exMC,exTL,exDS,exKind,examOutList,MT:()=>MT};
 /* ---------- boot ---------- */
 setInterval(()=>{if(me&&me.role==="hs"&&!document.hidden)setMon({});},15000);
 if(location.protocol==="file:")window.__thtd={buildDocxBlob,mtCalc,L,bankOf,OT,CL,CM,lidOf,lessonsOf,I18N};
