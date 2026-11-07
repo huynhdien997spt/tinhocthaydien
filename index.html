@@ -2587,9 +2587,9 @@ const CM={
  {code:"6",name:"Chủ đề 6. Giải quyết vấn đề với sự trợ giúp của máy tính",ls:[[10,"Cấu trúc tuần tự"],[11,"Cấu trúc lặp"],[12,"Thực hành sử dụng lệnh lặp"],[13,"Cấu trúc rẽ nhánh"],[14,"Sử dụng biến trong chương trình"],[15,"Sử dụng biểu thức trong chương trình"],[16,"Từ kịch bản đến chương trình"]]}],
 6:[{code:"1",name:"Chủ đề 1. Máy tính và cộng đồng",ls:[[1,"Thông tin và dữ liệu"],[2,"Xử lí thông tin"],[3,"Thông tin trong máy tính"]]},
  {code:"2",name:"Chủ đề 2. Mạng máy tính và Internet",ls:[[4,"Mạng máy tính"],[5,"Internet"]]},
- {code:"3",name:"Chủ đề 3. Tổ chức lưu trữ và trao đổi thông tin",ls:[[6,"Mạng thông tin toàn cầu"],[7,"Tìm kiếm thông tin trên Internet"],[8,"Thư điện tử"]]},
+ {code:"3",name:"Chủ đề 3. Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin",ls:[[6,"Mạng thông tin toàn cầu"],[7,"Tìm kiếm thông tin trên Internet"],[8,"Thư điện tử"]]},
  {code:"4",name:"Chủ đề 4. Đạo đức, pháp luật và văn hoá trong môi trường số",ls:[[9,"An toàn thông tin trên Internet"]]},
- {code:"5",name:"Chủ đề 5. Ứng dụng tin học",ls:[[10,"Sơ đồ tư duy"],[11,"Định dạng văn bản"],[12,"Trình bày thông tin ở dạng bảng"],[13,"Thực hành: Tìm kiếm và thay thế"]]},
+ {code:"5",name:"Chủ đề 5. Ứng dụng tin học",ls:[[10,"Sơ đồ tư duy"],[11,"Định dạng văn bản"],[12,"Trình bày thông tin ở dạng bảng"],[13,"Thực hành: Tìm kiếm và thay thế"],[14,"Thực hành tổng hợp: Hoàn thiện sổ lưu niệm"]]},
  {code:"6",name:"Chủ đề 6. Giải quyết vấn đề với sự trợ giúp của máy tính",ls:[[15,"Thuật toán"],[16,"Các cấu trúc điều khiển"],[17,"Chương trình máy tính"]]}],
 7:[{code:"1",name:"Chủ đề 1. Máy tính và cộng đồng",ls:[[1,"Thiết bị vào ra"],[2,"Phần mềm máy tính"],[3,"Quản lí dữ liệu trong máy tính"]]},
  {code:"2",name:"Chủ đề 2. Tổ chức dữ liệu, tìm kiếm và trao đổi thông tin",ls:[[4,"Mạng xã hội và một số kênh trao đổi thông tin trên Internet"]]},
@@ -22410,7 +22410,7 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
  const foot=`<tr class="tot"><td colspan="3">Tổng số câu</td>${tc.map(v=>`<td class="c">${v}</td>`).join("")}<td class="c">${lvC.join(" / ")}</td><td></td></tr>
   <tr class="tot"><td colspan="3">Tổng số điểm</td><td class="c" colspan="2">${fmtN(R.parts[0],1)}</td><td class="c" colspan="3">${fmtN(R.parts[1],1)}</td><td class="c" colspan="2">${fmtN(R.parts[2],1)}</td><td class="c">${R.lvPts.map(v=>fmtN(v,1)).join(" / ")}</td><td class="c">${fmtN(R.P)}</td></tr>
   <tr class="tot"><td colspan="3">Tỉ lệ %</td><td class="c" colspan="2">${fmtN(pc(R.parts[0]))}</td><td class="c" colspan="3">${fmtN(pc(R.parts[1]))}</td><td class="c" colspan="2">${fmtN(pc(R.parts[2]))}</td><td class="c">${lp.map(v=>fmtN(v)).join(" / ")}</td><td class="c">100</td></tr>`;
- const opts=+k<=9&&MOTA[k]?[...new Set(MOTA[k].map(u=>u[0]))].map(cd=>`<optgroup label="${esc(cd)}">${MOTA[k].map((u,ui)=>u[0]===cd?`<option value="m|${ui}">${esc(u[1])}</option>`:"").join("")}</optgroup>`).join(""):(CM[k]||[]).map(tp=>`<optgroup label="${esc(tp.name)}">${tp.ls.map(([n,t])=>`<option value="${esc(tp.name)}|${n}">Bài ${n}. ${esc(t)}</option>`).join("")}</optgroup>`).join("");
+ const opts=false?[...new Set(MOTA[k].map(u=>u[0]))].map(cd=>`<optgroup label="${esc(cd)}">${MOTA[k].map((u,ui)=>u[0]===cd?`<option value="m|${ui}">${esc(u[1])}</option>`:"").join("")}</optgroup>`).join(""):(CM[k]||[]).map(tp=>`<optgroup label="${esc(tp.name)}">${tp.ls.map(([n,t])=>`<option value="${esc(tp.name)}|${n}">Bài ${n}. ${esc(t)}</option>`).join("")}</optgroup>`).join("");
  /* bản đặc tả */
  let dtr="",pcd=null,pnd=null;const dl=[];R.rows.forEach(x=>[0,1,2].forEach(lv=>{if(x.tot[lv])dl.push({x,lv});}));
  dl.forEach(d=>{const x=d.x,cdF=x.r.cd!==pcd,ndF=x!==pnd;pcd=x.r.cd;pnd=x;
@@ -22470,13 +22470,16 @@ function gvMatran(box){const R=mtCalc(),S=R.S,k=MT.khoi,pc=v=>R.P?Math.round(100
  $("#mtStd").addEventListener("click",()=>{let n=0;S.rows.forEach(r=>{if(+k<=9&&r.ycSrc!=="mota")r.mota=null;if(applyStd(k,r))n++;});re();toast(n?"Đã lấy yêu cầu cần đạt chuẩn cho "+n+" nội dung":"Không tìm thấy nội dung tương ứng",M.phim);});
  const og=$("#mtOrig");if(og)og.addEventListener("click",()=>{S.rows.forEach(r=>{if(r.yc0){r.yc=r.yc0.slice();r.ycSrc="";}});re();toast("Đã dùng lại câu chữ trong file của Thầy",M.phim);});
  box.querySelectorAll("input.mtpk").forEach(c=>c.addEventListener("change",()=>{const v=c.value,idx=S.rows.findIndex(r=>mtRowIs(k,r,v));
-  if(c.checked){if(idx>=0)return;$("#mtAdd").value=v;$("#mtAddB").click();mtSort(k,S);re();}
+  if(c.checked){if(idx>=0)return;$("#mtAdd").value=v;$("#mtAddB").click();
+   if(+k<=9&&MOTA_LS[k]){const ln=String(v.split("|")[1]).toLowerCase(),r=S.rows.find(r=>r.src!=null&&String(r.src).toLowerCase()===ln);const ui=MOTA_LS[k].findIndex(a=>a.map(x=>String(x).toLowerCase()).includes(ln));if(r&&ui>=0){r.mota=ui;applyMota(k,r);}}
+   mtSort(k,S);re();}
   else{const n=S.rows.filter(r=>mtRowIs(k,r,v)).reduce((t,r)=>t+r.c.reduce((a,b)=>a+b,0),0);S.rows=S.rows.filter(r=>!mtRowIs(k,r,v));re();if(n)toast("Đã bỏ bài này cùng "+n+" câu, ý đã nhập",M.phim);}}));
  box.querySelectorAll("[data-dp]").forEach(b=>b.addEventListener("click",()=>mtPdf(b.dataset.dp))); box.querySelectorAll("[data-dx]").forEach(b=>b.addEventListener("click",()=>exportDocx(b.dataset.dx)));}
 /* danh sách bài để chọn: lớp 6–9 theo bản mô tả, lớp 10–12 theo bài */
-function mtItems(k){return +k<=9&&MOTA[k]?MOTA[k].map((u,ui)=>({v:"m|"+ui,cd:u[0],t:u[1],ord:ui})):(CM[k]||[]).flatMap((tp,ti)=>tp.ls.map(([n,t])=>({v:tp.name+"|"+n,cd:tp.name,t:"Bài "+n+". "+t,n:+n,ord:ti*1000+(+n||0)})));}
-function mtRowIs(k,r,v){const it=mtItems(k).find(x=>x.v===v);if(!it)return false;if(v.startsWith("m|"))return r.mota===+v.slice(2)||(r.mota==null&&nmv(r.nd)===nmv(it.t));
- return (r.src!=null&&+r.src===it.n&&nmv(r.cd)===nmv(it.cd))||nmv(String(r.nd).replace(/^Bài\s*\d+[a-z]?\.?\s*/i,""))===nmv(it.t.replace(/^Bài\s*\d+[a-z]?\.\s*/i,""));}
+function mtItems(k){return (CM[k]||[]).flatMap((tp,ti)=>tp.ls.map(([n,t])=>({v:tp.name+"|"+n,cd:tp.name,t:"Bài "+n+". "+t,n:+n,ord:ti*1000+(+n||0)})));}
+function mtRowIs(k,r,v){const it=mtItems(k).find(x=>x.v===v);if(!it)return false;const ln=String(v.split("|")[1]).toLowerCase();
+ if(+k<=9){if(r.src!=null)return String(r.src).toLowerCase()===ln;if(r.mota!=null&&MOTA_LS[k]&&MOTA_LS[k][r.mota])return MOTA_LS[k][r.mota].map(x=>String(x).toLowerCase()).includes(ln);}
+ return (r.src!=null&&String(r.src).toLowerCase()===ln&&nmv(r.cd)===nmv(it.cd))||nmv(String(r.nd).replace(/^Bài\s*\d+[a-z]?\.?\s*/i,""))===nmv(it.t.replace(/^Bài\s*\d+[a-z]?\.\s*/i,""));}
 function mtSort(k,S){const its=mtItems(k),key=r=>{const it=its.find(x=>mtRowIs(k,r,x.v));return it?it.ord:1e6;};S.rows.forEach((r,i)=>r._o=i);S.rows.sort((a,b)=>key(a)-key(b)||a._o-b._o);S.rows.forEach(r=>delete r._o);}
 function mtPickHTML(k,S){const its=mtItems(k);if(!its.length)return '<p class="small muted">Chưa có danh sách bài cho khối này. Thầy dùng nút “Thêm dòng nội dung khác”.</p>';
  const cds=[...new Set(its.map(x=>x.cd))];return cds.map(cd=>`<fieldset class="mtpg"><legend>${esc(cd)}</legend>${its.filter(x=>x.cd===cd).map(x=>`<label class="mtpi"><input type="checkbox" class="mtpk" value="${esc(x.v)}" ${S.rows.some(r=>mtRowIs(k,r,x.v))?"checked":""}><span>${esc(x.t)}</span></label>`).join("")}</fieldset>`).join("");}
@@ -22577,7 +22580,7 @@ async function exportDocx(kind){const fb=$("#mtFb");fb.className="fb";fb.textCon
  finally{document.querySelectorAll("[data-dx]").forEach(b=>b.disabled=false);}}
 /* ---------- đề cương ôn tập và đề thi lấy từ ma trận ---------- */
 /* các bài SGK Kết nối tri thức ứng với từng đơn vị của bảng mô tả lớp 6–9 */
-const MOTA_LS={6:[[1,2],[3],[4,5],[6,7,8],[9],[11,12,13],[10],[15,16,17]],7:[[1],[2,3],[4],[5],[6,7,8,9,10],[11,12,13],[14,15,16]],8:[[1],[2],[3],[4],[5,6,7],["8a","9a","10a","11a"],[12,13,14,15],[16]],9:[[1],[2,3],[4],[5,6],[7,8],["9a","10a","11a","12a","13a"],[14,15,16],[17]]};
+const MOTA_LS={6:[[1,2],[3],[4,5],[6,7,8],[9],[11,12,13,14],[10],[15,16,17]],7:[[1],[2,3],[4],[5],[6,7,8,9,10],[11,12,13],[14,15,16]],8:[[1],[2],[3],[4],[5,6,7],["8a","9a","10a","11a"],[12,13,14,15],[16]],9:[[1],[2,3],[4],[5,6],[7,8],["9a","10a","11a","12a","13a"],[14,15,16],[17]]};
 function rowLessons(k,r){if(+k>=10)return r.src&&L[lidOf(k,r.src)]?[lidOf(k,r.src)]:[];const t=nmv(r.nd);
  for(const tp of CM[k]||[])for(const [n,ti] of tp.ls)if(nmv(ti)===t&&L[lidOf(k,n)])return [lidOf(k,n)];
  const ui=r.mota!=null?r.mota:motaFind(k,r.nd);return ui>=0&&MOTA_LS[k]?MOTA_LS[k][ui].map(n=>lidOf(k,n)).filter(l=>L[l]):[];}
